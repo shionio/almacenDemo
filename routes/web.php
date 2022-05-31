@@ -1,0 +1,85 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AlmacenController;
+use App\Http\Controllers\ArticulosController;
+use App\Http\Controllers\ProveedorController;
+
+
+
+
+// eliminar erstas rutas luego
+use App\Http\Controllers\VehiculosController;
+use App\Http\Controllers\ProgramacionController;
+// hasta aqui
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', function () {
+    return view('login');
+});
+
+Route::get('inicio', [LoginController::class, 'index'])->name('inicio');
+Route::post('/check', [LoginController::class , 'check_user']);
+
+/*rutas de almacen*/
+Route::get('/Almacen', [AlmacenController::class , 'index'])->name('listaAlmacenes');
+Route::get('/Almacen/Nuevo', [AlmacenController::class , 'create'])->name('newAlmacen');
+Route::post('/guardarAlmacen',[AlmacenController::class, 'store']);
+Route::post('/llenarMunicipios',[AlmacenController::class, 'llenarMunicipios']);
+Route::post('/llenarParroquias',[AlmacenController::class, 'llenarParroquias']);
+/*fin de rutas de almacen*/
+
+/*rutas de articulos*/
+Route::get('Articulos',[ArticulosController::class, 'index'])->name('listaArticulos');
+Route::get('/Articulo/Nuevo', [ArticulosController::class , 'create'])->name('newArticulo');
+Route::post('/guardarArticulo',[ArticulosController::class, 'store']);
+/*fin de rutas de articulos*/
+
+
+
+Route::post('/llenarModelo',[VehiculosController::class, 'llenarModelo']);
+Route::post('buscarVehiculo', [VehiculosController::class, 'buscarVehiculo'])->name('buscarVehiculo');
+
+
+
+Route::get('/programacion', [ProgramacionController::class , 'index'])->name('listaProgramacion');
+Route::get('/nuevaProgramacion', [ProgramacionController::class , 'create'])->name('newProgramacion');
+Route::post('/guardarProgramacion',[ProgramacionController::class, 'store']);
+
+/* Proveedores */
+
+Route::get('/proveedores/lista',[ProveedorController::class,'listProveedor'])->name('lista.proveedor');
+Route::post('/proveedores/guardar',[ProveedorController::class,'newProveedor'])->name('guardar.proveedor');
+Route::view('/proveedores/nuevo','proveedores.nproveedor')->name('nuevo.proveedor');
+
+
+
+
+
+
+//Route::get('/editando/{id_vehiculo}', [VehiculosController::class , 'show'])->name('editando');
+
+
+
+
+
+/*
+    ruta para reutilizar la vista de nuevo y edicion de registros no esta finalizada aun
+    Route::get('/nuevaProgramacion', [VehiculosController::class , 'registro'])->name('newProgramacion');
+
+*/
