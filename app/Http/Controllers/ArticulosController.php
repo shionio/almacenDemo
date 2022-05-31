@@ -14,8 +14,16 @@ class articulosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $articulos = DB::table('material')->get();
-
+        $articulos = DB::table('material')
+                     ->join('almacen','almacen.id_almacen','=','material.id_almacen')
+                     ->select('material.id_material',
+                              'material.nombre_material',
+                              'material.descripcion_material',
+                              'material.stock',
+                              'material.unidad_medida',
+                              'almacen.descripcion_almacen'
+                            )->get();
+        //dd($articulos);
         return view('articulos.listaArticulos',['articulos' => $articulos]);
     }
 

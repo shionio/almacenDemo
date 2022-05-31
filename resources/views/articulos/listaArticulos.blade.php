@@ -8,10 +8,10 @@
             <h2>Listado de Artículos</h2>
           </div>
 {{-- {{dd($articulos)}} --}}
-          <div class="col-2">
+          {{-- <div class="col-2">
             <button type="button" class="btn btn-primary" onclick="window.location.href='{{Route('newArticulo')}}'">
             <i class="nav-icon far fa-plus-square"></i> Artículo</button>
-          </div>
+          </div> --}}
         </div>
       </div>
       <!-- /.card-header -->
@@ -22,7 +22,9 @@
               <th>Id</th>
               <th>Nombre</th>
               <th>Descripcion</th>
+              <th>Stock</th>
               <th>Unidad de Medida</th>
+              <th>Almacen</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -32,29 +34,32 @@
                   <td>{{$articulo->id_material}}</td>
                   <td>{{$articulo->nombre_material}}</td>
                   <td>{{$articulo->descripcion_material}}</td>
+                  <td>{{$articulo->stock}}</td>
                   <td>{{$articulo->unidad_medida}}</td>
-                  <td></td>
-{{--
+                  <td>{{$articulo->descripcion_almacen}}</td>
+
                   <td>
-                    <a href="{{Route('editando',$programacion->id_programacion)}}">
-                       <i class="fa-solid fa-pen-to-square"></i> --}}
-                    {{-- </a> --}}
-                    {{-- <a href=""> --}}
-                      {{-- <i class="fa-solid fa-trash"></i> --}}
-                  {{-- </a> --}}
-                    {{-- <a href=""> --}}
-                      {{-- <i class="fa-solid fa-file-pdf"></i> --}}
-                  {{-- </a> --}}
-                  {{-- </td> --}}
+                    <a href="">
+                      <i class="fas fa-sign-in-alt"></i>
+                    </a>
+                    <a href="">
+                      <i class="fas fa-sign-out-alt" style="margin-left:5px;"></i>
+                    </a>
+                    <a href="">
+                      <i class="fas fa-exchange" style="margin-left:5px;"></i>
+                  </a>
+                  </td>
                 </tr>
               </tbody>
             @endforeach
           <tfoot>
             <tr>
-              <th>Id</th>
+               <th>Id</th>
               <th>Nombre</th>
               <th>Descripcion</th>
+              <th>Stock</th>
               <th>Unidad de Medida</th>
+              <th>Almacen</th>
               <th>Acciones</th>
             </tr>
           </tfoot>

@@ -87,10 +87,10 @@
                   </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-garage"></i>
+                  <i class="fas fa-warehouse"></i>
                   <p>
                     Almacen
-                  <i class="fas fa-box-full"></i>
+                  <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
@@ -98,7 +98,7 @@
                   <li class="nav-item">
                     <a href="{{Route('listaAlmacenes')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Nuevo Almacen</p>
+                      <p>Lista de Almacenes</p>
                     </a>
                   </li>
 
@@ -164,7 +164,7 @@
                   <li class="nav-item">
                     <a href="{{route('listaArticulos')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Nuevo Articulo</p>
+                      <p>Lista de Articulo</p>
                     </a>
                   </li>
                   {{-- <li class="nav-item">
@@ -199,7 +199,7 @@
                   <li class="nav-item">
                     <a href="{{route('lista.proveedor')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Nuevo Proveedor</p>
+                      <p>Lista de  Proveedor</p>
                     </a>
                   </li>
                   {{-- <li class="nav-item">
@@ -246,41 +246,53 @@
                   </li> --}}
                 </ul>
               </li>
-              {{-- <li class="nav-item">
+              <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-edit"></i>
                   <p>
-                    Forms
+                    Movimientos
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="pages/forms/general.html" class="nav-link">
+                    <a href="{{route('listaMovimientos')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>General Elements</p>
+                      <p>Solicitud</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/forms/advanced.html" class="nav-link">
+                    <a href="{{Route('newArticulo')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Advanced Elements</p>
+                      <p>Ingresar Material</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/forms/editors.html" class="nav-link">
+                    <a href="{{Route('newAlmacen')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Editors</p>
+                      <p>Ingresar Almacen</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/forms/validation.html" class="nav-link">
+                    <a href="{{Route('nuevo.proveedor')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Validation</p>
+                      <p>Ingresar Proveedor</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Traspaso entre Almacenes</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Salida</p>
                     </a>
                   </li>
                 </ul>
-              </li> --}}
+              </li>
               {{-- <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-table"></i>

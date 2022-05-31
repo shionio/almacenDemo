@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AlmacenController;
 use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\MovimientosController;
 
 
 
@@ -68,18 +69,6 @@ Route::post('/proveedores/guardar',[ProveedorController::class,'newProveedor'])-
 Route::view('/proveedores/nuevo','proveedores.nproveedor')->name('nuevo.proveedor');
 
 
-
-
-
-
-//Route::get('/editando/{id_vehiculo}', [VehiculosController::class , 'show'])->name('editando');
-
-
-
-
-
-/*
-    ruta para reutilizar la vista de nuevo y edicion de registros no esta finalizada aun
-    Route::get('/nuevaProgramacion', [VehiculosController::class , 'registro'])->name('newProgramacion');
-
-*/
+/*Solicitudes*/
+Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
+Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
