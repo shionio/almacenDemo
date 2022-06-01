@@ -55,10 +55,9 @@ class articulosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //dd($_POST);
+    public function store(Request $request){
         $articulo = array(
+            'activo'                => true,
             'nombre_material'       => $_POST['nombreArticulo'],
             'stock'                 => $_POST['stock'],
             'nota_entrega'          => $_POST['notaEntrega'],
@@ -69,7 +68,6 @@ class articulosController extends Controller
             'direccion_entrega'     => $_POST['direccionEntrega'],
             'descripcion_material'  => $_POST['descripcionArticulo'],
             'observaciones'         => $_POST['observaciones'],
-            'activo'                => true,
             'id_categoria'          => $_POST['categoria'],
             'id_proveedor'          => $_POST['proveedor'],
             'id_almacen'            => $_POST['almacen'],

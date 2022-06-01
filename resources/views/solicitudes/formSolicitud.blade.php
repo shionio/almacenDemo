@@ -25,19 +25,15 @@
 				                    <input type="text" name="fecha" class="form-control" id="fecha" placeholder="" value="{{date('d/m/Y')}}" readonly>
 				                </div>
 
-				               {{--  <div class="col-sm-3">
-				                    <!-- select -->
-				                    <div class="form-group">
-				                        <label>Articulo</label>
-				                        <input class="form-control" type="text" name="nombreArticulo" id="nombreArticulo" value="">
-				                     </div>
-				                </div> --}}
-
-				                 <div class="col-sm-3">
-				                    <!-- select -->
+				                <div class="col-sm-3">
 				                    <div class="form-group">
 				                        <label>Almacen Origen</label>
-				                        <input class="form-control" type="text" name="descripcionArticulo" id="descripcionArticulo" value="">
+				                    	<select class="js-example-basic-single custom-select" name="almacen" id="almacenOrigen" onchange="llenarAlmacenDestino()">
+				                        	<option value="" selected="true">Seleccione</option>
+				                        		@foreach($almacenes as $almacen)
+				                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
+				                          		@endforeach
+				                        </select>
 				                     </div>
 				                </div>
 
@@ -45,139 +41,48 @@
 				                    <!-- select -->
 				                    <div class="form-group">
 				                        <label>Almacen Destino</label>
-				                        <input class="form-control" type="text" name="stock" id="stock" value="" onkeypress="return valideKey(event)">
+				                        <select class="js-example-basic-single custom-select" name="almacenDestino" id="almadesti" required >
+			                          		<option value="null">Seleccione</option>
+			                        	</select>
 				                     </div>
 				                </div>
 
-				                {{-- <div class="form-group col-3">
-			                    	<label for="exampleInputPassword1">Cantidad</label>
-			                    	<input class="form-control" type="text" name="stock" id="stock" value="" onkeypress="return valideKey(event)">
-			                  	</div> --}}
-
 			                  	<div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Estatus Solicitud</label>
-			                    	<input class="form-control" type="text" name="stock" id="stock" value="">
+			                    	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="Nueva Solicitud" readonly="true">
 			                  	</div>
 
-
-			                    {{-- <div class="col-sm-3">
-			                      	<!-- select -->
-			                      	<div class="form-group">
-			                        	<label>Nota de Entrega</label>
-			                        	<input class="form-control" type="text" name="notaEntrega" id="notaEntrega" onkeypress="return valideKey(event)">
-			                      	</div>
-			                    </div> --}}
-
-			                    {{-- <div class="col-sm-3">
-			                      	<!-- select -->
-			                      	<div class="form-group">
-			                        	<label>Orden de Compra</label>
-			                        	<input class="form-control" type="text" name="ordenCompra" id="ordenCompra" onkeypress="return valideKey(event)">
-			                      	</div>
-			                    </div> --}}
-
-			                   {{--  <div class="col-sm-3">
-			                      	<!-- select -->
-			                      	<div class="form-group">
-			                        	<label>N° Factura</label>
-										<input class="form-control" type="text" id="nFactura" name="nFactura" onkeypress="return valideKey(event)">
-			                      	</div>
-			                    </div> --}}
-
-			                    {{-- <div class="col-sm-3">
-			                      	<!-- select -->
-			                      	<div class="form-group">
-			                        	<label>N° Packlist</label>
-			                        	<input class="form-control" type="text" id="packlist" name="packlist" onkeypress="return valideKey(event)">
-			                      	</div>
-			                    </div> --}}
-
-			                    {{-- <div class="form-group col-4">
-			                    	<label for="exampleInputPassword1">Unidad de Medida</label>
-			                    	<input type="text" name="unidadMedida" class="form-control" id="unidadMedida" placeholder="" value="">
-			                  	</div> --}}
-
-				            	{{-- <div class="form-group col-5">
-			                    	<label for="exampleInputPassword1">Direccion de Entrega</label>
-			                    	<input type="text" name="direccionEntrega" class="form-control" id="direccionEntrega" placeholder="" value="">
-			                  	</div> --}}
-
-			                  	{{-- <div class="form-group col-3">
-			                    	<label for="exampleInputPassword1">Almacen</label>
-			                    	<select class="js-example-basic-single custom-select" name="almacen">
-			                        	<option value="" selected="true">Seleccione</option>
-			                        		@foreach($almacenes as $almacen)
-			                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
-			                          		@endforeach
-			                        </select>
-			                  	</div> --}}
-
-			                  	{{-- <div class="form-group col-3">
-			                    	<label for="exampleInputPassword1">Estatus Material</label>
-			                    	<select class="js-example-basic-single custom-select" name="estatusMaterial">
-			                        	<option value="" selected="true">Seleccione</option>
-			                        		@foreach($estatusMateriales as $statusMaterial)
-			                        			<option value="{{$statusMaterial->id_estatus_material}}">{{$statusMaterial->desc_estatus_material}}</option>
-			                          		@endforeach
-			                        </select>
+			                  	<div class="form-group col-3" >
+			                  		<label for="exampleInputPassword1">Material</label>
+			                  		<select class="js-example-basic-single custom-select" name="material[]" id="material" onchange="traerStock()">
+                                            	<option value="">Seleccione</option>
+                                            	@foreach($materiales as $material)
+			                          				<option value="{{$material->id_material}}">{{$material->nombre_material}}</option>
+			                          			@endforeach
+                                            </select>
 			                  	</div>
- --}}
-			                        		{{-- {{$condicionMateriales}} --}}
-			                  	{{-- <div class="form-group col-3">
-			                    	<label for="exampleInputPassword1">Condicion Material</label>
-			                    	<select class="js-example-basic-single custom-select" name="condicionMaterial">
-			                        	<option value="" selected="true">Seleccione</option>
-			                        		@foreach($condicionMateriales as $condicionMaterial)
-			                        			<option value="{{$condicionMaterial->id_condicion_material}}">{{$condicionMaterial->descrip_condicion_material}}</option>
-			                          		@endforeach
-			                        </select>
-			                  	</div> --}}
 
-			                  	{{-- <div class="form-group col-3">
-			                    	<label for="exampleInputPassword1">Tipo de Ingreso</label>
-			                    	<select class="js-example-basic-single custom-select" name="ingresoMaterial">
-			                        	<option value="" selected="true">Seleccione</option>
-			                        		@foreach($tipoIngreso as $ingreso)
-			                        			<option value="{{$ingreso->id_tipo_ingreso}}">{{$ingreso->tipo_ingreso}}</option>
-			                          		@endforeach
-			                        </select>
-			                  	</div> --}}
+			                  	<div class="form-group col-3">
+			                  		<label for="exampleInputPassword1">Stock</label>
+			                  		<input class="form-control" type="text" id="stock" name="stock" onkeypress="return valideKey(event)">
+			                  	</div>
+			                  	<div class="form-group col-3">
+			                  		<label for="exampleInputPassword1">Cantidad Solicitada</label>
+			                  		<input class="form-control" type="text" id="cantidadSolicitada" name="cantidadSolicitada"  onkeydown="actualizarStock()">
+			                  	</div>
+			                  	<div class="form-group col-3">
+			                  		<label for="exampleInputPassword1">Restante</label>
+			                  		<input class="form-control" type="text" id="stockRestante" name="stockRestante">
+			                  	</div>
 
-			                    {{-- <div class="form-group col">
-			                        <label>Observaciones</label>
-			                        <input type="text" name="observaciones" class="form-control" id="estatusVehiculo" value="">
-			                  	</div> --}}
+			                  	<div class="form-group col-12">
+			                    	<label for="exampleInputPassword1">Observaciones</label>
+			                    	<input class="form-control" type="text" name="observacionesSolicitud" id="observacionesSolicitud">
+			                  	</div>
 				            </div>
 			                <!-- /.card-body -->
 
 
-
-			                <table class="table" align="center" id="tablaMateriales">
-                                <tr>
-                                    <th>Material</th>
-                                    <th>Cantidad</th>
-                                    <th>Stock</th>
-                                    <th>Acciones</th>
-                                </tr>
-                                {{-- @foreach($materiales as $i => $material) --}}
-                                    <tr class="clonarlo">
-                                        <td>
-                                            <input class="form-control" type="text" id="cantidad" name="cantidad[]" style="width:20em;" onkeypress="return valideKey(event)" value="{{-- {{$material->cantidad}} --}}">
-                                        </td>
-                                        <td><input class="form-control" type="text" id="material" name="material[]" style="width:25em;" value="{{-- {{ $material->material }} --}}"></td>
-                                        <td><input class="form-control" type="text" id="ordenNum" name="ordenNum[]" style="width:8em;" onkeypress="return valideKey(event)" value="{{-- {{$material->orden_almacen}} --}}"></td>
-                                        <td>
-                                            <button class="btn btn-primary" type="button" onclick="agregar_fila()">
-                                                <i class="fas fa-fw fa-plus-circle" style="align-center"></i>
-                                            </button>
-
-                                            <button class="btn btn-danger" type="button" onclick="eliminar_fila($(this))">
-                                                <i class="fas fa-fw fa-times-circle"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                {{-- @endforeach --}}
-                            </table>
                             <div class="card-footer">
 			                  <div class="row">
 			                  	<div class="col">
@@ -196,6 +101,39 @@
 	</div>
 	<script>
 
+		function traerStock() {
+			let material = $("#material").val()
+			$.ajax({
+				url : '/traerStock',
+				method : 'post',
+				data:{
+					"_token" : "{{csrf_token()}}",
+					id_material : material
+				},success:function(stock){
+					$("#stock").empty()
+					var stockT = $.parseJSON(stock)
+					//console.log(stockT.stock)
+					$("#stock").val(stockT.stock).attr('readonly',true)
+				}
+			})
+		}
+
+		function actualizarStock(){
+			// alert('a')
+			var cantidadSol = $("#cantidadSolicitada").val()
+			var stock = $("#stock").val()
+			console.log(cantidadSol)
+
+			/*if(cantidadSol < stock ){
+				var total = (stock - cantidadSol)
+				console.log(total)
+				//$("#stockRestante").val(total)
+			}else{
+				alert('Cant, solicitada mayor al Stock en almacen')
+			}*/
+
+		}
+
 		function valideKey(evt){
 		    // code is the decimal ASCII representation of the pressed key.
 		    var code = (evt.which) ? evt.which : evt.keyCode;
@@ -209,13 +147,34 @@
 		    }
 		}
 
+		function llenarAlmacenDestino(){
+			let idAlmacen = $("#almacenOrigen").val()
+			$.ajax({
+				url : "/llenarAlmaDesti",
+				method: "post",
+				data: {
+					'idAlmacen' : idAlmacen,
+					"_token" : "{{ csrf_token() }}",
+				},success:function(almacen){
 
-		function agregar_fila(){
-    		var id_tabla = 'tablaMateriales';
-			var fila = $('#'+id_tabla+' .clonarlo').eq(0).clone(true, true)
-			fila.find('input').val('')
-			$('#'+id_tabla).append(fila)
-    	}
+					var almacen = $.parseJSON(almacen)
+					$("#almadesti").empty()
+					for(var i = 0; i < almacen.length; i++){
+						console.log(almacen[i].nombre_almacen)
+						$("#almadesti").append("<option value='"+almacen[i].id_almacen+"'>"+almacen[i].nombre_almacen+"</option>")
+					}
+				}
+			})
+		}
+
+
+		// function agregar_fila(){
+  //   		var id_tabla = 'tablaMateriales';
+		// 	var fila = $('#'+id_tabla+' .clonarlo').eq(0).clone(true,true)
+		// 	fila.find('input').val('')
+		// 	fila.find('select').val('0');
+		// 	$('#'+id_tabla).appendto(fila)
+  //   	}
 
         function eliminar_fila(fila){
 

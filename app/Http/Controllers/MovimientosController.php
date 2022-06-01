@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 
 class MovimientosController extends Controller
 {
+    public function traerStock(){
+        $id_material = $_POST['id_material'];
+        $stock = DB::table('material')->where('id_material',$id_material)->select('stock')->get()->first();
+        return json_encode($stock);
+    }
+    public function buscarAlmaDesti(){
+        $id_almacen = $_POST['idAlmacen'];
+        $almacenesRestantes = DB::table('almacen')->where('id_almacen','<>',$id_almacen)->get();
+
+        return json_encode($almacenesRestantes);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -32,8 +43,9 @@ class MovimientosController extends Controller
      */
     public function create()
     {
-        //dd('llega');
-        return view('solicitudes.formSolicitud');
+        $almacenes = DB::table('almacen')->get();
+        $materiales = DB::table('material')->select('id_material','nombre_material','stock')->get();
+        return view('solicitudes.formSolicitud',['almacenes'=>$almacenes, 'materiales' => $materiales]);
     }
 
     /**

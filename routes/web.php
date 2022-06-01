@@ -72,3 +72,5 @@ Route::view('/proveedores/nuevo','proveedores.nproveedor')->name('nuevo.proveedo
 /*Solicitudes*/
 Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
 Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
+Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
+Route::post('traerStock',[MovimientosController::class,'traerStock']);
