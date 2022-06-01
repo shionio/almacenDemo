@@ -6,6 +6,7 @@
         <div class="row">
           <div class="col-10">
             <h2>Listado de Solicitudes</h2>
+            {{-- {{dd($solicitudes);}} --}}
           </div>
           <div class="col-2">
             <button type="button" class="btn btn-primary" onclick="window.location.href='{{Route('newSolicitud')}}'">
@@ -22,28 +23,37 @@
           <thead>
             <tr>
               <th>Id</th>
+              <th>Fecha</th>
+              <th>Usuario</th>
+              <th>Almacen Origen</th>
+              <th>Almacen Destino</th>
+              <th>Cantidad</th>
               <th>Descripcion</th>
-              <th>Unidad de Medida</th>
-              <th>Estado</th>
-              <th>Municipio</th>
-              <th>Parroquia</th>
-              <th>Direccion</th>
-              <th>Stock</th>
-              <th>Aciones</th>
+              <th>Unidad Medida</th>
+              <th>Ubicacion</th>
+              <th>Estatus</th>
+              <th>Observaciones</th>
+              <th>Acciones</th>
             </tr>
           </thead>
-            @foreach($materiales as $material)
+            @foreach($solicitudes as $soli)
+
+            {{-- {{dd($soli)}} --}}
               <tbody>
                 <tr>
 
-                  <td>{{$material->id_material}}</td>
-                  <td>{{$material->nombre_material}}</td>
-                  <td>{{$material->nombre_almacen}}</td>
-                  <td>{{$material->estado}}</td>
-                  <td>{{$material->municipio}}</td>
-                  <td>{{$material->parroquia}}</td>
-                  <td>{{$material->direccion}}</td>
-                  <td>{{$material->stock}}</td>
+                  <td>{{$soli->id_solicitud}}</td>
+                  <td>{{$soli->fecha_solicitud}}</td>
+                  <td>{{$soli->usuario}}</td>
+                  <td>{{$soli->almaor}}</td>
+                  <td>{{$soli->almades}}</td>
+                  <td>{{$soli->cantidad}}</td>
+                  <td>{{$soli->descripcion}}</td>
+                  <td>{{$soli->unidad_medida}}</td>
+                  <td>{{$soli->ubicacion}}</td>
+                  <td>{{$soli->id_estatus}}</td>
+                  <td>{{$soli->observaciones}}</td>
+
                   <td>
                     <a href="">
                       <i class="fas fa-file-import"></i>
@@ -62,14 +72,17 @@
           <tfoot>
             <tr>
               <th>Id</th>
-              <th>Material</th>
-              <th>Almacen</th>
-              <th>Estado</th>
-              <th>Municipio</th>
-              <th>Parroquia</th>
-              <th>Direccion</th>
-              <th>Stock</th>
-              <th>Aciones</th>
+              <th>Fecha</th>
+              <th>Usuario</th>
+              <th>Almacen Origen</th>
+              <th>Almacen Destino</th>
+              <th>Cantidad</th>
+              <th>Descripcion</th>
+              <th>Unidad Medida</th>
+              <th>Ubicacion</th>
+              <th>Estatus</th>
+              <th>Observaciones</th>
+              <th>Acciones</th>
             </tr>
           </tfoot>
         </table>

@@ -44,6 +44,7 @@
 				                        <select class="js-example-basic-single custom-select" name="almacenDestino" id="almadesti" required >
 			                          		<option value="null">Seleccione</option>
 			                        	</select>
+
 				                     </div>
 				                </div>
 
@@ -51,6 +52,7 @@
 			                    	<label for="exampleInputPassword1">Estatus Solicitud</label>
 			                    	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="Nueva Solicitud" readonly="true">
 			                  	</div>
+<<<<<<< HEAD
 
 			                  	<div class="form-group col-3" >
 			                  		<label for="exampleInputPassword1">Material</label>
@@ -83,6 +85,37 @@
 			                <!-- /.card-body -->
 
 
+
+				            </div>
+			                <!-- /.card-body -->
+
+			               {{--  <table class="table" align="center" id="tablaMateriales">
+                                <tr>
+                                    <th>Material</th>
+                                    <th>Cantidad</th>
+                                    <th>Stock</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                @foreach($materiales as $i => $material)
+                                    <tr class="clonarlo">
+                                        <td>
+                                            <input class="form-control" type="text" id="cantidad" name="cantidad[]" style="width:20em;" onkeypress="return valideKey(event)" value=" {{$material->cantidad}}">
+                                        </td>
+                                        <td><input class="form-control" type="text" id="material" name="material[]" style="width:25em;" value=" {{ $material->material }} ">
+                                        </td>
+                                        <td><input class="form-control" type="text" id="ordenNum" name="ordenNum[]" style="width:8em;" onkeypress="return valideKey(event)" value=" {{$material->orden_almacen}}"></td>
+                                        <td>
+                                            <button class="btn btn-primary" type="button" onclick="agregar_fila()">
+                                                <i class="fas fa-fw fa-plus-circle" style="align-center"></i>
+                                            </button>
+
+                                            <button class="btn btn-danger" type="button" onclick="eliminar_fila($(this))">
+                                                <i class="fas fa-fw fa-times-circle"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                 @endforeach --}}
+                            {{-- </table> --}}
                             <div class="card-footer">
 			                  <div class="row">
 			                  	<div class="col">
@@ -149,6 +182,11 @@
 
 		function llenarAlmacenDestino(){
 			let idAlmacen = $("#almacenOrigen").val()
+<<<<<<< HEAD
+=======
+			//console.log(idAlmacen)
+
+>>>>>>> 100e8ed2482bad54cdcd10d008defd38d04a044e
 			$.ajax({
 				url : "/llenarAlmaDesti",
 				method: "post",
@@ -156,6 +194,21 @@
 					'idAlmacen' : idAlmacen,
 					"_token" : "{{ csrf_token() }}",
 				},success:function(almacen){
+<<<<<<< HEAD
+=======
+					//console.log(almacen)
+					var almacen = $.parseJSON(almacen)
+					$("#almacenDestino").empty()
+					for(var i = 0; i < almacen.length; i++){
+						console.log(almacen[i].nombre_almacen)
+						 $("#almacenDestino").append("<option value='"+almacen[i].id_almacen+"'>"+almacen[i].nombre_almacen+"</option>")
+					}
+				}
+
+			})
+		}
+
+>>>>>>> 100e8ed2482bad54cdcd10d008defd38d04a044e
 
 					var almacen = $.parseJSON(almacen)
 					$("#almadesti").empty()

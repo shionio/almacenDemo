@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 
 class MovimientosController extends Controller
 {
+<<<<<<< HEAD
     public function traerStock(){
         $id_material = $_POST['id_material'];
         $stock = DB::table('material')->where('id_material',$id_material)->select('stock')->get()->first();
         return json_encode($stock);
     }
+=======
+>>>>>>> 100e8ed2482bad54cdcd10d008defd38d04a044e
     public function buscarAlmaDesti(){
         $id_almacen = $_POST['idAlmacen'];
         $almacenesRestantes = DB::table('almacen')->where('id_almacen','<>',$id_almacen)->get();
@@ -24,16 +27,30 @@ class MovimientosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $materiales = DB::table('material')
-                    ->join('almacen','material.id_almacen','=','almacen.id_almacen')
-                    ->join('ubicacion_geografica','ubicacion_geografica.id_ubicacion_geografica','=','almacen.id_ubicacion_geografica')
-                    ->join('estados','ubicacion_geografica.id_estado','=','estados.id_estado')
-                    ->join('municipios','ubicacion_geografica.id_municipio','=','municipios.id_municipio')
-                    ->join('parroquias','ubicacion_geografica.id_parroquia','=','parroquias.id_parroquia')
-                    ->select('material.id_material','material.nombre_material','almacen.nombre_almacen','estados.estado','municipios.municipio','parroquias.parroquia','ubicacion_geografica.direccion','material.stock')
-                    ->get();
+        
+        $sol = DB::table('solicitudes')
+        ->join('usuarios','usuarios.id_usuario','=','solicitudes.id_usuario_solicitante')
+        ->join('almacen as origen','origen.id_almacen','=','solicitudes.id_almacen_origen')
+        ->join('almacen as destino','destino.id_almacen','=','solicitudes.id_almacen_destino')
+        ->select('id_solicitud','fecha_solicitud','usuarios.usuario','id_almacen_origen','id_almacen_destino','cantidad','descripcion','unidad_medida','ubicacion','id_estatus','observaciones','id_usuario','origen.nombre_almacen as almaor','destino.nombre_almacen as almades')->get()->all();
+
+        // dd($sol);
+
+        // $usuario = DB::table('usuarios')
+        // ->where('id_usuario','=',$sol->id_usuario_solicitante)
+        // ->select('*')->get()->first();
+
+        // dd($lista);
+        // $materiales = DB::table('material')
+        //             ->join('almacen','material.id_almacen','=','almacen.id_almacen')
+        //             ->join('ubicacion_geografica','ubicacion_geografica.id_ubicacion_geografica','=','almacen.id_ubicacion_geografica')
+        //             ->join('estados','ubicacion_geografica.id_estado','=','estados.id_estado')
+        //             ->join('municipios','ubicacion_geografica.id_municipio','=','municipios.id_municipio')
+        //             ->join('parroquias','ubicacion_geografica.id_parroquia','=','parroquias.id_parroquia')
+        //             ->select('material.id_material','material.nombre_material','almacen.nombre_almacen','estados.estado','municipios.municipio','parroquias.parroquia','ubicacion_geografica.direccion','material.stock')
+        //             ->get();
         //dd($materiales);
-        return view('solicitudes.listaSolicitud',['materiales' => $materiales]);
+        return view('solicitudes.listaSolicitud',['solicitudes' => $sol]);
     }
 
     /**
@@ -44,8 +61,12 @@ class MovimientosController extends Controller
     public function create()
     {
         $almacenes = DB::table('almacen')->get();
+<<<<<<< HEAD
         $materiales = DB::table('material')->select('id_material','nombre_material','stock')->get();
         return view('solicitudes.formSolicitud',['almacenes'=>$almacenes, 'materiales' => $materiales]);
+=======
+        return view('solicitudes.formSolicitud',['almacenes'=>$almacenes]);
+>>>>>>> 100e8ed2482bad54cdcd10d008defd38d04a044e
     }
 
     /**
