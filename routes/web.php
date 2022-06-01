@@ -35,12 +35,16 @@ Route::get('/', function () {
 });
 
 Route::get('inicio', [LoginController::class, 'index'])->name('inicio');
-Route::post('/check', [LoginController::class , 'check_user']);
+Route::post('/check', [LoginController::class, 'check_user']);
+Route::get('/salir', [LoginController::class, 'salir'])->name('salir');
 
 /*rutas de almacen*/
 Route::get('/Almacen', [AlmacenController::class , 'index'])->name('listaAlmacenes');
 Route::get('/Almacen/Nuevo', [AlmacenController::class , 'create'])->name('newAlmacen');
 Route::post('/guardarAlmacen',[AlmacenController::class, 'store']);
+Route::view('/Traspaso','almacen.trasAlmacen')->name('traspaso');
+Route::post('/Almacen/traspaso',[AlmacenController::class,'traspaso'])->name('traspasoAlmacen');
+Route::post('/buscarAlmacen',[AlmacenController::class,'search']);
 Route::post('/llenarMunicipios',[AlmacenController::class, 'llenarMunicipios']);
 Route::post('/llenarParroquias',[AlmacenController::class, 'llenarParroquias']);
 /*fin de rutas de almacen*/
@@ -72,3 +76,4 @@ Route::view('/proveedores/nuevo','proveedores.nproveedor')->name('nuevo.proveedo
 /*Solicitudes*/
 Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
 Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
+Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);

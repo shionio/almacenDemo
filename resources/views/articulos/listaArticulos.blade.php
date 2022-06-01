@@ -25,7 +25,9 @@
               <th>Stock</th>
               <th>Unidad de Medida</th>
               <th>Almacen</th>
+              @if(session('rol')==0)
               <th>Acciones</th>
+              @endif
             </tr>
           </thead>
             @foreach($articulos as $articulo)
@@ -37,10 +39,10 @@
                   <td>{{$articulo->stock}}</td>
                   <td>{{$articulo->unidad_medida}}</td>
                   <td>{{$articulo->descripcion_almacen}}</td>
-
+                  @if(session('rol')==0)
                   <td>
                     <a href="">
-                      <i class="fas fa-sign-in-alt"></i>
+                      <i class="fas fa-sign-in-alt" name="Ingreso"></i>
                     </a>
                     <a href="">
                       <i class="fas fa-sign-out-alt" style="margin-left:5px;"></i>
@@ -49,6 +51,7 @@
                       <i class="fas fa-exchange" style="margin-left:5px;"></i>
                   </a>
                   </td>
+                  @endif
                 </tr>
               </tbody>
             @endforeach
@@ -60,7 +63,9 @@
               <th>Stock</th>
               <th>Unidad de Medida</th>
               <th>Almacen</th>
+              @if(session('rol')==0)
               <th>Acciones</th>
+              @endif
             </tr>
           </tfoot>
         </table>

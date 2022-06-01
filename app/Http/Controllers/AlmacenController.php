@@ -111,6 +111,19 @@ class AlmacenController extends Controller
         }
     }
 
+    public function traspaso()
+    {
+
+    }
+
+    public function search()
+    {
+        $almacenes = DB::table('almacen')
+        ->select('*')->get()->all();
+
+        return $almacenes;
+    }
+
     /**
      * Display the specified resource.
      *

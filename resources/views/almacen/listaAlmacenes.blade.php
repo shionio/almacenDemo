@@ -47,8 +47,8 @@
                   @else
                     <td>Inactivo</td>
                   @endif
-                  <!--<td>
-                    <a href="{{-- {{Route('editando',$vehiculo->id_programacion)}} --}}">
+                  <td>
+                    <a href="{{Route('traspaso')}}">
                       <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                     <a href="">
@@ -57,7 +57,7 @@
                     <a href="">
                       <i class="fa-solid fa-file-pdf"></i>
                     </a>
-                  </td>-->
+                  </td>
                   <td></td>
                 </tr>
               </tbody>

@@ -27,6 +27,7 @@ class LoginController extends Controller
 
             $r->session()->put('id_usuario',$session[0]->id_usuario);
             $r->session()->put('usuario',$session[0]->usuario);
+            $r->session()->put('rol',$session[0]->id_rol);
             //$r->session()->put('msg','Usuario Valido');
 
             $inserLog = DB::table('logs')->insert([
@@ -38,5 +39,16 @@ class LoginController extends Controller
         }else{
             return redirect('/')->with('msg','Datos Invalidos');
         }
+    }
+
+    public function salir()
+    {
+        // $req = session()->all();
+
+        // dd($req);
+
+        session()->invalidate();
+
+        return redirect('/');
     }
 }

@@ -46,11 +46,15 @@
 
 </head>
   <body class="hold-transition sidebar-mini layout-fixed">
+
+    {{-- {{session()->all()}} --}}
+
     <div class="wrapper">
     {{-- cintillo --}}
       <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         {{-- <img src="{{asset('img/headerlogohidro.png')}}" alt="" style="width: 1500px; height:50px"> --}}
-        <button type="button" class="btn btn-danger" style="margin-left:90%;">Cerrar Sesión</button>
+        {{-- <button type="button" class="btn btn-danger" style="margin-left:90%;">Cerrar Sesión</button> --}}
+        <button class="btn btn-danger" onclick="window.location.href='/salir'" style="margin-left:90%;">Cerrar Sesión</button>
       </nav>
     {{-- cintillo --}}
 
@@ -79,12 +83,14 @@
 
               <!-- Add icons to the links using the .nav-icon class
                    with font-awesome or any other icon font library -->
+                   
               <li class="nav-item">
                     <a href="{{Route('inicio')}}" class="nav-link">
                       <i class="nav-icon fas fa-home-alt"></i>
                       <p>Inicio</p>
                     </a>
                   </li>
+                   @if(session('rol')==1)
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="fas fa-warehouse"></i>
@@ -293,35 +299,219 @@
                   </li>
                 </ul>
               </li>
-              {{-- <li class="nav-item">
+              @endif
+
+
+              @if(session('rol')==0)
+              <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-table"></i>
+                  <i class="fas fa-warehouse"></i>
                   <p>
-                    Tables
+                    Almacen
+                  <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+
+                  <li class="nav-item">
+                    <a href="{{Route('listaAlmacenes')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Lista de Almacenes</p>
+                    </a>
+                  </li>
+
+                  {{-- <li class="nav-item">
+                    <a href="{{Route('listaProgramacion')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Programacion</p>
+                    </a>
+                  </li> --}}
+                  {{-- <li class="nav-item">
+                    <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Vehiculo Taller</p>
+                    </a>
+                  </li> --}}
+                  {{-- <li class="nav-item">
+                    <a href="pages/layout/boxed.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Montura de Cauchos</p>
+                    </a>
+                  </li> --}}
+                  {{-- <li class="nav-item">
+                    <a href="pages/layout/fixed-sidebar.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Bateria</p>
+                    </a>
+                  </li> --}}
+                  {{-- <li class="nav-item">
+                    <a href="pages/layout/fixed-sidebar-custom.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Servicio de Aceite</p>
+                    </a>
+                  </li> --}}
+                  {{-- <li class="nav-item">
+                    <a href="pages/layout/fixed-topnav.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Fixed Navbar</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="pages/layout/fixed-footer.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Fixed Footer</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Collapsed Sidebar</p>
+                    </a>
+                  </li> --}}
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-chart-pie"></i>
+                  <p>
+                    Articulos
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route('listaArticulos')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Lista de Articulo</p>
+                    </a>
+                  </li>
+                  {{-- <li class="nav-item">
+                    <a href="pages/charts/flot.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Flot</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="pages/charts/inline.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Inline</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="pages/charts/uplot.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>uPlot</p>
+                    </a>
+                  </li> --}}
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-tree"></i>
+                  <p>
+                    Proveedores
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="pages/tables/simple.html" class="nav-link">
+                    <a href="{{route('lista.proveedor')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Simple Tables</p>
+                      <p>Lista de  Proveedor</p>
+                    </a>
+                  </li>
+                  {{-- <li class="nav-item">
+                    <a href="pages/UI/icons.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Icons</p>
+                    </a>
+                  </li> --}}
+                 {{--  <li class="nav-item">
+                    <a href="pages/UI/buttons.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Buttons</p>
+                    </a>
+                  </li> --}}
+                  {{-- <li class="nav-item">
+                    <a href="pages/UI/sliders.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Sliders</p>
+                    </a>
+                  </li> --}}
+                  {{-- <li class="nav-item">
+                    <a href="pages/UI/modals.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Modals & Alerts</p>
+                    </a>
+                  </li> --}}
+                  {{-- <li class="nav-item">
+                    <a href="pages/UI/navbar.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Navbar & Tabs</p>
+                    </a>
+                  </li> --}}
+                  {{-- <li class="nav-item">
+                    <a href="pages/UI/timeline.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Timeline</p>
+                    </a>
+                  </li> --}}
+                  {{-- <li class="nav-item">
+                    <a href="pages/UI/ribbons.html" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Ribbons</p>
+                    </a>
+                  </li> --}}
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-edit"></i>
+                  <p>
+                    Movimientos
+                    <i class="fas fa-angle-left right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route('listaMovimientos')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Solicitud</p>
+                    </a>
+                  </li>
+                  {{-- <li class="nav-item">
+                    <a href="{{Route('newArticulo')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Ingresar Material</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/tables/data.html" class="nav-link">
+                    <a href="{{Route('newAlmacen')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>DataTables</p>
+                      <p>Ingresar Almacen</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/tables/jsgrid.html" class="nav-link">
+                    <a href="{{Route('nuevo.proveedor')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>jsGrid</p>
+                      <p>Ingresar Proveedor</p>
+                    </a>
+                  </li> --}}
+                  {{-- <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Traspaso entre Almacenes</p>
+                    </a>
+                  </li> --}}
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Salida</p>
                     </a>
                   </li>
                 </ul>
-              </li> --}}
+              </li>
+              @endif
             </ul>
           </nav>
           <!-- /.sidebar-menu -->

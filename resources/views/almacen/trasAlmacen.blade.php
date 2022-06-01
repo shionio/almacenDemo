@@ -28,11 +28,7 @@
 				                <div class="col-sm-3">
 				                    <div class="form-group">
 				                        <label>Almacen Origen</label>
-				                    	<select class="js-example-basic-single custom-select" name="almacen" id="almacenOrigen" onchange="llenarAlmacenDestino()">
-				                        	<option value="" selected="true">Seleccione</option>
-				                        		@foreach($almacenes as $almacen)
-				                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
-				                          		@endforeach
+				                    	<select class="js-example-basic-single custom-select" name="almacen1" id="almacen1" onchange="llenarAlmacenDestino()">
 				                        </select>
 				                     </div>
 				                </div>
@@ -103,17 +99,23 @@
 	</div>
 	<script>
 
-		function valideKey(evt){
-		    // code is the decimal ASCII representation of the pressed key.
-		    var code = (evt.which) ? evt.which : evt.keyCode;
-
-		    if(code==8) { // backspace.
-		      return true;
-		    } else if(code>=48 && code<=57) { // is a number.
-		      return true;
-		    } else{ // other keys.
-		      return false;
-		    }
+		function buscarAlmacenes(){
+			$.ajax({
+				url:"/buscarAlmacen",
+				method:"post",
+				data:{
+					'idAlmacen' : idAlmacen,
+					"_token" : "{{ csrf_token() }}",
+				},success:function(nalmacen){
+					console.log(nalmacen)
+					var almacen1 = $.parseJSON(nalmacen)
+					$("#almacenOrigen")
+					for(var i = 0; i < almacen1.length; i++){
+						console.log(almacen1[i].nombre_almacen)
+						$("#almacenOrigen").append("<option value='"+almacen1[i].id_almacen+"'>"+almacen1[i].nombre_almacen+"</option>")
+					}
+				}
+			});
 		}
 
 		function llenarAlmacenDestino(){
@@ -138,30 +140,6 @@
 
 			})
 		}
-
-
-		function agregar_fila(){
-    		var id_tabla = 'tablaMateriales';
-			var fila = $('#'+id_tabla+' .clonarlo').eq(0).clone(true, true)
-			fila.find('input').val('')
-			$('#'+id_tabla).append(fila)
-    	}
-
-        function eliminar_fila(fila){
-
-            var n_filas = fila.parent().closest('.table').find('.clonarlo').length
-            var filaEliminar = fila.parent().closest('.clonarlo')
-            //console.log(filaEliminar)
-
-            if(n_filas > 1){
-                filaEliminar.remove()
-            }else{
-                filaEliminar.find('input').val('')
-            }
-
-
-        }
-
 
 	</script>
 @endsection
