@@ -51,7 +51,7 @@
                   <td>{{$soli->descripcion}}</td>
                   <td>{{$soli->unidad_medida}}</td>
                   <td>{{$soli->ubicacion}}</td>
-                  <td>{{$soli->id_estatus}}</td>
+                  <td>{{$soli->estatus}}</td>
                   <td>{{$soli->observaciones}}</td>
 
                   <td>

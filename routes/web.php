@@ -76,9 +76,7 @@ Route::view('/proveedores/nuevo','proveedores.nproveedor')->name('nuevo.proveedo
 /*Solicitudes*/
 Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
 Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
-<<<<<<< HEAD
 Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('traerStock',[MovimientosController::class,'traerStock']);
-=======
-Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
->>>>>>> 100e8ed2482bad54cdcd10d008defd38d04a044e
+Route::post('/guardarSolicitud',[MovimientosController::class,'store']);
+
