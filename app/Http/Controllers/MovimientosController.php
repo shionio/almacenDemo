@@ -7,14 +7,13 @@ use Illuminate\Http\Request;
 
 class MovimientosController extends Controller
 {
-<<<<<<< HEAD
+
     public function traerStock(){
         $id_material = $_POST['id_material'];
         $stock = DB::table('material')->where('id_material',$id_material)->select('stock')->get()->first();
         return json_encode($stock);
     }
-=======
->>>>>>> 100e8ed2482bad54cdcd10d008defd38d04a044e
+
     public function buscarAlmaDesti(){
         $id_almacen = $_POST['idAlmacen'];
         $almacenesRestantes = DB::table('almacen')->where('id_almacen','<>',$id_almacen)->get();
@@ -61,12 +60,10 @@ class MovimientosController extends Controller
     public function create()
     {
         $almacenes = DB::table('almacen')->get();
-<<<<<<< HEAD
+
         $materiales = DB::table('material')->select('id_material','nombre_material','stock')->get();
         return view('solicitudes.formSolicitud',['almacenes'=>$almacenes, 'materiales' => $materiales]);
-=======
-        return view('solicitudes.formSolicitud',['almacenes'=>$almacenes]);
->>>>>>> 100e8ed2482bad54cdcd10d008defd38d04a044e
+
     }
 
     /**

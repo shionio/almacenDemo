@@ -52,7 +52,6 @@
 			                    	<label for="exampleInputPassword1">Estatus Solicitud</label>
 			                    	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="Nueva Solicitud" readonly="true">
 			                  	</div>
-<<<<<<< HEAD
 
 			                  	<div class="form-group col-3" >
 			                  		<label for="exampleInputPassword1">Material</label>
@@ -182,11 +181,6 @@
 
 		function llenarAlmacenDestino(){
 			let idAlmacen = $("#almacenOrigen").val()
-<<<<<<< HEAD
-=======
-			//console.log(idAlmacen)
-
->>>>>>> 100e8ed2482bad54cdcd10d008defd38d04a044e
 			$.ajax({
 				url : "/llenarAlmaDesti",
 				method: "post",
@@ -194,22 +188,6 @@
 					'idAlmacen' : idAlmacen,
 					"_token" : "{{ csrf_token() }}",
 				},success:function(almacen){
-<<<<<<< HEAD
-=======
-					//console.log(almacen)
-					var almacen = $.parseJSON(almacen)
-					$("#almacenDestino").empty()
-					for(var i = 0; i < almacen.length; i++){
-						console.log(almacen[i].nombre_almacen)
-						 $("#almacenDestino").append("<option value='"+almacen[i].id_almacen+"'>"+almacen[i].nombre_almacen+"</option>")
-					}
-				}
-
-			})
-		}
-
->>>>>>> 100e8ed2482bad54cdcd10d008defd38d04a044e
-
 					var almacen = $.parseJSON(almacen)
 					$("#almadesti").empty()
 					for(var i = 0; i < almacen.length; i++){

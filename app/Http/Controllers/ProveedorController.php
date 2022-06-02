@@ -46,4 +46,30 @@ class ProveedorController extends Controller
 
         return view('proveedores.listaProveedor',['lista' => $pro]);
     }
+
+    public function editarPro($id)
+    {
+
+    }
+
+    public function update($id)
+    {
+        $a = array('activo'=>true);
+        $b = array('activo'=>false);
+
+        $alm = DB::table('proveedores')
+        ->where('id_proveedor','=',$id)
+        ->select('activo')->get()->first();
+
+        if($alm->activo == true){
+        $alm = DB::table('proveedores')
+        ->where('id_proveedor','=',$id)
+        ->update($b);
+        }elseif($alm->activo == false){
+        $alm = DB::table('proveedores')
+        ->where('id_proveedor','=',$id)
+        ->update($a);
+        }
+        return back();
+    }
 }

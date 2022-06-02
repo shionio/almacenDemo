@@ -31,8 +31,8 @@ class AlmacenController extends Controller
                     ->join('estados','estados.id_estado','=','ubicacion_geografica.id_estado')
                     ->join('municipios','municipios.id_municipio','=','ubicacion_geografica.id_municipio')
                     ->join('parroquias','parroquias.id_parroquia','=','ubicacion_geografica.id_parroquia')
-                    ->get();
-        //dd($almacenes);
+                    ->select('almacen.id_almacen','almacen.nombre_almacen','almacen.descripcion_almacen','estados.estado','municipios.municipio','parroquias.parroquia','ubicacion_geografica.direccion','almacen.activo')->get();
+        // dd($almacenes);
 
        return view('almacen.listaAlmacenes',['almacenes' => $almacenes]);
     }
@@ -118,11 +118,13 @@ class AlmacenController extends Controller
 
     public function search()
     {
-        $almacenes = DB::table('almacen')
+        $almacenon = DB::table('almacen')
         ->select('*')->get()->all();
 
-        return $almacenes;
-    }
+        $material = DB::table('material')->select('*')->get()->all();
+
+        return view('almacen.trasAlmacen',['almacenon'=>$almacenon,'materiales'=>$material]);
+    }  
 
     /**
      * Display the specified resource.
@@ -132,7 +134,37 @@ class AlmacenController extends Controller
      */
     public function show($id)
     {
-        //
+        // dd($id);
+
+        $almacen = DB::table('almacen')
+        ->join('ubicacion_geografica as dir','dir.id_ubicacion_geografica','=','almacen.id_ubicacion_geografica')
+        ->join('estados','estados.id_estado','=','dir.id_estado')
+        ->join('municipios','municipios.id_municipio','=','dir.id_municipio')
+        ->join('parroquias','parroquias.id_parroquia','=','dir.id_parroquia')
+        ->join('tipo_almacen as tipo','tipo.id','=','almacen.tipo_almacen')
+        ->join('condicion_almacen as con','con.id','=','almacen.condicion_almacen')
+        ->where('id_almacen','=',$id)
+        ->select('dir.direccion',
+            'estados.estado',
+            'municipios.municipio',
+            'parroquias.parroquia',
+            'tipo.tipo_almacen',
+            'almacen.nombre_almacen',
+            'almacen.descripcion_almacen',
+            'con.condicion_almacen',
+            'almacen.activo',
+            'dir.cod_postal',
+            'almacen.id_almacen',
+            'almacen.id_ubicacion_geografica'
+        )->get()->first();
+
+        $estados = DB::table('estados')->orderBy('estado','asc')->get();
+        $tipoAlmacen = DB::table('tipo_almacen')->where('activo', true)->get();
+        $condicionAlmacen = DB::table('condicion_almacen')->where('activo', true)->get();
+
+        // dd($almacen);
+
+        return view('almacen.editAlmacen',['almacen'=>$almacen,'estados' => $estados, 'tipoAlmacenes' => $tipoAlmacen, 'condicionAlmacenes' => $condicionAlmacen]);
     }
 
     /**
@@ -141,29 +173,61 @@ class AlmacenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        // dd($_POST);
+
+        $upDir = array(
+            'id_estado'=>$_POST['estado'],
+            'id_municipio'=>$_POST['municipio'],
+            'id_parroquia'=>$_POST['parroquia'],
+        );
+
+        $dir = DB::table('ubicacion_geografica')
+        ->where('id_ubicacion_geografica','=',$_POST['id2'])
+        ->update($upDir);
+
+        $upAl = array(
+            'fecha_registro'=>$_POST['fecha'],
+            'nombre_almacen'=>$_POST['nombreAlmacen'],
+            'descripcion_almacen'=>$_POST['descripcionAlmacen'],
+            'tipo_almacen'=>$_POST['tipoAlmacen'],
+            'condicion_almacen'=>$_POST['condicionAlmacen'],
+        );
+
+        $alm = DB::table('almacen')
+        ->where('id_almacen','=',$_POST['id'])
+        ->update($upAl);
+
+        if($dir == true && $alm == true){
+            return redirect()->route('listaAlmacenes');
+        }else{
+        return back();
+    }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
+        // dd($id);
+        $a = array('activo'=>true);
+        $b = array('activo'=>false);
+
+        $alm = DB::table('almacen')
+        ->where('id_almacen','=',$id)
+        ->select('activo')->get()->first();
+
+        if($alm->activo == true){
+        $alm = DB::table('almacen')
+        ->where('id_almacen','=',$id)
+        ->update($b);
+        }elseif($alm->activo == false){
+        $alm = DB::table('almacen')
+        ->where('id_almacen','=',$id)
+        ->update($a);
+        }
+        return back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

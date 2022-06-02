@@ -42,9 +42,12 @@ Route::get('/salir', [LoginController::class, 'salir'])->name('salir');
 Route::get('/Almacen', [AlmacenController::class , 'index'])->name('listaAlmacenes');
 Route::get('/Almacen/Nuevo', [AlmacenController::class , 'create'])->name('newAlmacen');
 Route::post('/guardarAlmacen',[AlmacenController::class, 'store']);
-Route::view('/Traspaso','almacen.trasAlmacen')->name('traspaso');
+Route::get('/Almacen/Ver/{id}',[AlmacenController::class, 'show'])->name('VerAlmacen');
+Route::post('Almacen/Editar/',[AlmacenController::class, 'edit'])->name('editarAlmacen');
+Route::get('/Almacen/estatus/{id}',[AlmacenController::class, 'update'])->name('estatusAlmacen');
+// Route::view('/Traspaso','almacen.trasAlmacen')->name('traspaso');
 Route::post('/Almacen/traspaso',[AlmacenController::class,'traspaso'])->name('traspasoAlmacen');
-Route::post('/buscarAlmacen',[AlmacenController::class,'search']);
+Route::get('/buscarAlmacen',[AlmacenController::class,'search'])->name('buscarAlmacenorigen');
 Route::post('/llenarMunicipios',[AlmacenController::class, 'llenarMunicipios']);
 Route::post('/llenarParroquias',[AlmacenController::class, 'llenarParroquias']);
 /*fin de rutas de almacen*/
@@ -71,14 +74,14 @@ Route::post('/guardarProgramacion',[ProgramacionController::class, 'store']);
 Route::get('/proveedores/lista',[ProveedorController::class,'listProveedor'])->name('lista.proveedor');
 Route::post('/proveedores/guardar',[ProveedorController::class,'newProveedor'])->name('guardar.proveedor');
 Route::view('/proveedores/nuevo','proveedores.nproveedor')->name('nuevo.proveedor');
-
+Route::get('/proveedor/mostar/{id}',[ProveedorController::class,'editarPro'])->name('ver.proveedor');
+Route::post('/proveedores/estatus',[ProveedorController::class,'update'])->name('estatus.proveedor');
 
 /*Solicitudes*/
+
 Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
 Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
-<<<<<<< HEAD
+
 Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('traerStock',[MovimientosController::class,'traerStock']);
-=======
-Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
->>>>>>> 100e8ed2482bad54cdcd10d008defd38d04a044e
+Route::post('buscarArticulo',[MovimientosController::class,'showArt']);
