@@ -13,7 +13,10 @@ class MovimientosController extends Controller
         $stock = DB::table('material')->where('id_material',$id_material)->select('stock')->get()->first();
         return json_encode($stock);
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 531e46e7f81045cc4b686588504e38efdb5db958
     public function buscarAlmaDesti(){
         $id_almacen = $_POST['idAlmacen'];
         $almacenesRestantes = DB::table('almacen')->where('id_almacen','<>',$id_almacen)->get();
@@ -31,7 +34,7 @@ class MovimientosController extends Controller
         ->join('usuarios','usuarios.id_usuario','=','solicitudes.id_usuario_solicitante')
         ->join('almacen as origen','origen.id_almacen','=','solicitudes.id_almacen_origen')
         ->join('almacen as destino','destino.id_almacen','=','solicitudes.id_almacen_destino')
-        ->select('id_solicitud','fecha_solicitud','usuarios.usuario','id_almacen_origen','id_almacen_destino','cantidad','descripcion','unidad_medida','ubicacion','id_estatus','observaciones','id_usuario','origen.nombre_almacen as almaor','destino.nombre_almacen as almades')->get()->all();
+        ->select('id_solicitud','fecha_solicitud','usuarios.usuario','id_almacen_origen','id_almacen_destino','cantidad','descripcion','unidad_medida','ubicacion','estatus','observaciones','id_usuario','origen.nombre_almacen as almaor','destino.nombre_almacen as almades')->get()->all();
 
         // dd($sol);
 
@@ -60,9 +63,20 @@ class MovimientosController extends Controller
     public function create()
     {
         $almacenes = DB::table('almacen')->get();
+<<<<<<< HEAD
 
         $materiales = DB::table('material')->select('id_material','nombre_material','stock')->get();
         return view('solicitudes.formSolicitud',['almacenes'=>$almacenes, 'materiales' => $materiales]);
+=======
+        $tipos_movimientos = DB::table('tipos_movimientos')->get();
+
+        $materiales = DB::table('material')->select('id_material','nombre_material','stock')->get();
+        return view('solicitudes.formSolicitud',[
+                                'almacenes'=>$almacenes,
+                                'materiales' => $materiales,
+                                'tiposMovimientos' => $tipos_movimientos
+                            ]);
+>>>>>>> 531e46e7f81045cc4b686588504e38efdb5db958
 
     }
 
@@ -74,7 +88,43 @@ class MovimientosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($_POST);
+        $datosSolicitud = array(
+
+            'fecha_solicitud'       => $_POST['fecha'],
+            'id_usuario_solicitante'=> session('id_usuario'),
+            'id_almacen_origen'     => $_POST['almacenOrigen'],
+            'id_almacen_destino'    => $_POST['almacenDestino'],
+            'cantidad'              => $_POST['cantidadSolicitada'],
+            'descripcion'           => $_POST['material'],
+            'estatus'               => 'Activa',
+            'observaciones'         => $_POST['observacionesSolicitud']
+        );
+
+        $insertSolicitud = DB::table('solicitudes')->insert($datosSolicitud);
+
+        if( $insertSolicitud == true ){
+            $inserLog = DB::table('logs')
+                        ->insert([
+                            'id_usuario' => session('id_usuario'),
+                            'fecha_accion' => now(),
+                            'accion' => 'Nueva solicitud Generada por el usuario'.session('usuario'),
+                        ]);
+
+            $last = DB::table('solicitudes')->latest('id_solicitud')->first();
+            $lastId = $last->id_solicitud;
+
+            $histDatosSol = array(
+                'fecha_solicitud'       => $_POST['fecha'],
+                'id_almacen_origen'     => $_POST['almacenOrigen'],
+                'id_almacen_destino'    => $_POST['almacenDestino'],
+                'cantidad'              => $_POST['cantidadSolicitada'],
+                'material'              => $_POST['material'],
+                'id_solicitud'          => $lastId,
+            );
+
+        }
+
     }
 
     /**

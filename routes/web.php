@@ -81,7 +81,7 @@ Route::post('/proveedores/estatus',[ProveedorController::class,'update'])->name(
 
 Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
 Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
-
 Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('traerStock',[MovimientosController::class,'traerStock']);
-Route::post('buscarArticulo',[MovimientosController::class,'showArt']);
+Route::post('/guardarSolicitud',[MovimientosController::class,'store']);
+
