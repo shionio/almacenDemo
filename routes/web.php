@@ -32,11 +32,15 @@ use App\Http\Controllers\ProgramacionController;
 
 Route::get('/', function () {
     return view('login');
-});
+    });
 
+Route::view('/inicio','layouts.dashboard');
 Route::get('inicio', [LoginController::class, 'index'])->name('inicio');
 Route::post('/check', [LoginController::class, 'check_user']);
 Route::get('/salir', [LoginController::class, 'salir'])->name('salir');
+Route::get('/nuevo/usuario', [LoginController::class, 'nuevo'])->name('nuevo.user');
+Route::post('/registro',[LoginController::class, 'registrar'])->name('registroUser');
+Route::post('/roles',[LoginController::class,'roles'])->name('rolUser');
 
 /*rutas de almacen*/
 Route::get('/Almacen', [AlmacenController::class , 'index'])->name('listaAlmacenes');
@@ -75,7 +79,8 @@ Route::get('/proveedores/lista',[ProveedorController::class,'listProveedor'])->n
 Route::post('/proveedores/guardar',[ProveedorController::class,'newProveedor'])->name('guardar.proveedor');
 Route::view('/proveedores/nuevo','proveedores.nproveedor')->name('nuevo.proveedor');
 Route::get('/proveedor/mostar/{id}',[ProveedorController::class,'editarPro'])->name('ver.proveedor');
-Route::post('/proveedores/estatus',[ProveedorController::class,'update'])->name('estatus.proveedor');
+Route::get('/proveedores/estatus/{id}',[ProveedorController::class,'update'])->name('estatus.proveedor');
+Route::post('/proveedores/actualizar',[ProveedorController::class,'actualizarProveedor'])->name('actualizar.proveedor');
 
 /*Solicitudes*/
 

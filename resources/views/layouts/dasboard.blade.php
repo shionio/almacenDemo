@@ -47,7 +47,7 @@
 </head>
   <body class="hold-transition sidebar-mini layout-fixed">
 
-    {{-- {{session()->all()}} --}}
+    {{-- {{dd(session()->all())}} --}}
 
     <div class="wrapper">
     {{-- cintillo --}}
@@ -100,14 +100,12 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-
                   <li class="nav-item">
                     <a href="{{Route('listaAlmacenes')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Lista de Almacenes</p>
                     </a>
                   </li>
-
                   {{-- <li class="nav-item">
                     <a href="{{Route('listaProgramacion')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
@@ -291,16 +289,32 @@
                       <p>Traspaso entre Almacenes</p>
                     </a>
                   </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-edit"></i>
+                  <p>
+                    Usuarios
+                    <i class="fas fa-angle-left right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Salida</p>
+                      <p>Lista de Usuarios</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{Route('nuevo.user')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Nuevo Usuario</p>
                     </a>
                   </li>
                 </ul>
               </li>
               @endif
-
 
               @if(session('rol')==0)
               <li class="nav-item">
@@ -503,12 +517,6 @@
                       <p>Traspaso entre Almacenes</p>
                     </a>
                   </li> --}}
-                  <li class="nav-item">
-                    <a href="" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Salida</p>
-                    </a>
-                  </li>
                 </ul>
               </li>
               @endif
