@@ -43,12 +43,29 @@
             <td align="center"> {{$proveedor->correo_proveedor}} </td>
             @if($proveedor->activo == true)
               <td><p style="background-color: lightblue; text-align: center;"> Activo </p></td>
-            @elseif($proveedor->activo == false)
+            @else
               <td><p style="background-color: red; text-align: center;"> Inactivo </p></td>
             @endif
             <td></td>
           </tr>
         @endforeach
+              <td>
+                <abbr title="Editar">
+                  <a href="{{Route('ver.proveedor',$proveedor->id_proveedor)}}">
+                    <i class="fa-solid fa-pen-to-square fa-2x"></i>
+                  </a>
+                </abbr>
+
+                <abbr title="Estatus">
+                  <a href="{{Route('estatus.proveedor',$proveedor->id_proveedor)}}">
+                    @if($proveedor->activo == true)
+                    <i class="fa fa-toggle-on fa-2x" aria-hidden="true"></i>
+                    @else
+                    <i class="fa fa-toggle-off fa-2x" aria-hidden="true"></i>
+                    @endif
+                  </a>
+                </abbr>
+              </td>
       </tbody>
       <tfoot>
         <tr>

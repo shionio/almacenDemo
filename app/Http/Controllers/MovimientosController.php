@@ -13,6 +13,10 @@ class MovimientosController extends Controller
         $stock = DB::table('material')->where('id_material',$id_material)->select('stock')->get()->first();
         return json_encode($stock);
     }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 531e46e7f81045cc4b686588504e38efdb5db958
     public function buscarAlmaDesti(){
         $id_almacen = $_POST['idAlmacen'];
         $almacenesRestantes = DB::table('almacen')->where('id_almacen','<>',$id_almacen)->get();
@@ -59,6 +63,11 @@ class MovimientosController extends Controller
     public function create()
     {
         $almacenes = DB::table('almacen')->get();
+<<<<<<< HEAD
+
+        $materiales = DB::table('material')->select('id_material','nombre_material','stock')->get();
+        return view('solicitudes.formSolicitud',['almacenes'=>$almacenes, 'materiales' => $materiales]);
+=======
         $tipos_movimientos = DB::table('tipos_movimientos')->get();
 
         $materiales = DB::table('material')->select('id_material','nombre_material','stock')->get();
@@ -67,6 +76,7 @@ class MovimientosController extends Controller
                                 'materiales' => $materiales,
                                 'tiposMovimientos' => $tipos_movimientos
                             ]);
+>>>>>>> 531e46e7f81045cc4b686588504e38efdb5db958
 
     }
 

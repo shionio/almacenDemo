@@ -27,6 +27,14 @@ class articulosController extends Controller
         return view('articulos.listaArticulos',['articulos' => $articulos]);
     }
 
+    public function showArt()
+    {
+        // $id_material = $_POST['id_material'];
+        $material = DB::table('material')->select('*')->get()->all();
+        
+        return json_encode($material);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

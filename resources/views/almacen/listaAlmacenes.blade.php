@@ -6,6 +6,8 @@
         <div class="row">
           <div class="col-10">
             <h2>Listado de Almacenes</h2>
+
+            {{-- {{dd($almacenes);}} --}}
           </div>
           <div class="col-2">
             {{-- <button type="button" class="btn btn-primary" onclick="window.location.href='{{Route('newAlmacen')}}'">
@@ -43,20 +45,26 @@
                   <td>{{$almacen->parroquia}}</td>
                   <td>{{$almacen->direccion}}</td>
                   @if($almacen->activo == true)
-                    <td>Activo</td>
+                    <td style="background-color:lightblue;">Activo</td>
                   @else
-                    <td>Inactivo</td>
+                    <td style="background-color:lightyellow;">Inactivo</td>
                   @endif
                   <td>
-                    <a href="{{Route('traspaso')}}">
-                      <i class="fa-solid fa-pen-to-square"></i>
+                    <abbr title="Editar">
+                    <a href="{{Route('VerAlmacen',$almacen->id_almacen)}}">
+                      <i class="fa-solid fa-pen-to-square fa-2x"></i>
                     </a>
-                    <a href="">
-                      <i class="fa-solid fa-trash"></i>
+                  </abbr>
+
+                  <abbr title="Estatus">
+                    <a href="{{Route('estatusAlmacen',$almacen->id_almacen)}}">
+                      @if($almacen->activo == true)
+                      <i class="fa fa-toggle-on fa-2x" aria-hidden="true"></i>
+                      @else
+                      <i class="fa fa-toggle-off fa-2x" aria-hidden="true"></i>
+                      @endif
                     </a>
-                    <a href="">
-                      <i class="fa-solid fa-file-pdf"></i>
-                    </a>
+                  </abbr>
                   </td>
                   <td></td>
                 </tr>

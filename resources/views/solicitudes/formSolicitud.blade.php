@@ -133,7 +133,6 @@
 		function llenarAlmacenDestino(){
 			let idAlmacen = $("#almacenOrigen").val()
 
-			//console.log(idAlmacen)
 			$.ajax({
 				url : "/llenarAlmaDesti",
 				method: "post",
@@ -141,7 +140,7 @@
 					'idAlmacen' : idAlmacen,
 					"_token" : "{{ csrf_token() }}",
 				},success:function(almacen){
-					//console.log(almacen)
+
 					var almacen = $.parseJSON(almacen)
 					$("#almadesti").empty()
 					for(var i = 0; i < almacen.length; i++){
