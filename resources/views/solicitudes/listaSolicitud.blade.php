@@ -48,14 +48,14 @@
                   <td>{{$soli->almaor}}</td>
                   <td>{{$soli->almades}}</td>
                   <td>{{$soli->cantidad}}</td>
-                  <td>{{$soli->descripcion}}</td>
+                  <td>{{$soli->descripcion_material}}</td>
                   <td>{{$soli->unidad_medida}}</td>
                   <td>{{$soli->ubicacion}}</td>
                   <td>{{$soli->estatus}}</td>
                   <td>{{$soli->observaciones}}</td>
 
                   <td>
-                    <a href="">
+                    <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
                       <i class="fas fa-file-import"></i>
                     </a>
                     {{-- <a href="">

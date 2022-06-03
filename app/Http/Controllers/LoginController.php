@@ -23,6 +23,7 @@ class LoginController extends Controller
         //dd($query);
 
 
+
         if (count($session)>0){
 
             $r->session()->put('id_usuario',$session[0]->id_usuario);

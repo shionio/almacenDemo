@@ -34,9 +34,9 @@ Route::get('/', function () {
     return view('login');
 });
 
-Route::get('inicio', [LoginController::class, 'index'])->name('inicio');
 Route::post('/check', [LoginController::class, 'check_user']);
 Route::get('/salir', [LoginController::class, 'salir'])->name('salir');
+Route::get('inicio', [LoginController::class, 'index'])->name('inicio');
 
 /*rutas de almacen*/
 Route::get('/Almacen', [AlmacenController::class , 'index'])->name('listaAlmacenes');
@@ -79,4 +79,5 @@ Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create']
 Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('traerStock',[MovimientosController::class,'traerStock']);
 Route::post('/guardarSolicitud',[MovimientosController::class,'store']);
-
+Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');
+Route::post('/actualizarSolicitud',[MovimientosController::class,'update']);

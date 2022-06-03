@@ -30,7 +30,7 @@ class MovimientosController extends Controller
         ->join('usuarios','usuarios.id_usuario','=','solicitudes.id_usuario_solicitante')
         ->join('almacen as origen','origen.id_almacen','=','solicitudes.id_almacen_origen')
         ->join('almacen as destino','destino.id_almacen','=','solicitudes.id_almacen_destino')
-        ->select('id_solicitud','fecha_solicitud','usuarios.usuario','id_almacen_origen','id_almacen_destino','cantidad','descripcion','unidad_medida','ubicacion','estatus','observaciones','id_usuario','origen.nombre_almacen as almaor','destino.nombre_almacen as almades')->get()->all();
+        ->select('id_solicitud','fecha_solicitud','usuarios.usuario','id_almacen_origen','id_almacen_destino','cantidad','descripcion_material','unidad_medida','ubicacion','estatus','observaciones','id_usuario','origen.nombre_almacen as almaor','destino.nombre_almacen as almades')->get()->all();
 
         // dd($sol);
 
@@ -125,7 +125,27 @@ class MovimientosController extends Controller
      */
     public function show($id)
     {
-        //
+        DB::enableQueryLog();
+        $materiales = DB::table('material')->get();
+        $almacenes = DB::table('almacen')->get();
+        $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
+
+        $solicitud = DB::table('solicitudes')
+                    ->join('material','solicitudes.descripcion_material','=','material.id_material')
+                    ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->where('id_solicitud',$id)
+                    ->select('solicitudes.fecha_solicitud','solicitudes.id_almacen_origen','solicitudes.id_almacen_destino','solicitudes.estatus','material.id_material','material.stock','solicitudes.cantidad','solicitudes.observaciones','solicitudes.id_solicitud')
+                    ->get()->first();
+
+        return view('solicitudes.formEditSolicitud',
+                            [
+                                'solicitud'  => $solicitud,
+                                'almacenes'  => $almacenes,
+                                'materiales' => $materiales,
+                                'estatusSolicitudes' => $estatus_solicitudes,
+                            ]
+        );
     }
 
     /**
@@ -148,7 +168,7 @@ class MovimientosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($id, $request);
     }
 
     /**
