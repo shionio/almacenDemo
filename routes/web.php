@@ -35,9 +35,9 @@ Route::get('/', function () {
     });
 
 Route::view('/inicio','layouts.dashboard');
-Route::get('inicio', [LoginController::class, 'index'])->name('inicio');
 Route::post('/check', [LoginController::class, 'check_user']);
 Route::get('/salir', [LoginController::class, 'salir'])->name('salir');
+Route::get('inicio', [LoginController::class, 'index'])->name('inicio');
 Route::get('/nuevo/usuario', [LoginController::class, 'nuevo'])->name('nuevo.user');
 Route::post('/registro',[LoginController::class, 'registrar'])->name('registroUser');
 Route::post('/roles',[LoginController::class,'roles'])->name('rolUser');
@@ -89,4 +89,5 @@ Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create']
 Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('traerStock',[MovimientosController::class,'traerStock']);
 Route::post('/guardarSolicitud',[MovimientosController::class,'store']);
-
+Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');
+Route::post('/actualizarSolicitud',[MovimientosController::class,'update']);

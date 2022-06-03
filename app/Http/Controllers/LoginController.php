@@ -24,6 +24,7 @@ class LoginController extends Controller
         //dd($query);
         if (password_verify($r->clave, $session->password)){
 
+
             session([
                 'id_usuario' => $session->id_usuario,
                 'usuario' => $session->usuario,
