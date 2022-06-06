@@ -65,7 +65,7 @@
 
 			                  	<div class="form-group col-4">
 			                  		<label for="exampleInputPassword1">Stock</label>
-			                  		<input class="form-control" type="text" id="stock" name="stock" onkeypress="return valideKey(event)" readonly>
+			                  		<input class="form-control" type="text" id="stock" name="stock" {{-- onkeypress="return valideKey(event)" --}} readonly>
 			                  	</div>
 			                  	<div class="form-group col-4">
 			                  		<label for="exampleInputPassword1">Cantidad Solicitada</label>

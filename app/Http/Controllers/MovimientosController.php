@@ -13,10 +13,7 @@ class MovimientosController extends Controller
         $stock = DB::table('material')->where('id_material',$id_material)->select('stock')->get()->first();
         return json_encode($stock);
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 531e46e7f81045cc4b686588504e38efdb5db958
     public function buscarAlmaDesti(){
         $id_almacen = $_POST['idAlmacen'];
         $almacenesRestantes = DB::table('almacen')->where('id_almacen','<>',$id_almacen)->get();
@@ -34,24 +31,9 @@ class MovimientosController extends Controller
         ->join('usuarios','usuarios.id_usuario','=','solicitudes.id_usuario_solicitante')
         ->join('almacen as origen','origen.id_almacen','=','solicitudes.id_almacen_origen')
         ->join('almacen as destino','destino.id_almacen','=','solicitudes.id_almacen_destino')
-        ->select('id_solicitud','fecha_solicitud','usuarios.usuario','id_almacen_origen','id_almacen_destino','cantidad','descripcion_material','unidad_medida','ubicacion','estatus','observaciones','id_usuario','origen.nombre_almacen as almaor','destino.nombre_almacen as almades')->get()->all();
+        ->join('estatus_solicitudes','solicitudes.estatus','=','estatus_solicitudes.id_estatus_solicitud')
+        ->select('id_solicitud','fecha_solicitud','usuarios.usuario','id_almacen_origen','id_almacen_destino','cantidad','descripcion_material','unidad_medida','ubicacion','estatus','observaciones','id_usuario','origen.nombre_almacen as almaor','destino.nombre_almacen as almades','estatus_solicitudes.estatus_solicitud')->get()->all();
 
-        // dd($sol);
-
-        // $usuario = DB::table('usuarios')
-        // ->where('id_usuario','=',$sol->id_usuario_solicitante)
-        // ->select('*')->get()->first();
-
-        // dd($lista);
-        // $materiales = DB::table('material')
-        //             ->join('almacen','material.id_almacen','=','almacen.id_almacen')
-        //             ->join('ubicacion_geografica','ubicacion_geografica.id_ubicacion_geografica','=','almacen.id_ubicacion_geografica')
-        //             ->join('estados','ubicacion_geografica.id_estado','=','estados.id_estado')
-        //             ->join('municipios','ubicacion_geografica.id_municipio','=','municipios.id_municipio')
-        //             ->join('parroquias','ubicacion_geografica.id_parroquia','=','parroquias.id_parroquia')
-        //             ->select('material.id_material','material.nombre_material','almacen.nombre_almacen','estados.estado','municipios.municipio','parroquias.parroquia','ubicacion_geografica.direccion','material.stock')
-        //             ->get();
-        //dd($materiales);
         return view('solicitudes.listaSolicitud',['solicitudes' => $sol]);
     }
 
@@ -63,20 +45,11 @@ class MovimientosController extends Controller
     public function create()
     {
         $almacenes = DB::table('almacen')->get();
-<<<<<<< HEAD
+
 
         $materiales = DB::table('material')->select('id_material','nombre_material','stock')->get();
         return view('solicitudes.formSolicitud',['almacenes'=>$almacenes, 'materiales' => $materiales]);
-=======
-        $tipos_movimientos = DB::table('tipos_movimientos')->get();
 
-        $materiales = DB::table('material')->select('id_material','nombre_material','stock')->get();
-        return view('solicitudes.formSolicitud',[
-                                'almacenes'=>$almacenes,
-                                'materiales' => $materiales,
-                                'tiposMovimientos' => $tipos_movimientos
-                            ]);
->>>>>>> 531e46e7f81045cc4b686588504e38efdb5db958
 
     }
 
@@ -96,8 +69,8 @@ class MovimientosController extends Controller
             'id_almacen_origen'     => $_POST['almacenOrigen'],
             'id_almacen_destino'    => $_POST['almacenDestino'],
             'cantidad'              => $_POST['cantidadSolicitada'],
-            'descripcion'           => $_POST['material'],
-            'estatus'               => 'Activa',
+            'descripcion_material'  => $_POST['material'],
+            'estatus'               => 1 ,
             'observaciones'         => $_POST['observacionesSolicitud']
         );
 
@@ -123,7 +96,19 @@ class MovimientosController extends Controller
                 'id_solicitud'          => $lastId,
             );
 
+            $stock = $_POST['stock'];
+            $cantidad = $_POST['cantidadSolicitada'];
+            $nuevoStock = intval($stock - $cantidad);
+
+            $insertStock = array(
+                'stock' => $nuevoStock
+            );
+
+            $actualizarStock = DB::table('material')->where('id_material',$_POST['material'])->update($insertStock);
+
         }
+
+        return redirect()->route('listaMovimientos');
 
     }
 
@@ -176,9 +161,32 @@ class MovimientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update()
     {
-        dd($id, $request);
+
+        //dd(session());
+        $estatus = $_POST['estatusSolicitud'];
+        $id_solicitud= $_POST['idSolicitud'];
+
+        $actualizar = array('estatus' => $estatus);
+
+        $actSolicitud = DB::table('solicitudes')->where('id_solicitud',$id_solicitud)->update($actualizar);
+        if ($actSolicitud == 1){
+            $logSolicitudes = array(
+                'usuario'           => session('id_usuario'),
+                'almacen_origen'    => $_POST['almacenOrigen'],
+                'almacen_destino'   => $_POST['almacenDestino'], 
+                'cantidad'          => $_POST['cantidadSolicitada'],
+                'observaciones'     => $_POST['observacionesSolicitud'],
+                'estatus'           => $estatus,
+                'id_solicitud'      => $id_solicitud,
+            );
+
+            $insertLogSolicitud = DB::table('log_solicitudes')->insert($logSolicitudes);
+        }
+        if($actSolicitud ==1 && $insertLogSolicitud == true){
+            return redirect()->route('listaMovimientos');
+        }
     }
 
     /**
@@ -190,5 +198,72 @@ class MovimientosController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function aprobar($id){
+        $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
+        $almacenes = DB::table('almacen')->get();
+        $materiales = DB::table('material')->get();
+        $aprobarSol = $solicitud = DB::table('solicitudes')
+                    ->join('material','solicitudes.descripcion_material','=','material.id_material')
+                    ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->where('id_solicitud',$id)
+                    ->select('solicitudes.fecha_solicitud','solicitudes.id_almacen_origen','solicitudes.id_almacen_destino','solicitudes.estatus','material.id_material','material.stock','solicitudes.cantidad','solicitudes.observaciones','solicitudes.id_solicitud')
+                    ->get()->first();
+
+        return view('solicitudes.formAprobarSolicitud',['solicitud' => $aprobarSol, 'estatusSolicitudes' => $estatus_solicitudes, 'almacenes'  => $almacenes,'materiales' => $materiales,]);
+    }
+
+    public function recibir($id){
+        $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
+        $almacenes = DB::table('almacen')->get();
+        $materiales = DB::table('material')->get();
+        $aprobarSol = $solicitud = DB::table('solicitudes')
+                    ->join('material','solicitudes.descripcion_material','=','material.id_material')
+                    ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->where('id_solicitud',$id)
+                    ->select('solicitudes.fecha_solicitud','solicitudes.id_almacen_origen','solicitudes.id_almacen_destino','solicitudes.estatus','material.id_material','material.stock','solicitudes.cantidad','solicitudes.observaciones','solicitudes.id_solicitud')
+                    ->get()->first();
+
+        return view('solicitudes.formRecibeSolicitud',['solicitud' => $aprobarSol, 'estatusSolicitudes' => $estatus_solicitudes, 'almacenes'  => $almacenes,'materiales' => $materiales,]);
+    }
+
+    public function recibe(){
+        //dd($_POST);
+        $cantSolicitada = intval($_POST['cantidadSolicitada']);
+        DB::enableQueryLog();
+        $stock = DB::table('material')->where(['id_material' => $_POST['material'],'id_almacen' => $_POST['almacenDestino']])->select('stock')->get()->first();
+        $stockMaterial =$stock->stock;
+        // dd($stockMaterial);
+        
+        $stockAingresar = intval($cantSolicitada+$stockMaterial);
+
+        $ingresarStock = DB::table('material')->where( ['id_material' => $_POST['material'],'id_almacen' => $_POST['almacenDestino']] )->update(['stock' => $stockAingresar ]);
+
+        //dd($ingresarStock);
+
+        if($ingresarStock == 1){
+            $logSolicitudes = array(
+                'usuario'           => session('id_usuario'),
+                'almacen_origen'    => $_POST['almacenOrigen'],
+                'almacen_destino'   => $_POST['almacenDestino'], 
+                'cantidad'          => $_POST['cantidadSolicitada'],
+                'observaciones'     => $_POST['observacionesSolicitud'],
+                'estatus'           => $_POST['estatusSolicitud'],
+                'id_solicitud'      => $_POST['idSolicitud'],
+            );
+
+            $insertLogSolicitud = DB::table('log_solicitudes')->insert($logSolicitudes);
+        }
+
+        //dd($insertLogSolicitud);
+
+        if ( $ingresarStock == 1 && $insertLogSolicitud == true){
+            return redirect()->route('listaMovimientos');
+        }
+
+
     }
 }

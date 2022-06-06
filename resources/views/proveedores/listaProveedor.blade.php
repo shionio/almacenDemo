@@ -29,7 +29,9 @@
           <th><p align="center">Teléfono</p></th>
           <th><p align="center">Correo</p></th>
           <th><p align="center">Estatus</p></th>
+          @if(session('rol') == 1)
           <th><p align="center">Acciones</p></th>
+          @endif
         </tr>
       </thead>
       <tbody>
@@ -46,9 +48,6 @@
             @else
               <td><p style="background-color: red; text-align: center;"> Inactivo </p></td>
             @endif
-            <td></td>
-          </tr>
-        @endforeach
               <td>
                 <abbr title="Editar">
                   <a href="{{Route('ver.proveedor',$proveedor->id_proveedor)}}">
@@ -59,13 +58,15 @@
                 <abbr title="Estatus">
                   <a href="{{Route('estatus.proveedor',$proveedor->id_proveedor)}}">
                     @if($proveedor->activo == true)
-                    <i class="fa fa-toggle-on fa-2x" aria-hidden="true"></i>
+                      <i class="fa fa-toggle-on fa-2x" aria-hidden="true"></i>
                     @else
-                    <i class="fa fa-toggle-off fa-2x" aria-hidden="true"></i>
+                      <i class="fa fa-toggle-off fa-2x" aria-hidden="true"></i>
                     @endif
                   </a>
                 </abbr>
               </td>
+          </tr>
+        @endforeach
       </tbody>
       <tfoot>
         <tr>
