@@ -161,14 +161,20 @@ class MovimientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update()
-    {
-
-        //dd(session());
+    public function update(){
+//dd($_POST);
         $estatus = $_POST['estatusSolicitud'];
         $id_solicitud= $_POST['idSolicitud'];
 
-        $actualizar = array('estatus' => $estatus);
+        $actualizar = array(
+                                'estatus'               => $estatus,
+                                'fecha_solicitud'       => $_POST['fecha'],
+                                'id_almacen_origen'     => $_POST['almacenOrigen'],
+                                'id_almacen_destino'    => $_POST['almacenDestino'],
+                                'cantidad'              => $_POST['cantidadSolicitada'],
+                                'descripcion_material'  => $_POST['material'],
+                                'observaciones'         => $_POST['observacionesSolicitud'],
+                            );
 
         $actSolicitud = DB::table('solicitudes')->where('id_solicitud',$id_solicitud)->update($actualizar);
         if ($actSolicitud == 1){
@@ -231,18 +237,23 @@ class MovimientosController extends Controller
     }
 
     public function recibe(){
+        DB::enableQueryLog();
         //dd($_POST);
         $cantSolicitada = intval($_POST['cantidadSolicitada']);
-        DB::enableQueryLog();
-        $stock = DB::table('material')->where(['id_material' => $_POST['material'],'id_almacen' => $_POST['almacenDestino']])->select('stock')->get()->first();
+        $stock = DB::table('material')
+                    ->where(['id_material' => $_POST['material'],'id_almacen' => $_POST['almacenDestino']])
+                    ->select('stock')
+                    ->get()->first();
+
         $stockMaterial =$stock->stock;
-        // dd($stockMaterial);
         
         $stockAingresar = intval($cantSolicitada+$stockMaterial);
 
-        $ingresarStock = DB::table('material')->where( ['id_material' => $_POST['material'],'id_almacen' => $_POST['almacenDestino']] )->update(['stock' => $stockAingresar ]);
+        $ingresarStock = DB::table('material')
+                            ->where( ['id_material' => $_POST['material'],'id_almacen' => $_POST['almacenDestino']] )
+                            ->update(['stock' => $stockAingresar]);
 
-        //dd($ingresarStock);
+        $actalizarEstatus = DB::table('solicitudes')->where('id_solicitud',$_POST['idSolicitud'])->update(['estatus' => $_POST['estatusSolicitud']]);
 
         if($ingresarStock == 1){
             $logSolicitudes = array(
