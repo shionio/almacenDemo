@@ -49,6 +49,42 @@ class ProveedorController extends Controller
 
     public function editarPro($id)
     {
+        // dd($id);
+        $pro = DB::table('proveedores')
+        ->where('id_proveedor','=',$id)
+            ->select('*')
+            ->get()
+            ->first();
+
+            // dd($pro);
+        return view('proveedores.editProveedor',['pro'=>$pro]);
+    }
+
+    public function actualizarProveedor()
+    {
+        // dd($_POST);
+
+        $proveedor = array(
+            'rif' => $_POST['rif_p'],
+            'activo' => true,
+            'nombre_proveedor' => $_POST['nombre_p'],
+            'telefono_proveedor' => $_POST['telefonos'],
+            'correo_proveedor' => $_POST['correo'],
+            'descripcion_proveedor' => $_POST['descripcion_p'],
+            'ubicacion_proveedor' => $_POST['ubicacion_p'],
+        );
+        $prov = DB::table('proveedores')
+        ->where('id_proveedor','=',$_POST['id_proveedor'])
+        ->update($proveedor);
+
+        $inserLog = DB::table('logs')
+                        ->insert([
+                            'id_usuario' => session('id_usuario'),
+                            'fecha_accion' => now(),
+                            'accion' => 'Registro de nuevo proveedor ' .$proveedor['rif']
+                        ]);
+
+        return redirect()->route('lista.proveedor');
 
     }
 
@@ -59,16 +95,31 @@ class ProveedorController extends Controller
 
         $alm = DB::table('proveedores')
         ->where('id_proveedor','=',$id)
-        ->select('activo')->get()->first();
+        ->select('activo','rif')->get()->first();
 
         if($alm->activo == true){
-        $alm = DB::table('proveedores')
+        $alm1 = DB::table('proveedores')
         ->where('id_proveedor','=',$id)
         ->update($b);
+
+        $inserLog = DB::table('logs')
+                        ->insert([
+                            'id_usuario' => session('id_usuario'),
+                            'fecha_accion' => now(),
+                            'accion' => 'Actualizado Estatus del Proveedor ' .$alm->rif
+                        ]);
+
         }elseif($alm->activo == false){
-        $alm = DB::table('proveedores')
+        $alm2 = DB::table('proveedores')
         ->where('id_proveedor','=',$id)
         ->update($a);
+
+        $inserLog = DB::table('logs')
+                        ->insert([
+                            'id_usuario' => session('id_usuario'),
+                            'fecha_accion' => now(),
+                            'accion' => 'Actualizado Estatus del Proveedor ' .$alm->rif
+                        ]);
         }
         return back();
     }

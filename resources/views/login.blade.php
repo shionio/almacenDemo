@@ -1,6 +1,8 @@
 
 @extends('layouts.index')
 
+{{-- {{dd(session()->all())}} --}}
+
 <div class="login">
   <div class="wrap">
       <!-- TOGGLE -->
