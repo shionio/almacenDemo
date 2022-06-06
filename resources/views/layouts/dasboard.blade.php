@@ -116,9 +116,9 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-chart-pie"></i>
+                  <i class="fa fa-cubes" aria-hidden="true"></i>
                   <p>
-                    Articulos
+                     Articulos
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -139,7 +139,7 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-tree"></i>
+                  <i class="fa fa-paper-plane" aria-hidden="true"></i>
                   <p>
                     Proveedores
                     <i class="fas fa-angle-left right"></i>
@@ -162,7 +162,7 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-edit"></i>
+                  <i class="fa fa-tasks" aria-hidden="true"></i>
                   <p>
                     Movimientos
                     <i class="fas fa-angle-left right"></i>
@@ -179,7 +179,7 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-edit"></i>
+                  <i class="fa fa-users" aria-hidden="true"></i>
                   <p>
                     Usuarios
                     <i class="fas fa-angle-left right"></i>
@@ -187,8 +187,14 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
+                    <a href="{{Route('lista.user')}}" class="nav-link">
+                      <i class="fa fa-list-alt" aria-hidden="true"></i>
+                      <p>Listar Usuarios</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="{{Route('nuevo.user')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-user-plus" aria-hidden="true"></i>
                       <p>Nuevo Usuario</p>
                     </a>
                   </li>
@@ -212,12 +218,11 @@
                       <p>Lista de Almacenes</p>
                     </a>
                   </li>
-
                 </ul>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-chart-pie"></i>
+                  <i class="fa fa-cubes" aria-hidden="true"></i>
                   <p>
                     Articulos
                     <i class="right fas fa-angle-left"></i>
@@ -234,7 +239,7 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-tree"></i>
+                  <i class="fa fa-paper-plane" aria-hidden="true"></i>
                   <p>
                     Proveedores
                     <i class="fas fa-angle-left right"></i>
@@ -251,7 +256,7 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-edit"></i>
+                  <i class="fa fa-tasks" aria-hidden="true"></i>
                   <p>
                     Movimientos
                     <i class="fas fa-angle-left right"></i>

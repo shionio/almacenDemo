@@ -40,6 +40,7 @@ Route::get('/salir', [LoginController::class, 'salir'])->name('salir');
 Route::get('inicio', [LoginController::class, 'index'])->name('inicio');
 Route::get('/nuevo/usuario', [LoginController::class, 'nuevo'])->name('nuevo.user');
 Route::post('/registro',[LoginController::class, 'registrar'])->name('registroUser');
+Route::post('/lista',[LoginController::class, 'list'])->name('lista.user');
 Route::post('/roles',[LoginController::class,'roles'])->name('rolUser');
 
 /*rutas de almacen*/
