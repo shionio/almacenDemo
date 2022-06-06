@@ -62,10 +62,11 @@ CREATE TABLE public.almacen (
     id_almacen integer DEFAULT nextval('public.categorias_id_categoria_seq'::regclass) NOT NULL,
     nombre_almacen character varying(100) NOT NULL,
     descripcion_almacen character varying(70) NOT NULL,
-    tipo_almacen character varying NOT NULL,
+    tipo_almacen integer NOT NULL,
     activo boolean DEFAULT true NOT NULL,
     id_ubicacion_geografica integer NOT NULL,
-    condicion_almacen integer NOT NULL
+    condicion_almacen integer NOT NULL,
+    fecha_registro character varying
 );
 
 
@@ -174,6 +175,97 @@ CREATE TABLE public.estados (
 ALTER TABLE public.estados OWNER TO postgres;
 
 --
+-- Name: estatus_solicitudes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.estatus_solicitudes (
+    id_estatus_solicitud integer NOT NULL,
+    estatus_solicitud character varying NOT NULL,
+    activa character varying DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.estatus_solicitudes OWNER TO postgres;
+
+--
+-- Name: estatus_solicitudes_id_estatus_solicitud_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.estatus_solicitudes_id_estatus_solicitud_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.estatus_solicitudes_id_estatus_solicitud_seq OWNER TO postgres;
+
+--
+-- Name: estatus_solicitudes_id_estatus_solicitud_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.estatus_solicitudes_id_estatus_solicitud_seq OWNED BY public.estatus_solicitudes.id_estatus_solicitud;
+
+
+--
+-- Name: hist_movimientos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.hist_movimientos (
+    id_movimiento integer NOT NULL,
+    tipo_movimiento character varying NOT NULL,
+    id_almacen_origen integer NOT NULL,
+    id_almacen_destino integer NOT NULL,
+    cantidad integer,
+    material character varying,
+    id_solicitud integer
+);
+
+
+ALTER TABLE public.hist_movimientos OWNER TO postgres;
+
+--
+-- Name: log_solicitudes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.log_solicitudes (
+    id_log_solicitud integer NOT NULL,
+    usuario character varying,
+    almacen_origen character varying,
+    almacen_destino character varying,
+    cantidad integer,
+    observaciones character varying,
+    estatus character varying
+);
+
+
+ALTER TABLE public.log_solicitudes OWNER TO postgres;
+
+--
+-- Name: log_solicitudes_id_log_solicitud_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.log_solicitudes_id_log_solicitud_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.log_solicitudes_id_log_solicitud_seq OWNER TO postgres;
+
+--
+-- Name: log_solicitudes_id_log_solicitud_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.log_solicitudes_id_log_solicitud_seq OWNED BY public.log_solicitudes.id_log_solicitud;
+
+
+--
 -- Name: logs; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -224,15 +316,14 @@ CREATE TABLE public.material (
     id_categoria integer NOT NULL,
     id_condicion_material integer NOT NULL,
     id_ingreso_material integer NOT NULL,
-    id_tipo_salida integer,
-    id_tipo_entrada integer,
     nota_entrega character varying NOT NULL,
     orden_compra character varying,
     num_factura character varying,
     packlist character varying,
     direccion_entrega character varying,
     observaciones character varying,
-    id_proveedor integer NOT NULL
+    id_proveedor integer NOT NULL,
+    stock_inicial integer
 );
 
 
@@ -331,20 +422,6 @@ ALTER SEQUENCE public.materiales_solicitudes_id_material_solicitud_seq OWNED BY 
 
 
 --
--- Name: movimientos; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.movimientos (
-    id_movimiento integer NOT NULL,
-    tipo_movimiento character varying NOT NULL,
-    id_almacen_origen integer NOT NULL,
-    id_almacen_destino integer NOT NULL
-);
-
-
-ALTER TABLE public.movimientos OWNER TO postgres;
-
---
 -- Name: movimientos_id_movimiento_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -362,7 +439,7 @@ ALTER TABLE public.movimientos_id_movimiento_seq OWNER TO postgres;
 -- Name: movimientos_id_movimiento_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.movimientos_id_movimiento_seq OWNED BY public.movimientos.id_movimiento;
+ALTER SEQUENCE public.movimientos_id_movimiento_seq OWNED BY public.hist_movimientos.id_movimiento;
 
 
 --
@@ -476,10 +553,10 @@ CREATE TABLE public.solicitudes (
     id_almacen_origen integer,
     id_almacen_destino integer,
     cantidad integer,
-    descripcion character varying,
+    descripcion_material integer,
     unidad_medida character varying,
     ubicacion character varying,
-    id_estatus character varying,
+    estatus character varying,
     observaciones character varying
 );
 
@@ -659,6 +736,19 @@ ALTER SEQUENCE public.tipo_salida_id_tipo_salida_seq OWNED BY public.tipo_salida
 
 
 --
+-- Name: tipos_movimientos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tipos_movimientos (
+    id_tipo_movimiento integer,
+    movimiento character varying,
+    activo boolean DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.tipos_movimientos OWNER TO postgres;
+
+--
 -- Name: ubicacion_geografica; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -705,7 +795,11 @@ CREATE TABLE public.usuarios (
     usuario character varying(50) NOT NULL,
     password character varying(100) NOT NULL,
     id_rol integer NOT NULL,
-    activo boolean NOT NULL
+    activo boolean NOT NULL,
+    nombre character varying NOT NULL,
+    apellido character varying NOT NULL,
+    cargo character varying NOT NULL,
+    cedula character varying NOT NULL
 );
 
 
@@ -754,6 +848,27 @@ ALTER TABLE ONLY public.condicion_materiales ALTER COLUMN id_condicion_material 
 
 
 --
+-- Name: estatus_solicitudes id_estatus_solicitud; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.estatus_solicitudes ALTER COLUMN id_estatus_solicitud SET DEFAULT nextval('public.estatus_solicitudes_id_estatus_solicitud_seq'::regclass);
+
+
+--
+-- Name: hist_movimientos id_movimiento; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hist_movimientos ALTER COLUMN id_movimiento SET DEFAULT nextval('public.movimientos_id_movimiento_seq'::regclass);
+
+
+--
+-- Name: log_solicitudes id_log_solicitud; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.log_solicitudes ALTER COLUMN id_log_solicitud SET DEFAULT nextval('public.log_solicitudes_id_log_solicitud_seq'::regclass);
+
+
+--
 -- Name: logs id_log; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -779,13 +894,6 @@ ALTER TABLE ONLY public.material_proveedor ALTER COLUMN id_material_proveedor SE
 --
 
 ALTER TABLE ONLY public.materiales_solicitudes ALTER COLUMN id_material_solicitud SET DEFAULT nextval('public.materiales_solicitudes_id_material_solicitud_seq'::regclass);
-
-
---
--- Name: movimientos id_movimiento; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.movimientos ALTER COLUMN id_movimiento SET DEFAULT nextval('public.movimientos_id_movimiento_seq'::regclass);
 
 
 --
@@ -855,11 +963,12 @@ ALTER TABLE ONLY public.usuarios ALTER COLUMN id_usuario SET DEFAULT nextval('pu
 -- Data for Name: almacen; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.almacen (id_almacen, nombre_almacen, descripcion_almacen, tipo_almacen, activo, id_ubicacion_geografica, condicion_almacen) FROM stdin;
-2	almacen mcbo	almacen mcbo	2	t	4	1
-3	almacen camatagua 1	almacen camatagua 1	4	t	5	2
-4	almacen delta 001	almacen delta 001	4	t	6	2
-7	almacen tachira	almacen tachira	2	t	9	1
+COPY public.almacen (id_almacen, nombre_almacen, descripcion_almacen, tipo_almacen, activo, id_ubicacion_geografica, condicion_almacen, fecha_registro) FROM stdin;
+2	almacen mcbo	almacen mcbo	2	t	4	1	\N
+4	almacen delta 001	almacen delta 001	4	t	6	2	\N
+3	almacen camatagua 1	almacen camatagua 1	4	t	5	2	\N
+7	almacen tachira	almacen tachira	2	t	9	1	\N
+20	almacen camatagua 1	almacen camatagua 1	2	t	18	2	02/06/2022
 \.
 
 
@@ -871,9 +980,9 @@ COPY public.categorias (id_categoria, categoria, activo) FROM stdin;
 1	Herramientas	t
 2	Repuestos	t
 3	Iluminacion	t
-4	Clables	t
 5	Hierros	t
 6	plasticos	t
+4	Cables	t
 \.
 
 
@@ -932,6 +1041,36 @@ COPY public.estados (id_estado, estado) FROM stdin;
 
 
 --
+-- Data for Name: estatus_solicitudes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.estatus_solicitudes (id_estatus_solicitud, estatus_solicitud, activa) FROM stdin;
+1	activa	true
+2	aprovada	true
+3	Despachada	true
+4	Rechazada	true
+5	Devolucion	true
+6	Cerrada	true
+\.
+
+
+--
+-- Data for Name: hist_movimientos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.hist_movimientos (id_movimiento, tipo_movimiento, id_almacen_origen, id_almacen_destino, cantidad, material, id_solicitud) FROM stdin;
+\.
+
+
+--
+-- Data for Name: log_solicitudes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.log_solicitudes (id_log_solicitud, usuario, almacen_origen, almacen_destino, cantidad, observaciones, estatus) FROM stdin;
+\.
+
+
+--
 -- Data for Name: logs; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -939,6 +1078,32 @@ COPY public.logs (id_log, id_usuario, fecha_accion, accion) FROM stdin;
 30	2	2022-05-31	Inicio de sesion
 31	2	2022-05-31	Ingreso de un nuevo Articulo= bombillos/id 15
 32	2	2022-05-31	Ingreso de un nuevo Articulo= bobinas/id 16 - 2
+33	1	2022-06-01	Inicio de sesion
+34	1	2022-06-01	Inicio de sesion
+35	1	2022-06-01	Inicio de sesion
+36	1	2022-06-01	Inicio de sesion
+37	1	2022-06-01	Inicio de sesion
+38	1	2022-06-01	Inicio de sesion
+39	1	2022-06-01	Inicio de sesion
+40	1	2022-06-01	Inicio de sesion
+41	1	2022-06-02	Inicio de sesion
+42	1	2022-06-02	Inicio de sesion
+43	1	2022-06-02	Inicio de sesion
+44	1	2022-06-02	Ingreso de un nuevo Articulo= cable/id 17
+45	1	2022-06-02	Ingreso de un nuevo Articulo= Placas de Acero/id 18
+46	1	2022-06-02	Registro de nuevo proveedor J-528748-6
+47	1	2022-06-02	Ingreso de un nuevo almacen
+48	1	2022-06-03	Inicio de sesion
+49	1	2022-06-03	Registro de nuevo proveedor J-528748-5
+50	1	2022-06-03	Inicio de sesion
+51	5	2022-06-03	Inicio de sesion
+52	5	2022-06-03	Actualizado Estatus de J-528748-6
+53	5	2022-06-03	Actualizado Estatus de j-5558899
+54	5	2022-06-03	Actualizado Estatus del Proveedor j-5558899
+55	0	2022-06-03	Inicio de sesion
+56	0	2022-06-03	Inicio de sesion
+57	0	2022-06-03	Inicio de sesion
+58	0	2022-06-03	Inicio de sesion
 \.
 
 
@@ -946,10 +1111,12 @@ COPY public.logs (id_log, id_usuario, fecha_accion, accion) FROM stdin;
 -- Data for Name: material; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.material (id_material, nombre_material, descripcion_material, unidad_medida, activo, stock, id_estatus_material, id_almacen, id_categoria, id_condicion_material, id_ingreso_material, id_tipo_salida, id_tipo_entrada, nota_entrega, orden_compra, num_factura, packlist, direccion_entrega, observaciones, id_proveedor) FROM stdin;
-14	tornillos	tornillos de acero	mts	t	500	1	2	2	4	3	\N	\N	0002	0002	0002	0002	la paz	500 bobinas nuevas	1
-15	bombillos	de vidrio	unidad	t	150	1	3	3	4	3	\N	\N	0003	0003	0003	0003	almacen colegio de ing	entrada de bombillos incandescentes	2
-16	bobinas	bobinas de luz	cajas	t	20	1	2	1	4	2	\N	\N	0004	0004	0004	0004	la florida	se recibieron 20 bobinas del almacen de lara	5
+COPY public.material (id_material, nombre_material, descripcion_material, unidad_medida, activo, stock, id_estatus_material, id_almacen, id_categoria, id_condicion_material, id_ingreso_material, nota_entrega, orden_compra, num_factura, packlist, direccion_entrega, observaciones, id_proveedor, stock_inicial) FROM stdin;
+14	tornillos	tornillos de acero	mts	t	500	1	2	2	4	3	0002	0002	0002	0002	la paz	500 bobinas nuevas	1	500
+15	bombillos	de vidrio	unidad	t	150	1	3	3	4	3	0003	0003	0003	0003	almacen colegio de ing	entrada de bombillos incandescentes	2	150
+16	bobinas	bobinas de luz	cajas	t	20	1	2	1	4	2	0004	0004	0004	0004	la florida	se recibieron 20 bobinas del almacen de lara	5	20
+17	cable	tipo 8	mts	t	500	1	7	4	4	3	0005	0005	0005	0005	la urbina		1	\N
+18	Placas de Acero	Placas de 28cmx28cm	Unidades	t	15	1	4	4	3	3	25848	2336	021457	5	Caracas - Venezuela	Se adquirio mediante convenio la adquisicion de placas de acero	5	\N
 \.
 
 
@@ -966,14 +1133,6 @@ COPY public.material_proveedor (id_material_proveedor, id_material, id_proveedor
 --
 
 COPY public.materiales_solicitudes (id_material_solicitud, id_material, id_solicitud, material, cantidad) FROM stdin;
-\.
-
-
---
--- Data for Name: movimientos; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.movimientos (id_movimiento, tipo_movimiento, id_almacen_origen, id_almacen_destino) FROM stdin;
 \.
 
 
@@ -2471,9 +2630,10 @@ COPY public.parroquias (id_parroquia, id_municipio, parroquia) FROM stdin;
 --
 
 COPY public.proveedores (id_proveedor, nombre_proveedor, telefono_proveedor, correo_proveedor, activo, rif, descripcion_proveedor, ubicacion_proveedor) FROM stdin;
-1	Almacen 56	04125949285	almacen56@gmail.com	t	g-300202020	\N	\N
-5	galaxi tabs	04125558888	galaxitabs@gmail.com	t	j-5558899	venta de electronicos	la pastora
 6	bombillos los salias	04125554474	bombillos@gmail.com	t	j-5558899	venta de bombillos al mayor	cariwao
+1	Almacen 56	04125949285	almacen56@gmail.com	t	g-300202020	\N	\N
+7	Karla Venegas	04000000000	asdkqwje@a.a	t	J-528748-6	Principiante	Sede de Lagunita
+5	galaxi tabs	04125558888	galaxitabs@gmail.com	t	j-5558899	venta de electronicos	la pastora
 \.
 
 
@@ -2482,7 +2642,9 @@ COPY public.proveedores (id_proveedor, nombre_proveedor, telefono_proveedor, cor
 --
 
 COPY public.roles (id_rol, nombre_rol, descrip_rol, activo) FROM stdin;
-0	administrador	acceso a todos los modulos del sistema	t
+2	Usuario	Consulta, Solicita	t
+3	Gerente de Distribucion	Visualiza, Autoriza	t
+1	Jefe de Almacén	Ingresa, Solicita, Transferencia entre Almacenes, Modifica, Elimina	t
 \.
 
 
@@ -2490,7 +2652,11 @@ COPY public.roles (id_rol, nombre_rol, descrip_rol, activo) FROM stdin;
 -- Data for Name: solicitudes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.solicitudes (id_solicitud, fecha_solicitud, id_usuario_solicitante, id_almacen_origen, id_almacen_destino, cantidad, descripcion, unidad_medida, ubicacion, id_estatus, observaciones) FROM stdin;
+COPY public.solicitudes (id_solicitud, fecha_solicitud, id_usuario_solicitante, id_almacen_origen, id_almacen_destino, cantidad, descripcion_material, unidad_medida, ubicacion, estatus, observaciones) FROM stdin;
+0	2022-05-01	1	2	4	40	16	Unidades	Caracas-Venezuela	1	Ningun
+2	2022-06-02	1	4	4	10	16	\N	\N	1	20 bobinas de repuesto
+3	2022-06-02	1	4	4	10	16	\N	\N	1	20 bobinas de repuesto
+4	2022-06-02	1	4	3	10	16	\N	\N	1	20 bobinas de repuesto
 \.
 
 
@@ -2556,6 +2722,19 @@ COPY public.tipo_salida (id_tipo_salida, desc_tipo_salida, activo) FROM stdin;
 
 
 --
+-- Data for Name: tipos_movimientos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tipos_movimientos (id_tipo_movimiento, movimiento, activo) FROM stdin;
+1	Activa	t
+2	Rechazado	t
+3	Pendiente Por Aprobar	t
+4	Aprobada	t
+5	Cerrada	t
+\.
+
+
+--
 -- Data for Name: ubicacion_geografica; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2574,6 +2753,7 @@ COPY public.ubicacion_geografica (id_ubicacion_geografica, id_estado, id_parroqu
 15	16	700	272	1099	av ppal de la limpia 	t
 16	17	725	284	1099	av ppal de la limpia 	t
 17	2	28	9	1050	szxcfgsdfgsdfg	t
+18	1	1	1	5050	av ppal las delicias	t
 \.
 
 
@@ -2581,9 +2761,11 @@ COPY public.ubicacion_geografica (id_ubicacion_geografica, id_estado, id_parroqu
 -- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.usuarios (id_usuario, usuario, password, id_rol, activo) FROM stdin;
-1	agutierrez	123456	0	t
-2	lgarcia	123456	0	t
+COPY public.usuarios (id_usuario, usuario, password, id_rol, activo, nombre, apellido, cargo, cedula) FROM stdin;
+1	lgarcia	$2y$10$ojHYGdK4G/VvKyCofObmf.izJrJR9qVZSmuuo3HAJvuwVE8WbYxAS	1	t	Leisber	Garcia	Administrador	27342778
+0	agutierrez	$2y$10$ojHYGdK4G/VvKyCofObmf.izJrJR9qVZSmuuo3HAJvuwVE8WbYxAS	1	t	Angel	Gutierrez	Administrador	16670820
+2	prueba123	$2y$10$ojHYGdK4G/VvKyCofObmf.izJrJR9qVZSmuuo3HAJvuwVE8WbYxAS	3	t	Usuario	Probador	El Probador	00000000
+5	gbarrios	$2y$10$ojHYGdK4G/VvKyCofObmf.izJrJR9qVZSmuuo3HAJvuwVE8WbYxAS	2	t	German	Barrios	Jefe de Division	16584782
 \.
 
 
@@ -2598,7 +2780,7 @@ SELECT pg_catalog.setval('public.almacen_id_almacen_seq', 1, false);
 -- Name: categorias_id_categoria_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.categorias_id_categoria_seq', 19, true);
+SELECT pg_catalog.setval('public.categorias_id_categoria_seq', 20, true);
 
 
 --
@@ -2616,17 +2798,31 @@ SELECT pg_catalog.setval('public.condicion_materiales_id_condicion_material_seq'
 
 
 --
+-- Name: estatus_solicitudes_id_estatus_solicitud_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.estatus_solicitudes_id_estatus_solicitud_seq', 1, false);
+
+
+--
+-- Name: log_solicitudes_id_log_solicitud_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.log_solicitudes_id_log_solicitud_seq', 1, false);
+
+
+--
 -- Name: logs_id_log_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.logs_id_log_seq', 32, true);
+SELECT pg_catalog.setval('public.logs_id_log_seq', 58, true);
 
 
 --
 -- Name: material_id_material_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.material_id_material_seq', 16, true);
+SELECT pg_catalog.setval('public.material_id_material_seq', 18, true);
 
 
 --
@@ -2654,7 +2850,7 @@ SELECT pg_catalog.setval('public.movimientos_id_movimiento_seq', 1, false);
 -- Name: proveedor_id_proveedor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.proveedor_id_proveedor_seq', 6, true);
+SELECT pg_catalog.setval('public.proveedor_id_proveedor_seq', 8, true);
 
 
 --
@@ -2668,7 +2864,7 @@ SELECT pg_catalog.setval('public.roles_id_rol_seq', 1, false);
 -- Name: solicitudes_id_solicitud_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.solicitudes_id_solicitud_seq', 1, false);
+SELECT pg_catalog.setval('public.solicitudes_id_solicitud_seq', 4, true);
 
 
 --
@@ -2703,14 +2899,14 @@ SELECT pg_catalog.setval('public.tipo_salida_id_tipo_salida_seq', 1, false);
 -- Name: ubicacion_geografica_id_ubicacion_geografica_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.ubicacion_geografica_id_ubicacion_geografica_seq', 17, true);
+SELECT pg_catalog.setval('public.ubicacion_geografica_id_ubicacion_geografica_seq', 18, true);
 
 
 --
 -- Name: usuarios_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.usuarios_id_usuario_seq', 1, true);
+SELECT pg_catalog.setval('public.usuarios_id_usuario_seq', 5, true);
 
 
 --
@@ -2727,6 +2923,14 @@ ALTER TABLE ONLY public.almacen
 
 ALTER TABLE ONLY public.condicion_almacen
     ADD CONSTRAINT condicion_almacen_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: estatus_solicitudes estatus_solicitudes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.estatus_solicitudes
+    ADD CONSTRAINT estatus_solicitudes_pk PRIMARY KEY (id_estatus_solicitud);
 
 
 --
@@ -2770,10 +2974,10 @@ ALTER TABLE ONLY public.material_proveedor
 
 
 --
--- Name: movimientos id_movimiento; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: hist_movimientos id_movimiento; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.movimientos
+ALTER TABLE ONLY public.hist_movimientos
     ADD CONSTRAINT id_movimiento PRIMARY KEY (id_movimiento);
 
 
@@ -2826,6 +3030,14 @@ ALTER TABLE ONLY public.usuarios
 
 
 --
+-- Name: log_solicitudes log_solicitudes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.log_solicitudes
+    ADD CONSTRAINT log_solicitudes_pk PRIMARY KEY (id_log_solicitud);
+
+
+--
 -- Name: material material_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2855,6 +3067,14 @@ ALTER TABLE ONLY public.municipios
 
 ALTER TABLE ONLY public.proveedores
     ADD CONSTRAINT proveedor_pkey PRIMARY KEY (id_proveedor);
+
+
+--
+-- Name: solicitudes solicitudes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.solicitudes
+    ADD CONSTRAINT solicitudes_pk PRIMARY KEY (id_solicitud);
 
 
 --
@@ -2967,22 +3187,6 @@ ALTER TABLE ONLY public.usuarios
 
 ALTER TABLE ONLY public.material
     ADD CONSTRAINT status_material_material_fk FOREIGN KEY (id_estatus_material) REFERENCES public.status_material(id_estatus_material);
-
-
---
--- Name: material tipo_entrada_material_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.material
-    ADD CONSTRAINT tipo_entrada_material_fk FOREIGN KEY (id_tipo_entrada) REFERENCES public.tipo_entrada(id_tipo_entrada);
-
-
---
--- Name: material tipo_salida_material_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.material
-    ADD CONSTRAINT tipo_salida_material_fk FOREIGN KEY (id_tipo_salida) REFERENCES public.tipo_salida(id_tipo_salida);
 
 
 --
