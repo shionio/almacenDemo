@@ -29,8 +29,8 @@
               <th>Almacen Destino</th>
               <th>Cantidad</th>
               <th>Descripcion</th>
-              <th>Unidad Medida</th>
-              <th>Ubicacion</th>
+             {{--  <th>Unidad Medida</th>
+              <th>Ubicacion</th> --}}
               <th>Estatus</th>
               <th>Observaciones</th>
               <th>Acciones</th>
@@ -49,21 +49,46 @@
                   <td>{{$soli->almades}}</td>
                   <td>{{$soli->cantidad}}</td>
                   <td>{{$soli->descripcion_material}}</td>
-                  <td>{{$soli->unidad_medida}}</td>
-                  <td>{{$soli->ubicacion}}</td>
-                  <td>{{$soli->estatus}}</td>
+                  {{-- <td>{{$soli->unidad_medida}}</td>
+                  <td>{{$soli->ubicacion}}</td> --}}
+                  <td>{{$soli->estatus_solicitud}}</td>
                   <td>{{$soli->observaciones}}</td>
 
                   <td>
-                    <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
-                      <i class="fas fa-file-import"></i>
-                    </a>
-                    {{-- <a href="">
-                      <i class="fa-solid fa-trash"></i>
-                    </a>
+
+                    @if(session('rol') == 1)
+                      <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <a href="{{route('aprobarSolicitud',$soli->id_solicitud)}}">
+                        <i class="fas fa-check"></i>
+                      </a>
+                      <a href="{{route('recibirSolicitud',$soli->id_solicitud)}}">
+                        <i class="fas fa-arrow-alt-right"></i>
+                      <i class="fas fa-sign-in"></i>
+                      </a>
+                      <a href="">
+                        <i class="fas fa-sign-out"></i>
+                      </a>
                     <a href="">
-                      <i class="fa-solid fa-file-pdf"></i>
-                    </a> --}}
+                      <i class="fas fa-undo"></i>
+                    </a>
+                  @endif
+
+                  @if(session('rol') == 2)
+                     <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                  @endif
+
+                  @if(session('rol') == 3)
+                     <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <a href="{{route('aprobarSolicitud',$soli->id_solicitud)}}">
+                        <i class="fas fa-check"></i>
+                      </a>
+                  @endif
                   </td>
 
                 </tr>
@@ -78,8 +103,8 @@
               <th>Almacen Destino</th>
               <th>Cantidad</th>
               <th>Descripcion</th>
-              <th>Unidad Medida</th>
-              <th>Ubicacion</th>
+              {{-- <th>Unidad Medida</th>
+              <th>Ubicacion</th> --}}
               <th>Estatus</th>
               <th>Observaciones</th>
               <th>Acciones</th>

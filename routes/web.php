@@ -49,7 +49,6 @@ Route::post('/guardarAlmacen',[AlmacenController::class, 'store']);
 Route::get('/Almacen/Ver/{id}',[AlmacenController::class, 'show'])->name('VerAlmacen');
 Route::post('Almacen/Editar/',[AlmacenController::class, 'edit'])->name('editarAlmacen');
 Route::get('/Almacen/estatus/{id}',[AlmacenController::class, 'update'])->name('estatusAlmacen');
-// Route::view('/Traspaso','almacen.trasAlmacen')->name('traspaso');
 Route::post('/Almacen/traspaso',[AlmacenController::class,'traspaso'])->name('traspasoAlmacen');
 Route::get('/buscarAlmacen',[AlmacenController::class,'search'])->name('buscarAlmacenorigen');
 Route::post('/llenarMunicipios',[AlmacenController::class, 'llenarMunicipios']);
@@ -84,10 +83,18 @@ Route::post('/proveedores/actualizar',[ProveedorController::class,'actualizarPro
 
 /*Solicitudes*/
 
-Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
-Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
-Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('traerStock',[MovimientosController::class,'traerStock']);
+Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
+Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('/guardarSolicitud',[MovimientosController::class,'store']);
-Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');
+
+
+
+Route::post('/recibeSolicitud',[MovimientosController::class,'recibe']);
 Route::post('/actualizarSolicitud',[MovimientosController::class,'update']);
+
+Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
+Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');
+Route::get('/AprobarSolicitud/{id_solicitud}',[MovimientosController::class,'aprobar'])->name('aprobarSolicitud');
+Route::get('/RecibirSolicitud/{id_solicitud}',[MovimientosController::class,'recibir'])->name('recibirSolicitud');
+

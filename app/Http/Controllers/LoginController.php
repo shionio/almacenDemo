@@ -82,7 +82,7 @@ class LoginController extends Controller
     public function roles()
     {
         $rol = DB::table('roles')
-        ->slect('*')->get()->all();
+        ->select('*')->get()->all();
 
         return $rol;
     }
