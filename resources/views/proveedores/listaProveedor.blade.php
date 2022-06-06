@@ -58,9 +58,9 @@
                 <abbr title="Estatus">
                   <a href="{{Route('estatus.proveedor',$proveedor->id_proveedor)}}">
                     @if($proveedor->activo == true)
-                    <i class="fa fa-toggle-on fa-2x" aria-hidden="true"></i>
+                      <i class="fa fa-toggle-on fa-2x" aria-hidden="true"></i>
                     @else
-                    <i class="fa fa-toggle-off fa-2x" aria-hidden="true"></i>
+                      <i class="fa fa-toggle-off fa-2x" aria-hidden="true"></i>
                     @endif
                   </a>
                 </abbr>
