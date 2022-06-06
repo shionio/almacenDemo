@@ -18,7 +18,14 @@ class MovimientosController extends Controller
         $id_almacen = $_POST['idAlmacen'];
         $almacenesRestantes = DB::table('almacen')->where('id_almacen','<>',$id_almacen)->get();
 
-        return json_encode($almacenesRestantes);
+        $materialesAlmacen = DB::table('material')->where('id_almacen',$id_almacen)->get();
+
+        $consultas = array(
+            'almacenesRestantes' => $almacenesRestantes,
+            'materialesAlmacen'  => $materialesAlmacen
+        );
+
+        return json_encode($consultas);
     }
     /**
      * Display a listing of the resource.

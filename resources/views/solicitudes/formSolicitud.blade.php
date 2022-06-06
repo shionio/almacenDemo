@@ -56,10 +56,7 @@
 			                  	<div class="form-group col-4" >
 			                  		<label for="exampleInputPassword1">Material</label>
 			                  		<select class="js-example-basic-single custom-select" name="material" id="material" onchange="traerStock()">
-                                    	<option value="">Seleccione</option>
-                                    	@foreach($materiales as $material)
-	                          				<option value="{{$material->id_material}}">{{$material->nombre_material}}</option>
-	                          			@endforeach
+                                    	<option value="null">Seleccione</option>
                                     </select>
 			                  	</div>
 
@@ -76,20 +73,22 @@
 			                    	<label for="exampleInputPassword1">Observaciones</label>
 			                    	<input class="form-control" type="text" name="observacionesSolicitud" id="observacionesSolicitud">
 			                  	</div>
+
+
+		                  		<div class="col">
+		                  			<button type="submit" class="btn btn-primary">Guardar</button>
+		                  		</div>
+		                  		<div class="col-3" align="right">
+		                  			<a href="{{route('listaMovimientos')}}" class="btn btn-success col-4">Volver</a>
+		                  		</div>
+
 				            </div>
 			                <!-- /.card-body -->
 				            </div>
 			                <!-- /.card-body -->
 
                             <div class="card-footer">
-			                  <div class="row">
-			                  	<div class="col">
-			                  	<button type="submit" class="btn btn-primary">Guardar</button>
-			                  </div>
-			                  <div class="col" align="right">
-			                  	<a {{-- href="{{route('listaArticulos')}}" --}} class="btn btn-success col-3">Volver</a>
-			                  </div>
-			                  </div>
+
 			                </div>
 			            </form>
             		</div>
@@ -139,14 +138,22 @@
 				data: {
 					'idAlmacen' : idAlmacen,
 					"_token" : "{{ csrf_token() }}",
-				},success:function(almacen){
-
-					var almacen = $.parseJSON(almacen)
+				},success:function(consultas){
+					var consultas = $.parseJSON(consultas)
+					let almacenesRestantes = consultas.almacenesRestantes
+					let materiales = consultas.materialesAlmacen
+					//console.log(materiales)
 					$("#almadesti").empty()
-					for(var i = 0; i < almacen.length; i++){
-						console.log(almacen[i].nombre_almacen)
-						$("#almadesti").append("<option value='"+almacen[i].id_almacen+"'>"+almacen[i].nombre_almacen+"</option>")
+					for(var i = 0; i < almacenesRestantes.length; i++){
+						$("#almadesti").append("<option value='"+almacenesRestantes[i].id_almacen+"'>"+almacenesRestantes[i].nombre_almacen+"</option>")
 					}
+
+					$("#material").empty()
+					for(var i = 0; i < materiales.length; i++){
+						$("#material").append("<option value='"+materiales[i].id_material+"'>"+materiales[i].nombre_material+"</option>")
+					}
+
+
 				}
 
 			})
