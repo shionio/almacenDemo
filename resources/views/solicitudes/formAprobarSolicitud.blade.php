@@ -9,7 +9,7 @@
 				<div class="col-12">
 					<div class="card card-danger">
 			            <div class="card-header">
-			            	<h3 class="card-title">Editando Solicitud</h3>
+			            	<h3 class="card-title">Aprobar Solicitud</h3>
 			            </div>
 
 			            <!-- /.card-header -->
@@ -64,7 +64,7 @@
 
 			                  	<div class="form-group col-4" >
 			                  		<label for="exampleInputPassword1">Material</label>
-			                  		<select class="js-example-basic-single custom-select" name="material" id="material" onchange="traerStock()" disabled>
+			                  		<select class="js-example-basic-single custom-select" name="material" id="material" onchange="traerStock()">
                                     	<option value="">Seleccione</option>
                                     	@foreach($materiales as $material)
 	                          				<option value="{{$material->id_material}}" @if($material->id_material == $solicitud->id_material)selected="true"@endif >{{$material->nombre_material}}</option>

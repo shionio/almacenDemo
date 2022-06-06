@@ -18,7 +18,7 @@
 			           	<!-- form start -->
 			            <form action="/actualizarSolicitud" method="POST">
 			            	@csrf
-			            	<input type="hidden" value="{{$solicitud->id_solicitud}}">
+			            	<input type="hidden" value="{{$solicitud->id_solicitud}}" name="idSolicitud">
 			            	<div class="card-body row">
 				                <div class="form-group col-2">
 				                	<label for="exampleInputEmail1">Fecha</label>
