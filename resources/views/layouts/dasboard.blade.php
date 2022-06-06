@@ -106,61 +106,13 @@
                       <p>Lista de Almacenes</p>
                     </a>
                   </li>
-                  {{-- <li class="nav-item">
-                    <a href="{{Route('listaProgramacion')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Programacion</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Vehiculo Taller</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/layout/boxed.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Montura de Cauchos</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Bateria</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/layout/fixed-sidebar-custom.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Servicio de Aceite</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/layout/fixed-topnav.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Fixed Navbar</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/layout/fixed-footer.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Fixed Footer</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Collapsed Sidebar</p>
-                    </a>
-                  </li> --}}
                 </ul>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-chart-pie"></i>
+                  <i class="fa fa-cubes" aria-hidden="true"></i>
                   <p>
-                    Articulos
+                     Articulos
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -171,29 +123,11 @@
                       <p>Lista de Articulo</p>
                     </a>
                   </li>
-                  {{-- <li class="nav-item">
-                    <a href="pages/charts/flot.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Flot</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/charts/inline.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Inline</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/charts/uplot.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>uPlot</p>
-                    </a>
-                  </li> --}}
                 </ul>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-tree"></i>
+                  <i class="fa fa-paper-plane" aria-hidden="true"></i>
                   <p>
                     Proveedores
                     <i class="fas fa-angle-left right"></i>
@@ -206,53 +140,11 @@
                       <p>Lista de  Proveedor</p>
                     </a>
                   </li>
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/icons.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Icons</p>
-                    </a>
-                  </li> --}}
-                 {{--  <li class="nav-item">
-                    <a href="pages/UI/buttons.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Buttons</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/sliders.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Sliders</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/modals.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Modals & Alerts</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/navbar.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Navbar & Tabs</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/timeline.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Timeline</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/ribbons.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Ribbons</p>
-                    </a>
-                  </li> --}}
                 </ul>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-edit"></i>
+                  <i class="fa fa-tasks" aria-hidden="true"></i>
                   <p>
                     Movimientos
                     <i class="fas fa-angle-left right"></i>
@@ -293,7 +185,7 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-edit"></i>
+                  <i class="fa fa-users" aria-hidden="true"></i>
                   <p>
                     Usuarios
                     <i class="fas fa-angle-left right"></i>
@@ -301,8 +193,14 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
+                    <a href="{{Route('lista.user')}}" class="nav-link">
+                      <i class="fa fa-list-alt" aria-hidden="true"></i>
+                      <p>Listar Usuarios</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="{{Route('nuevo.user')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-user-plus" aria-hidden="true"></i>
                       <p>Nuevo Usuario</p>
                     </a>
                   </li>
@@ -327,60 +225,11 @@
                       <p>Lista de Almacenes</p>
                     </a>
                   </li>
-
-                  {{-- <li class="nav-item">
-                    <a href="{{Route('listaProgramacion')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Programacion</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Vehiculo Taller</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/layout/boxed.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Montura de Cauchos</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Bateria</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/layout/fixed-sidebar-custom.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Servicio de Aceite</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/layout/fixed-topnav.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Fixed Navbar</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/layout/fixed-footer.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Fixed Footer</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Collapsed Sidebar</p>
-                    </a>
-                  </li> --}}
                 </ul>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-chart-pie"></i>
+                  <i class="fa fa-cubes" aria-hidden="true"></i>
                   <p>
                     Articulos
                     <i class="right fas fa-angle-left"></i>
@@ -393,29 +242,11 @@
                       <p>Lista de Articulo</p>
                     </a>
                   </li>
-                  {{-- <li class="nav-item">
-                    <a href="pages/charts/flot.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Flot</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/charts/inline.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Inline</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/charts/uplot.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>uPlot</p>
-                    </a>
-                  </li> --}}
                 </ul>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-tree"></i>
+                  <i class="fa fa-paper-plane" aria-hidden="true"></i>
                   <p>
                     Proveedores
                     <i class="fas fa-angle-left right"></i>
@@ -428,53 +259,11 @@
                       <p>Lista de  Proveedor</p>
                     </a>
                   </li>
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/icons.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Icons</p>
-                    </a>
-                  </li> --}}
-                 {{--  <li class="nav-item">
-                    <a href="pages/UI/buttons.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Buttons</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/sliders.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Sliders</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/modals.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Modals & Alerts</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/navbar.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Navbar & Tabs</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/timeline.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Timeline</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="pages/UI/ribbons.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Ribbons</p>
-                    </a>
-                  </li> --}}
                 </ul>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-edit"></i>
+                  <i class="fa fa-tasks" aria-hidden="true"></i>
                   <p>
                     Movimientos
                     <i class="fas fa-angle-left right"></i>
@@ -487,30 +276,6 @@
                       <p>Solicitud</p>
                     </a>
                   </li>
-                  {{-- <li class="nav-item">
-                    <a href="{{Route('newArticulo')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Ingresar Material</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{Route('newAlmacen')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Ingresar Almacen</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{Route('nuevo.proveedor')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Ingresar Proveedor</p>
-                    </a>
-                  </li> --}}
-                  {{-- <li class="nav-item">
-                    <a href="" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Traspaso entre Almacenes</p>
-                    </a>
-                  </li> --}}
                 </ul>
               </li>
               @endif

@@ -78,6 +78,14 @@ class LoginController extends Controller
         }
     }
 
+    public function list()
+    {
+        $user = DB::table('usuarios')
+        ->select('*')->get()->all();
+
+        return view('usuarios.list',['lista'=>$user])->method('post');
+    }
+
 
     public function roles()
     {
