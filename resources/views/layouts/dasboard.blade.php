@@ -90,7 +90,7 @@
                       <p>Inicio</p>
                     </a>
                   </li>
-                   @if(session('rol')==1)
+            @if(session('rol')==1)
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="fas fa-warehouse"></i>
@@ -104,6 +104,12 @@
                     <a href="{{Route('listaAlmacenes')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Lista de Almacenes</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{Route('newAlmacen')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Ingresar Almacen</p>
                     </a>
                   </li>
                 </ul>
@@ -123,6 +129,12 @@
                       <p>Lista de Articulo</p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="{{Route('newArticulo')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Ingresar Artículo</p>
+                    </a>
+                  </li>
                 </ul>
               </li>
               <li class="nav-item">
@@ -140,6 +152,12 @@
                       <p>Lista de  Proveedor</p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="{{Route('nuevo.proveedor')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Ingresar Proveedor</p>
+                    </a>
+                  </li>
                 </ul>
               </li>
               <li class="nav-item">
@@ -155,30 +173,6 @@
                     <a href="{{route('listaMovimientos')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Solicitud</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{Route('newArticulo')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Ingresar Material</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{Route('newAlmacen')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Ingresar Almacen</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{Route('nuevo.proveedor')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Ingresar Proveedor</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{Route('traspasoAlmacen')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Traspaso entre Almacenes</p>
                     </a>
                   </li>
                 </ul>
@@ -206,9 +200,8 @@
                   </li>
                 </ul>
               </li>
-              @endif
-
-              @if(session('rol')==0)
+            @endif
+            @if(session('rol')==2)
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="fas fa-warehouse"></i>
