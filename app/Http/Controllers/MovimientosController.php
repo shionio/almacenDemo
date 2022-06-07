@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use PDF;
 
 class MovimientosController extends Controller
 {
@@ -282,6 +283,35 @@ class MovimientosController extends Controller
             return redirect()->route('listaMovimientos');
         }
 
+
+    }
+
+    public function solicitudPDF($id_solicitud)
+    {
+        // dd($id_solicitud);
+
+        $materiales = DB::table('material')->get();
+        $almacenes = DB::table('almacen')->get();
+        $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
+
+        $solicitud = DB::table('solicitudes')
+                    ->join('material','solicitudes.descripcion_material','=','material.id_material')
+                    ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_destino')
+                    ->join('estatus_solicitudes AS status','solicitudes.estatus','=','status.id_estatus_solicitud')
+                    ->where('id_solicitud',$id_solicitud)
+                    ->select('solicitudes.fecha_solicitud','solicitudes.id_almacen_origen','solicitudes.id_almacen_destino','solicitudes.estatus','material.id_material','material.stock','solicitudes.cantidad','solicitudes.observaciones','solicitudes.id_solicitud','almacen_origen.nombre_almacen as almaor','almacen_destino.nombre_almacen as almade','status.estatus_solicitud','material.nombre_material')
+                    ->get()->first();
+
+        // dd($materiales, $almacenes, $estatus_solicitudes, $solicitud);
+
+        $pdf = \PDF::loadView('PDF.solPdf',[
+                                'solicitud'  => $solicitud,
+                                'almacenes'  => $almacenes,
+                                'materiales' => $materiales,
+                                'estatusSolicitudes' => $estatus_solicitudes,
+                            ])->setPaper('letter','landscape');
+        return $pdf->stream('solicitudes.pdf');
 
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AlmacenController;
 use App\Http\Controllers\ArticulosController;
@@ -40,7 +41,7 @@ Route::get('/salir', [LoginController::class, 'salir'])->name('salir');
 Route::get('inicio', [LoginController::class, 'index'])->name('inicio');
 Route::get('/nuevo/usuario', [LoginController::class, 'nuevo'])->name('nuevo.user');
 Route::post('/registro',[LoginController::class, 'registrar'])->name('registroUser');
-Route::post('/lista',[LoginController::class, 'list'])->name('lista.user');
+Route::get('/lista',[LoginController::class, 'list'])->name('lista.user');
 Route::post('/roles',[LoginController::class,'roles'])->name('rolUser');
 
 /*rutas de almacen*/
@@ -88,6 +89,7 @@ Route::post('traerStock',[MovimientosController::class,'traerStock']);
 Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
 Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('/guardarSolicitud',[MovimientosController::class,'store']);
+Route::get('/Solicitudes/pdf/{id}',[MovimientosController::class,'solicitudPDF'])->name('solicitud.pdf');
 
 
 

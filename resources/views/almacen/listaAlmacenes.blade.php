@@ -20,7 +20,7 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <table id="example1" class="table table-bordered table-striped">
+        <table id="example1" name="example1" class="table table-bordered table-striped">
           <thead>
             <tr>
               <th>Id</th>
@@ -51,7 +51,8 @@
                   @endif
                   <td>
                     <abbr title="Editar">
-                    <a href="{{Route('VerAlmacen',$almacen->id_almacen)}}">
+                      <a onclick="editar({{$almacen->id_almacen}})">
+                    {{-- <a href="{{Route('VerAlmacen',$almacen->id_almacen)}}" type="submit" name="editar" id="editar"> --}}
                       <i class="fa-solid fa-pen-to-square fa-2x"></i>
                     </a>
                   </abbr>
@@ -88,4 +89,30 @@
       <!-- /.card-body -->
     </div>
     <!-- /.card -->
+
+    <script type="text/javascript">
+        
+        function editar(id_almacen){
+
+          Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                if (result.value) {
+              // Swal.fire(
+              //   'Deleted!',
+              //   'Your file has been deleted.',
+              //   'success'
+              // )
+              window.location.href='/Almacen/Ver/'+id_almacen;
+            }
+          })
+        }
+
+    </script>
     @endsection
