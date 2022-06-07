@@ -155,13 +155,13 @@
 				data: {
 					'idAlmacen' : idAlmacen,
 					"_token" : "{{ csrf_token() }}",
-				},success:function(almacen){
+				},success:function(consultas){
 					//console.log(almacen)
-					var almacen = $.parseJSON(almacen)
+					var consultas = $.parseJSON(consultas)
+					let almacenesRestantes = consultas.almacenesRestantes
 					$("#almadesti").empty()
-					for(var i = 0; i < almacen.length; i++){
-						console.log(almacen[i].nombre_almacen)
-						$("#almadesti").append("<option value='"+almacen[i].id_almacen+"'>"+almacen[i].nombre_almacen+"</option>")
+					for(var i = 0; i < almacenesRestantes.length; i++){
+						$("#almadesti").append("<option value='"+almacenesRestantes[i].id_almacen+"'>"+almacenesRestantes[i].nombre_almacen+"</option>")
 					}
 				}
 
