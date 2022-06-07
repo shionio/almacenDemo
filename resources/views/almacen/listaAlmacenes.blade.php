@@ -66,7 +66,7 @@
                     </a>
                   </abbr>
                   </td>
-                  <td></td>
+
                 </tr>
               </tbody>
             @endforeach
