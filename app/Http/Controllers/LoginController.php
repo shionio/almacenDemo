@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Login;
 use DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
@@ -21,8 +22,11 @@ class LoginController extends Controller
 
         $session = DB::table('usuarios')->where(['usuario'=>$usuario,'activo'=> true])
         ->select('*')->get()->first();
-        //dd($query);
-        if (password_verify($r->clave, $session->password)){
+
+        if($session->activo == false){
+            echo'<script type="text/javascript"> alert("Este Usuario se Encuentra Inactivo");window.location.href="/"</script>';
+        
+        }elseif (password_verify($r->clave, $session->password)){
 
 
             session([
@@ -81,9 +85,12 @@ class LoginController extends Controller
     public function list()
     {
         $user = DB::table('usuarios')
+        ->join('roles','roles.id_rol','=','usuarios.id_rol')
         ->select('*')->get()->all();
 
-        return view('usuarios.list',['lista'=>$user])->method('post');
+        // dd($user);
+
+        return view('usuarios.list',['lista'=>$user]);
     }
 
 
@@ -100,6 +107,6 @@ class LoginController extends Controller
 
         session()->invalidate();
 
-        return redirect('sesion');
+        return redirect('/');
     }
 }

@@ -1,6 +1,7 @@
 @extends('layouts.dasboard')
   @section('title','Solicitudes')
     @section('mainPage')
+    
     <div class="card">
       <div class="card-header">
         <div class="row">
@@ -71,6 +72,9 @@
                       <a href="">
                         <i class="fas fa-undo"></i>
                       </a> --}}
+                      <a href="{{route('solicitud.pdf',$soli->id_solicitud)}}">
+                        <i class="fa fa-file-text" aria-hidden="true"></i>
+                      </a>
                   @endif
 
                   @if(session('rol') == 2)
@@ -88,7 +92,6 @@
                       </a>
                   @endif
                   </td>
-
                 </tr>
               </tbody>
             @endforeach

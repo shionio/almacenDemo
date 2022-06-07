@@ -8,7 +8,6 @@
 
   <!-- Google Font: Source Sans Pro -->
   {{-- <link rel="stylesheet" href="{{asset('fontawesome/css/all.css')}}"> --}}
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
 
@@ -20,7 +19,7 @@
   <link rel="stylesheet" href="{{asset('fontawesome6/css/brands.min.css')}}">
   <link rel="stylesheet" href="{{asset('fontawesome6/css/solid.min.css')}}">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  
   <!-- Tempusdominus Bootstrap 4 -->
   <link rel="stylesheet" href="{{asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
   <!-- iCheck -->
@@ -54,7 +53,7 @@
       <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         {{-- <img src="{{asset('img/headerlogohidro.png')}}" alt="" style="width: 1500px; height:50px"> --}}
         {{-- <button type="button" class="btn btn-danger" style="margin-left:90%;">Cerrar Sesión</button> --}}
-        <button class="btn btn-danger" onclick="window.location.href='/salir'" style="margin-left:90%;">Cerrar Sesión</button>
+        <button class="btn btn-danger" onclick="salir()" style="margin-left:90%;" name="salir" id="salir">Cerrar Sesión</button>
       </nav>
     {{-- cintillo --}}
 
@@ -90,6 +89,7 @@
                       <p>Inicio</p>
                     </a>
                   </li>
+
             @if(session('rol')==1)
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -102,13 +102,13 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{Route('listaAlmacenes')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-list-alt" aria-hidden="true"></i>
                       <p>Lista de Almacenes</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="{{Route('newAlmacen')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-map-marker" aria-hidden="true"></i>
                       <p>Ingresar Almacen</p>
                     </a>
                   </li>
@@ -125,13 +125,13 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{route('listaArticulos')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-list-alt" aria-hidden="true"></i>
                       <p>Lista de Articulo</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="{{Route('newArticulo')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-cube" aria-hidden="true"></i>
                       <p>Ingresar Artículo</p>
                     </a>
                   </li>
@@ -148,13 +148,13 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{route('lista.proveedor')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-list-alt" aria-hidden="true"></i>
                       <p>Lista de  Proveedor</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="{{Route('nuevo.proveedor')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-share" aria-hidden="true"></i>
                       <p>Ingresar Proveedor</p>
                     </a>
                   </li>
@@ -171,7 +171,7 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{route('listaMovimientos')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
                       <p>Solicitud</p>
                     </a>
                   </li>
@@ -201,6 +201,7 @@
                 </ul>
               </li>
             @endif
+
             @if(session('rol')==2)
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -214,7 +215,7 @@
 
                   <li class="nav-item">
                     <a href="{{Route('listaAlmacenes')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-list-alt" aria-hidden="true"></i>
                       <p>Lista de Almacenes</p>
                     </a>
                   </li>
@@ -231,7 +232,7 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{route('listaArticulos')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-list-alt" aria-hidden="true"></i>
                       <p>Lista de Articulo</p>
                     </a>
                   </li>
@@ -248,7 +249,7 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{route('lista.proveedor')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-list-alt" aria-hidden="true"></i>
                       <p>Lista de  Proveedor</p>
                     </a>
                   </li>
@@ -265,7 +266,7 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{route('listaMovimientos')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
                       <p>Solicitud</p>
                     </a>
                   </li>
@@ -338,6 +339,9 @@
 <script src="{{asset('dist/js/adminlte.js')}}"></script>
 {{-- AdminLTE for demo purposes
 <script src="{{asset('dist/js/demo.js"></script> --}}
+{{-- Sweet Alert 2 --}}
+<script src="{{asset('js/sweetalert/sweetalert2.all.min.js')}}"></script>
+
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('dist/js/pages/dashboard.js')}}"></script>
 <!-- DataTables  & Plugins -->
@@ -375,6 +379,33 @@
       "responsive": true,
     });
   });
+</script>
+<script type="text/javascript">
+        
+      function salir(){
+        // $('#salir').submit(function(e){
+        //   e.preventDefault();
+
+          Swal.fire({
+            title: 'Cerrar Sesión',
+            text: "¿Está seguro que desea cerrar sesión?",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Cerrar Sesion'
+              }).then((result) => {
+                if (result.value) {
+              // Swal.fire(
+              //   'Deleted!',
+              //   'Your file has been deleted.',
+              //   'success'
+              // )
+              // this.submit();
+              window.location.href='/';
+            }
+          })
+        }
 </script>
   </body>
 </html>

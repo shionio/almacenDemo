@@ -1,4 +1,3 @@
-
 @extends('layouts.index')
 
 {{-- {{dd(session()->all())}} --}}
@@ -51,7 +50,7 @@
             <div class="tabs-content">
                   <!-- TABS CONTENT LOGIN -->
               <div id="login-tab-content" class="active">
-                <form class="login-form" action="/check" method="post">
+                <form class="login-form" action="/check" method="post" name="login" id="login">
                   @csrf
                   <input type="text" name="usuario" class="input" id="user_login" autocomplete="off" placeholder="Usuario">
                   <input type="password" name="clave" class="input" id="user_pass" autocomplete="off" placeholder="Clave">
@@ -160,17 +159,14 @@ $('.recovery .mssg').removeClass('animate');
 });
 
 // DISABLE SUBMIT FOR DEMO
-$(function() {
-$('.button').on('click', function(event) {
-$(this).stop();
-event.preventDefault();
-return false;
-});
-});
-//# sourceURL=pen.js
-</script>
-
-  
-
-
+      $(function() {
+      $('.button').on('click', function(event) {
+      $(this).stop();
+      event.preventDefault();
+      return false;
+      });
+      });
+      //# sourceURL=pen.js
+      </script>
+      
   

@@ -150,6 +150,7 @@
 				success:function(municipios){
 					var municipios = $.parseJSON(municipios)
 					$('#municipio').empty()
+						$("#municipio").append("<option value='null'>Seleccione</option>")
 					for (var i = 0; i < municipios.length; i++){
 						$("#municipio").append("<option value='"+municipios[i].id_municipio+"'>"+municipios[i].municipio+"</option>")
 					}
