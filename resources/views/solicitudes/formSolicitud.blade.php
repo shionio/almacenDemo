@@ -11,10 +11,7 @@
 					<div class="card card-danger">
 			            <div class="card-header">
 			            	<h3 class="card-title">Nueva Solicitud</h3>
-
-
 			            </div>
-
 			            <!-- /.card-header -->
 			           	<!-- form start -->
 			            <form action="/guardarSolicitud" method="POST">
@@ -100,12 +97,14 @@
 
 		function traerStock() {
 			let material = $("#material").val()
+			let almacen = $("#almacenOrigen").val()
 			$.ajax({
 				url : '/traerStock',
 				method : 'post',
 				data:{
 					"_token" : "{{csrf_token()}}",
-					id_material : material
+					id_material : material,
+					id_almacen : almacen,
 				},success:function(stock){
 					$("#stock").empty()
 					var stockT = $.parseJSON(stock)

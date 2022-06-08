@@ -95,6 +95,8 @@ Route::get('/Solicitudes/pdf/{id}',[MovimientosController::class,'solicitudPDF']
 
 Route::post('/recibeSolicitud',[MovimientosController::class,'recibe']);
 Route::post('/actualizarSolicitud',[MovimientosController::class,'update']);
+Route::post('/solicitudAprobada/{id}',[MovimientosController::class,'aprobada']);
+
 
 Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
 Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');

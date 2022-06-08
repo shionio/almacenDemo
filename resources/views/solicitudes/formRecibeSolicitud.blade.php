@@ -114,12 +114,14 @@
 
 		function traerStock() {
 			let material = $("#material").val()
+			let almacenDestino = $("#almadesti").val()
 			$.ajax({
 				url : '/traerStock',
 				method : 'post',
 				data:{
 					"_token" : "{{csrf_token()}}",
-					id_material : material
+					id_material : material,
+					almacenDestino : almacenDestino,
 				},success:function(stock){
 					$("#stock").empty()
 					var stockT = $.parseJSON(stock)

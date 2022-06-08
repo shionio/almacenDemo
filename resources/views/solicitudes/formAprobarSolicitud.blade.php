@@ -1,5 +1,5 @@
 @extends('layouts.dasboard')
-@section('title','Editar Solicitud')
+@section('title','Aprobar Solicitud')
 @section('mainPage')
 
 <br>
@@ -14,7 +14,7 @@
 
 			            <!-- /.card-header -->
 			           	<!-- form start -->
-			            <form action="/actualizarSolicitud" method="POST">
+			            <form action="/solicitudAprobada" method="POST">
 			            	@csrf
 			            	<input type="hidden" value="{{$solicitud->id_solicitud}}" name="idSolicitud">
 			            	<div class="card-body row">
@@ -87,7 +87,7 @@
 
 			                  	<div class="form-group col-12">
 			                    	<label for="exampleInputPassword1">Observaciones</label>
-			                    	<input class="form-control" type="text" name="observacionesSolicitud" value="{{$solicitud->observaciones}}" id="observacionesSolicitud"readonly>
+			                    	<input class="form-control" type="text" name="observacionesSolicitud" value="{{$solicitud->observaciones}}" id="observacionesSolicitud">
 			                  	</div>
 				            </div>
 			                <!-- /.card-body -->

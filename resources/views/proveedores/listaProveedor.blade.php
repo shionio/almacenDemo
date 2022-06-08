@@ -9,10 +9,7 @@
             <h2>Listado de Proveedores</h2>
           </div>
           <div class="col-2">
-           {{--  <button type="button" class="btn btn-primary" onclick="window.location.href='{{Route('nuevo.proveedor')}}'">
-            <i class="nav-icon far fa-plus-square"> </i>
-            <label style="margin-left: 5px; margin-right:4px;">Proveedor</label>
-            </button> --}}
+
           </div>
         </div>
 

@@ -29,7 +29,7 @@
               <th>Almacen Origen</th>
               <th>Almacen Destino</th>
               <th>Cantidad</th>
-              <th>Descripcion</th>
+              {{-- <th>Descripcion</th> --}}
              {{--  <th>Unidad Medida</th>
               <th>Ubicacion</th> --}}
               <th>Estatus</th>
@@ -49,7 +49,7 @@
                   <td>{{$soli->almaor}}</td>
                   <td>{{$soli->almades}}</td>
                   <td>{{$soli->cantidad}}</td>
-                  <td>{{$soli->descripcion_material}}</td>
+                 {{--  <td>{{$soli->descripcion_material}}</td> --}}
                   <td>{{$soli->estatus_solicitud}}</td>
                   <td>{{$soli->observaciones}}</td>
 
@@ -66,31 +66,26 @@
                         <i class="fas fa-arrow-alt-right"></i>
                       <i class="fas fa-sign-in"></i>
                       </a>
-                      {{-- <a href="">
-                        <i class="fas fa-sign-out"></i>
-                      </a>
-                      <a href="">
-                        <i class="fas fa-undo"></i>
-                      </a> --}}
+
                       <a href="{{route('solicitud.pdf',$soli->id_solicitud)}}">
                         <i class="fa fa-file-text" aria-hidden="true"></i>
                       </a>
-                  @endif
+                    @endif
 
-                  @if(session('rol') == 2)
-                     <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
-                      <i class="fas fa-edit"></i>
-                    </a>
-                  @endif
-
-                  @if(session('rol') == 3)
-                     <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
+                    @if(session('rol') == 2)
+                       <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
                         <i class="fas fa-edit"></i>
                       </a>
-                      <a href="{{route('aprobarSolicitud',$soli->id_solicitud)}}">
-                        <i class="fas fa-check"></i>
-                      </a>
-                  @endif
+                    @endif
+
+                    @if(session('rol') == 3)
+                       <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{route('aprobarSolicitud',$soli->id_solicitud)}}">
+                          <i class="fas fa-check"></i>
+                        </a>
+                    @endif
                   </td>
                 </tr>
               </tbody>
@@ -103,7 +98,7 @@
               <th>Almacen Origen</th>
               <th>Almacen Destino</th>
               <th>Cantidad</th>
-              <th>Descripcion</th>
+              {{-- <th>Descripcion</th> --}}
               <th>Estatus</th>
               <th>Observaciones</th>
               <th>Acciones</th>

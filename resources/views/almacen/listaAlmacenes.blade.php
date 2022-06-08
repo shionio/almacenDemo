@@ -20,7 +20,7 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <table id="example1" name="example1" class="table table-bordered table-striped">
+        <table id="example3" name="example3" class="table table-bordered table-striped">
           <thead>
             <tr>
               <th>Id</th>
@@ -91,6 +91,21 @@
     <!-- /.card -->
 
     <script type="text/javascript">
+      $(function () {
+        $("#example1").DataTable({
+          "responsive": true, "lengthChange": false, "autoWidth": false,
+          "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "responsive": true,
+        });
+      });
         
         function editar(id_almacen){
 
