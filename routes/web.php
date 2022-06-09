@@ -39,7 +39,7 @@ Route::view('/inicio','layouts.dashboard');
 Route::post('/check', [LoginController::class, 'check_user']);
 Route::get('/salir', [LoginController::class, 'salir'])->name('salir');
 Route::get('inicio', [LoginController::class, 'index'])->name('inicio');
-Route::get('/nuevo/usuario', [LoginController::class, 'nuevo'])->name('nuevo.user');
+Route::get('/nuevo/usuario', [LoginController::class, 'nuevo'])->name('nuevoUser');
 Route::post('/registro',[LoginController::class, 'registrar'])->name('registroUser');
 Route::get('/lista',[LoginController::class, 'list'])->name('lista.user');
 Route::post('/roles',[LoginController::class,'roles'])->name('rolUser');
@@ -89,7 +89,7 @@ Route::post('traerStock',[MovimientosController::class,'traerStock']);
 Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
 Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('/guardarSolicitud',[MovimientosController::class,'store']);
-Route::get('/Solicitudes/pdf/{id}',[MovimientosController::class,'solicitudPDF'])->name('solicitud.pdf');
+Route::get('/Solicitudes/pdf/{id}',[MovimientosController::class,'solicitudPDF'])->name('solicitudPdf');
 
 
 

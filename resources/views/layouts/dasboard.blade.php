@@ -190,13 +190,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{Route('lista.user')}}" class="nav-link">
+                    <a href="{{-- {{Route('lista.user')}} --}}" class="nav-link">
                       <i class="fa fa-list-alt" aria-hidden="true"></i>
                       <p>Listar Usuarios</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{Route('nuevo.user')}}" class="nav-link">
+                    <a href="{{Route('nuevoUser')}}" class="nav-link">
                       <i class="fa fa-user-plus" aria-hidden="true"></i>
                       <p>Nuevo Usuario</p>
                     </a>

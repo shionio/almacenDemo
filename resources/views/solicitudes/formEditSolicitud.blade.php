@@ -102,7 +102,7 @@
 			                  	<button type="submit" class="btn btn-primary">Guardar</button>
 			                  </div>
 			                  <div class="col" align="right">
-			                  	<a {{-- href="{{route('listaArticulos')}}" --}} class="btn btn-success col-3">Volver</a>
+			                  	<a href="{{route('listaMovimientos')}}" class="btn btn-success col-3">Volver</a>
 			                  </div>
 			                  </div>
 			                </div>
@@ -148,7 +148,6 @@
 		function llenarAlmacenDestino(){
 			let idAlmacen = $("#almacenOrigen").val()
 
-			//console.log(idAlmacen)
 			$.ajax({
 				url : "/llenarAlmaDesti",
 				method: "post",
@@ -156,13 +155,21 @@
 					'idAlmacen' : idAlmacen,
 					"_token" : "{{ csrf_token() }}",
 				},success:function(consultas){
-					//console.log(almacen)
 					var consultas = $.parseJSON(consultas)
 					let almacenesRestantes = consultas.almacenesRestantes
+					let materiales = consultas.materialesAlmacen
+					//console.log(materiales)
 					$("#almadesti").empty()
 					for(var i = 0; i < almacenesRestantes.length; i++){
 						$("#almadesti").append("<option value='"+almacenesRestantes[i].id_almacen+"'>"+almacenesRestantes[i].nombre_almacen+"</option>")
 					}
+
+					$("#material").empty()
+					for(var i = 0; i < materiales.length; i++){
+						$("#material").append("<option value='"+materiales[i].id_material+"'>"+materiales[i].nombre_material+"</option>")
+					}
+
+
 				}
 
 			})

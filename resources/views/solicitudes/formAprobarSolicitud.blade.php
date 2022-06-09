@@ -27,12 +27,14 @@
 				                    <div class="form-group">
 				                        <label>Almacen Origen</label>
 
-				                    	<select class="js-example-basic-single custom-select" name="almacenOrigen" id="almacenOrigen" onchange="llenarAlmacenDestino()">
+				                    	{{-- <select class="js-example-basic-single custom-select" name="almacenOrigen" id="almacenOrigen" onchange="llenarAlmacenDestino()">
 				                        	<option value="" selected="true">Seleccione</option>
 				                        		@foreach($almacenes as $almacen)
 				                        			<option value="{{$almacen->id_almacen}}" @if($solicitud->id_almacen_origen === $almacen->id_almacen)selected='true' @endif >{{$almacen->nombre_almacen}}</option>
 				                          		@endforeach
-				                        </select>
+				                        </select> --}}
+
+				                        <input class="form-control" name="almacenOrigen" value="{{$solicitud->almaOri}}" readonly></input>
 				                     </div>
 				                </div>
 
@@ -40,12 +42,13 @@
 				                    <!-- select -->
 				                    <div class="form-group">
 				                        <label>Almacen Destino</label>
-				                        <select class="js-example-basic-single custom-select" name="almacenDestino" id="almadesti">
+				                       {{--  <select class="js-example-basic-single custom-select" name="almacenDestino" id="almadesti">
 				                        	<option value="#">Seleccione</option>
 			                          		@foreach($almacenes as $almacen)
 				                        			<option value="{{$almacen->id_almacen}}" @if($solicitud->id_almacen_destino == $almacen->id_almacen) selected="true"@endif>{{$almacen->nombre_almacen}}</option>
 				                          		@endforeach
-			                        	</select>
+			                        	</select> --}}
+			                        	<input class="form-control" name="almacenDestino" value="{{$solicitud->almaDesti}}" readonly></input>
 
 				                     </div>
 				                </div>
@@ -60,16 +63,18 @@
 			                        </select>
 			                  	</div>
 
-
+{{-- {{dd($solicitud)}} --}}
 
 			                  	<div class="form-group col-4" >
 			                  		<label for="exampleInputPassword1">Material</label>
-			                  		<select class="js-example-basic-single custom-select" name="material" id="material" onchange="traerStock()">
+			                  		{{-- <select class="js-example-basic-single custom-select" name="material" id="material" onchange="traerStock()">
                                     	<option value="">Seleccione</option>
                                     	@foreach($materiales as $material)
 	                          				<option value="{{$material->id_material}}" @if($material->id_material == $solicitud->id_material)selected="true"@endif >{{$material->nombre_material}}</option>
 	                          			@endforeach
-                                    </select>
+                                    </select> --}}
+
+                                    <input class="form-control" name="material" value="{{$solicitud->nombre_material}}" readonly></input>
 			                  	</div>
 
 
@@ -100,7 +105,7 @@
 			                  	<button type="submit" class="btn btn-primary">Guardar</button>
 			                  </div>
 			                  <div class="col" align="right">
-			                  	<a {{-- href="{{route('listaArticulos')}}" --}} class="btn btn-success col-3">Volver</a>
+			                  	<a href="{{route('listaMovimientos')}}" class="btn btn-success col-3">Volver</a>
 			                  </div>
 			                  </div>
 			                </div>
@@ -146,21 +151,28 @@
 		function llenarAlmacenDestino(){
 			let idAlmacen = $("#almacenOrigen").val()
 
-			//console.log(idAlmacen)
 			$.ajax({
 				url : "/llenarAlmaDesti",
 				method: "post",
 				data: {
 					'idAlmacen' : idAlmacen,
 					"_token" : "{{ csrf_token() }}",
-				},success:function(almacen){
-					//console.log(almacen)
-					var almacen = $.parseJSON(almacen)
+				},success:function(consultas){
+					var consultas = $.parseJSON(consultas)
+					let almacenesRestantes = consultas.almacenesRestantes
+					let materiales = consultas.materialesAlmacen
+					//console.log(materiales)
 					$("#almadesti").empty()
-					for(var i = 0; i < almacen.length; i++){
-						console.log(almacen[i].nombre_almacen)
-						$("#almadesti").append("<option value='"+almacen[i].id_almacen+"'>"+almacen[i].nombre_almacen+"</option>")
+					for(var i = 0; i < almacenesRestantes.length; i++){
+						$("#almadesti").append("<option value='"+almacenesRestantes[i].id_almacen+"'>"+almacenesRestantes[i].nombre_almacen+"</option>")
 					}
+
+					$("#material").empty()
+					for(var i = 0; i < materiales.length; i++){
+						$("#material").append("<option value='"+materiales[i].id_material+"'>"+materiales[i].nombre_material+"</option>")
+					}
+
+
 				}
 
 			})

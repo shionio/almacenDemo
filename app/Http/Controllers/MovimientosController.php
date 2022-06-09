@@ -157,9 +157,17 @@ class MovimientosController extends Controller
         $solicitud = DB::table('solicitudes')
                     ->join('material','solicitudes.descripcion_material','=','material.id_material')
                     ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
-                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_destino')
                     ->where('id_solicitud',$id)
-                    ->select('solicitudes.fecha_solicitud','solicitudes.id_almacen_origen','solicitudes.id_almacen_destino','solicitudes.estatus','material.id_material','material.stock','solicitudes.cantidad','solicitudes.observaciones','solicitudes.id_solicitud')
+                    ->select('solicitudes.fecha_solicitud',
+                            'solicitudes.id_almacen_origen',
+                            'solicitudes.id_almacen_destino',
+                            'solicitudes.estatus',
+                            'material.id_material',
+                            'material.stock',
+                            'solicitudes.cantidad',
+                            'solicitudes.observaciones',
+                            'solicitudes.id_solicitud')
                     ->get()->first();
 
         return view('solicitudes.formEditSolicitud',
@@ -231,6 +239,37 @@ class MovimientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+     public function aprobar($id){
+        $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
+        $almacenes = DB::table('almacen')->get();
+        $materiales = DB::table('material')->get();
+        $aprobarSol = $solicitud = DB::table('solicitudes')
+                    ->join('material','solicitudes.descripcion_material','=','material.id_material')
+                    ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_destino')
+                    ->where('id_solicitud',$id)
+                    ->select('solicitudes.fecha_solicitud',
+                            'solicitudes.id_almacen_origen',
+                            'solicitudes.id_almacen_destino',
+                            'solicitudes.estatus',
+                            'material.id_material',
+                            'material.nombre_material',
+                            'material.stock',
+                            'solicitudes.cantidad',
+                            'solicitudes.observaciones',
+                            'solicitudes.id_solicitud',
+                            'almacen_origen.nombre_almacen AS almaOri',
+                            'almacen_destino.nombre_almacen AS almaDesti',
+                        )
+                    ->get()->first();
+
+                    //dd($aprobarSol);
+
+        return view('solicitudes.formAprobarSolicitud',['solicitud' => $aprobarSol, 'estatusSolicitudes' => $estatus_solicitudes, 'almacenes'  => $almacenes,'materiales' => $materiales,]);
+    }
+
     public function aprobada()
     {
         //dd($_POST);
@@ -247,20 +286,7 @@ class MovimientosController extends Controller
         }
     }
 
-    public function aprobar($id){
-        $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
-        $almacenes = DB::table('almacen')->get();
-        $materiales = DB::table('material')->get();
-        $aprobarSol = $solicitud = DB::table('solicitudes')
-                    ->join('material','solicitudes.descripcion_material','=','material.id_material')
-                    ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
-                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_origen')
-                    ->where('id_solicitud',$id)
-                    ->select('solicitudes.fecha_solicitud','solicitudes.id_almacen_origen','solicitudes.id_almacen_destino','solicitudes.estatus','material.id_material','material.stock','solicitudes.cantidad','solicitudes.observaciones','solicitudes.id_solicitud')
-                    ->get()->first();
-
-        return view('solicitudes.formAprobarSolicitud',['solicitud' => $aprobarSol, 'estatusSolicitudes' => $estatus_solicitudes, 'almacenes'  => $almacenes,'materiales' => $materiales,]);
-    }
+   
 
     public function recibir($id){
         $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
@@ -269,9 +295,21 @@ class MovimientosController extends Controller
         $aprobarSol = $solicitud = DB::table('solicitudes')
                     ->join('material','solicitudes.descripcion_material','=','material.id_material')
                     ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
-                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_destino')
                     ->where('id_solicitud',$id)
-                    ->select('solicitudes.fecha_solicitud','solicitudes.id_almacen_origen','solicitudes.id_almacen_destino','solicitudes.estatus','material.id_material','material.stock','solicitudes.cantidad','solicitudes.observaciones','solicitudes.id_solicitud')
+                    ->select('solicitudes.fecha_solicitud',
+                            'solicitudes.id_almacen_origen',
+                            'solicitudes.id_almacen_destino',
+                            'solicitudes.estatus',
+                            'material.id_material',
+                            'material.stock',
+                            'material.nombre_material',
+                            'solicitudes.cantidad',
+                            'solicitudes.observaciones',
+                            'solicitudes.id_solicitud',
+                            'almacen_origen.nombre_almacen AS almaOri',
+                            'almacen_destino.nombre_almacen AS almaDesti',
+                        )
                     ->get()->first();
 
         return view('solicitudes.formRecibeSolicitud',['solicitud' => $aprobarSol, 'estatusSolicitudes' => $estatus_solicitudes, 'almacenes'  => $almacenes,'materiales' => $materiales,]);

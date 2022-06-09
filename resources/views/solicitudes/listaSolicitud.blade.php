@@ -67,7 +67,7 @@
                       <i class="fas fa-sign-in"></i>
                       </a>
 
-                      <a href="{{route('solicitud.pdf',$soli->id_solicitud)}}">
+                      <a href="{{route('solicitudPdf',$soli->id_solicitud)}}">
                         <i class="fa fa-file-text" aria-hidden="true"></i>
                       </a>
                     @endif
