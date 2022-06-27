@@ -11,8 +11,6 @@
 					<div class="card card-danger">
 			            <div class="card-header">
 			            	<h3 class="card-title">Nuevo Artículo</h3>
-
-
 			            </div>
 
 			            <!-- /.card-header -->

@@ -14,7 +14,7 @@ class MovimientosController extends Controller
          // dd($_POST);
         $id_material = $_POST['id_material'];
         $id_almacen  = $_POST['id_almacen'];
-        $stock = DB::table('material')->where(['id_material' => $id_material, 'id_almacen'=> $id_almacen ])->select('stock')->get()->first();
+        $stock = DB::table('material')->where(['id_material' => $id_material, 'id_almacen'=> $id_almacen ])->select('id_material','stock')->get()->first();
         $q = DB::getQueryLog();
         //dd($q);
         //dd($stock);

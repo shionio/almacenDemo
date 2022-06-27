@@ -13,11 +13,9 @@
     <body>
 
         {{-- Sweet Alert 2 --}}
-<script src="{{asset('js/sweetalert/sweetalert2.all.min.js')}}"></script>
-
-
+        <script src="{{asset('js/sweetalert/sweetalert2.all.min.js')}}"></script>
         <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('code.jquery.com/jquery-1.11.1.min.js')}}"></script>
+        {{-- <script src="{{asset('code.jquery.com/jquery-1.11.1.min.js')}}"></script> --}}
     </body>
 </html>
 

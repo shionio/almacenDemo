@@ -173,12 +173,76 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{route('listaMovimientos')}}" class="nav-link">
+                    <a href="" class="nav-link">
                       <i class="fa fa-paperclip" aria-hidden="true"></i>
-                      <p>Solicitud</p>
+                      <p>Entrada Por Traspaso</p>
                     </a>
                   </li>
                 </ul>
+
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
+                      <p>Entrada Por Ajuste de Inventario</p>
+                    </a>
+                  </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
+                      <p>Entrada Por Adquisicion o Compra </p>
+                    </a>
+                  </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
+                      <p>Entrada Por Donacion </p>
+                    </a>
+                  </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
+                      <p>Salida por Mantenimiento</p>
+                    </a>
+                  </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
+                      <p>Salida por Inversion</p>
+                    </a>
+                  </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
+                      <p>Salida por Devolucion</p>
+                    </a>
+                  </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route('listaMovimientos')}}" class="nav-link">
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
+                      <p>Traspaso</p>
+                    </a>
+                  </li>
+                </ul>
+
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -364,10 +428,10 @@
   <script src="{{asset('select2/js/select2.min.js')}}"></script>
   <script>
 
-    $(document).ready(function() {
+   /* $(document).ready(function() {
       $('.js-example-basic-single').select2();
     });
-
+*/
     $(function () {
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
@@ -397,6 +461,8 @@
           cancelButtonColor: '#d33',
           confirmButtonText: 'Cerrar Sesion'
             }).then((result) => {
+              console.log(result)
+
               if (result.value) {
             // Swal.fire(
             //   'Deleted!',
