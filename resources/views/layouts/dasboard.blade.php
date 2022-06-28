@@ -173,14 +173,14 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{Route('entradaMaterial')}}" class="nav-link">
                       <i class="fa fa-paperclip" aria-hidden="true"></i>
-                      <p>Entrada Por Traspaso</p>
+                      <p>Entrada De Material</p>
                     </a>
                   </li>
                 </ul>
 
-                <ul class="nav nav-treeview">
+              {{--   <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="" class="nav-link">
                       <i class="fa fa-paperclip" aria-hidden="true"></i>
@@ -205,18 +205,18 @@
                       <p>Entrada Por Donacion </p>
                     </a>
                   </li>
-                </ul>
+                </ul> --}}
 
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="" class="nav-link">
                       <i class="fa fa-paperclip" aria-hidden="true"></i>
-                      <p>Salida por Mantenimiento</p>
+                      <p>Salida De Material</p>
                     </a>
                   </li>
                 </ul>
 
-                <ul class="nav nav-treeview">
+                {{-- <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="" class="nav-link">
                       <i class="fa fa-paperclip" aria-hidden="true"></i>
@@ -232,7 +232,7 @@
                       <p>Salida por Devolucion</p>
                     </a>
                   </li>
-                </ul>
+                </ul> --}}
 
                 <ul class="nav nav-treeview">
                   <li class="nav-item">

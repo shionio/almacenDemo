@@ -9,44 +9,44 @@
 				<div class="col-12">
 					<div class="card card-danger">
 			            <div class="card-header">
-			            	<h3 class="card-title">Nueva Solicitud</h3>
+			            	<h3 class="card-title">Salida De Material</h3>
 			            </div>
 			            <!-- /.card-header -->
 			           	<!-- form start -->
-			            <form action="/guardarSolicitud" method="POST">
+			            <form action="/guardarEntrada" method="POST">
 			            	@csrf
 			            	<div class="card-body row">
-				                <div class="form-group col-2">
+
+			            		{{-- <div class="form-group col-2">
+				                	<label for="exampleInputEmail1">Codigo</label>
+				                    <input type="text" name="fecha" class="form-control" id="fecha" placeholder="" value="" readonly>
+				                </div> --}}
+
+				                <div class="form-group col-3">
 				                	<label for="exampleInputEmail1">Fecha</label>
 				                    <input type="text" name="fecha" class="form-control" id="fecha" placeholder="" value="{{date('d/m/Y')}}" readonly>
 				                </div>
 
-				                <div class="col-sm-3">
+				                <div class="col-sm-5">
 				                    <div class="form-group">
 				                        <label>Almacen Origen</label>
 				                    	<select class="js-example-basic-single custom-select" name="almacenOrigen" id="almacenOrigen" onchange="llenarAlmacenDestino($(this))">
 				                        	<option value="" selected="true">Seleccione</option>
-				                        		@foreach($almacenes as $almacen)
-				                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
-				                          		@endforeach
+			                        		@foreach($almacenes as $almacen)
+			                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
+			                          		@endforeach
 				                        </select>
 				                     </div>
 				                </div>
 
-				                <div class="col-sm-4">
-				                    <!-- select -->
-				                    <div class="form-group">
-				                        <label>Almacen Destino</label>
-				                        <select class="js-example-basic-single custom-select" name="almacenDestino" id="almadesti" required >
+			                  	<div class="form-group col-4">
+			                    	<label for="exampleInputPassword1">Tipo Entrada</label>
+			                    	<select class="js-example-basic-single custom-select" name="tipoDeEntrada" id="almadesti" required >
 			                          		<option value="null">Seleccione</option>
-			                        	</select>
-
-				                     </div>
-				                </div>
-
-			                  	<div class="form-group col-3">
-			                    	<label for="exampleInputPassword1">Estatus Solicitud</label>
-			                    	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="Nueva Solicitud" readonly="true">
+			                          		@foreach($entradas as $entrada)
+			                          			<option value="{{$entrada->id_entrada_salida}}">{{$entrada->descripcion}}</option>
+			                          		@endforeach
+			                        </select>
 			                  	</div>
 
 			                  	<div class="col-12">
@@ -56,26 +56,26 @@
 				                  				<th>Codígo</th>
 				                  				<th>Material</th>
 				                  				<th>Stock</th>
-				                  				<th>Cantidad Solicitada</th>
+				                  				<th>Cantidad</th>
 				                  				<th>Acciones</th>
 				                  			</tr>
 				                  		</thead>
 			                  			<tbody>
 			                  				<tr class="clonarlo" id="fila-registro">
 			                  					<td>
-                                    				<input class="form-control idMaterial" type="text" id="idMaterial" name="stock"  readonly>
+                                    				<input class="form-control idMaterial" type="text" id="idMaterial" name="idMaterial[]"  readonly>
 			                  					</td>
 
 			                  					<td>
-			                  						<select class="js-example-basic-single custom-select material" name="material" id="material" onchange="traerStock($(this))">
+			                  						<select class="js-example-basic-single custom-select material" name="material[]" id="material" onchange="traerStock($(this))">
                                     					<option value="null">Seleccione</option>
                                     				</select>
 			                  					</td>
 			                  					<td>
-			                  						<input class="form-control stock" type="text" id="stock" name="stock"  readonly>
+			                  						<input class="form-control stock" type="text" id="stock" name="stock[]"  readonly>
 			                  					</td>
 			                  					<td>
-			                  						<input class="form-control cantidadSolicitada" type="text" id="cantidadSolicitada" name="cantidadSolicitada"  onkeypress="return valideKey(event)" onblur="validarStockExistencia($(this))">
+			                  						<input class="form-control cantidadSolicitada" type="text" id="cantidadEntrada" name="cantidadEntrada[]"  onkeypress="return valideKey(event)" {{-- onblur="validarStockExistencia($(this))" --}}>
 			                  					</td>
 
 			                  					<td>
@@ -89,7 +89,7 @@
 				                  				<th>Codígo</th>
 				                  				<th>Material</th>
 				                  				<th>Stock</th>
-				                  				<th>Cantidad Solicitada</th>
+				                  				<th>Cantidad</th>
 				                  				<th>Acciones</th>
 				                  			</tr>
 			                  			</tfoot>
@@ -173,14 +173,14 @@
 					let almacenesRestantes = consultas.almacenesRestantes
 					let materiales = consultas.materialesAlmacen
 
-					$("#almadesti").empty()
+					//$("#almadesti").empty()
 					$(".idMaterial").val('')
 					$(".stock").val('')
 
 
-					for(var i = 0; i < almacenesRestantes.length; i++){
-						$("#almadesti").append("<option value='"+almacenesRestantes[i].id_almacen+"'>"+almacenesRestantes[i].nombre_almacen+"</option>")
-					}
+					// for(var i = 0; i < almacenesRestantes.length; i++){
+					// 	$("#almadesti").append("<option value='"+almacenesRestantes[i].id_almacen+"'>"+almacenesRestantes[i].nombre_almacen+"</option>")
+					// }
 
 					$("#material").empty()
 					for(var i = 0; i < materiales.length; i++){

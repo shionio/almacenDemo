@@ -10,12 +10,58 @@ use RealRashid\SweetAlert\Facades\Alert;
 class LoginController extends Controller
 {
     public function index(){
-        
-            return view('welcome');
+        $articulos = DB::table('material')
+                    ->join('almacen','almacen.id_almacen','=','material.id_almacen')
+                    ->select('material.id_material',
+                              'material.nombre_material',
+                              'material.descripcion_material',
+                              'material.stock',
+                              'material.unidad_medida',
+                              'almacen.descripcion_almacen'
+                    )->get();
+        return view('welcome',['articulos' => $articulos]);
+    }
+
+
+    public function filtrarList(){
+        //dd('llega');
+        DB::enableQueryLog();
+        $palabraClave = $_POST['palabraClave'];
+        // dd($palabraClave);
+        $filtro =   DB::table('material')
+                    ->join('almacen','almacen.id_almacen','=','material.id_almacen')
+                    ->join('tipo_almacen','almacen.tipo_almacen','=','tipo_almacen.id')
+                    ->where('material.nombre_material','like',"%$palabraClave%")
+                    ->orWhere('material.descripcion_material', 'like',"%$palabraClave%")
+                    ->orWhere('material.stock', 'like',"%$palabraClave%")
+                    ->orWhere('almacen.nombre_almacen', 'like',"%$palabraClave%")
+                    ->orWhere('almacen.descripcion_almacen', 'like',"%$palabraClave%")
+                    //->orwhere('nom_acueducto','like',"%$palabraClave%")
+                    // ->orwhere('nom_mpio','like',"%$palabraClave%")
+                    // ->orwhere('nom_parroq','like',"%$palabraClave%")
+                    // ->orwhere('nom_sector','like',"%$palabraClave%")
+                    // ->orWhere('observaciones', 'like',"%$palabraClave%")
+                    // ->orWhere('descrip_estatu', 'like',"%$palabraClave%")
+                    // ->orwhere('nom_cliente','like',"%$palabraClave%")
+                    // ->orwhere('ape_cliente','like',"%$palabraClave%")
+                    // ->orwhere('telefono','like',"%$palabraClave%")
+                    // ->orWhere('correo', 'like',"%$palabraClave%")
+                    // ->orWhere('pnto_ref', 'like',"%$palabraClave%")
+                    // ->orwhere('nic','like',"%$palabraClave%")
+                    // ->orWhere('nom_av_calle', 'like',"%$palabraClave%")
+                    // ->orWhere('nombreoperador', 'like',"%$palabraClave%")
+                    // ->orWhere('apellidooperador', 'like',"%$palabraClave%")
+
+                    ->select('*')
+                    //->simplePaginate(10);
+                    ->get();
+        $query = DB::getQueryLog();
+        //dd($query);
+
+        return json_encode($filtro);
     }
 
     public function check_user(Request $r){
-        //dd($r);
 
         $usuario = $r->usuario;
         $clave = $r->clave;

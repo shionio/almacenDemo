@@ -33,7 +33,7 @@
 				                        			<option value="{{$almacen->id_almacen}}" @if($solicitud->id_almacen_origen === $almacen->id_almacen)selected='true' @endif >{{$almacen->nombre_almacen}}</option>
 				                          		@endforeach
 				                        </select> --}}
-
+				                        <input class="form-control" type="hidden" name="almacenOrigen" value="{{$solicitud->idAlmaOri}}" readonly>
 				                        <input class="form-control" type="text" name="almacenOrigen" value="{{$solicitud->almaOri}}" readonly>
 				                     </div>
 				                </div>
@@ -48,7 +48,7 @@
 				                        			<option value="{{$almacen->id_almacen}}" @if($solicitud->id_almacen_destino == $almacen->id_almacen) selected="true"@endif>{{$almacen->nombre_almacen}}</option>
 				                          		@endforeach
 			                        	</select> --}}
-
+			                        	<input class="form-control" type="hidden" name="almacenDestino" value="{{$solicitud->idAlmaDesti}}" readonly>
 			                        	<input class="form-control" type="text" name="almacenDestino" value="{{$solicitud->almaDesti}}" readonly>
 
 				                     </div>
@@ -74,7 +74,7 @@
 	                          				<option value="{{$material->id_material}}" @if($material->id_material == $solicitud->id_material)selected="true"@endif >{{$material->nombre_material}}</option>
 	                          			@endforeach
                                     </select> --}}
-
+                                    <input type="hidden" name="id_material" value="{{$solicitud->id_material}}">
                                     <input class="form-control" name="material" value="{{$solicitud->nombre_material}}" readonly></input>
 			                  	</div>
 
