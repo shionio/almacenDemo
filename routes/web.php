@@ -97,7 +97,7 @@ Route::get('/Solicitudes/pdf/{id}',[MovimientosController::class,'solicitudPDF']
 Route::post('/guardarEntrada',[MovimientosController::class, 'guadarEntradaMaterial']);
 Route::post('/recibeSolicitud',[MovimientosController::class,'recibe']);
 Route::post('/actualizarSolicitud',[MovimientosController::class,'update']);
-Route::post('/solicitudAprobada/{id}',[MovimientosController::class,'aprobada']);
+Route::post('/solicitudAprobada',[MovimientosController::class,'aprobada']);
 
 
 Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');

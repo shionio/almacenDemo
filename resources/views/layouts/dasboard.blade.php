@@ -177,6 +177,20 @@
                       <i class="fa fa-paperclip" aria-hidden="true"></i>
                       <p>Entrada De Material</p>
                     </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{{route('listaArticulos')}}" class="nav-link">
+                          <i class="fa fa-list-alt" aria-hidden="true"></i>
+                          <p>Entrsdfs</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{Route('newArticulo')}}" class="nav-link">
+                          <i class="fa fa-cube" aria-hidden="true"></i>
+                          <p>Ingresar Artículo</p>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
 
@@ -269,77 +283,7 @@
               </li>
             @endif
 
-            @if(session('rol')==2)
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="fas fa-warehouse"></i>
-                    <p>
-                      Almacen
-                    <i class="right fas fa-angle-left"></i>
-                    </p>
-                  </a>
-                  <ul class="nav nav-treeview">
 
-                    <li class="nav-item">
-                      <a href="{{Route('listaAlmacenes')}}" class="nav-link">
-                        <i class="fa fa-list-alt" aria-hidden="true"></i>
-                        <p>Lista de Almacenes</p>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="fa fa-cubes" aria-hidden="true"></i>
-                    <p>
-                      Articulos
-                      <i class="right fas fa-angle-left"></i>
-                    </p>
-                  </a>
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="{{route('listaArticulos')}}" class="nav-link">
-                        <i class="fa fa-list-alt" aria-hidden="true"></i>
-                        <p>Lista de Articulo</p>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                    <p>
-                      Proveedores
-                      <i class="fas fa-angle-left right"></i>
-                    </p>
-                  </a>
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="{{route('lista.proveedor')}}" class="nav-link">
-                        <i class="fa fa-list-alt" aria-hidden="true"></i>
-                        <p>Lista de  Proveedor</p>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="fa fa-tasks" aria-hidden="true"></i>
-                    <p>
-                      Movimientos
-                      <i class="fas fa-angle-left right"></i>
-                    </p>
-                  </a>
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="{{route('listaMovimientos')}}" class="nav-link">
-                        <i class="fa fa-paperclip" aria-hidden="true"></i>
-                        <p>Solicitud</p>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              @endif
             </ul>
           </nav>
           <!-- /.sidebar-menu -->

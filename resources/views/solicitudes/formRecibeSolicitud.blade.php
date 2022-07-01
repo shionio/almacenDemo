@@ -33,6 +33,7 @@
 				                        			<option value="{{$almacen->id_almacen}}" @if($solicitud->id_almacen_origen === $almacen->id_almacen)selected='true' @endif >{{$almacen->nombre_almacen}}</option>
 				                          		@endforeach
 				                        </select> --}}
+				                        
 				                        <input class="form-control" type="hidden" name="almacenOrigen" value="{{$solicitud->idAlmaOri}}" readonly>
 				                        <input class="form-control" type="text" name="almacenOrigen" value="{{$solicitud->almaOri}}" readonly>
 				                     </div>
@@ -48,7 +49,7 @@
 				                        			<option value="{{$almacen->id_almacen}}" @if($solicitud->id_almacen_destino == $almacen->id_almacen) selected="true"@endif>{{$almacen->nombre_almacen}}</option>
 				                          		@endforeach
 			                        	</select> --}}
-			                        	<input class="form-control" type="hidden" name="almacenDestino" value="{{$solicitud->idAlmaDesti}}" readonly>
+			                        	<input class="form-control" type="hidden" name="idAlmacenDestino" value="{{$solicitud->idAlmaDesti}}" readonly>
 			                        	<input class="form-control" type="text" name="almacenDestino" value="{{$solicitud->almaDesti}}" readonly>
 
 				                     </div>

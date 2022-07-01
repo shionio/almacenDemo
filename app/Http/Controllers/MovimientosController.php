@@ -266,13 +266,11 @@ class MovimientosController extends Controller
                         )
                     ->get()->first();
 
-                    //dd($aprobarSol);
-
         return view('solicitudes.formAprobarSolicitud',['solicitud' => $aprobarSol, 'estatusSolicitudes' => $estatus_solicitudes, 'almacenes'  => $almacenes,'materiales' => $materiales,]);
     }
 
-    public function aprobada()
-    {
+    public function aprobada(){
+        //dd($_POST);
         $id_solicitud   = $_POST['idSolicitud'];
         $id_estatus     = $_POST['estatusSolicitud'];
         $observaciones  = $_POST['observacionesSolicitud'];
@@ -328,15 +326,15 @@ class MovimientosController extends Controller
 
         $cantSolicitada = intval($_POST['cantidadSolicitada']);
         $stock = DB::table('material')
-                    ->where(['id_material' => $_POST['id_material'], 'id_almacen' => $_POST['almacenDestino'] ])
+                    ->where(['id_material' => $_POST['id_material'], 'id_almacen' => $_POST['idAlmacenDestino'] ])
                     ->select('stock')
                     ->get()->first();
-        dd($stock);
+        //dd($stock);
         $q = DB::getQueryLog();
 
 
         if($stock == null){
-            $buscarMaterialAlmacen = DB::table('material')->where('id_material',$_POST['material'])->get()->first();
+            $buscarMaterialAlmacen = DB::table('material')->where('id_material',$_POST['id_material'])->get()->first();
 
             $nuevoArticulo = array(
                 'nombre_material'       => $buscarMaterialAlmacen->nombre_material,
@@ -345,7 +343,7 @@ class MovimientosController extends Controller
                 'activo'                => true,
                 'stock'                 => intval($_POST['cantidadSolicitada']),
                 'id_estatus_material'   => intval($buscarMaterialAlmacen->id_estatus_material),
-                'id_almacen'            => intval($_POST['almacenDestino']),
+                'id_almacen'            => intval($_POST['idAlmacenDestino']),
                 'id_categoria'          => $buscarMaterialAlmacen->id_categoria,
                 'id_condicion_material' => $buscarMaterialAlmacen->id_condicion_material,
                 'id_ingreso_material'   => $buscarMaterialAlmacen->id_ingreso_material,
@@ -358,6 +356,8 @@ class MovimientosController extends Controller
                 'id_proveedor'          => $buscarMaterialAlmacen->id_proveedor,
                 'stock_inicial'         => intval($_POST['cantidadSolicitada']),
             );
+
+            //dd($nuevoArticulo);
                 $ingresarNuevoMaterial = DB::table('material')->insert( $nuevoArticulo);
 
                 $logSolicitudes = array(
@@ -377,9 +377,10 @@ class MovimientosController extends Controller
             $stockMaterial =$stock->stock;
 
             $stockAingresar = intval($cantSolicitada+$stockMaterial);
+            //dd($stockAingresar);
 
             $ingresarStock = DB::table('material')
-                                ->where( ['id_material' => $_POST['material'],'id_almacen' => $_POST['almacenDestino']] )
+                                ->where( ['id_material' => $_POST['id_material'],'id_almacen' => $_POST['idAlmacenDestino']] )
                                 ->update(['stock' => $stockAingresar]);
 
             $actalizarEstatus = DB::table('solicitudes')->where('id_solicitud',$_POST['idSolicitud'])->update(['estatus' => $_POST['estatusSolicitud']]);
@@ -400,7 +401,7 @@ class MovimientosController extends Controller
 
         }
 
-        if ( $ingresarStock == 1 && $insertLogSolicitud == true){
+        if ( $insertLogSolicitud == true){
             return redirect()->route('listaMovimientos');
         }
 

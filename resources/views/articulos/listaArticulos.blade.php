@@ -7,27 +7,26 @@
           <div class="col-10">
             <h2>Listado de Artículos</h2>
           </div>
-{{-- {{dd($articulos)}} --}}
-          {{-- <div class="col-2">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='{{Route('newArticulo')}}'">
-            <i class="nav-icon far fa-plus-square"></i> Artículo</button>
-          </div> --}}
         </div>
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <table id="example1" class="table table-bordered table-striped">
+        <table {{-- id="example1" --}} class="table table-bordered table-striped">
           <thead>
             <tr>
               <th>Id</th>
-              <th>Nombre</th>
-              <th>Descripcion</th>
-              <th>Stock</th>
+              <th>Material</th>
+              <th>Descripcion Material</th>
               <th>Unidad de Medida</th>
+              <th>Condicion Material</th>
+              <th>Sector del Material</th>
+              <th>centro</th>
               <th>Almacen</th>
-              @if(session('rol')==1)
+              <th>Stock por Almacen</th>
+              <th>Stock por Centro</th>
+             {{--  @if(session('rol')==1)
                 <th>Acciones</th>
-              @endif
+              @endif --}}
             </tr>
           </thead>
             @foreach($articulos as $articulo)
@@ -40,6 +39,9 @@
                     <td>{{$articulo->stock}}</td>
                     <td>{{$articulo->unidad_medida}}</td>
                     <td>{{$articulo->descripcion_almacen}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     @if(session('rol')==1)
                       <td>
                         <a href="">
@@ -62,20 +64,24 @@
                     <td>{{$articulo->stock}}</td>
                     <td>{{$articulo->unidad_medida}}</td>
                     <td>{{$articulo->descripcion_almacen}}</td>
-                    @if(session('rol')==1)
-                      <td>
-                        <a href="" onclick="hola()">
-                          <i class="fas fa-edit" style="margin-right: 5px;"></i>
-                        </a>
-                        <a href="">
-                          <i class="fas fa-eye" style="margin-right: 5px;"></i>
-                        </a>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                      {{-- @if(session('rol')==1)
+                        <td>
+                          <a href="" onclick="hola()">
+                            <i class="fas fa-edit" style="margin-right: 5px;"></i>
+                          </a>
+                          <a href="">
+                            <i class="fas fa-eye" style="margin-right: 5px;"></i>
+                          </a>
 
-                        <a href="">
-                          <i class="fas fa-plus-circle" style="margin-right: 5px;"></i>
-                        </a>
-                      </td>
-                    @endif
+                          <a href="">
+                            <i class="fas fa-plus-circle" style="margin-right: 5px;"></i>
+                          </a>
+                        </td>
+                      @endif --}}
                   </tr>
                 </tbody>
               @endif
@@ -83,14 +89,18 @@
           <tfoot>
             <tr>
                <th>Id</th>
-              <th>Nombre</th>
-              <th>Descripcion</th>
-              <th>Stock</th>
+              <th>Material</th>
+              <th>Descripcion Material</th>
               <th>Unidad de Medida</th>
+              <th>Condicion Material</th>
+              <th>Sector del Material</th>
+              <th>centro</th>
               <th>Almacen</th>
-              @if(session('rol')==1)
+              <th>Stock por Almacen</th>
+              <th>Stock por Centro</th>
+              {{-- @if(session('rol')==1)
               <th>Acciones</th>
-              @endif
+              @endif --}}
             </tr>
           </tfoot>
         </table>
