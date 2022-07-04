@@ -15,7 +15,7 @@
 
 			            <!-- /.card-header -->
 			           	<!-- form start -->
-			            <form action="/guardarArticulo" method="POST">
+			            <form action="/guardarArticulo" method="POST" enctype="multipart/form-data">
 			            	@csrf
 			            	<div class="card-body row">
 				                <div class="form-group col-2">
@@ -151,9 +151,16 @@
 			                        </select>
 			                  	</div>
 
-			                    <div class="form-group col">
+			                    <div class="form-group col-12">
 			                        <label>Observaciones</label>
 			                        <input type="text" name="observaciones" class="form-control" id="estatusVehiculo" value="">
+			                  	</div>
+
+			                  	<div class="col-6">
+			                  		<label for="">Cargar Imagen Del Articulo</label>
+			                  		<br>
+									<input type="file" name="img_articulo" accept="image/png, .jpeg, .jpg" value="Cargar Imagen">
+									{{-- <a href="" type="file" name="img_articulo2"> Cargar Imagen</a> --}}
 			                  	</div>
 				            </div>
 			                <!-- /.card-body -->

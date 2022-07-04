@@ -21,6 +21,7 @@ class articulosController extends Controller
                               'material.descripcion_material',
                               'material.stock',
                               'material.unidad_medida',
+                              'material.img_material',
                               'almacen.descripcion_almacen'
                             )->get();
         //dd($articulos);
@@ -64,6 +65,19 @@ class articulosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
+
+        if($request->hasFile('img_articulo') ){
+            $imgArticulo = $request->file('img_articulo');
+            $urlImagen = 'img/imgArticulos/';
+            $imgName = time() . '-' . $imgArticulo->getClientOriginalName();
+
+            //$guardado = $request->file('img_articulo')->move($urlImagen,$imgName);
+
+            $urlImagenBaseDeDatos =$urlImagen .$imgName;
+        }
+
+        dd($urlImagenBaseDeDatos);
+
         $articulo = array(
             'activo'                => true,
             'nombre_material'       => $_POST['nombreArticulo'],
@@ -82,7 +96,10 @@ class articulosController extends Controller
             'id_estatus_material'   => $_POST['estatusMaterial'],
             'id_condicion_material' => $_POST['condicionMaterial'],
             'id_ingreso_material'   => $_POST['ingresoMaterial'],
+            'img_articulo'          => $urlImagenBaseDeDatos,
         );
+
+        //dd($articulo);
 
         $insertArticulo = DB::table('material')->insert($articulo);
 

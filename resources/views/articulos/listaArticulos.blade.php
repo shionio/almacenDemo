@@ -11,6 +11,7 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
+        {{-- {{dd($articulos)}} --}}
         <table {{-- id="example1" --}} class="table table-bordered table-striped">
           <thead>
             <tr>
@@ -24,6 +25,8 @@
               <th>Almacen</th>
               <th>Stock por Almacen</th>
               <th>Stock por Centro</th>
+              <th>Imagen</th>
+
              {{--  @if(session('rol')==1)
                 <th>Acciones</th>
               @endif --}}
@@ -68,6 +71,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td>
+                      <img src="{{asset($articulo->img_material)}}" alt="">
+                    </td>
                       {{-- @if(session('rol')==1)
                         <td>
                           <a href="" onclick="hola()">
@@ -98,6 +104,7 @@
               <th>Almacen</th>
               <th>Stock por Almacen</th>
               <th>Stock por Centro</th>
+              <th>Imagen</th>
               {{-- @if(session('rol')==1)
               <th>Acciones</th>
               @endif --}}

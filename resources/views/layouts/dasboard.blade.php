@@ -176,6 +176,7 @@
                     <a href="{{Route('entradaMaterial')}}" class="nav-link">
                       <i class="fa fa-paperclip" aria-hidden="true"></i>
                       <p>Entrada De Material</p>
+                      <i class="fas fa-angle-left right"></i>
                     </a>
                     <ul class="nav nav-treeview">
                       <li class="nav-item">
