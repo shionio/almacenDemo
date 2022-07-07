@@ -90,6 +90,7 @@ Route::post('traerStock',[MovimientosController::class,'traerStock']);
 Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
 Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('/guardarSolicitud',[MovimientosController::class,'store']);
+Route::post('/entradaPorTraspaso',[MovimientosController::class,'entradaPorTraspaso']);
 Route::get('/Solicitudes/pdf/{id}',[MovimientosController::class,'solicitudPDF'])->name('solicitudPdf');
 
 

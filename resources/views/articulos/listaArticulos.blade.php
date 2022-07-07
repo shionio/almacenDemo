@@ -39,8 +39,8 @@
                     <td>{{$articulo->id_material}}</td>
                     <td>{{$articulo->nombre_material}}</td>
                     <td>{{$articulo->descripcion_material}}</td>
-                    <td>{{$articulo->stock}}</td>
                     <td>{{$articulo->unidad_medida}}</td>
+                    <td>{{$articulo->stock}}</td>
                     <td>{{$articulo->descripcion_almacen}}</td>
                     <td></td>
                     <td></td>

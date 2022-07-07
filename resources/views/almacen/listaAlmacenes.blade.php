@@ -6,8 +6,6 @@
         <div class="row">
           <div class="col-10">
             <h2>Listado de Almacenes</h2>
-
-            {{-- {{dd($almacenes);}} --}}
           </div>
           <div class="col-2">
             {{-- <button type="button" class="btn btn-primary" onclick="window.location.href='{{Route('newAlmacen')}}'">
@@ -20,39 +18,35 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <table id="example3" name="example3" class="table table-bordered table-striped">
-          <thead>
+        <table class="table">
+          <thead class="thead-dark">
             <tr>
               <th>Id</th>
-              <th>Nombre</th>
-              <th>Descripcion</th>
+              <th>Region</th>
               <th>Estado</th>
-              <th>Municipio</th>
-              <th>Parroquia</th>
-              <th>Direccion</th>
-              <th>Activo</th>
-              <th>Aciones</th>
+              <th>Centro</th>
+              <th>Siglas del Almacen</th>
+              <th>Denominación Almacen</th>
             </tr>
           </thead>
             @foreach($almacenes as $almacen)
               <tbody>
                 <tr>
                   <td>{{$almacen->id_almacen}}</td>
-                  <td>{{$almacen->nombre_almacen}}</td>
-                  <td>{{$almacen->descripcion_almacen}}</td>
+                  <td>{{$almacen->region}}</td>
                   <td>{{$almacen->estado}}</td>
-                  <td>{{$almacen->municipio}}</td>
-                  <td>{{$almacen->parroquia}}</td>
-                  <td>{{$almacen->direccion}}</td>
-                  @if($almacen->activo == true)
+                  <td>{{$almacen->centro}}</td>
+                  <td>{{$almacen->siglas_almacen}}</td>
+                  <td>{{$almacen->nombre_almacen}}</td>
+                  {{-- @if($almacen->activo == true)
                     <td style="background-color:lightblue;">Activo</td>
                   @else
                     <td style="background-color:lightyellow;">Inactivo</td>
-                  @endif
-                  <td>
+                  @endif --}}
+                  {{-- <td>
                     <abbr title="Editar">
                       <a onclick="editar({{$almacen->id_almacen}})">
-                    {{-- <a href="{{Route('VerAlmacen',$almacen->id_almacen)}}" type="submit" name="editar" id="editar"> --}}
+                    <a href="{{Route('VerAlmacen',$almacen->id_almacen)}}" type="submit" name="editar" id="editar">
                       <i class="fa-solid fa-pen-to-square fa-2x"></i>
                     </a>
                   </abbr>
@@ -66,7 +60,7 @@
                       @endif
                     </a>
                   </abbr>
-                  </td>
+                  </td> --}}
 
                 </tr>
               </tbody>
@@ -74,17 +68,15 @@
           <tfoot>
             <tr>
               <th>Id</th>
-              <th>Nombre</th>
-              <th>Descripcion</th>
+              <th>Region</th>
               <th>Estado</th>
-              <th>Municipio</th>
-              <th>Parroquia</th>
-              <th>Direccion</th>
-              <th>Activo</th>
-              <th>Aciones</th>
+              <th>centro</th>
+              <th>Siglas del Almacen</th>
+              <th>Denominación Almacen</th>
             </tr>
           </tfoot>
-        </table>
+        </table><br>
+        {{$almacenes->render()}}
       </div>
       <!-- /.card-body -->
     </div>

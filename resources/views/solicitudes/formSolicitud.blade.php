@@ -13,7 +13,8 @@
 			            </div>
 			            <!-- /.card-header -->
 			           	<!-- form start -->
-			            <form action="/guardarSolicitud" method="POST">
+			           	{{-- {{dd($almacenUsuario)}} --}}
+			            <form action="/entradaPorTraspaso" method="POST">
 			            	@csrf
 			            	<div class="card-body row">
 				                <div class="form-group col-2">
@@ -37,17 +38,15 @@
 				                    <!-- select -->
 				                    <div class="form-group">
 				                        <label>Almacen Destino</label>
-				                        <select class="js-example-basic-single custom-select" name="almacenDestino" id="almadesti" required >
-			                          		<option value="null">Seleccione</option>
-			                        	</select>
-
+			                        	<input class="form-control" type="hidden" name="idAlmacenDestino" value="{{$almacenUsuario[0]->id_almacen}}">
+			                        	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="{{$almacenUsuario[0]->nombre_almacen}}" readonly="true">
 				                     </div>
 				                </div>
 
-			                  	<div class="form-group col-3">
+			                  	{{-- <div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Estatus Solicitud</label>
 			                    	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="Nueva Solicitud" readonly="true">
-			                  	</div>
+			                  	</div> --}}
 
 			                  	<div class="col-12">
 				                  	<table class="table table-bordered {{-- table-striped --}}" id="tablaMateriales">
@@ -68,7 +67,11 @@
 
 			                  					<td>
 			                  						<select class="js-example-basic-single custom-select material" name="material" id="material" onchange="traerStock($(this))">
+
                                     					<option value="null">Seleccione</option>
+                                    					@foreach($materiales as $material)
+                                    						<option value="{{$material->id_material}}">{{$material->nombre_material}}</option>
+                                    					@endforeach
                                     				</select>
 			                  					</td>
 			                  					<td>
@@ -173,14 +176,14 @@
 					let almacenesRestantes = consultas.almacenesRestantes
 					let materiales = consultas.materialesAlmacen
 
-					$("#almadesti").empty()
+					// $("#almadesti").empty()
 					$(".idMaterial").val('')
 					$(".stock").val('')
 
 
-					for(var i = 0; i < almacenesRestantes.length; i++){
-						$("#almadesti").append("<option value='"+almacenesRestantes[i].id_almacen+"'>"+almacenesRestantes[i].nombre_almacen+"</option>")
-					}
+					// for(var i = 0; i < almacenesRestantes.length; i++){
+					// 	$("#almadesti").append("<option value='"+almacenesRestantes[i].id_almacen+"'>"+almacenesRestantes[i].nombre_almacen+"</option>")
+					// }
 
 					$("#material").empty()
 					for(var i = 0; i < materiales.length; i++){

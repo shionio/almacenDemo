@@ -74,12 +74,20 @@ class MovimientosController extends Controller
      */
     public function create()
     {
-        $almacenes = DB::table('almacen')->get();
+        $almacenes = DB::table('almacenes')->get();
+
+        $almacenUsuario = DB::table('almacenes')
+                            ->where('id_almacen',session('id_almacen'))
+                            ->select('id_almacen','nombre_almacen')
+                            ->get();
 
 
-        $materiales = DB::table('material')->select('id_material','nombre_material','stock')->get();
+        $materiales = DB::table('material')->where('id_almacen',session('id_almacen'))->select('id_material','nombre_material','stock')->get();
 
-        return view('solicitudes.formSolicitud',['almacenes'=>$almacenes, 'materiales' => $materiales]);
+        return view('solicitudes.formSolicitud',['almacenes'        => $almacenes,
+                                                 'materiales'       => $materiales,
+                                                 'almacenUsuario'   => $almacenUsuario,
+                                             ]);
 
 
     }
@@ -94,6 +102,59 @@ class MovimientosController extends Controller
     {
         $datosSolicitud = array(
 
+            'fecha_solicitud'       => $_POST['fecha'],
+            'id_usuario_solicitante'=> session('id_usuario'),
+            'id_almacen_origen'     => $_POST['almacenOrigen'],
+            'id_almacen_destino'    => $_POST['almacenDestino'],
+            'cantidad'              => $_POST['cantidadSolicitada'],
+            'descripcion_material'  => $_POST['material'],
+            'estatus'               => 1 ,
+            'observaciones'         => $_POST['observacionesSolicitud']
+        );
+
+        $insertSolicitud = DB::table('solicitudes')->insert($datosSolicitud);
+
+        if( $insertSolicitud == true ){
+            $inserLog = DB::table('logs')
+                        ->insert([
+                            'id_usuario' => session('id_usuario'),
+                            'fecha_accion' => now(),
+                            'accion' => 'Nueva solicitud Generada por el usuario'.session('usuario'),
+                        ]);
+
+            $last = DB::table('solicitudes')->latest('id_solicitud')->first();
+            $lastId = $last->id_solicitud;
+
+            $histDatosSol = array(
+                'fecha_solicitud'       => $_POST['fecha'],
+                'id_almacen_origen'     => $_POST['almacenOrigen'],
+                'id_almacen_destino'    => $_POST['almacenDestino'],
+                'cantidad'              => $_POST['cantidadSolicitada'],
+                'material'              => $_POST['material'],
+                'id_solicitud'          => $lastId,
+            );
+
+            $stock = $_POST['stock'];
+            $cantidad = $_POST['cantidadSolicitada'];
+            $nuevoStock = intval($stock - $cantidad);
+
+            $insertStock = array(
+                'stock' => $nuevoStock
+            );
+
+            $actualizarStock = DB::table('material')->where('id_material',$_POST['material'])->update($insertStock);
+
+        }
+
+        return redirect()->route('listaMovimientos');
+
+    }
+
+
+    public function entradaPorTraspaso(Request $request){
+
+        dd('llega');
+        $datosSolicitud = array(
             'fecha_solicitud'       => $_POST['fecha'],
             'id_usuario_solicitante'=> session('id_usuario'),
             'id_almacen_origen'     => $_POST['almacenOrigen'],
@@ -467,7 +528,7 @@ class MovimientosController extends Controller
         return view('movimientos.salidaMaterial');
     }
 
-    public function guardarSalidaMaterial(){
+    // public function guardarSalidaMaterial(){
 
-    }
+    // }
 }

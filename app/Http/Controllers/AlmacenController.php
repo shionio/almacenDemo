@@ -26,14 +26,7 @@ class AlmacenController extends Controller
      */
     public function index(){
        DB::enableQueryLog();
-       $almacenes = DB::table('almacen')
-                    ->join('ubicacion_geografica', 'ubicacion_geografica.id_ubicacion_geografica','=','almacen.id_ubicacion_geografica')
-                    ->join('estados','estados.id_estado','=','ubicacion_geografica.id_estado')
-                    ->join('municipios','municipios.id_municipio','=','ubicacion_geografica.id_municipio')
-                    ->join('parroquias','parroquias.id_parroquia','=','ubicacion_geografica.id_parroquia')
-                    ->select('almacen.id_almacen','almacen.nombre_almacen','almacen.descripcion_almacen','estados.estado','municipios.municipio','parroquias.parroquia','ubicacion_geografica.direccion','almacen.activo')->get();
-        // dd($almacenes);
-
+       $almacenes = DB::table('almacenes')->orderBy('id_almacen')->simplePaginate(15);
        return view('almacen.listaAlmacenes',['almacenes' => $almacenes]);
     }
 

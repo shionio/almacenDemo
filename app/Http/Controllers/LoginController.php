@@ -68,6 +68,7 @@ class LoginController extends Controller
 
         $session = DB::table('usuarios')->where(['usuario'=>$usuario,'activo'=> true])
         ->select('*')->get()->first();
+        //dd($session);
 
         if($session->activo == false){
             echo'<script type="text/javascript"> alert("Este Usuario se Encuentra Inactivo");window.location.href="/"</script>';
@@ -76,9 +77,10 @@ class LoginController extends Controller
 
 
             session([
-                'id_usuario' => $session->id_usuario,
-                'usuario' => $session->usuario,
-                'rol' => $session->id_rol,
+                'id_usuario'    => $session->id_usuario,
+                'usuario'       => $session->usuario,
+                'rol'           => $session->id_rol,
+                'id_almacen'    => $session->id_almacen,
             ]);
 
             $inserLog = DB::table('logs')->insert([
