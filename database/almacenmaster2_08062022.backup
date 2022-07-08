@@ -1,0 +1,1368 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.7 (Ubuntu 13.7-1.pgdg22.04+1)
+-- Dumped by pg_dump version 14.4 (Ubuntu 14.4-1.pgdg22.04+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: audit_logs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.audit_logs (
+    id integer NOT NULL,
+    description text NOT NULL,
+    subject_id integer,
+    subject_type character varying(255),
+    user_id integer,
+    properties text,
+    host character varying(45),
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.audit_logs OWNER TO postgres;
+
+--
+-- Name: audit_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.audit_logs_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.audit_logs_id_seq OWNER TO postgres;
+
+--
+-- Name: audit_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.audit_logs_id_seq OWNED BY public.audit_logs.id;
+
+
+--
+-- Name: categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.categories (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    color character varying(255),
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    deleted_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.categories OWNER TO postgres;
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.categories_id_seq OWNER TO postgres;
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
+
+
+--
+-- Name: comments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.comments (
+    id integer NOT NULL,
+    author_name character varying(255),
+    author_email character varying(255),
+    comment_text text NOT NULL,
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    deleted_at timestamp(0) without time zone,
+    ticket_id integer,
+    user_id integer
+);
+
+
+ALTER TABLE public.comments OWNER TO postgres;
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.comments_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comments_id_seq OWNER TO postgres;
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
+
+
+--
+-- Name: media; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.media (
+    id integer NOT NULL,
+    model_type character varying(255) NOT NULL,
+    model_id bigint NOT NULL,
+    uuid uuid,
+    collection_name character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    file_name character varying(255) NOT NULL,
+    mime_type character varying(255),
+    disk character varying(255) NOT NULL,
+    conversions_disk character varying(255),
+    size bigint NOT NULL,
+    manipulations json NOT NULL,
+    custom_properties json NOT NULL,
+    responsive_images json NOT NULL,
+    order_column integer,
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.media OWNER TO postgres;
+
+--
+-- Name: media_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.media_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.media_id_seq OWNER TO postgres;
+
+--
+-- Name: media_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.media_id_seq OWNED BY public.media.id;
+
+
+--
+-- Name: migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.migrations (
+    id integer NOT NULL,
+    migration character varying(255) NOT NULL,
+    batch integer NOT NULL
+);
+
+
+ALTER TABLE public.migrations OWNER TO postgres;
+
+--
+-- Name: migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.migrations_id_seq OWNER TO postgres;
+
+--
+-- Name: migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.migrations_id_seq OWNED BY public.migrations.id;
+
+
+--
+-- Name: oauth_access_tokens; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.oauth_access_tokens (
+    id character varying(100) NOT NULL,
+    user_id bigint,
+    client_id bigint NOT NULL,
+    name character varying(255),
+    scopes text,
+    revoked boolean NOT NULL,
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    expires_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.oauth_access_tokens OWNER TO postgres;
+
+--
+-- Name: oauth_auth_codes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.oauth_auth_codes (
+    id character varying(100) NOT NULL,
+    user_id bigint NOT NULL,
+    client_id bigint NOT NULL,
+    scopes text,
+    revoked boolean NOT NULL,
+    expires_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.oauth_auth_codes OWNER TO postgres;
+
+--
+-- Name: oauth_clients; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.oauth_clients (
+    id bigint NOT NULL,
+    user_id bigint,
+    name character varying(255) NOT NULL,
+    secret character varying(100),
+    provider character varying(255),
+    redirect text NOT NULL,
+    personal_access_client boolean NOT NULL,
+    password_client boolean NOT NULL,
+    revoked boolean NOT NULL,
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.oauth_clients OWNER TO postgres;
+
+--
+-- Name: oauth_clients_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.oauth_clients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.oauth_clients_id_seq OWNER TO postgres;
+
+--
+-- Name: oauth_clients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.oauth_clients_id_seq OWNED BY public.oauth_clients.id;
+
+
+--
+-- Name: oauth_personal_access_clients; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.oauth_personal_access_clients (
+    id bigint NOT NULL,
+    client_id bigint NOT NULL,
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.oauth_personal_access_clients OWNER TO postgres;
+
+--
+-- Name: oauth_personal_access_clients_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.oauth_personal_access_clients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.oauth_personal_access_clients_id_seq OWNER TO postgres;
+
+--
+-- Name: oauth_personal_access_clients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.oauth_personal_access_clients_id_seq OWNED BY public.oauth_personal_access_clients.id;
+
+
+--
+-- Name: oauth_refresh_tokens; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.oauth_refresh_tokens (
+    id character varying(100) NOT NULL,
+    access_token_id character varying(100) NOT NULL,
+    revoked boolean NOT NULL,
+    expires_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.oauth_refresh_tokens OWNER TO postgres;
+
+--
+-- Name: password_resets; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.password_resets (
+    email character varying(255) NOT NULL,
+    token character varying(255) NOT NULL,
+    created_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.password_resets OWNER TO postgres;
+
+--
+-- Name: permission_role; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.permission_role (
+    role_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.permission_role OWNER TO postgres;
+
+--
+-- Name: permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.permissions (
+    id integer NOT NULL,
+    title character varying(255),
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    deleted_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.permissions OWNER TO postgres;
+
+--
+-- Name: permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.permissions_id_seq OWNED BY public.permissions.id;
+
+
+--
+-- Name: priorities; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.priorities (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    color character varying(255),
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    deleted_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.priorities OWNER TO postgres;
+
+--
+-- Name: priorities_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.priorities_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.priorities_id_seq OWNER TO postgres;
+
+--
+-- Name: priorities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.priorities_id_seq OWNED BY public.priorities.id;
+
+
+--
+-- Name: role_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.role_user (
+    user_id integer NOT NULL,
+    role_id integer NOT NULL
+);
+
+
+ALTER TABLE public.role_user OWNER TO postgres;
+
+--
+-- Name: roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.roles (
+    id integer NOT NULL,
+    title character varying(255),
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    deleted_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.roles OWNER TO postgres;
+
+--
+-- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.roles_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.roles_id_seq OWNER TO postgres;
+
+--
+-- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
+
+
+--
+-- Name: statuses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.statuses (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    color character varying(255),
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    deleted_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.statuses OWNER TO postgres;
+
+--
+-- Name: statuses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.statuses_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.statuses_id_seq OWNER TO postgres;
+
+--
+-- Name: statuses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.statuses_id_seq OWNED BY public.statuses.id;
+
+
+--
+-- Name: tickets; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tickets (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL,
+    content text,
+    author_name character varying(255),
+    author_email character varying(255),
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    deleted_at timestamp(0) without time zone,
+    status_id integer NOT NULL,
+    priority_id integer NOT NULL,
+    category_id integer NOT NULL,
+    assigned_to_user_id integer
+);
+
+
+ALTER TABLE public.tickets OWNER TO postgres;
+
+--
+-- Name: tickets_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tickets_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tickets_id_seq OWNER TO postgres;
+
+--
+-- Name: tickets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tickets_id_seq OWNED BY public.tickets.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    email_verified_at timestamp(0) without time zone,
+    password character varying(255) NOT NULL,
+    remember_token character varying(255),
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    deleted_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: audit_logs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.audit_logs ALTER COLUMN id SET DEFAULT nextval('public.audit_logs_id_seq'::regclass);
+
+
+--
+-- Name: categories id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.categories_id_seq'::regclass);
+
+
+--
+-- Name: comments id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
+
+
+--
+-- Name: media id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.media ALTER COLUMN id SET DEFAULT nextval('public.media_id_seq'::regclass);
+
+
+--
+-- Name: migrations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.migrations_id_seq'::regclass);
+
+
+--
+-- Name: oauth_clients id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.oauth_clients ALTER COLUMN id SET DEFAULT nextval('public.oauth_clients_id_seq'::regclass);
+
+
+--
+-- Name: oauth_personal_access_clients id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.oauth_personal_access_clients ALTER COLUMN id SET DEFAULT nextval('public.oauth_personal_access_clients_id_seq'::regclass);
+
+
+--
+-- Name: permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.permissions ALTER COLUMN id SET DEFAULT nextval('public.permissions_id_seq'::regclass);
+
+
+--
+-- Name: priorities id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.priorities ALTER COLUMN id SET DEFAULT nextval('public.priorities_id_seq'::regclass);
+
+
+--
+-- Name: roles id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_id_seq'::regclass);
+
+
+--
+-- Name: statuses id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.statuses ALTER COLUMN id SET DEFAULT nextval('public.statuses_id_seq'::regclass);
+
+
+--
+-- Name: tickets id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tickets ALTER COLUMN id SET DEFAULT nextval('public.tickets_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: audit_logs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.audit_logs (id, description, subject_id, subject_type, user_id, properties, host, created_at, updated_at) FROM stdin;
+1	created	1	App\\Ticket	2	{"author_name":"angel","author_email":"angel@a.a","title":"hola","content":"no se guardar en excel","category_id":1,"status_id":1,"priority_id":1,"updated_at":"2022-05-26T14:54:48.000000Z","created_at":"2022-05-26T14:54:48.000000Z","id":1,"attachments":[],"media":[]}	127.0.0.1	2022-05-26 14:54:48	2022-05-26 14:54:48
+2	created	2	App\\Ticket	5	{"title":"prueba","content":null,"status_id":"1","priority_id":"2","category_id":"3","author_name":"angel","author_email":"angel@a.a","assigned_to_user_id":"2","updated_at":"2022-05-26T15:21:22.000000Z","created_at":"2022-05-26T15:21:22.000000Z","id":2,"attachments":[],"media":[]}	127.0.0.1	2022-05-26 15:21:22	2022-05-26 15:21:22
+3	updated	1	App\\Ticket	5	{"id":1,"title":"hola","content":"no se guardar en excel","author_name":"soportico","author_email":"soportico@soporte.com","created_at":"2022-05-26T14:54:48.000000Z","updated_at":"2022-05-26T15:23:41.000000Z","deleted_at":null,"status_id":"1","priority_id":"3","category_id":"3","assigned_to_user_id":"3","attachments":[],"media":[]}	127.0.0.1	2022-05-26 15:23:41	2022-05-26 15:23:41
+4	updated	2	App\\Ticket	6	{"id":2,"title":"prueba","content":"ya termine con esa  vaina","author_name":"luisito","author_email":"angel@a.a","created_at":"2022-05-26T15:21:22.000000Z","updated_at":"2022-05-27T14:45:28.000000Z","deleted_at":null,"status_id":"2","priority_id":"2","category_id":"3","assigned_to_user_id":2,"attachments":[],"media":[]}	172.16.1.153	2022-05-27 14:45:28	2022-05-27 14:45:28
+\.
+
+
+--
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.categories (id, name, color, created_at, updated_at, deleted_at) FROM stdin;
+1	Uncategorized	#4f65a8	2022-05-26 13:52:49	2022-05-26 13:52:49	\N
+2	Billing/Payments	#b79eb7	2022-05-26 13:52:49	2022-05-26 13:52:49	\N
+3	Technical question	#63b62b	2022-05-26 13:52:49	2022-05-26 13:52:49	\N
+4	falla de impresora	#c7d14f	2022-05-27 14:59:24	2022-05-27 14:59:24	\N
+\.
+
+
+--
+-- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.comments (id, author_name, author_email, comment_text, created_at, updated_at, deleted_at, ticket_id, user_id) FROM stdin;
+1	KARLA	KARLAVENEGAS2489@GMAIL.COM	PRUEBA PRUEBITA PRUEBA	2022-05-27 15:05:43	2022-05-27 15:05:43	\N	1	5
+2	dcdefedfe	dfcdffvfv	dddddddddd	2022-05-27 15:16:48	2022-05-27 15:16:48	\N	1	5
+\.
+
+
+--
+-- Data for Name: media; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.media (id, model_type, model_id, uuid, collection_name, name, file_name, mime_type, disk, conversions_disk, size, manipulations, custom_properties, responsive_images, order_column, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.migrations (id, migration, batch) FROM stdin;
+1	2014_10_12_100000_create_password_resets_table	1
+2	2016_06_01_000001_create_oauth_auth_codes_table	1
+3	2016_06_01_000002_create_oauth_access_tokens_table	1
+4	2016_06_01_000003_create_oauth_refresh_tokens_table	1
+5	2016_06_01_000004_create_oauth_clients_table	1
+6	2016_06_01_000005_create_oauth_personal_access_clients_table	1
+7	2019_11_09_000001_create_permissions_table	1
+8	2019_11_09_000002_create_roles_table	1
+9	2019_11_09_000003_create_users_table	1
+10	2019_11_09_000004_create_statuses_table	1
+11	2019_11_09_000005_create_priorities_table	1
+12	2019_11_09_000006_create_categories_table	1
+13	2019_11_09_000007_create_tickets_table	1
+14	2019_11_09_000008_create_comments_table	1
+15	2019_11_09_000009_create_permission_role_pivot_table	1
+16	2019_11_09_000010_create_role_user_pivot_table	1
+17	2019_11_09_000011_add_relationship_fields_to_tickets_table	1
+18	2019_11_09_000012_add_relationship_fields_to_comments_table	1
+19	2019_11_09_000013_create_audit_logs_table	1
+20	2019_11_10_000001_create_media_table	1
+\.
+
+
+--
+-- Data for Name: oauth_access_tokens; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.oauth_access_tokens (id, user_id, client_id, name, scopes, revoked, created_at, updated_at, expires_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: oauth_auth_codes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.oauth_auth_codes (id, user_id, client_id, scopes, revoked, expires_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: oauth_clients; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.oauth_clients (id, user_id, name, secret, provider, redirect, personal_access_client, password_client, revoked, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: oauth_personal_access_clients; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.oauth_personal_access_clients (id, client_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: oauth_refresh_tokens; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.oauth_refresh_tokens (id, access_token_id, revoked, expires_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: password_resets; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.password_resets (email, token, created_at) FROM stdin;
+admin@admin.com	$2y$10$SobUx5xjRDF.FJw0Yj73JuV.jbXm/nFGBalDaU14ruC02JzbtYaIC	2022-05-26 13:58:56
+angelgutierrez1983@gmail.com	$2y$10$f4O1UW8GciZULViZCFeXNuwuOlZbsnZ6ABidKZH9AJS0XJ0Zj4I32	2022-05-26 14:35:57
+\.
+
+
+--
+-- Data for Name: permission_role; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.permission_role (role_id, permission_id) FROM stdin;
+1	1
+1	2
+1	3
+1	4
+1	5
+1	6
+1	7
+1	8
+1	9
+1	10
+1	11
+1	12
+1	13
+1	14
+1	15
+1	16
+1	17
+1	18
+1	19
+1	20
+1	21
+1	22
+1	23
+1	24
+1	25
+1	26
+1	27
+1	28
+1	29
+1	30
+1	31
+1	32
+1	33
+1	34
+1	35
+1	36
+1	37
+1	38
+1	39
+1	40
+1	41
+1	42
+1	43
+1	44
+2	33
+2	34
+2	36
+3	34
+3	36
+\.
+
+
+--
+-- Data for Name: permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.permissions (id, title, created_at, updated_at, deleted_at) FROM stdin;
+1	user_management_access	\N	\N	\N
+2	permission_create	\N	\N	\N
+3	permission_edit	\N	\N	\N
+4	permission_show	\N	\N	\N
+5	permission_delete	\N	\N	\N
+6	permission_access	\N	\N	\N
+7	role_create	\N	\N	\N
+8	role_edit	\N	\N	\N
+9	role_show	\N	\N	\N
+10	role_delete	\N	\N	\N
+11	role_access	\N	\N	\N
+12	user_create	\N	\N	\N
+13	user_edit	\N	\N	\N
+14	user_show	\N	\N	\N
+15	user_delete	\N	\N	\N
+16	user_access	\N	\N	\N
+17	status_create	\N	\N	\N
+18	status_edit	\N	\N	\N
+19	status_show	\N	\N	\N
+20	status_delete	\N	\N	\N
+21	status_access	\N	\N	\N
+22	priority_create	\N	\N	\N
+23	priority_edit	\N	\N	\N
+24	priority_show	\N	\N	\N
+25	priority_delete	\N	\N	\N
+26	priority_access	\N	\N	\N
+27	category_create	\N	\N	\N
+28	category_edit	\N	\N	\N
+29	category_show	\N	\N	\N
+30	category_delete	\N	\N	\N
+31	category_access	\N	\N	\N
+32	ticket_create	\N	\N	\N
+33	ticket_edit	\N	\N	\N
+34	ticket_show	\N	\N	\N
+35	ticket_delete	\N	\N	\N
+36	ticket_access	\N	\N	\N
+37	comment_create	\N	\N	\N
+38	comment_edit	\N	\N	\N
+39	comment_show	\N	\N	\N
+40	comment_delete	\N	\N	\N
+41	comment_access	\N	\N	\N
+42	audit_log_show	\N	\N	\N
+43	audit_log_access	\N	\N	\N
+44	dashboard_access	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: priorities; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.priorities (id, name, color, created_at, updated_at, deleted_at) FROM stdin;
+4	PRIORIDAD ALTA PRESIDENCIA	#ff8514	2022-05-27 15:01:08	2022-05-27 15:01:08	\N
+3	ALTA	#ff0000	2022-05-26 13:52:49	2022-05-27 15:01:30	\N
+2	MEDIA	#2289d4	2022-05-26 13:52:49	2022-05-27 15:03:13	\N
+1	BAJA	#0bf71c	2022-05-26 13:52:49	2022-05-27 15:03:22	\N
+\.
+
+
+--
+-- Data for Name: role_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.role_user (user_id, role_id) FROM stdin;
+1	1
+2	2
+3	2
+4	2
+5	1
+6	3
+\.
+
+
+--
+-- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.roles (id, title, created_at, updated_at, deleted_at) FROM stdin;
+1	Admin	\N	\N	\N
+2	Agent	\N	\N	\N
+3	tecnico	2022-05-26 16:13:28	2022-05-26 16:13:28	\N
+\.
+
+
+--
+-- Data for Name: statuses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.statuses (id, name, color, created_at, updated_at, deleted_at) FROM stdin;
+2	CERRADO	#05d815	2022-05-26 13:52:49	2022-05-27 15:02:19	\N
+1	Open	#e32e22	2022-05-26 13:52:49	2022-05-27 15:12:01	\N
+\.
+
+
+--
+-- Data for Name: tickets; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tickets (id, title, content, author_name, author_email, created_at, updated_at, deleted_at, status_id, priority_id, category_id, assigned_to_user_id) FROM stdin;
+1	hola	no se guardar en excel	soportico	soportico@soporte.com	2022-05-26 14:54:48	2022-05-26 15:23:41	\N	1	3	3	3
+2	prueba	ya termine con esa  vaina	luisito	angel@a.a	2022-05-26 15:21:22	2022-05-27 14:45:28	\N	2	2	3	2
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at, deleted_at) FROM stdin;
+2	Agent 1	agent1@agent1.com	\N	$2y$10$UnLIBQB1uZZC1r5msFWTPuZCZsMBUpZINpJ48G5FmMxz6yVGP83rO	\N	\N	\N	\N
+3	Agent 2	agent2@agent2.com	\N	$2y$10$UnLIBQB1uZZC1r5msFWTPuZCZsMBUpZINpJ48G5FmMxz6yVGP83rO	\N	\N	\N	\N
+4	Agent 3	agent3@agent3.com	\N	$2y$10$UnLIBQB1uZZC1r5msFWTPuZCZsMBUpZINpJ48G5FmMxz6yVGP83rO	\N	\N	\N	\N
+1	Admin	admin@admin.com	\N	e10adc3949ba59abbe56e057f20f883e	\N	\N	\N	\N
+5	angel	angelgutierrez1983@gmail.com	\N	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	\N	\N	\N	\N
+6	Aaron Garcia	aaron@hidrocapital.com.ve	\N	$2y$10$KM3LoPaU1mKJdspc7I362uGbSzvshYpQkWrAB4bIxbg42GdftL/8u	\N	2022-05-26 16:09:59	2022-05-26 16:09:59	\N
+\.
+
+
+--
+-- Name: audit_logs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.audit_logs_id_seq', 4, true);
+
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.categories_id_seq', 4, true);
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.comments_id_seq', 2, true);
+
+
+--
+-- Name: media_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.media_id_seq', 1, false);
+
+
+--
+-- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.migrations_id_seq', 20, true);
+
+
+--
+-- Name: oauth_clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.oauth_clients_id_seq', 1, false);
+
+
+--
+-- Name: oauth_personal_access_clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.oauth_personal_access_clients_id_seq', 1, false);
+
+
+--
+-- Name: permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.permissions_id_seq', 1, false);
+
+
+--
+-- Name: priorities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.priorities_id_seq', 4, true);
+
+
+--
+-- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.roles_id_seq', 3, true);
+
+
+--
+-- Name: statuses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.statuses_id_seq', 2, true);
+
+
+--
+-- Name: tickets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tickets_id_seq', 2, true);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 6, true);
+
+
+--
+-- Name: audit_logs audit_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.audit_logs
+    ADD CONSTRAINT audit_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: media media_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.media
+    ADD CONSTRAINT media_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: migrations migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.migrations
+    ADD CONSTRAINT migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_access_tokens oauth_access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.oauth_access_tokens
+    ADD CONSTRAINT oauth_access_tokens_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_auth_codes oauth_auth_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.oauth_auth_codes
+    ADD CONSTRAINT oauth_auth_codes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_clients oauth_clients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.oauth_clients
+    ADD CONSTRAINT oauth_clients_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_personal_access_clients oauth_personal_access_clients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.oauth_personal_access_clients
+    ADD CONSTRAINT oauth_personal_access_clients_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_refresh_tokens oauth_refresh_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.oauth_refresh_tokens
+    ADD CONSTRAINT oauth_refresh_tokens_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: permissions permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.permissions
+    ADD CONSTRAINT permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: priorities priorities_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.priorities
+    ADD CONSTRAINT priorities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: statuses statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.statuses
+    ADD CONSTRAINT statuses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tickets tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tickets
+    ADD CONSTRAINT tickets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_email_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_unique UNIQUE (email);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: media_model_type_model_id_index; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX media_model_type_model_id_index ON public.media USING btree (model_type, model_id);
+
+
+--
+-- Name: oauth_access_tokens_user_id_index; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX oauth_access_tokens_user_id_index ON public.oauth_access_tokens USING btree (user_id);
+
+
+--
+-- Name: oauth_auth_codes_user_id_index; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX oauth_auth_codes_user_id_index ON public.oauth_auth_codes USING btree (user_id);
+
+
+--
+-- Name: oauth_clients_user_id_index; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX oauth_clients_user_id_index ON public.oauth_clients USING btree (user_id);
+
+
+--
+-- Name: oauth_refresh_tokens_access_token_id_index; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX oauth_refresh_tokens_access_token_id_index ON public.oauth_refresh_tokens USING btree (access_token_id);
+
+
+--
+-- Name: password_resets_email_index; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX password_resets_email_index ON public.password_resets USING btree (email);
+
+
+--
+-- Name: tickets assigned_to_user_fk_583768; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tickets
+    ADD CONSTRAINT assigned_to_user_fk_583768 FOREIGN KEY (assigned_to_user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: tickets category_fk_583765; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tickets
+    ADD CONSTRAINT category_fk_583765 FOREIGN KEY (category_id) REFERENCES public.categories(id);
+
+
+--
+-- Name: permission_role permission_id_fk_583549; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.permission_role
+    ADD CONSTRAINT permission_id_fk_583549 FOREIGN KEY (permission_id) REFERENCES public.permissions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: tickets priority_fk_583764; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tickets
+    ADD CONSTRAINT priority_fk_583764 FOREIGN KEY (priority_id) REFERENCES public.priorities(id);
+
+
+--
+-- Name: permission_role role_id_fk_583549; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.permission_role
+    ADD CONSTRAINT role_id_fk_583549 FOREIGN KEY (role_id) REFERENCES public.roles(id) ON DELETE CASCADE;
+
+
+--
+-- Name: role_user role_id_fk_583558; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.role_user
+    ADD CONSTRAINT role_id_fk_583558 FOREIGN KEY (role_id) REFERENCES public.roles(id) ON DELETE CASCADE;
+
+
+--
+-- Name: tickets status_fk_583763; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tickets
+    ADD CONSTRAINT status_fk_583763 FOREIGN KEY (status_id) REFERENCES public.statuses(id);
+
+
+--
+-- Name: comments ticket_fk_583774; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT ticket_fk_583774 FOREIGN KEY (ticket_id) REFERENCES public.tickets(id);
+
+
+--
+-- Name: comments user_fk_583777; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT user_fk_583777 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: role_user user_id_fk_583558; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.role_user
+    ADD CONSTRAINT user_id_fk_583558 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
