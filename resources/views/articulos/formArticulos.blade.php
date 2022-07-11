@@ -48,16 +48,16 @@
 				                </div>
 
 				                <div class="form-group col-3">
-			                    	<label for="exampleInputPassword1">Categorias</label>
+			                    	<label for="exampleInputPassword1">Familia</label>
 			                    	<select class="js-example-basic-single custom-select" name="categoria">
 			                        	<option value="" selected="true">Seleccione</option>
-			                        		@foreach($categorias as $categoria)
-			                        			<option value="{{$categoria->id_categoria}}">{{$categoria->categoria}}</option>
+			                        		@foreach($familias as $familia)
+			                        			<option value="{{$familia->id_familia}}">{{$familia->nombre_familia}}</option>
 			                          		@endforeach
 			                        </select>
 			                  	</div>
 
-			                  	<div class="form-group col-3">
+			                  	{{-- <div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Proveedor</label>
 			                    	<select class="js-example-basic-single custom-select" name="proveedor">
 			                        	<option value="" selected="true">Seleccione</option>
@@ -69,7 +69,6 @@
 
 
 			                    <div class="col-sm-3">
-			                      	<!-- select -->
 			                      	<div class="form-group">
 			                        	<label>Nota de Entrega</label>
 			                        	<input class="form-control" type="text" name="notaEntrega" id="notaEntrega" onkeypress="return valideKey(event)">
@@ -77,7 +76,6 @@
 			                    </div>
 
 			                    <div class="col-sm-3">
-			                      	<!-- select -->
 			                      	<div class="form-group">
 			                        	<label>Orden de Compra</label>
 			                        	<input class="form-control" type="text" name="ordenCompra" id="ordenCompra" onkeypress="return valideKey(event)">
@@ -85,7 +83,6 @@
 			                    </div>
 
 			                    <div class="col-sm-3">
-			                      	<!-- select -->
 			                      	<div class="form-group">
 			                        	<label>N° Factura</label>
 										<input class="form-control" type="text" id="nFactura" name="nFactura" onkeypress="return valideKey(event)">
@@ -93,7 +90,6 @@
 			                    </div>
 
 			                    <div class="col-sm-3">
-			                      	<!-- select -->
 			                      	<div class="form-group">
 			                        	<label>N° Packlist</label>
 			                        	<input class="form-control" type="text" id="packlist" name="packlist" onkeypress="return valideKey(event)">
@@ -109,7 +105,7 @@
 			                    	<label for="exampleInputPassword1">Direccion de Entrega</label>
 			                    	<input type="text" name="direccionEntrega" class="form-control" id="direccionEntrega" placeholder="" value="">
 			                  	</div>
-
+ --}}
 			                  	<div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Almacen</label>
 			                    	<select class="js-example-basic-single custom-select" name="almacen">

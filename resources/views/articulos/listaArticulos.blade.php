@@ -5,7 +5,7 @@
       <div class="card-header">
         <div class="row">
           <div class="col-10">
-            <h2>Listado de Artículos</h2>
+            <h2>Maestro de Materiales</h2>
           </div>
         </div>
       </div>

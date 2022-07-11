@@ -25,7 +25,7 @@
 				                <div class="col-sm-3">
 				                    <div class="form-group">
 				                        <label>Almacen Origen</label>
-				                    	<select class="js-example-basic-single custom-select" name="almacenOrigen" id="almacenOrigen" onchange="llenarAlmacenDestino($(this))">
+				                    	<select class="js-example-basic-single custom-select" name="almacenOrigen" id="almacenOrigen" {{-- onchange="llenarAlmacenDestino($(this))" --}}>
 				                        	<option value="" selected="true">Seleccione</option>
 				                        		@foreach($almacenes as $almacen)
 				                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
@@ -38,15 +38,15 @@
 				                    <!-- select -->
 				                    <div class="form-group">
 				                        <label>Almacen Destino</label>
-			                        	<input class="form-control" type="hidden" name="idAlmacenDestino" value="{{$almacenUsuario[0]->id_almacen}}">
+			                        	<input class="form-control" type="hidden" name="idAlmacenDestino" value="{{$almacenUsuario[0]->id_almacen}}" id="almaDesti">
 			                        	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="{{$almacenUsuario[0]->nombre_almacen}}" readonly="true">
 				                     </div>
 				                </div>
 
-			                  	{{-- <div class="form-group col-3">
-			                    	<label for="exampleInputPassword1">Estatus Solicitud</label>
-			                    	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="Nueva Solicitud" readonly="true">
-			                  	</div> --}}
+			                  	<div class="form-group col-3">
+			                    	<label for="exampleInputPassword1">Tipo de Entrada</label>
+			                    	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="Entrada por Traspaso" readonly="true" placeholder="Entrada por Traspaso">
+			                  	</div>
 
 			                  	<div class="col-12">
 				                  	<table class="table table-bordered {{-- table-striped --}}" id="tablaMateriales">
@@ -55,7 +55,7 @@
 				                  				<th>Codígo</th>
 				                  				<th>Material</th>
 				                  				<th>Stock</th>
-				                  				<th>Cantidad Solicitada</th>
+				                  				<th>Cantidad Entrante</th>
 				                  				<th>Acciones</th>
 				                  			</tr>
 				                  		</thead>
@@ -92,7 +92,7 @@
 				                  				<th>Codígo</th>
 				                  				<th>Material</th>
 				                  				<th>Stock</th>
-				                  				<th>Cantidad Solicitada</th>
+				                  				<th>Cantidad Entrante</th>
 				                  				<th>Acciones</th>
 				                  			</tr>
 			                  			</tfoot>
@@ -129,7 +129,7 @@
 			var material = fila.find(".material").val()
 
 			//let material = $("#material").val()
-			let almacen = $("#almacenOrigen").val()
+			let almacen = $("#almaDesti").val()
 			$.ajax({
 				url : '/traerStock',
 				method : 'post',

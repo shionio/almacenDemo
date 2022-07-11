@@ -30,7 +30,7 @@ class articulosController extends Controller
 
     public function showArt()
     {
-        // $id_material = $_POST['id_material'];
+
         $material = DB::table('material')->select('*')->get()->all();
         
         return json_encode($material);
@@ -43,19 +43,19 @@ class articulosController extends Controller
      */
     public function create(){
         $proveedores = DB::table('proveedores')->get();
-        $almacenes = DB::table('almacen')->get();
+        $almacenes = DB::table('almacenes')->get();
         $estatusMateriales = DB::table('status_material')->get();
         $condicionMaterial = DB::table('condicion_materiales')->get();
-        $categorias = DB::table('categorias')->get();
+        $familias = DB::table('familias')->get();
         $tipoIngreso = DB::table('tipo_ingreso')->get();
         return view('articulos.formArticulos',
                     ['proveedores'          => $proveedores,
                      'almacenes'            => $almacenes,
                      'estatusMateriales'    => $estatusMateriales,
                      'condicionMateriales'  => $condicionMaterial,
-                     'categorias'           => $categorias,
-                     'tipoIngreso'         => $tipoIngreso,
-                     ]);
+                     'familias'             => $familias,
+                     'tipoIngreso'          => $tipoIngreso,
+                    ]);
     }
 
     /**
@@ -76,7 +76,7 @@ class articulosController extends Controller
             $urlImagenBaseDeDatos =$urlImagen .$imgName;
         }
 
-        dd($urlImagenBaseDeDatos);
+        //dd($urlImagenBaseDeDatos);
 
         $articulo = array(
             'activo'                => true,
