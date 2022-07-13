@@ -2549,3 +2549,7 @@
 127.0.0.1 - - [12/Jul/2022:17:07:39 -0400] "GET /css/styles.css HTTP/1.1" 200 4585 "http://almacen.demo/" "Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0"
 127.0.0.1 - - [12/Jul/2022:17:07:40 -0400] "GET /img/coorpolec.jpg HTTP/1.1" 200 179614 "http://almacen.demo/css/styles.css" "Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0"
 127.0.0.1 - - [12/Jul/2022:17:07:40 -0400] "GET /favicon.ico HTTP/1.1" 200 295 "http://almacen.demo/" "Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0"
+172.16.1.153 - - [13/Jul/2022:08:14:41 -0400] "GET / HTTP/1.1" 200 2593 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:83.0) Gecko/20100101 Firefox/83.0"
+172.16.1.153 - - [13/Jul/2022:08:14:41 -0400] "GET /js/sweetalert/sweetalert2.all.min.js HTTP/1.1" 200 19125 "http://almacen.demo/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:83.0) Gecko/20100101 Firefox/83.0"
+172.16.1.153 - - [13/Jul/2022:08:14:41 -0400] "GET /bootstrap/js/bootstrap.min.js HTTP/1.1" 200 16286 "http://almacen.demo/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:83.0) Gecko/20100101 Firefox/83.0"
+172.16.1.153 - - [13/Jul/2022:08:14:42 -0400] "GET /favicon.ico HTTP/1.1" 200 295 "http://almacen.demo/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:83.0) Gecko/20100101 Firefox/83.0"
