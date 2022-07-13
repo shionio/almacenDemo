@@ -8,7 +8,7 @@
         <div class="col-12">
           <div class="card card-danger">
             <div class="card-header">
-              <h3 class="card-title">Nuevo Proveedor</h3>
+              <h3 class="card-title">Ingresar Proveedor</h3>
             </div>
               {{ Form::open(['route' => 'guardar.proveedor', 'method' => 'POST']),(['role' => 'form']) }}                    
                 @csrf

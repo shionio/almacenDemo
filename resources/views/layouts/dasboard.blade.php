@@ -112,7 +112,7 @@
                   <li class="nav-item">
                     <a href="{{Route('newAlmacen')}}" class="nav-link">
                       <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <p>Ingresar Almacen</p>
+                      <p>Registro Almacen</p>
                     </a>
                   </li>
                 </ul>
@@ -129,7 +129,7 @@
                 <li class="nav-item">
                   <a href="{{route('listaArticulos')}}" class="nav-link">
                     <i class="fa fa-list-alt" aria-hidden="true"></i>
-                    <p>Lista de Material</p>
+                    <p>Maestro de  Materiales</p>
                   </a>
                 </li>
                 {{-- <li class="nav-item">
@@ -152,7 +152,7 @@
                 <li class="nav-item">
                   <a href="{{route('lista.proveedor')}}" class="nav-link">
                     <i class="fa fa-list-alt" aria-hidden="true"></i>
-                    <p>Lista de  Proveedor</p>
+                    <p>Listado de Proveedores</p>
                   </a>
                 </li>
                 <li class="nav-item">

@@ -11,7 +11,7 @@
 				<div class="col-12">
 					<div class="card card-danger">
 			            <div class="card-header">
-			            	<h3 class="card-title">Nuevo Almacen</h3>
+			            	<h3 class="card-title">Registro Almacen</h3>
 			            </div>
 			            <!-- /.card-header -->
 			           	<!-- form start -->

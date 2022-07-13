@@ -2,69 +2,15 @@
 
 {{-- {{dd(session()->all())}} --}}
 
-<div class="login">
-  <div class="wrap">
-      <!-- TOGGLE -->
-      <div id="toggle-wrap">
-          <div id="toggle-terms">
-              <div id="cross">
-                  <span></span>
-                  <span></span>
-              </div>
-          </div>
-      </div>
 
-      <div class="content">
-          <!-- LOGO -->
-          <div class="logo">
-              <a href="#"><img src="https://res.cloudinary.com/dpcloudinary/image/upload/v1506186248/logo.png" alt=""></a>
-          </div>
-          <!-- SLIDESHOW -->
-          <div id="slideshow">
-              <div class="one">
-                  <h2><span>Almacen</span></h2>
-                  <p>Gestiona los almacenas a nivel Nacional</p>
-              </div>
-              <div class="two">
-                  <h2><span>Articulos</span></h2>
-                  <p>Ingreso de Articulos nuevos y usados</p>
-              </div>
-              <div class="three">
-                  <h2><span>Traspasos</span></h2>
-                  <p>Transferencia de Articulos entre los diferentes almacenes</p>
-              </div>
-              {{-- <div class="four">
-                  <h2><span>SHARING</span></h2>
-                  <p>Share your works and knowledge with the community on the public showcase section</p>
-              </div> --}}
-          </div>
-      </div>
-      <!-- LOGIN FORM -->
-      <div class="user">
-          <div class="form-wrap">
-              <!-- TABS -->
-            <div class="tabs">
-                  <h3 class="login-tab"><a class="log-in active" href="#login-tab-content"><span>Ingresar<span></a></h3>
-            </div>
-              <!-- TABS CONTENT -->
-            <div class="tabs-content">
-                  <!-- TABS CONTENT LOGIN -->
-              <div id="login-tab-content" class="active">
-                <form class="login-form" action="/check" method="post" name="login" id="login">
-                  @csrf
-                  <input type="text" name="usuario" class="input" id="user_login" autocomplete="off" placeholder="Usuario">
-                  <input type="password" name="clave" class="input" id="user_pass" autocomplete="off" placeholder="Clave">
-                  <button type="Submit" name="Submit" class="btn btn-success"> Ingresar</button>
-                </form>
-                {{-- <div class="help-action">
-                  <p><i class="fa fa-arrow-left" aria-hidden="true"></i><a class="forgot" href="#">Olvidaste la Clave?</a></p>
-                </div> --}}
-              </div>
-            </div>
-        </div>
-      </div>
-  </div>
-</div>
+
+
+
+
+
+
+
+  
 
 <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 <script >/* LOGIN - MAIN.JS - dp 2017 */
