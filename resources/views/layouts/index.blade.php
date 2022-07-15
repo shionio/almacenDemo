@@ -7,8 +7,8 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Inicio</title>
         <link href="{{asset('bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" id="bootstrap-css">
-        <link rel="stylesheet" href="{{asset('css/styles.css')}}">
-        <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.css')}}">
+        <link rel="stylesheet"   href="{{asset('css/styles.css')}}">
+        <link rel="stylesheet"    href="{{asset('plugins/fontawesome-free/css/all.css')}}">
     </head>
     <body>
 

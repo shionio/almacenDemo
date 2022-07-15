@@ -328,6 +328,7 @@
         <!-- Main content -->
         <section class="content">
           @yield('mainPage')
+
         </section>
         <!-- /.content -->
       </div>
