@@ -82,10 +82,10 @@ class LoginController extends Controller
                 'rol'           => $session->id_rol,
                 'id_almacen'    => $session->id_almacen,
             ]);
-
+            $time = time();
             $inserLog = DB::table('logs')->insert([
                                                     'id_usuario' => $session->id_usuario,
-                                                    'fecha_accion' => now(),
+                                                    'fecha_accion' => date("d-m-Y (H:i:s)",$time),
                                                     'accion' => 'Inicio de sesion',
                                                 ]);
             return redirect('inicio');
