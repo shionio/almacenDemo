@@ -97,17 +97,17 @@ class MovimientosController extends Controller
 
         $almacenes          = DB::table('almacenes')
                               //->join('usuarios','usuarios.id_almacen','=','almacenes.id_almacen')
-                              // ->where('usuarios.id_usuario',session('id_usuario'))
+                              //->where('usuarios.id_usuario',session('id_usuario'))
                               ->get();
 
         return view('movimientos.entradaMaterial',
                     [
-                     'materiales'           => $materiales,
-                     'almacenes'            => $almacenes,
-                     'estatusMateriales'    => $estatusMateriales,
-                     'condicionMateriales'  => $condicionMaterial,
-                     'familias'             => $familias,
-                     'tipoMovimientos'      => $tipoMovimientos,
+                        'materiales'           => $materiales,
+                        'almacenes'            => $almacenes,
+                        'estatusMateriales'    => $estatusMateriales,
+                        'condicionMateriales'  => $condicionMaterial,
+                        'familias'             => $familias,
+                        'tipoMovimientos'      => $tipoMovimientos,
                     ]);
     }
 
@@ -186,7 +186,6 @@ class MovimientosController extends Controller
 
     public function traerStock(){
         DB::enableQueryLog();
-        //dd(session('id_almacen'));
         $id_material = $_POST['id_material'];
         $id_almacen  = $_POST['id_almacen'];
         $stock = DB::table('materiales_almacen')->where(['id_material' => $id_material/*, 'id_almacen'=> $id_almacen*/ ])->select('id_material','stock','id_almacen')->get()->first();
@@ -344,46 +343,39 @@ class MovimientosController extends Controller
             'observaciones'             => $_POST['observacionesSolicitud']
         );
 
-        //$insertSolicitud = DB::table('solicitudes')->insert($datosSolicitud);
+        $insertSolicitud = DB::table('solicitudes')->insert($datosSolicitud);
+        $lastId = DB::table('solicitudes')->latest('id_solicitud')->first();
+        $lastId = $lastId->id_solicitud;
 
-        //if( $insertSolicitud == true ){
+        if( $insertSolicitud == true ){
 
-            foreach ($_POST['idMaterial'] as $key => $idMat) {
-                dd($idMat);
+            foreach ($_POST['idMaterial'] as $i => $idMat) {
+                $materialesSolicitud[$i]['id_material'] = $idMat;
+                $materialesSolicitud[$i]['id_solicitud'] = $lastId;
             }
 
-            $inserLog = DB::table('logs')
+            foreach ($_POST['stock'] as $i => $cant) {
+                $materialesSolicitud[$i]['cantidad'] = $cant;
+                $materialesSolicitud[$i]['id_solicitud'] = $lastId;
+            }
+
+            $insertMaterialesSolicitud = DB::table('materiales_solicitudes')->insert($materialesSolicitud);
+
+            if($insertMaterialesSolicitud == true){
+                $inserLog = DB::table('logs')
                         ->insert([
                             'id_usuario' => session('id_usuario'),
                             'fecha_accion' => now(),
-                            'accion' => 'Nueva solicitud Generada por el usuario'.session('usuario'),
+                            'accion' => 'Nueva Solicitud creada por el Usuario: '.session('usuario'),
                         ]);
+                echo '<script> alert("Solicitud de Material Generada Exitosamente!"); window.location.href="/Solicitudes"</script>';
+            }
 
-            $last = DB::table('solicitudes')->latest('id_solicitud')->first();
-            $lastId = $last->id_solicitud;
+        }else{
+            echo '<script> alert("Fallo al generar la Solicitud de Material"); window.location.href="/entradaPorTraspaso"</script>';
+        }
 
-            $histDatosSol = array(
-                'fecha_solicitud'       => $_POST['fecha'],
-                'id_almacen_origen'     => $_POST['almacenOrigen'],
-                'id_almacen_destino'    => $_POST['almacenDestino'],
-                'cantidad'              => $_POST['cantidadSolicitada'],
-                'material'              => $_POST['material'],
-                'id_solicitud'          => $lastId,
-            );
-
-            $stock = $_POST['stock'];
-            $cantidad = $_POST['cantidadSolicitada'];
-            $nuevoStock = intval($stock - $cantidad);
-
-            $insertStock = array(
-                'stock' => $nuevoStock
-            );
-
-            $actualizarStock = DB::table('material')->where('id_material',$_POST['material'])->update($insertStock);
-
-
-
-        return redirect()->route('listaMovimientos');
+        //return redirect()->route('listaMovimientos');
 
     }
 
