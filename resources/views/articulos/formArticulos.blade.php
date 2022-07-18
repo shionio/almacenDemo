@@ -164,12 +164,12 @@
 			                        <input type="text" name="observaciones" class="form-control" id="estatusVehiculo" value="">
 			                  	</div>
 
-			                  	<div class="col-6">
+			                  	{{-- <div class="col-6">
 			                  		<label for="">Cargar Imagen Del Material</label>
 			                  		<br>
 									<input type="file" name="img_articulo" accept="image/png, .jpeg, .jpg" value="Cargar Imagen">
-									{{-- <a href="" type="file" name="img_articulo2"> Cargar Imagen</a> --}}
-			                  	</div>
+									<a href="" type="file" name="img_articulo2"> Cargar Imagen</a>
+			                  	</div> --}}
 				            </div>
 			                <!-- /.card-body -->
 

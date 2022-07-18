@@ -1,5 +1,5 @@
 @extends('layouts.dasboard')
-@section('title','Editar Solicitud')
+@section('title','Nueva Solicitud')
 @section('mainPage')
 
 <br>
@@ -9,30 +9,26 @@
 				<div class="col-12">
 					<div class="card card-danger">
 			            <div class="card-header">
-			            	<h3 class="card-title">Editando Solicitud</h3>
-
-
+			            	<h3 class="card-title">Nueva Solicitud</h3>
 			            </div>
-
 			            <!-- /.card-header -->
 			           	<!-- form start -->
-			            <form action="/actualizarSolicitud" method="POST">
+			           	{{-- {{dd($almacenUsuario)}} --}}
+			            <form action="/entradaPorTraspaso" method="POST">
 			            	@csrf
-			            	<input type="hidden" value="{{$solicitud->id_solicitud}}" name="idSolicitud">
 			            	<div class="card-body row">
 				                <div class="form-group col-2">
 				                	<label for="exampleInputEmail1">Fecha</label>
-				                    <input type="text" name="fecha" class="form-control" id="fecha" placeholder="" value="{{$solicitud->fecha_solicitud}}" readonly>
+				                    <input type="text" name="fecha" class="form-control" id="fecha" placeholder="" value="{{date('d/m/Y')}}" readonly>
 				                </div>
 
 				                <div class="col-sm-3">
 				                    <div class="form-group">
 				                        <label>Almacen Origen</label>
-
-				                    	<select class="js-example-basic-single custom-select" name="almacenOrigen" id="almacenOrigen" onchange="llenarAlmacenDestino()">
+				                    	<select class="js-example-basic-single custom-select" name="almacenOrigen" id="almacenOrigen" {{-- onchange="llenarAlmacenDestino($(this))" --}}>
 				                        	<option value="" selected="true">Seleccione</option>
 				                        		@foreach($almacenes as $almacen)
-				                        			<option value="{{$almacen->id_almacen}}" @if($solicitud->id_almacen_origen === $almacen->id_almacen)selected='true' @endif >{{$almacen->nombre_almacen}}</option>
+				                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
 				                          		@endforeach
 				                        </select>
 				                     </div>
@@ -42,96 +38,116 @@
 				                    <!-- select -->
 				                    <div class="form-group">
 				                        <label>Almacen Destino</label>
-				                        <select class="js-example-basic-single custom-select" name="almacenDestino" id="almadesti" required >
-				                        	<option value="#">Seleccione</option>
-			                          		@foreach($almacenes as $almacen)
-				                        			<option value="{{$almacen->id_almacen}}" @if($solicitud->id_almacen_destino == $almacen->id_almacen) selected="true"@endif>{{$almacen->nombre_almacen}}</option>
-				                          		@endforeach
-			                        	</select>
-
+			                        	<input class="form-control" type="hidden" name="idAlmacenDestino" value="{{$almacenUsuario[0]->id_almacen}}" id="almaDesti">
+			                        	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="{{$almacenUsuario[0]->nombre_almacen}}" readonly="true">
 				                     </div>
 				                </div>
 
 			                  	<div class="form-group col-3">
-			                    	<label for="exampleInputPassword1">Estatus Solicitud</label>
-			                    	<select class="js-example-basic-single custom-select" name="estatusSolicitud" id="estatusSolicitud" required >
-				                        	<option value="#">Seleccione</option>
-			                          		@foreach($estatusSolicitudes as $estatusSolicitud)
-				                       			<option value="{{$estatusSolicitud->id_estatus_solicitud}}" @if($solicitud->estatus === $estatusSolicitud->id_estatus_solicitud) selected="true"@endif>{{$estatusSolicitud->estatus_solicitud}}</option>
-				                      		@endforeach
-			                        </select>
+			                    	<label for="exampleInputPassword1">Tipo de Entrada</label>
+			                    	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="Entrada por Traspaso" readonly="true" placeholder="Entrada por Traspaso">
 			                  	</div>
 
+			                  	<div class="col-12">
+				                  	<table class="table table-bordered {{-- table-striped --}}" id="tablaMateriales">
+				                  		<thead>
+				                  			<tr>
+				                  				<th>Codígo</th>
+				                  				<th>Material</th>
+				                  				<th>Stock</th>
+				                  				<th>Cantidad Entrante</th>
+				                  				<th>Acciones</th>
+				                  			</tr>
+				                  		</thead>
+			                  			<tbody>
+			                  				<tr class="clonarlo" id="fila-registro">
+			                  					<td>
+                                    				<input class="form-control idMaterial" type="text" id="idMaterial" name="idMaterial[]"  readonly>
+			                  					</td>
 
+			                  					<td>
+			                  						<select class="js-example-basic-single custom-select material" name="material[]" id="material" onchange="traerStock($(this))">
 
-			                  	<div class="form-group col-4" >
-			                  		<label for="exampleInputPassword1">Material</label>
-			                  		<select class="js-example-basic-single custom-select" name="material" id="material" onchange="traerStock()">
-                                    	<option value="">Seleccione</option>
-                                    	@foreach($materiales as $material)
-	                          				<option value="{{$material->id_material}}" @if($material->id_material == $solicitud->id_material)selected="true"@endif >{{$material->nombre_material}}</option>
-	                          			@endforeach
-                                    </select>
-			                  	</div>
+                                    					<option value="null">Seleccione</option>
+                                    					@foreach($materiales as $material)
+                                    						<option value="{{$material->id_material}}">{{$material->descripcion_propuesta}}</option>
+                                    					@endforeach
+                                    				</select>
+			                  					</td>
+			                  					<td>
+			                  						<input class="form-control stock" type="text" id="stock" name="stock[]"  readonly>
+			                  					</td>
+			                  					<td>
+			                  						<input class="form-control cantidadSolicitada" type="text" id="cantidadSolicitada" name="cantidadSolicitada[]"  onkeypress="return valideKey(event)" {{-- onblur="validarStockExistencia($(this))" --}}>
+			                  					</td>
 
+			                  					<td>
+			                  						<button class="btn btn-primary" type="button" onclick="agregar_fila()">+</button>
+			                  						<button class="btn btn-danger" type="button" onclick="eliminar_fila($(this))">X</button>
+			                  					</td>
+			                  				</tr>
+			                  			</tbody>
+			                  			<tfoot>
+				                  			<tr>
+				                  				<th>Codígo</th>
+				                  				<th>Material</th>
+				                  				<th>Stock</th>
+				                  				<th>Cantidad Entrante</th>
+				                  				<th>Acciones</th>
+				                  			</tr>
+			                  			</tfoot>
+ 			                  		</table>
+		                  		</div>
 
-
-			                  	<div class="form-group col-4">
-			                  		<label for="exampleInputPassword1">Stock</label>
-			                  		<input class="form-control" type="text" id="stock" name="stock" onkeypress="return valideKey(event)" value="{{$solicitud->stock}}" readonly>
-			                  	</div>
-
-
-			                  	<div class="form-group col-4">
-			                  		<label for="exampleInputPassword1">Cantidad Solicitada</label>
-			                  		<input class="form-control" type="text" id="cantidadSolicitada" name="cantidadSolicitada" value="{{$solicitud->cantidad}}"  onkeypress="return valideKey(event)" onblur="validarStockExistencia()">
-			                  	</div>
-
-			                  	<div class="form-group col-12">
+		                  		<div class="form-group col-12">
 			                    	<label for="exampleInputPassword1">Observaciones</label>
-			                    	<input class="form-control" type="text" name="observacionesSolicitud" value="{{$solicitud->observaciones}}" id="observacionesSolicitud">
+			                    	<input class="form-control" type="text" name="observacionesSolicitud" id="observacionesSolicitud">
 			                  	</div>
-				            </div>
-			                <!-- /.card-body -->
+
+		                  		<div class="col">
+		                  			<button type="submit" class="btn btn-primary">Guardar</button>
+		                  		</div>
+		                  		<div class="col-3" align="right">
+		                  			<a href="{{route('listaMovimientos')}}" class="btn btn-success col-4">Volver</a>
+		                  		</div>
+
 				            </div>
 			                <!-- /.card-body -->
 
-                            <div class="card-footer">
-			                  <div class="row">
-			                  	<div class="col">
-			                  	<button type="submit" class="btn btn-primary">Guardar</button>
-			                  </div>
-			                  <div class="col" align="right">
-			                  	<a href="{{route('listaMovimientos')}}" class="btn btn-success col-3">Volver</a>
-			                  </div>
-			                  </div>
-			                </div>
+			                <!-- /.card-body -->
 			            </form>
-            		</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script>
+            		</div>{{-- CIERRE DEL DIV DE LA LINEA 11 --}}
+				</div>{{-- CIERRE DEL DIV DE LA LINEA 10 --}}
+			</div>{{-- CIERRE DEL DIV QUE ABRE EN LA LINEA 9 --}}
+		</div>{{-- CIERRE DEL DIV QUE ABRE EN LA LINEA 8 --}}
+	</div>{{-- CIERRE DEL DIV DE LA LINEA 6 --}}
 
-		function traerStock() {
-			let material = $("#material").val()
+	<script>
+		function traerStock(obj) {
+
+			var fila = obj.closest('tr');
+			var material = fila.find(".material").val()
+
+			//let material = $("#material").val()
+			let almacen = $("#almaDesti").val()
 			$.ajax({
 				url : '/traerStock',
 				method : 'post',
 				data:{
 					"_token" : "{{csrf_token()}}",
-					id_material : material
+					id_material : material,
+					id_almacen : almacen,
 				},success:function(stock){
+					console.log(stock)
 					$("#stock").empty()
 					var stockT = $.parseJSON(stock)
-					//console.log(stockT.stock)
-					$("#stock").val(stockT.stock).attr('readonly',true)
+
+					fila.find('.idMaterial').val(stockT.id_material)
+					fila.find('.stock').val(stockT.stock)
 				}
 			})
 		}
 
-		//
 		function valideKey(evt){
 		    // code is the decimal ASCII representation of the pressed key.
 		    var code = (evt.which) ? evt.which : evt.keyCode;
@@ -145,7 +161,8 @@
 		    }
 		}
 
-		function llenarAlmacenDestino(){
+		function llenarAlmacenDestino(fila){
+
 			let idAlmacen = $("#almacenOrigen").val()
 
 			$.ajax({
@@ -158,28 +175,32 @@
 					var consultas = $.parseJSON(consultas)
 					let almacenesRestantes = consultas.almacenesRestantes
 					let materiales = consultas.materialesAlmacen
-					//console.log(materiales)
-					$("#almadesti").empty()
-					for(var i = 0; i < almacenesRestantes.length; i++){
-						$("#almadesti").append("<option value='"+almacenesRestantes[i].id_almacen+"'>"+almacenesRestantes[i].nombre_almacen+"</option>")
-					}
+
+					// $("#almadesti").empty()
+					$(".idMaterial").val('')
+					$(".stock").val('')
+
+
+					// for(var i = 0; i < almacenesRestantes.length; i++){
+					// 	$("#almadesti").append("<option value='"+almacenesRestantes[i].id_almacen+"'>"+almacenesRestantes[i].nombre_almacen+"</option>")
+					// }
 
 					$("#material").empty()
 					for(var i = 0; i < materiales.length; i++){
-						$("#material").append("<option value='"+materiales[i].id_material+"'>"+materiales[i].nombre_material+"</option>")
+						$(".material").append("<option value='"+materiales[i].id_material+"'>"+materiales[i].nombre_material+"</option>")
 					}
-
-
 				}
-
 			})
 		}
 
-		function validarStockExistencia(){
-			var cantidadSol = $("#cantidadSolicitada").val()
-			var stock = $("#stock").val()
+		function validarStockExistencia(fila){
 
-			if(cantidadSol > stock){
+			var fila = fila.closest('tr');
+
+			var cantidadSol = fila.find(".cantidadSolicitada").val()
+			var stock = fila.find(".stock").val()
+
+			if( stock < cantidadSol){
 				alert('La cantidad Solicitada es MAYOR')
 				$("#cantidadSolicitada").focus()
 			}
@@ -190,42 +211,24 @@
 
             var n_filas = fila.parent().closest('.table').find('.clonarlo').length
             var filaEliminar = fila.parent().closest('.clonarlo')
-            //console.log(filaEliminar)
 
             if(n_filas > 1){
                 filaEliminar.remove()
             }else{
                 filaEliminar.find('input').val('')
+                filaEliminar.find('select').empty()
             }
-
-
         }
 
+		function agregar_fila(){
 
-//function actualizarStock(){
-		// 	// alert('a')
-		// 	var cantidadSol = $("#cantidadSolicitada").val()
-		// 	var stock = $("#stock").val()
-		// 	console.log(cantidadSol)
-
-		// 	if(cantidadSol < stock ){
-		// 		var total = (stock - cantidadSol)
-		// 		console.log(total)
-		// 		//$("#stockRestante").val(total)
-		// 	}else{
-		// 		alert('Cant, solicitada mayor al Stock en almacen')
-		// 	}
-
-		// }
-
-
-		// function agregar_fila(){
-  //   		var id_tabla = 'tablaMateriales';
-		// 	var fila = $('#'+id_tabla+' .clonarlo').eq(0).clone(true,true)
-		// 	fila.find('input').val('')
-		// 	fila.find('select').val('0');
-		// 	$('#'+id_tabla).appendto(fila)
-  //   	}
+    		var id_tabla = 'tablaMateriales'
+			var fila = $('#'+id_tabla+' .clonarlo').eq(0).clone(true,true)
+			/*$('#'+id_tabla+' .clonarlo').empty()*/
+			fila.find('input').val('')
+			fila.find('select').val('0');
+			$('#'+id_tabla).append(fila)
+    	}
 
 
 	</script>

@@ -71,7 +71,7 @@ class articulosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        //dd($_POST);
+        // dd($_POST);
         // if($request->hasFile('img_articulo') ){
         //     $imgArticulo = $request->file('img_articulo');
         //     $urlImagen = 'img/imgArticulos/';
@@ -84,30 +84,57 @@ class articulosController extends Controller
 
         //dd($urlImagenBaseDeDatos);
 
-        
+        $id_almacen = $_POST['idAlmacen'];
+        $id_material = $_POST['idMaterial'];
 
-        $movimientoMaterial = array(
-            'id_almacen'            => $_POST['idAlmacen'],
-            'id_material'           => $_POST['idMaterial'],
-            'id_familia'            => $_POST['idFamilia'],
-            'stock'                 => $_POST['stock'],
-            'fecha_ingreso'         => $_POST['fecha'],
-            'id_tipo_ingreso'       => $_POST['tipoIngresos'],
-            'id_estatus_material'   => $_POST['estatusMaterial'],
-            'id_condicion_material' => $_POST['condicionMaterial'],
-            'observaciones'         => $_POST['observaciones'],
-            'activo'                => true,
-            //'stock_inicial'         => $_POST['stockInicial'],
-        );
-        //dd($movimientoMaterial);
+        $almacenMaterialExiste =    DB::table('materiales_almacen')
+                                    ->where(['id_almacen' => $id_almacen, 'id_material' => $id_material])
+                                    ->get()->first();
 
+        //dd($almacenMaterialExiste);
 
-        $insertArticulo = DB::table('materiales_almacen')->insert($movimientoMaterial);
-        //dd($insertArticulo);
+        if($almacenMaterialExiste !=null){
+            $stockExiste = $almacenMaterialExiste->stock;
+            $nuevoStock = $stockExiste +  $_POST['stock'];
+
+            $updateStock = DB::table('materiales_almacen')
+                                    ->where(['id_almacen' => $id_almacen, 'id_material' => $id_material])
+                                    ->update(['stock' => $nuevoStock ]);
+            if($updateStock != 0){
+                $lastId= DB::table('materiales_almacen')->latest('id_materiales_almacenes')->first();
+                $inserLog = DB::table('logs')
+                            ->insert([
+                                'id_usuario' => session('id_usuario'),
+                                'fecha_accion' => now(),
+                                'accion' => 'Registro de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes.', se agrego el stock entrante'
+                            ]);
+                echo '<script> alert("Ingreso de Articulo Registrado Exitosamente"); window.location.href="/Articulo/Nuevo" </script>';
+            }else{
+
+                echo '<script> alert("Error al  Registrar el Articulo."); window.location.href="/Articulo/Nuevo" </script>';
+            }
+        }else{
+
+            $movimientoMaterial = array(
+                'id_almacen'            => $_POST['idAlmacen'],
+                'id_material'           => $_POST['idMaterial'],
+                'id_familia'            => $_POST['idFamilia'],
+                'stock'                 => $_POST['stock'],
+                'fecha_ingreso'         => $_POST['fecha'],
+                'id_tipo_ingreso'       => $_POST['tipoIngresos'],
+                'id_estatus_material'   => $_POST['estatusMaterial'],
+                'id_condicion_material' => $_POST['condicionMaterial'],
+                'observaciones'         => $_POST['observaciones'],
+                'activo'                => true,
+            );
+
+            $insertArticulo = DB::table('materiales_almacen')->insert($movimientoMaterial);
+            //dd($insertArticulo);
+        }
 
         if ($insertArticulo == true){
             $lastId= DB::table('materiales_almacen')->latest('id_materiales_almacenes')->first();
-            //dd($lastId);
+
 
             $inserLog = DB::table('logs')
                         ->insert([
