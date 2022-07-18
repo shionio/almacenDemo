@@ -196,12 +196,12 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{{Route('entradaMaterial')}}" class="nav-link">
+                  <a href="{{Route('newArticulo')}}" class="nav-link">
                     <i class="fa fa-paperclip" aria-hidden="true"></i>
                     <p>Entrada De Material</p>
-                    <i class="fas fa-angle-left right"></i>
+                   <!--  <i class="fas fa-angle-left right"></i> -->
                   </a>
-                  <ul class="nav nav-treeview">
+                  <!-- <ul class="nav nav-treeview">
 
                     <li class="nav-item">
                       <a href="{{route('newArticulo')}}" class="nav-link">
@@ -245,7 +245,7 @@
                       </a>
                     </li>
 
-                  </ul>
+                  </ul> -->
                 </li>
               </ul>
 
@@ -357,7 +357,7 @@
       </div>
       <!-- /.content-wrapper -->
       <footer class="main-footer">
-        <strong>Copyright &copy; 2022 <a href="https://hidrocapital.com.ve" target="_blank">Hidrocapital</a>.</strong>
+        <strong>Copyright &copy; 2022 <a href="#" target="_blank">Multiservicios RM</a>.</strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
           <b>Version</b> 3.2.0

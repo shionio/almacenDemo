@@ -28,8 +28,7 @@ class articulosController extends Controller
         return view('articulos.listaArticulos',['articulos' => $articulos]);
     }
 
-    public function showArt()
-    {
+    public function showArt(){
 
         $material = DB::table('material')->select('*')->get()->all();
         
@@ -42,19 +41,26 @@ class articulosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        $proveedores = DB::table('proveedores')->get();
-        $almacenes = DB::table('almacenes')->get();
-        $estatusMateriales = DB::table('status_material')->get();
-        $condicionMaterial = DB::table('condicion_materiales')->get();
-        $familias = DB::table('familias')->get();
-        $tipoIngreso = DB::table('tipo_ingreso')->get();
+
+        $estatusMateriales  = DB::table('status_material')->get();
+        $condicionMaterial  = DB::table('condicion_materiales')->get();
+        $familias           = DB::table('familias')->get();
+        $tipoMovimientos    = DB::table('tipo_ingreso')->get();
+        $materiales         = DB::table('materiales')->get(); 
+        
+        $almacenes          = DB::table('almacenes')
+                              ->join('usuarios','usuarios.id_almacen','=','almacenes.id_almacen')
+                              ->where('usuarios.id_usuario',session('id_usuario'))
+                              ->get();
+    
         return view('articulos.formArticulos',
-                    ['proveedores'          => $proveedores,
+                    [
+                     'materiales'           => $materiales,
                      'almacenes'            => $almacenes,
                      'estatusMateriales'    => $estatusMateriales,
                      'condicionMateriales'  => $condicionMaterial,
                      'familias'             => $familias,
-                     'tipoIngreso'          => $tipoIngreso,
+                     'tipoMovimientos'      => $tipoMovimientos,
                     ]);
     }
 
@@ -65,58 +71,55 @@ class articulosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
+        //dd($_POST);
+        // if($request->hasFile('img_articulo') ){
+        //     $imgArticulo = $request->file('img_articulo');
+        //     $urlImagen = 'img/imgArticulos/';
+        //     $imgName = time() . '-' . $imgArticulo->getClientOriginalName();
 
-        if($request->hasFile('img_articulo') ){
-            $imgArticulo = $request->file('img_articulo');
-            $urlImagen = 'img/imgArticulos/';
-            $imgName = time() . '-' . $imgArticulo->getClientOriginalName();
+        //     //$guardado = $request->file('img_articulo')->move($urlImagen,$imgName);
 
-            //$guardado = $request->file('img_articulo')->move($urlImagen,$imgName);
-
-            $urlImagenBaseDeDatos =$urlImagen .$imgName;
-        }
+        //     $urlImagenBaseDeDatos =$urlImagen.$imgName;
+        // }
 
         //dd($urlImagenBaseDeDatos);
 
-        $articulo = array(
-            'activo'                => true,
-            'nombre_material'       => $_POST['nombreArticulo'],
+        
+
+        $movimientoMaterial = array(
+            'id_almacen'            => $_POST['idAlmacen'],
+            'id_material'           => $_POST['idMaterial'],
+            'id_familia'            => $_POST['idFamilia'],
             'stock'                 => $_POST['stock'],
-            'nota_entrega'          => $_POST['notaEntrega'],
-            'orden_compra'          => $_POST['ordenCompra'],
-            'num_factura'           => $_POST['nFactura'],
-            'packlist'              => $_POST['packlist'],
-            'unidad_medida'         => $_POST['unidadMedida'],
-            'direccion_entrega'     => $_POST['direccionEntrega'],
-            'descripcion_material'  => $_POST['descripcionArticulo'],
-            'observaciones'         => $_POST['observaciones'],
-            'id_categoria'          => $_POST['categoria'],
-            'id_proveedor'          => $_POST['proveedor'],
-            'id_almacen'            => $_POST['almacen'],
+            'fecha_ingreso'         => $_POST['fecha'],
+            'id_tipo_ingreso'       => $_POST['tipoIngresos'],
             'id_estatus_material'   => $_POST['estatusMaterial'],
             'id_condicion_material' => $_POST['condicionMaterial'],
-            'id_ingreso_material'   => $_POST['ingresoMaterial'],
-            'img_articulo'          => $urlImagenBaseDeDatos,
+            'observaciones'         => $_POST['observaciones'],
+            'activo'                => true,
+            //'stock_inicial'         => $_POST['stockInicial'],
         );
+        //dd($movimientoMaterial);
 
-        //dd($articulo);
 
-        $insertArticulo = DB::table('material')->insert($articulo);
+        $insertArticulo = DB::table('materiales_almacen')->insert($movimientoMaterial);
+        //dd($insertArticulo);
 
         if ($insertArticulo == true){
-            $lastId= DB::table('material')->latest('id_material')->first();
+            $lastId= DB::table('materiales_almacen')->latest('id_materiales_almacenes')->first();
+            //dd($lastId);
 
             $inserLog = DB::table('logs')
                         ->insert([
                             'id_usuario' => session('id_usuario'),
                             'fecha_accion' => now(),
-                            'accion' => 'Ingreso de un nuevo Articulo= '.$_POST['nombreArticulo'].'/id '.$lastId->id_material,
+                            'accion' => 'Ingreso de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes,
                         ]);
-            echo '<script> alert("Articulo Registrado Exitosamente"); window.location.href="/Articulos" </script>';
+            echo '<script> alert("Ingreso de Articulo Registrado Exitosamente"); window.location.href="/Articulo/Nuevo" </script>';
 
         }else{
 
-            echo '<script> alert("Articulo Registrado Exitosamente"); window.location.href="/Articulo/Nuevo" </script>';
+            echo '<script> alert("Error al  Registrar el Articulo."); window.location.href="/Articulo/Nuevo" </script>';
         }
     }
 

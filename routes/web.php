@@ -63,19 +63,19 @@ Route::post('/llenarParroquias',[AlmacenController::class, 'llenarParroquias']);
 /*rutas de articulos*/
 Route::get('Articulos',[ArticulosController::class, 'index'])->name('listaArticulos');
 Route::get('/Articulo/Nuevo', [ArticulosController::class , 'create'])->name('newArticulo');
-Route::post('/guardarArticulo',[ArticulosController::class, 'store']);
+Route::post('/guardarMaterial',[ArticulosController::class, 'store']);
 /*fin de rutas de articulos*/
 
 
 
-Route::post('/llenarModelo',[VehiculosController::class, 'llenarModelo']);
-Route::post('buscarVehiculo', [VehiculosController::class, 'buscarVehiculo'])->name('buscarVehiculo');
+// Route::post('/llenarModelo',[VehiculosController::class, 'llenarModelo']);
+// Route::post('buscarVehiculo', [VehiculosController::class, 'buscarVehiculo'])->name('buscarVehiculo');
 
 
 
-Route::get('/programacion', [ProgramacionController::class , 'index'])->name('listaProgramacion');
-Route::get('/nuevaProgramacion', [ProgramacionController::class , 'create'])->name('newProgramacion');
-Route::post('/guardarProgramacion',[ProgramacionController::class, 'store']);
+// Route::get('/programacion', [ProgramacionController::class , 'index'])->name('listaProgramacion');
+// Route::get('/nuevaProgramacion', [ProgramacionController::class , 'create'])->name('newProgramacion');
+// Route::post('/guardarProgramacion',[ProgramacionController::class, 'store']);
 
 /* Proveedores */
 

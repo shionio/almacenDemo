@@ -10,12 +10,12 @@
 				<div class="col-12">
 					<div class="card card-danger">
 			            <div class="card-header">
-			            	<h3 class="card-title">Nuevo Artículo</h3>
+			            	<h3 class="card-title">Ingreso de Material</h3>
 			            </div>
 
 			            <!-- /.card-header -->
 			           	<!-- form start -->
-			            <form action="/guardarArticulo" method="POST" enctype="multipart/form-data">
+			            <form action="/guardarMaterial" method="POST" enctype="multipart/form-data">
 			            	@csrf
 			            	<div class="card-body row">
 				                <div class="form-group col-2">
@@ -23,19 +23,18 @@
 				                    <input type="text" name="fecha" class="form-control" id="fecha" placeholder="" value="{{date('d/m/Y')}}" readonly>
 				                </div>
 
-				                <div class="col-sm-2">
+				                <div class="col-sm-4">
 				                    <!-- select -->
 				                    <div class="form-group">
-				                        <label>Nombre Articulo</label>
-				                        <input class="form-control" type="text" name="nombreArticulo" id="nombreArticulo" value="">
-				                     </div>
-				                </div>
+				                        <label>Materiales</label>
+				                        {{-- <input class="form-control" type="text" name="nombreMaterial" id="nombreMaterial" value=""> --}}
+				                        <select class="js-example-basic-single custom-select" name="idMaterial">
+			                        	<option value="" selected="true">Seleccione</option>
+			                        		@foreach($materiales as $material)
+			                        			<option value="{{$material->id_material}}">{{$material->descripcion_propuesta}}</option>
+			                          		@endforeach
+			                        	</select>
 
-				                 <div class="col-sm-3">
-				                    <!-- select -->
-				                    <div class="form-group">
-				                        <label>Descripcion Articulo</label>
-				                        <input class="form-control" type="text" name="descripcionArticulo" id="descripcionArticulo" value="">
 				                     </div>
 				                </div>
 
@@ -47,9 +46,9 @@
 				                     </div>
 				                </div>
 
-				                <div class="form-group col-3">
+				                <div class="form-group col-4">
 			                    	<label for="exampleInputPassword1">Familia</label>
-			                    	<select class="js-example-basic-single custom-select" name="categoria">
+			                    	<select class="js-example-basic-single custom-select" name="idFamilia">
 			                        	<option value="" selected="true">Seleccione</option>
 			                        		@foreach($familias as $familia)
 			                        			<option value="{{$familia->id_familia}}">{{$familia->nombre_familia}}</option>
@@ -57,6 +56,19 @@
 			                        </select>
 			                  	</div>
 
+				                <div class="col-sm-3">
+				                    <!-- select -->
+				                    <div class="form-group">
+				                        <label>Tipo de Ingreso</label>
+				                        <select class="js-example-basic-single custom-select" name="tipoIngresos">
+			                        		<option value="" selected="true">Seleccione</option>
+			                        		@foreach($tipoMovimientos as $tipoMovimiento)
+			                        			<option value="{{$tipoMovimiento->id_tipo_ingreso}}">{{$tipoMovimiento->tipo_ingreso}}</option>
+			                          		@endforeach
+			                        	</select>
+				                     </div>
+				                </div>
+				                
 			                  	{{-- <div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Proveedor</label>
 			                    	<select class="js-example-basic-single custom-select" name="proveedor">
@@ -108,7 +120,7 @@
  --}}
 			                  	<div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Almacen</label>
-			                    	<select class="js-example-basic-single custom-select" name="almacen">
+			                    	<select class="js-example-basic-single custom-select" name="idAlmacen">
 			                        	<option value="" selected="true">Seleccione</option>
 			                        		@foreach($almacenes as $almacen)
 			                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
@@ -137,7 +149,7 @@
 			                        </select>
 			                  	</div>
 
-			                  	<div class="form-group col-3">
+			                  {{-- 	<div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Tipo de Ingreso</label>
 			                    	<select class="js-example-basic-single custom-select" name="ingresoMaterial">
 			                        	<option value="" selected="true">Seleccione</option>
@@ -145,7 +157,7 @@
 			                        			<option value="{{$ingreso->id_tipo_ingreso}}">{{$ingreso->tipo_ingreso}}</option>
 			                          		@endforeach
 			                        </select>
-			                  	</div>
+			                  	</div> --}}
 
 			                    <div class="form-group col-12">
 			                        <label>Observaciones</label>
@@ -153,7 +165,7 @@
 			                  	</div>
 
 			                  	<div class="col-6">
-			                  		<label for="">Cargar Imagen Del Articulo</label>
+			                  		<label for="">Cargar Imagen Del Material</label>
 			                  		<br>
 									<input type="file" name="img_articulo" accept="image/png, .jpeg, .jpg" value="Cargar Imagen">
 									{{-- <a href="" type="file" name="img_articulo2"> Cargar Imagen</a> --}}
