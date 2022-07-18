@@ -7,6 +7,8 @@ use App\Http\Controllers\AlmacenController;
 use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\MovimientosController;
+use App\Http\Controllers\EstadisticasController;
+
 
 
 
@@ -106,3 +108,8 @@ Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])
 Route::get('/movimientos/entradaPorTraspaso',[MovimientosController::class,'entradaMaterial'])->name('entradaMaterial');
 Route::get('/AprobarSolicitud/{id_solicitud}',[MovimientosController::class,'aprobar'])->name('aprobarSolicitud');
 Route::get('/RecibirSolicitud/{id_solicitud}',[MovimientosController::class,'recibir'])->name('recibirSolicitud');
+
+Route::get('/totales/articulos',[EstadisticasController::class,'estArticulos'])->name('estadisticas.articulos');
+Route::get('/totales/barras/{id_familia}',[EstadisticasController::class,'estBarras'])->name('estadisticas.barras');
+Route::get('/totales/barras1/{id_material}',[EstadisticasController::class,'estBarras1'])->name('estadisticas.barrasArt');
+// Route::view('/probando123','estadisticas.estadisticasArticulos')->name('estadisticas.articulos');
