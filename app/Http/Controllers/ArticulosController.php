@@ -106,7 +106,7 @@ class articulosController extends Controller
                             ->insert([
                                 'id_usuario' => session('id_usuario'),
                                 'fecha_accion' => now(),
-                                'accion' => 'Ingreso de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes.', se agrego el stock entrante'
+                                'accion' => 'Registro de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes.', se agrego el stock entrante'
                             ]);
                 echo '<script> alert("Ingreso de Articulo Registrado Exitosamente"); window.location.href="/Articulo/Nuevo" </script>';
             }else{

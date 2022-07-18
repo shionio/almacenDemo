@@ -1,149 +1,195 @@
 @extends('layouts.dasboard')
-@section('title','Nueva Solicitud')
+@section('title','Nueva entrada de Material')
 @section('mainPage')
 
 <br>
 	<div class="container">
+		{{-- {{$estatusVehi}} --}}
 		<div class="card-body bg-white">
 			<div class="row">
 				<div class="col-12">
 					<div class="card card-danger">
 			            <div class="card-header">
-			            	<h3 class="card-title">Nueva Entrada De Material</h3>
+			            	<h3 class="card-title">Ingreso de Material</h3>
 			            </div>
+
 			            <!-- /.card-header -->
 			           	<!-- form start -->
-			            <form action="/guardarEntrada" method="POST">
+			            <form action="/guardarMaterial" method="POST" enctype="multipart/form-data">
 			            	@csrf
 			            	<div class="card-body row">
-
-			            		{{-- <div class="form-group col-2">
-				                	<label for="exampleInputEmail1">Codigo</label>
-				                    <input type="text" name="fecha" class="form-control" id="fecha" placeholder="" value="" readonly>
-				                </div> --}}
-
-				                <div class="form-group col-3">
+				                <div class="form-group col-2">
 				                	<label for="exampleInputEmail1">Fecha</label>
 				                    <input type="text" name="fecha" class="form-control" id="fecha" placeholder="" value="{{date('d/m/Y')}}" readonly>
 				                </div>
 
-				                <div class="col-sm-5">
+				                <div class="col-sm-4">
+				                    <!-- select -->
 				                    <div class="form-group">
-				                        <label>Almacen Origen</label>
-				                    	<select class="js-example-basic-single custom-select" name="almacenOrigen" id="almacenOrigen" onchange="llenarAlmacenDestino($(this))">
-				                        	<option value="" selected="true">Seleccione</option>
-			                        		@foreach($almacenes as $almacen)
-			                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
+				                        <label>Materiales</label>
+				                        {{-- <input class="form-control" type="text" name="nombreMaterial" id="nombreMaterial" value=""> --}}
+				                        <select class="js-example-basic-single custom-select" name="idMaterial">
+			                        	<option value="" selected="true">Seleccione</option>
+			                        		@foreach($materiales as $material)
+			                        			<option value="{{$material->id_material}}">{{$material->descripcion_propuesta}}</option>
 			                          		@endforeach
-				                        </select>
+			                        	</select>
+
 				                     </div>
 				                </div>
 
-			                  	<div class="form-group col-4">
-			                    	<label for="exampleInputPassword1">Tipo Entrada</label>
-			                    	<select class="js-example-basic-single custom-select" name="tipoDeEntrada" id="almadesti" required >
-			                          		<option value="null">Seleccione</option>
-			                          		@foreach($entradas as $entrada)
-			                          			<option value="{{$entrada->id_entrada_salida}}">{{$entrada->descripcion}}</option>
+				                <div class="col-sm-2">
+				                    <!-- select -->
+				                    <div class="form-group">
+				                        <label>Cantidad</label>
+				                        <input class="form-control" type="text" name="stock" id="stock" value="" onkeypress="return valideKey(event)">
+				                     </div>
+				                </div>
+
+				                <div class="form-group col-4">
+			                    	<label for="exampleInputPassword1">Familia</label>
+			                    	<select class="js-example-basic-single custom-select" name="idFamilia">
+			                        	<option value="" selected="true">Seleccione</option>
+			                        		@foreach($familias as $familia)
+			                        			<option value="{{$familia->id_familia}}">{{$familia->nombre_familia}}</option>
 			                          		@endforeach
 			                        </select>
 			                  	</div>
 
-			                  	<div class="col-12">
-				                  	<table class="table table-bordered {{-- table-striped --}}" id="tablaMateriales">
-				                  		<thead>
-				                  			<tr>
-				                  				<th>Codígo</th>
-				                  				<th>Material</th>
-				                  				<th>Stock</th>
-				                  				<th>Cantidad</th>
-				                  				<th>Acciones</th>
-				                  			</tr>
-				                  		</thead>
-			                  			<tbody>
-			                  				<tr class="clonarlo" id="fila-registro">
-			                  					<td>
-                                    				<input class="form-control idMaterial" type="text" id="idMaterial" name="idMaterial[]"  readonly>
-			                  					</td>
+				                <div class="col-sm-3">
+				                    <!-- select -->
+				                    <div class="form-group">
+				                        <label>Tipo de Ingreso</label>
+				                        <select class="js-example-basic-single custom-select" name="tipoIngresos">
+			                        		<option value="" selected="true">Seleccione</option>
+			                        		@foreach($tipoMovimientos as $tipoMovimiento)
+			                        			<option value="{{$tipoMovimiento->id_tipo_ingreso}}">{{$tipoMovimiento->tipo_ingreso}}</option>
+			                          		@endforeach
+			                        	</select>
+				                     </div>
+				                </div>
 
-			                  					<td>
-			                  						<select class="js-example-basic-single custom-select material" name="material[]" id="material" onchange="traerStock($(this))">
-                                    					<option value="null">Seleccione</option>
-                                    				</select>
-			                  					</td>
-			                  					<td>
-			                  						<input class="form-control stock" type="text" id="stock" name="stock[]"  readonly>
-			                  					</td>
-			                  					<td>
-			                  						<input class="form-control cantidadSolicitada" type="text" id="cantidadEntrada" name="cantidadEntrada[]"  onkeypress="return valideKey(event)" {{-- onblur="validarStockExistencia($(this))" --}}>
-			                  					</td>
-
-			                  					<td>
-			                  						<button class="btn btn-primary" type="button" onclick="agregar_fila()">+</button>
-			                  						<button class="btn btn-danger" type="button" onclick="eliminar_fila($(this))">X</button>
-			                  					</td>
-			                  				</tr>
-			                  			</tbody>
-			                  			<tfoot>
-				                  			<tr>
-				                  				<th>Codígo</th>
-				                  				<th>Material</th>
-				                  				<th>Stock</th>
-				                  				<th>Cantidad</th>
-				                  				<th>Acciones</th>
-				                  			</tr>
-			                  			</tfoot>
- 			                  		</table>
-		                  		</div>
-
-		                  		<div class="form-group col-12">
-			                    	<label for="exampleInputPassword1">Observaciones</label>
-			                    	<input class="form-control" type="text" name="observacionesSolicitud" id="observacionesSolicitud">
+			                  	{{-- <div class="form-group col-3">
+			                    	<label for="exampleInputPassword1">Proveedor</label>
+			                    	<select class="js-example-basic-single custom-select" name="proveedor">
+			                        	<option value="" selected="true">Seleccione</option>
+			                        		@foreach($proveedores as $proveedor)
+			                        			<option value="{{$proveedor->id_proveedor}}">{{$proveedor->nombre_proveedor}}</option>
+			                          		@endforeach
+			                        </select>
 			                  	</div>
 
-		                  		<div class="col">
-		                  			<button type="submit" class="btn btn-primary">Guardar</button>
-		                  		</div>
-		                  		<div class="col-3" align="right">
-		                  			<a href="{{route('listaMovimientos')}}" class="btn btn-success col-4">Volver</a>
-		                  		</div>
 
+			                    <div class="col-sm-3">
+			                      	<div class="form-group">
+			                        	<label>Nota de Entrega</label>
+			                        	<input class="form-control" type="text" name="notaEntrega" id="notaEntrega" onkeypress="return valideKey(event)">
+			                      	</div>
+			                    </div>
+
+			                    <div class="col-sm-3">
+			                      	<div class="form-group">
+			                        	<label>Orden de Compra</label>
+			                        	<input class="form-control" type="text" name="ordenCompra" id="ordenCompra" onkeypress="return valideKey(event)">
+			                      	</div>
+			                    </div>
+
+			                    <div class="col-sm-3">
+			                      	<div class="form-group">
+			                        	<label>N° Factura</label>
+										<input class="form-control" type="text" id="nFactura" name="nFactura" onkeypress="return valideKey(event)">
+			                      	</div>
+			                    </div>
+
+			                    <div class="col-sm-3">
+			                      	<div class="form-group">
+			                        	<label>N° Packlist</label>
+			                        	<input class="form-control" type="text" id="packlist" name="packlist" onkeypress="return valideKey(event)">
+			                      	</div>
+			                    </div>
+
+			                    <div class="form-group col-4">
+			                    	<label for="exampleInputPassword1">Unidad de Medida</label>
+			                    	<input type="text" name="unidadMedida" class="form-control" id="unidadMedida" placeholder="" value="">
+			                  	</div>
+
+				            	<div class="form-group col-5">
+			                    	<label for="exampleInputPassword1">Direccion de Entrega</label>
+			                    	<input type="text" name="direccionEntrega" class="form-control" id="direccionEntrega" placeholder="" value="">
+			                  	</div>
+ --}}
+			                  	<div class="form-group col-3">
+			                    	<label for="exampleInputPassword1">Almacen</label>
+			                    	<select class="js-example-basic-single custom-select" name="idAlmacen">
+			                        	<option value="" selected="true">Seleccione</option>
+			                        		@foreach($almacenes as $almacen)
+			                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
+			                          		@endforeach
+			                        </select>
+			                  	</div>
+
+			                  	<div class="form-group col-3">
+			                    	<label for="exampleInputPassword1">Estatus Material</label>
+			                    	<select class="js-example-basic-single custom-select" name="estatusMaterial">
+			                        	<option value="" selected="true">Seleccione</option>
+			                        		@foreach($estatusMateriales as $statusMaterial)
+			                        			<option value="{{$statusMaterial->id_estatus_material}}">{{$statusMaterial->desc_estatus_material}}</option>
+			                          		@endforeach
+			                        </select>
+			                  	</div>
+
+			                        		{{-- {{$condicionMateriales}} --}}
+			                  	<div class="form-group col-3">
+			                    	<label for="exampleInputPassword1">Condicion Material</label>
+			                    	<select class="js-example-basic-single custom-select" name="condicionMaterial">
+			                        	<option value="" selected="true">Seleccione</option>
+			                        		@foreach($condicionMateriales as $condicionMaterial)
+			                        			<option value="{{$condicionMaterial->id_condicion_material}}">{{$condicionMaterial->descrip_condicion_material}}</option>
+			                          		@endforeach
+			                        </select>
+			                  	</div>
+
+			                  {{-- 	<div class="form-group col-3">
+			                    	<label for="exampleInputPassword1">Tipo de Ingreso</label>
+			                    	<select class="js-example-basic-single custom-select" name="ingresoMaterial">
+			                        	<option value="" selected="true">Seleccione</option>
+			                        		@foreach($tipoIngreso as $ingreso)
+			                        			<option value="{{$ingreso->id_tipo_ingreso}}">{{$ingreso->tipo_ingreso}}</option>
+			                          		@endforeach
+			                        </select>
+			                  	</div> --}}
+
+			                    <div class="form-group col-12">
+			                        <label>Observaciones</label>
+			                        <input type="text" name="observaciones" class="form-control" id="estatusVehiculo" value="">
+			                  	</div>
+
+			                  	{{-- <div class="col-6">
+			                  		<label for="">Cargar Imagen Del Material</label>
+			                  		<br>
+									<input type="file" name="img_articulo" accept="image/png, .jpeg, .jpg" value="Cargar Imagen">
+									<a href="" type="file" name="img_articulo2"> Cargar Imagen</a>
+			                  	</div> --}}
 				            </div>
 			                <!-- /.card-body -->
 
-			                <!-- /.card-body -->
+			                <div class="card-footer">
+			                  <div class="row">
+			                  	<div class="col">
+			                  	<button type="submit" class="btn btn-primary">Guardar</button>
+			                  </div>
+			                  <div class="col" align="right">
+			                  	<a {{-- href="{{route('listaArticulos')}}" --}} class="btn btn-success col-3">Volver</a>
+			                  </div>
+			                  </div>
+			                </div>
 			            </form>
-            		</div>{{-- CIERRE DEL DIV DE LA LINEA 11 --}}
-				</div>{{-- CIERRE DEL DIV DE LA LINEA 10 --}}
-			</div>{{-- CIERRE DEL DIV QUE ABRE EN LA LINEA 9 --}}
-		</div>{{-- CIERRE DEL DIV QUE ABRE EN LA LINEA 8 --}}
-	</div>{{-- CIERRE DEL DIV DE LA LINEA 6 --}}
-
+            		</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script>
-		function traerStock(obj) {
-
-			var fila = obj.closest('tr');
-			var material = fila.find(".material").val()
-
-			//let material = $("#material").val()
-			let almacen = $("#almacenOrigen").val()
-			$.ajax({
-				url : '/traerStock',
-				method : 'post',
-				data:{
-					"_token" : "{{csrf_token()}}",
-					id_material : material,
-					id_almacen : almacen,
-				},success:function(stock){
-					console.log(stock)
-					$("#stock").empty()
-					var stockT = $.parseJSON(stock)
-
-					fila.find('.idMaterial').val(stockT.id_material)
-					fila.find('.stock').val(stockT.stock)
-				}
-			})
-		}
 
 		function valideKey(evt){
 		    // code is the decimal ASCII representation of the pressed key.
@@ -157,75 +203,6 @@
 		      return false;
 		    }
 		}
-
-		function llenarAlmacenDestino(fila){
-
-			let idAlmacen = $("#almacenOrigen").val()
-
-			$.ajax({
-				url : "/llenarAlmaDesti",
-				method: "post",
-				data: {
-					'idAlmacen' : idAlmacen,
-					"_token" : "{{ csrf_token() }}",
-				},success:function(consultas){
-					var consultas = $.parseJSON(consultas)
-					let almacenesRestantes = consultas.almacenesRestantes
-					let materiales = consultas.materialesAlmacen
-
-					//$("#almadesti").empty()
-					$(".idMaterial").val('')
-					$(".stock").val('')
-
-
-					// for(var i = 0; i < almacenesRestantes.length; i++){
-					// 	$("#almadesti").append("<option value='"+almacenesRestantes[i].id_almacen+"'>"+almacenesRestantes[i].nombre_almacen+"</option>")
-					// }
-
-					$("#material").empty()
-					for(var i = 0; i < materiales.length; i++){
-						$(".material").append("<option value='"+materiales[i].id_material+"'>"+materiales[i].nombre_material+"</option>")
-					}
-				}
-			})
-		}
-
-		function validarStockExistencia(fila){
-
-			var fila = fila.closest('tr');
-
-			var cantidadSol = fila.find(".cantidadSolicitada").val()
-			var stock = fila.find(".stock").val()
-
-			if(cantidadSol > stock){
-				alert('La cantidad Solicitada es MAYOR')
-				$("#cantidadSolicitada").focus()
-			}
-		}
-
-
-        function eliminar_fila(fila){
-
-            var n_filas = fila.parent().closest('.table').find('.clonarlo').length
-            var filaEliminar = fila.parent().closest('.clonarlo')
-
-            if(n_filas > 1){
-                filaEliminar.remove()
-            }else{
-                filaEliminar.find('input').val('')
-                filaEliminar.find('select').empty()
-            }
-        }
-
-		function agregar_fila(){
-
-    		var id_tabla = 'tablaMateriales'
-			var fila = $('#'+id_tabla+' .clonarlo').eq(0).clone(true,true)
-			/*$('#'+id_tabla+' .clonarlo').empty()*/
-			fila.find('input').val('')
-			fila.find('select').val('0');
-			$('#'+id_tabla).append(fila)
-    	}
 
 
 	</script>

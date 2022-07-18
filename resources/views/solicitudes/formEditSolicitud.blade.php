@@ -69,7 +69,7 @@
 			                  		<select class="js-example-basic-single custom-select" name="material" id="material" onchange="traerStock()">
                                     	<option value="">Seleccione</option>
                                     	@foreach($materiales as $material)
-	                          				<option value="{{$material->id_material}}" @if($material->id_material == $solicitud->id_material)selected="true"@endif >{{$material->nombre_material}}</option>
+	                          				<option value="{{$material->id_material}}" @if($material->id_material == $solicitud->id_material)selected="true"@endif >{{$material->descripcion_propuesta}}</option>
 	                          			@endforeach
                                     </select>
 			                  	</div>

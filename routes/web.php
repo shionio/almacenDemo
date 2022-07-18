@@ -99,8 +99,10 @@ Route::get('/Solicitudes/pdf/{id}',[MovimientosController::class,'solicitudPDF']
 
 
 
+Route::post('/guardarMovimiento',[MovimientosController::class, 'guardarEntradaMaterial']);
 Route::post('/guardarSalidaMaterial',[MovimientosController::class, 'guardarSalidaMaterial']);
 Route::get('/movimientos/salidaMaterial',[MovimientosController::class, 'mostrarSalidaMaterial'])->name('newMovSalida');
+Route::get('/movimientos/entradaMaterial',[MovimientosController::class, 'nuevaEntrada'])->name('newEntradaMaterial');
 
 
 

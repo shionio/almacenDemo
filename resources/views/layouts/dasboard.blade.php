@@ -155,12 +155,12 @@
                     <p>Maestro de  Materiales</p>
                   </a>
                 </li>
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                   <a href="{{Route('newArticulo')}}" class="nav-link">
                     <i class="fa fa-cube" aria-hidden="true"></i>
                     <p>Ingresar Material</p>
                   </a>
-                </li> --}}
+                </li>
               </ul>
             </li>
             <li class="nav-item">
@@ -196,7 +196,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{{Route('newArticulo')}}" class="nav-link">
+                  <a href="{{Route('newEntradaMaterial')}}" class="nav-link">
                     <i class="fa fa-paperclip" aria-hidden="true"></i>
                     <p>Entrada De Material</p>
                    <!--  <i class="fas fa-angle-left right"></i> -->
@@ -307,7 +307,7 @@
                   <li class="nav-item">
                     <a href="{{route('listaMovimientos')}}" class="nav-link">
                       <i class="fa fa-paperclip" aria-hidden="true"></i>
-                      <p>Traspaso</p>
+                      <p>Solicitud de Material</p>
                     </a>
                   </li>
                 </ul>
@@ -428,10 +428,10 @@
   <script src="{{asset('select2/js/select2.min.js')}}"></script>
   <script>
 
-   /* $(document).ready(function() {
-      $('.js-example-basic-single').select2();
-    });
-    */
+    // $(document).ready(function() {
+    //   $('.js-example-basic-single').select2();
+    // });
+
     $(function () {
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,

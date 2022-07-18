@@ -9,19 +9,98 @@ use Illuminate\Http\Request;
 class MovimientosController extends Controller
 {
 
-    public function mostrarSalidaMaterial(){
+    public function guardarEntradaMaterial(Request $request){
+        // dd($_POST);
+        // if($request->hasFile('img_articulo') ){
+        //     $imgArticulo = $request->file('img_articulo');
+        //     $urlImagen = 'img/imgArticulos/';
+        //     $imgName = time() . '-' . $imgArticulo->getClientOriginalName();
+
+        //     //$guardado = $request->file('img_articulo')->move($urlImagen,$imgName);
+
+        //     $urlImagenBaseDeDatos =$urlImagen.$imgName;
+        // }
+
+        //dd($urlImagenBaseDeDatos);
+
+        $id_almacen = $_POST['idAlmacen'];
+        $id_material = $_POST['idMaterial'];
+
+        $almacenMaterialExiste =    DB::table('materiales_almacen')
+                                    ->where(['id_almacen' => $id_almacen, 'id_material' => $id_material])
+                                    ->get()->first();
+
+        if($almacenMaterialExiste !=null){
+            $stockExiste = $almacenMaterialExiste->stock;
+            $nuevoStock = $stockExiste +  $_POST['stock'];
+
+            $updateStock = DB::table('materiales_almacen')
+                                    ->where(['id_almacen' => $id_almacen, 'id_material' => $id_material])
+                                    ->update(['stock' => $nuevoStock ]);
+            if($updateStock != 0){
+                $lastId= DB::table('materiales_almacen')->latest('id_materiales_almacenes')->first();
+                $inserLog = DB::table('logs')
+                            ->insert([
+                                'id_usuario' => session('id_usuario'),
+                                'fecha_accion' => now(),
+                                'accion' => 'Registro de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes.', se agrego el stock entrante'
+                            ]);
+                echo '<script> alert("Ingreso de Articulo Registrado Exitosamente"); window.location.href="/Articulo/Nuevo" </script>';
+            }else{
+
+                echo '<script> alert("Error al  Ingresar el Articulo."); window.location.href="/Articulo/Nuevo" </script>';
+            }
+        }else{
+
+            $movimientoMaterial = array(
+                'id_almacen'            => $_POST['idAlmacen'],
+                'id_material'           => $_POST['idMaterial'],
+                'id_familia'            => $_POST['idFamilia'],
+                'stock'                 => $_POST['stock'],
+                'fecha_ingreso'         => $_POST['fecha'],
+                'id_tipo_ingreso'       => $_POST['tipoIngresos'],
+                'id_estatus_material'   => $_POST['estatusMaterial'],
+                'id_condicion_material' => $_POST['condicionMaterial'],
+                'observaciones'         => $_POST['observaciones'],
+                'activo'                => true,
+            );
+
+            $insertArticulo = DB::table('materiales_almacen')->insert($movimientoMaterial);
+
+        }
+
+        if ($insertArticulo == true){
+            $lastId= DB::table('materiales_almacen')->latest('id_materiales_almacenes')->first();
+
+            $inserLog = DB::table('logs')
+                        ->insert([
+                            'id_usuario' => session('id_usuario'),
+                            'fecha_accion' => now(),
+                            'accion' => 'Registro de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes,
+                        ]);
+            echo '<script> alert("Ingreso de Material Registrado Exitosamente"); window.location.href="/Articulo/Nuevo" </script>';
+
+        }else{
+
+            echo '<script> alert("Error al  Registrar el Material."); window.location.href="/Articulo/Nuevo" </script>';
+        }
+    }
+
+
+    public function nuevaEntrada(){
+
         $estatusMateriales  = DB::table('status_material')->get();
         $condicionMaterial  = DB::table('condicion_materiales')->get();
         $familias           = DB::table('familias')->get();
-        $tipoMovimientos    = DB::table('tipo_salida')->get();
+        $tipoMovimientos    = DB::table('tipo_ingreso')->get();
         $materiales         = DB::table('materiales')->get();
 
         $almacenes          = DB::table('almacenes')
-                              ->join('usuarios','usuarios.id_almacen','=','almacenes.id_almacen')
-                              ->where('usuarios.id_usuario',session('id_usuario'))
+                              //->join('usuarios','usuarios.id_almacen','=','almacenes.id_almacen')
+                              // ->where('usuarios.id_usuario',session('id_usuario'))
                               ->get();
 
-         return view('movimientos.salidaMaterial',
+        return view('movimientos.entradaMaterial',
                     [
                      'materiales'           => $materiales,
                      'almacenes'            => $almacenes,
@@ -30,11 +109,79 @@ class MovimientosController extends Controller
                      'familias'             => $familias,
                      'tipoMovimientos'      => $tipoMovimientos,
                     ]);
+    }
+
+
+    public function mostrarSalidaMaterial(){
+        $estatusMateriales  = DB::table('status_material')->get();
+        $condicionMaterial  = DB::table('condicion_materiales')->get();
+        $familias           = DB::table('familias')->get();
+        $tipoMovimientos    = DB::table('tipo_salida')->get();
+        $materiales         = DB::table('materiales')->get();
+
+        if(session('id_usuario') != 0){
+            $almacenes          = DB::table('almacenes')
+                                  ->join('usuarios','usuarios.id_almacen','=','almacenes.id_almacen')
+                                  ->where('usuarios.id_usuario',session('id_usuario'))
+                                  ->get();
+        }else{
+            $almacenes          = DB::table('almacenes')
+                                  ->join('usuarios','usuarios.id_almacen','=','almacenes.id_almacen')
+                                  ->get();
+        }
+
+         return view('movimientos.salidaMaterial',
+                    [
+                        'materiales'           => $materiales,
+                        'almacenes'            => $almacenes,
+                        'estatusMateriales'    => $estatusMateriales,
+                        'condicionMateriales'  => $condicionMaterial,
+                        'familias'             => $familias,
+                        'tipoMovimientos'      => $tipoMovimientos,
+                    ]);
 
     }
 
     public function guardarSalidaMaterial(){
-        dd($_POST);
+        // dd($_POST);
+        $stockSalida = $_POST['stock']; //monto que va a salir de la base de datos
+
+        $material_almacen = DB::table('materiales_almacen')
+                                ->where(['id_material' => $_POST['idMaterial'], 'id_almacen' => $_POST['idAlmacen']])
+                                ->get()->first();
+
+        if($material_almacen != null ){
+
+            $stockActual = $material_almacen->stock; // stock del material en almancen
+
+            $stockRestante = $stockActual-$stockSalida;
+
+
+            $updStock = DB::table('materiales_almacen')->where(['id_material' => $_POST['idMaterial'], 'id_almacen' => $_POST['idAlmacen']])
+                        ->update(['stock' => $stockRestante]);
+
+            if($updStock > 0){
+                $lastId= DB::table('materiales_almacen')->latest('id_materiales_almacenes')->first();
+                $inserLog = DB::table('logs')
+                        ->insert([
+                            'id_usuario' => session('id_usuario'),
+                            'fecha_accion' => now(),
+                            'accion' => 'Salida de material con el Id= '.$lastId->id_materiales_almacenes,
+                        ]);
+
+                echo '<script> alert("Salida del material realizada Exitosamente"); window.location.href="/movimientos/salidaMaterial"</script>';
+
+            }
+
+        }else{
+
+            echo '<script> alert("No contamos con inventario para el material seleccionado!"); window.location.href="/movimientos/salidaMaterial" </script>';
+
+        }
+
+
+
+
     }
 
     public function traerStock(){
@@ -42,7 +189,8 @@ class MovimientosController extends Controller
         //dd(session('id_almacen'));
         $id_material = $_POST['id_material'];
         $id_almacen  = $_POST['id_almacen'];
-        $stock = DB::table('material')->where(['id_material' => $id_material, 'id_almacen'=> $id_almacen ])->select('id_material','stock','id_almacen')->get()->first();
+        $stock = DB::table('materiales_almacen')->where(['id_material' => $id_material/*, 'id_almacen'=> $id_almacen*/ ])->select('id_material','stock','id_almacen')->get()->first();
+        //dd($stock);
         $q = DB::getQueryLog();
         //dd($q);
         //dd($stock);
@@ -110,12 +258,18 @@ class MovimientosController extends Controller
                             ->get();
 
 
-        $materiales = DB::table('material')->where('id_almacen',session('id_almacen'))->select('id_material','nombre_material','stock')->get();
+        $materiales =   DB::table('materiales_almacen')
+                        ->join('materiales','materiales.id_material','=','materiales_almacen.id_material')
+                        ->where('id_almacen',session('id_almacen'))
+                        ->select('materiales.id_material','materiales.descripcion_propuesta','materiales_almacen.stock')
+                        ->get(); //dd($materiales);
 
-        return view('solicitudes.formSolicitud',['almacenes'        => $almacenes,
-                                                 'materiales'       => $materiales,
-                                                 'almacenUsuario'   => $almacenUsuario,
-                                             ]);
+        return view('solicitudes.formSolicitud',[
+                                                    'almacenes'        => $almacenes,
+                                                    'materiales'       => $materiales,
+                                                    'almacenUsuario'   => $almacenUsuario,
+                                                ]
+                    );
 
 
     }
@@ -180,22 +334,24 @@ class MovimientosController extends Controller
 
 
     public function entradaPorTraspaso(Request $request){
-
-        dd('llega');
+        //dd($_POST);
         $datosSolicitud = array(
-            'fecha_solicitud'       => $_POST['fecha'],
-            'id_usuario_solicitante'=> session('id_usuario'),
-            'id_almacen_origen'     => $_POST['almacenOrigen'],
-            'id_almacen_destino'    => $_POST['almacenDestino'],
-            'cantidad'              => $_POST['cantidadSolicitada'],
-            'descripcion_material'  => $_POST['material'],
-            'estatus'               => 1 ,
-            'observaciones'         => $_POST['observacionesSolicitud']
+            'fecha_solicitud'           => $_POST['fecha'],
+            'id_usuario_solicitante'    => session('id_usuario'),
+            'id_almacen_origen'         => $_POST['almacenOrigen'],
+            'id_almacen_destino'        => $_POST['idAlmacenDestino'],
+            'estatus'                   => 1 ,
+            'observaciones'             => $_POST['observacionesSolicitud']
         );
 
-        $insertSolicitud = DB::table('solicitudes')->insert($datosSolicitud);
+        //$insertSolicitud = DB::table('solicitudes')->insert($datosSolicitud);
 
-        if( $insertSolicitud == true ){
+        //if( $insertSolicitud == true ){
+
+            foreach ($_POST['idMaterial'] as $key => $idMat) {
+                dd($idMat);
+            }
+
             $inserLog = DB::table('logs')
                         ->insert([
                             'id_usuario' => session('id_usuario'),
@@ -225,7 +381,7 @@ class MovimientosController extends Controller
 
             $actualizarStock = DB::table('material')->where('id_material',$_POST['material'])->update($insertStock);
 
-        }
+
 
         return redirect()->route('listaMovimientos');
 
@@ -240,7 +396,7 @@ class MovimientosController extends Controller
     public function show($id)
     {
         DB::enableQueryLog();
-        $materiales = DB::table('material')->get();
+        $materiales = DB::table('materiales')->get();
         $almacenes = DB::table('almacen')->get();
         $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
 

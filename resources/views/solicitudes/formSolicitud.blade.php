@@ -62,23 +62,23 @@
 			                  			<tbody>
 			                  				<tr class="clonarlo" id="fila-registro">
 			                  					<td>
-                                    				<input class="form-control idMaterial" type="text" id="idMaterial" name="stock"  readonly>
+                                    				<input class="form-control idMaterial" type="text" id="idMaterial" name="idMaterial[]"  readonly>
 			                  					</td>
 
 			                  					<td>
-			                  						<select class="js-example-basic-single custom-select material" name="material" id="material" onchange="traerStock($(this))">
+			                  						<select class="js-example-basic-single custom-select material" name="material[]" id="material" onchange="traerStock($(this))">
 
                                     					<option value="null">Seleccione</option>
                                     					@foreach($materiales as $material)
-                                    						<option value="{{$material->id_material}}">{{$material->nombre_material}}</option>
+                                    						<option value="{{$material->id_material}}">{{$material->descripcion_propuesta}}</option>
                                     					@endforeach
                                     				</select>
 			                  					</td>
 			                  					<td>
-			                  						<input class="form-control stock" type="text" id="stock" name="stock"  readonly>
+			                  						<input class="form-control stock" type="text" id="stock" name="stock[]"  readonly>
 			                  					</td>
 			                  					<td>
-			                  						<input class="form-control cantidadSolicitada" type="text" id="cantidadSolicitada" name="cantidadSolicitada"  onkeypress="return valideKey(event)" onblur="validarStockExistencia($(this))">
+			                  						<input class="form-control cantidadSolicitada" type="text" id="cantidadSolicitada" name="cantidadSolicitada[]"  onkeypress="return valideKey(event)" {{-- onblur="validarStockExistencia($(this))" --}}>
 			                  					</td>
 
 			                  					<td>
@@ -200,7 +200,7 @@
 			var cantidadSol = fila.find(".cantidadSolicitada").val()
 			var stock = fila.find(".stock").val()
 
-			if(cantidadSol > stock){
+			if( stock < cantidadSol){
 				alert('La cantidad Solicitada es MAYOR')
 				$("#cantidadSolicitada").focus()
 			}

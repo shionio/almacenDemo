@@ -66,7 +66,6 @@
                         <i class="fas fa-arrow-alt-right"></i>
                       <i class="fas fa-sign-in"></i>
                       </a>
-
                       <a href="{{route('solicitudPdf',$soli->id_solicitud)}}">
                         <i class="fa fa-file-text" aria-hidden="true"></i>
                       </a>
