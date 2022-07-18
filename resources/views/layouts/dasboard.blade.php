@@ -96,6 +96,29 @@
               @if(session('rol')==1)
               <li class="nav-item">
                 <a href="#" class="nav-link">
+                  <i class="fa fa-bars"></i>
+                  <p>
+                    Estadisticas
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{Route('estadisticas.articulos')}}" class="nav-link">
+                      <i class="fa fa-list-alt" aria-hidden="true"></i>
+                      <p>Artículos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{Route('newAlmacen')}}" class="nav-link">
+                      <i class="fa fa-map-marker" aria-hidden="true"></i>
+                      <p>Ingresar Almacen</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
                   <i class="fas fa-warehouse"></i>
                   <p>
                     Almacen
