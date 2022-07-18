@@ -9,6 +9,9 @@
 <div class="row">
     <div class="col-12" align="center">
         
+    </div>
+    <div class="col-12" align="center">
+        
                 <h3>{{$fam->nombre_familia}}</h3>
     </div>
     <div class="col-sm-6">
