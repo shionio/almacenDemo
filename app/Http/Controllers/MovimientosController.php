@@ -9,6 +9,34 @@ use Illuminate\Http\Request;
 class MovimientosController extends Controller
 {
 
+    public function mostrarSalidaMaterial(){
+        $estatusMateriales  = DB::table('status_material')->get();
+        $condicionMaterial  = DB::table('condicion_materiales')->get();
+        $familias           = DB::table('familias')->get();
+        $tipoMovimientos    = DB::table('tipo_salida')->get();
+        $materiales         = DB::table('materiales')->get();
+
+        $almacenes          = DB::table('almacenes')
+                              ->join('usuarios','usuarios.id_almacen','=','almacenes.id_almacen')
+                              ->where('usuarios.id_usuario',session('id_usuario'))
+                              ->get();
+
+         return view('movimientos.salidaMaterial',
+                    [
+                     'materiales'           => $materiales,
+                     'almacenes'            => $almacenes,
+                     'estatusMateriales'    => $estatusMateriales,
+                     'condicionMateriales'  => $condicionMaterial,
+                     'familias'             => $familias,
+                     'tipoMovimientos'      => $tipoMovimientos,
+                    ]);
+
+    }
+
+    public function guardarSalidaMaterial(){
+        dd($_POST);
+    }
+
     public function traerStock(){
         DB::enableQueryLog();
         //dd(session('id_almacen'));

@@ -278,7 +278,7 @@
 
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{Route('newMovSalida')}}" class="nav-link">
                       <i class="fa fa-paperclip" aria-hidden="true"></i>
                       <p>Salida De Material</p>
                     </a>

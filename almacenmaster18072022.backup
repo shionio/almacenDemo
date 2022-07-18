@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.7 (Ubuntu 13.7-1.pgdg22.04+1)
--- Dumped by pg_dump version 14.4 (Ubuntu 14.4-1.pgdg22.04+1)
+-- Dumped from database version 13.7
+-- Dumped by pg_dump version 13.7
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -347,7 +347,7 @@ ALTER SEQUENCE public.log_solicitudes_id_log_solicitud_seq OWNED BY public.log_s
 CREATE TABLE public.logs (
     id_log integer NOT NULL,
     id_usuario integer NOT NULL,
-    fecha_accion date NOT NULL,
+    fecha_accion timestamp without time zone NOT NULL,
     accion character varying NOT NULL
 );
 
@@ -484,8 +484,13 @@ CREATE TABLE public.materiales_almacen (
     id_almacen integer,
     id_material character varying,
     id_familia integer,
-    stock_inicial integer,
-    stock integer
+    stock integer,
+    fecha_ingreso date,
+    id_tipo_ingreso character varying,
+    id_estatus_material integer,
+    id_condicion_material integer,
+    observaciones character varying,
+    activo boolean
 );
 
 
@@ -873,7 +878,7 @@ ALTER TABLE public.tipo_ingreso OWNER TO postgres;
 CREATE TABLE public.tipo_salida (
     id_tipo_salida integer NOT NULL,
     desc_tipo_salida character varying NOT NULL,
-    activo boolean NOT NULL
+    activo boolean DEFAULT true NOT NULL
 );
 
 
@@ -1371,6 +1376,9 @@ COPY public.estatus_solicitudes (id_estatus_solicitud, estatus_solicitud, activa
 
 COPY public.familias (id_familia, nombre_familia, estatus) FROM stdin;
 1	BOBINAS	f
+2	CABLES	f
+3	BOMBILLOS	f
+4	HERRAMIENTAS	f
 \.
 
 
@@ -1413,157 +1421,17 @@ COPY public.log_solicitudes (id_log_solicitud, usuario, almacen_origen, almacen_
 --
 
 COPY public.logs (id_log, id_usuario, fecha_accion, accion) FROM stdin;
-30	2	2022-05-31	Inicio de sesion
-31	2	2022-05-31	Ingreso de un nuevo Articulo= bombillos/id 15
-32	2	2022-05-31	Ingreso de un nuevo Articulo= bobinas/id 16 - 2
-33	1	2022-06-01	Inicio de sesion
-34	1	2022-06-01	Inicio de sesion
-35	1	2022-06-01	Inicio de sesion
-36	1	2022-06-01	Inicio de sesion
-37	1	2022-06-01	Inicio de sesion
-38	1	2022-06-01	Inicio de sesion
-39	1	2022-06-01	Inicio de sesion
-40	1	2022-06-01	Inicio de sesion
-41	1	2022-06-02	Inicio de sesion
-42	1	2022-06-02	Inicio de sesion
-43	1	2022-06-02	Inicio de sesion
-44	1	2022-06-02	Ingreso de un nuevo Articulo= cable/id 17
-45	1	2022-06-02	Ingreso de un nuevo Articulo= Placas de Acero/id 18
-46	1	2022-06-02	Registro de nuevo proveedor J-528748-6
-47	1	2022-06-02	Ingreso de un nuevo almacen
-48	1	2022-06-03	Inicio de sesion
-49	1	2022-06-03	Registro de nuevo proveedor J-528748-5
-50	1	2022-06-03	Inicio de sesion
-51	5	2022-06-03	Inicio de sesion
-52	5	2022-06-03	Actualizado Estatus de J-528748-6
-53	5	2022-06-03	Actualizado Estatus de j-5558899
-54	5	2022-06-03	Actualizado Estatus del Proveedor j-5558899
-55	0	2022-06-03	Inicio de sesion
-56	0	2022-06-03	Inicio de sesion
-57	0	2022-06-03	Inicio de sesion
-58	0	2022-06-03	Inicio de sesion
-59	0	2022-06-06	Inicio de sesion
-60	0	2022-06-06	Inicio de sesion
-61	0	2022-06-06	Nueva solicitud Generada por el usuarioagutierrez
-62	0	2022-06-06	Nueva solicitud Generada por el usuarioagutierrez
-63	0	2022-06-06	Nueva solicitud Generada por el usuarioagutierrez
-64	0	2022-06-06	Nueva solicitud Generada por el usuarioagutierrez
-65	0	2022-06-06	Nueva solicitud Generada por el usuarioagutierrez
-66	0	2022-06-06	Nueva solicitud Generada por el usuarioagutierrez
-67	0	2022-06-06	Inicio de sesion
-68	0	2022-06-06	Inicio de sesion
-69	2	2022-06-06	Inicio de sesion
-70	5	2022-06-06	Inicio de sesion
-71	0	2022-06-06	Inicio de sesion
-72	2	2022-06-06	Inicio de sesion
-73	5	2022-06-06	Inicio de sesion
-74	0	2022-06-06	Inicio de sesion
-75	0	2022-06-06	Inicio de sesion
-76	0	2022-06-06	Nueva solicitud Generada por el usuarioagutierrez
-77	0	2022-06-06	Inicio de sesion
-78	0	2022-06-06	Inicio de sesion
-79	0	2022-06-07	Inicio de sesion
-80	0	2022-06-07	Inicio de sesion
-81	0	2022-06-07	Inicio de sesion
-82	0	2022-06-07	Inicio de sesion
-83	0	2022-06-07	Inicio de sesion
-84	0	2022-06-07	Inicio de sesion
-85	0	2022-06-07	Inicio de sesion
-86	0	2022-06-07	Inicio de sesion
-87	0	2022-06-07	Inicio de sesion
-88	0	2022-06-07	Inicio de sesion
-89	0	2022-06-07	Inicio de sesion
-90	0	2022-06-07	Inicio de sesion
-91	0	2022-06-07	Inicio de sesion
-92	0	2022-06-07	Actualizado Estatus del Proveedor g-300202020
-93	0	2022-06-07	Actualizado Estatus del Proveedor g-300202020
-94	0	2022-06-07	Nueva solicitud Generada por el usuarioagutierrez
-95	0	2022-06-07	Inicio de sesion
-96	0	2022-06-07	Inicio de sesion
-97	0	2022-06-07	Inicio de sesion
-98	0	2022-06-07	Inicio de sesion
-99	0	2022-06-07	Inicio de sesion
-100	0	2022-06-07	Inicio de sesion
-101	0	2022-06-07	Inicio de sesion
-102	0	2022-06-07	Inicio de sesion
-103	0	2022-06-07	Inicio de sesion
-104	0	2022-06-07	Inicio de sesion
-105	0	2022-06-08	Inicio de sesion
-106	0	2022-06-08	Inicio de sesion
-107	0	2022-06-08	Inicio de sesion
-108	0	2022-06-08	Inicio de sesion
-109	6	2022-06-08	Inicio de sesion
-110	6	2022-06-08	Inicio de sesion
-111	0	2022-06-08	Inicio de sesion
-112	0	2022-06-08	Nueva solicitud Generada por el usuarioagutierrez
-113	0	2022-06-08	Inicio de sesion
-114	0	2022-06-08	Ingreso de un nuevo Articulo= Bombillos/id 19
-116	0	2022-06-08	Inicio de sesion
-117	0	2022-06-08	Registro de nuevo proveedor G-5824747
-118	0	2022-06-08	Ingreso de un nuevo Articulo= DesTrias/id 21
-119	0	2022-06-08	Ingreso de un nuevo Articulo= Bobinas/id 22
-120	0	2022-06-08	Ingreso de un nuevo Articulo= cable/id 23
-121	0	2022-06-08	Ingreso de un nuevo Articulo= tuercas/id 24
-122	0	2022-06-08	Nueva solicitud Generada por el usuarioagutierrez
-123	0	2022-06-08	Inicio de sesion
-124	0	2022-06-09	Inicio de sesion
-125	0	2022-06-16	Inicio de sesion
-126	0	2022-06-17	Inicio de sesion
-127	0	2022-06-20	Inicio de sesion
-128	0	2022-06-21	Inicio de sesion
-129	0	2022-06-21	Inicio de sesion
-130	0	2022-06-22	Inicio de sesion
-131	0	2022-06-22	Inicio de sesion
-132	0	2022-06-27	Inicio de sesion
-133	0	2022-06-27	Inicio de sesion
-134	0	2022-06-27	Inicio de sesion
-135	0	2022-06-27	Inicio de sesion
-136	0	2022-06-28	Inicio de sesion
-137	0	2022-06-28	Nueva solicitud Generada por el usuarioagutierrez
-138	0	2022-06-30	Inicio de sesion
-139	0	2022-06-30	Inicio de sesion
-140	0	2022-07-01	Inicio de sesion
-141	0	2022-07-01	Inicio de sesion
-142	0	2022-07-04	Inicio de sesion
-143	0	2022-07-04	Inicio de sesion
-144	0	2022-07-06	Inicio de sesion
-145	0	2022-07-06	Inicio de sesion
-146	7	2022-07-06	Inicio de sesion
-147	7	2022-07-06	Inicio de sesion
-148	7	2022-07-06	Inicio de sesion
-149	7	2022-07-06	Inicio de sesion
-150	0	2022-07-07	Inicio de sesion
-151	0	2022-07-07	Ingreso de un nuevo almacen
-152	0	2022-07-07	Inicio de sesion
-153	7	2022-07-07	Inicio de sesion
-154	0	2022-07-07	Inicio de sesion
-155	0	2022-07-08	Inicio de sesion
-156	0	2022-07-08	Inicio de sesion
-157	0	2022-07-08	Inicio de sesion
-158	0	2022-07-11	Inicio de sesion
-159	0	2022-07-11	Inicio de sesion
-160	0	2022-07-11	Inicio de sesion
-161	0	2022-07-11	Inicio de sesion
-162	0	2022-07-12	Inicio de sesion
-163	0	2022-07-12	Inicio de sesion
-164	0	2022-07-12	Inicio de sesion
-165	0	2022-07-12	Inicio de sesion
-166	0	2022-07-12	Inicio de sesion
-167	0	2022-07-12	Inicio de sesion
-168	0	2022-07-12	Inicio de sesion
-169	0	2022-07-12	Inicio de sesion
-170	0	2022-07-12	Inicio de sesion
-171	0	2022-07-12	Inicio de sesion
-172	0	2022-07-12	Inicio de sesion
-173	0	2022-07-12	Inicio de sesion
-174	0	2022-07-13	Inicio de sesion
-175	0	2022-07-13	Inicio de sesion
-176	0	2022-07-13	Inicio de sesion
-177	0	2022-07-13	Inicio de sesion
-178	0	2022-07-13	Inicio de sesion
-179	0	2022-07-13	Inicio de sesion
-180	0	2022-07-14	Inicio de sesion
-181	0	2022-07-15	Inicio de sesion
+185	0	2022-07-17 00:00:00	Ingreso de un nuevo movimiento con el Id= 4
+186	0	2022-07-17 00:00:00	Inicio de sesion
+187	0	2022-07-17 00:00:00	Inicio de sesion
+188	0	2022-07-17 03:40:09	Inicio de sesion
+189	0	2022-07-17 22:33:38	Inicio de sesion
+190	0	2022-07-17 23:07:22	Ingreso de un nuevo movimiento con el Id= 1, se agrego el stock entrante
+191	0	2022-07-17 23:44:32	Actualizado Estatus del Proveedor g-300202020
+192	0	2022-07-17 23:44:37	Actualizado Estatus del Proveedor g-300202020
+193	0	2022-07-18 03:03:29	Ingreso de un nuevo movimiento con el Id= 5
+194	0	2022-07-18 03:09:50	Ingreso de un nuevo movimiento con el Id= 5, se agrego el stock entrante
+195	0	2022-07-18 04:20:07	Inicio de sesion
 \.
 
 
@@ -2089,7 +1957,9 @@ COPY public.materiales (id_material, codigo, descripcion_propuesta, unidad_medid
 -- Data for Name: materiales_almacen; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.materiales_almacen (id_materiales_almacenes, id_almacen, id_material, id_familia, stock_inicial, stock) FROM stdin;
+COPY public.materiales_almacen (id_materiales_almacenes, id_almacen, id_material, id_familia, stock, fecha_ingreso, id_tipo_ingreso, id_estatus_material, id_condicion_material, observaciones, activo) FROM stdin;
+5	3	2	1	350	2022-07-18	3	1	1		t
+1	3	1	1	1022	2022-07-17	2	3	3	entrada de merancia bajo el numoero de orden 0000000001	t
 \.
 
 
@@ -3598,8 +3468,8 @@ COPY public.proveedores (id_proveedor, nombre_proveedor, telefono_proveedor, cor
 6	bombillos los salias	04125554474	bombillos@gmail.com	t	j-5558899	venta de bombillos al mayor	cariwao
 7	Karla Venegas	04000000000	asdkqwje@a.a	t	J-528748-6	Principiante	Sede de Lagunita
 5	galaxi tabs	04125558888	galaxitabs@gmail.com	t	j-5558899	venta de electronicos	la pastora
-1	Almacen 56	04125949285	almacen56@gmail.com	t	g-300202020	\N	\N
 9	Todo Herramientas	0400000000	therram@gmail.com	t	G-5824747	Vendedor de herramientas generales	Valencia, Carabobo
+1	Almacen 56	04125949285	almacen56@gmail.com	t	g-300202020	\N	\N
 \.
 
 
@@ -3685,10 +3555,13 @@ COPY public.tipo_entrada_salida (id_entrada_salida, descripcion, tipo_movimiento
 --
 
 COPY public.tipo_ingreso (id_tipo_ingreso, tipo_ingreso, activo) FROM stdin;
-1	Entrada Gratutita	t
-2	Transferencia	t
-3	Compra Nacional	t
-4	Compra Internacional	t
+1	ENTRADA DE MERCANCIA MATERIAL DE PROVEEDOR (101)	t
+2	TRASPASO ENTRE ALMACENES (309)	t
+3	DEVOLUCION DE USUARIO	t
+4	ENTRADA DE MERCANCIA EN CUSTODIA	t
+5	ENTRADA POR CAMBIO DE CONDICIONDE LA MERCANCIA	t
+6	ENTRADA POR CARGA INICIAL	t
+7	ENTRADA POR DONACION	t
 \.
 
 
@@ -3697,6 +3570,10 @@ COPY public.tipo_ingreso (id_tipo_ingreso, tipo_ingreso, activo) FROM stdin;
 --
 
 COPY public.tipo_salida (id_tipo_salida, desc_tipo_salida, activo) FROM stdin;
+1	SALIDA DE MERCANCIA PARA MANTENIMIENTO (201)	t
+2	SALIDA DE MERCANCIA PARA OBRAS (221)	t
+3	CAMBIO DE CONDICION DE LA MERCANCIA	t
+4	SALIDA POR DONACION	t
 \.
 
 
@@ -3797,7 +3674,7 @@ SELECT pg_catalog.setval('public.estatus_solicitudes_id_estatus_solicitud_seq', 
 -- Name: familias_id_familia_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.familias_id_familia_seq', 1, true);
+SELECT pg_catalog.setval('public.familias_id_familia_seq', 4, true);
 
 
 --
@@ -3811,7 +3688,7 @@ SELECT pg_catalog.setval('public.log_solicitudes_id_log_solicitud_seq', 18, true
 -- Name: logs_id_log_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.logs_id_log_seq', 181, true);
+SELECT pg_catalog.setval('public.logs_id_log_seq', 195, true);
 
 
 --
@@ -3832,7 +3709,7 @@ SELECT pg_catalog.setval('public.material_proveedor_id_material_proveedor_seq', 
 -- Name: materiales_almacen_id_materiales_almacenes_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.materiales_almacen_id_materiales_almacenes_seq', 1, false);
+SELECT pg_catalog.setval('public.materiales_almacen_id_materiales_almacenes_seq', 5, true);
 
 
 --
@@ -4069,6 +3946,14 @@ ALTER TABLE ONLY public.log_solicitudes
 
 ALTER TABLE ONLY public.material
     ADD CONSTRAINT material_pkey PRIMARY KEY (id_material);
+
+
+--
+-- Name: materiales_almacen materiales_almacen_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.materiales_almacen
+    ADD CONSTRAINT materiales_almacen_pk PRIMARY KEY (id_materiales_almacenes);
 
 
 --

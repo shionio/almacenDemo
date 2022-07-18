@@ -71,7 +71,7 @@ class articulosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        //dd($_POST);
+        // dd($_POST);
         // if($request->hasFile('img_articulo') ){
         //     $imgArticulo = $request->file('img_articulo');
         //     $urlImagen = 'img/imgArticulos/';
