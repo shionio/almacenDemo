@@ -10,15 +10,20 @@ class EstadisticasController extends Controller
     public function estArticulos()
     {
         // dd($_REQUEST);
-        $familia = DB::table('familias')
-        // ->sum('stock')
-        ->select('id_familia','nombre_familia')->get();
+        
 
         // dd($totalArticulos);
 
         $sum = DB::table('materiales_almacen')
-        ->select('id_familia', DB::raw("sum(stock) as suma"))
-        ->groupBy('id_familia')
+        ->join('familias','familias.id_familia','=','materiales_almacen.id_familia')
+        ->select('materiales_almacen.id_familia','familias.nombre_familia', DB::raw("sum(stock) as suma"))
+        ->groupBy('materiales_almacen.id_familia','familias.nombre_familia','familias.id_familia')
+        ->orderBy('familias.id_familia')
+        ->get();
+
+        $familia = DB::table('familias')
+
+        ->select('id_familia','nombre_familia')
         ->get();
 
         $final = DB::table('materiales_almacen')
@@ -103,6 +108,20 @@ class EstadisticasController extends Controller
 
         // dd($almacenes);
         return view('estadisticas.barras1',['total'=>$final,'material'=>$material]);
+    }
+
+    public function BuscarMat()
+    {
+
+        $consulta = DB::table('familias')
+        ->get();
+
+        return view('estadisticas.buscar',['fam'=>$consulta]);
+    }
+
+    public function TomarMat()
+    {
+        dd($_POST);
     }
 
 }

@@ -93,6 +93,7 @@
                 </a>
               </li>
 
+
               @if(session('rol')==1)
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -105,14 +106,14 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{Route('estadisticas.articulos')}}" class="nav-link">
-                      <i class="fa fa-list-alt" aria-hidden="true"></i>
-                      <p>Artículos</p>
+                      <i class="fa fa-object-group" aria-hidden="true"></i>
+                      <p>Familias</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{Route('newAlmacen')}}" class="nav-link">
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <p>Ingresar Almacen</p>
+                    <a href="{{Route('BuscarMaterial')}}" class="nav-link">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                      <p>Buscar Material</p>
                     </a>
                   </li>
                 </ul>
