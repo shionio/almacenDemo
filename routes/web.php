@@ -90,6 +90,7 @@ Route::post('/proveedores/actualizar',[ProveedorController::class,'actualizarPro
 
 Route::post('traerStock',[MovimientosController::class,'traerStock']);
 Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
+Route::post('/editarSolicitud',[MovimientosController::class,'editarSolicitud']);
 Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('/guardarSolicitud',[MovimientosController::class,'store']);
 Route::post('/entradaPorTraspaso',[MovimientosController::class,'entradaPorTraspaso']);
@@ -97,12 +98,15 @@ Route::get('/Solicitudes/pdf/{id}',[MovimientosController::class,'solicitudPDF']
 
 
 
+Route::post('/movimiento/anulacion/{id_solicitud}',[MovimientosController::class,'anularSolicitud'])->name('anularSolicitud');
 
 
 Route::post('/guardarMovimiento',[MovimientosController::class, 'guardarEntradaMaterial']);
 Route::post('/guardarSalidaMaterial',[MovimientosController::class, 'guardarSalidaMaterial']);
 Route::get('/movimientos/salidaMaterial',[MovimientosController::class, 'mostrarSalidaMaterial'])->name('newMovSalida');
 Route::get('/movimientos/entradaMaterial',[MovimientosController::class, 'nuevaEntrada'])->name('newEntradaMaterial');
+
+Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');
 
 
 
@@ -114,7 +118,6 @@ Route::post('/solicitudAprobada',[MovimientosController::class,'aprobada']);
 
 
 Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
-Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');
 Route::get('/movimientos/entradaPorTraspaso',[MovimientosController::class,'entradaMaterial'])->name('entradaMaterial');
 Route::get('/AprobarSolicitud/{id_solicitud}',[MovimientosController::class,'aprobar'])->name('aprobarSolicitud');
 Route::get('/RecibirSolicitud/{id_solicitud}',[MovimientosController::class,'recibir'])->name('recibirSolicitud');

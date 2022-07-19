@@ -216,11 +216,13 @@ class MovimientosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
+
+        DB::enableQueryLog();
         
         $sol = DB::table('solicitudes')
         ->join('usuarios','usuarios.id_usuario','=','solicitudes.id_usuario_solicitante')
-        ->join('almacen as origen','origen.id_almacen','=','solicitudes.id_almacen_origen')
-        ->join('almacen as destino','destino.id_almacen','=','solicitudes.id_almacen_destino')
+        ->join('almacenes as origen','origen.id_almacen','=','solicitudes.id_almacen_origen')
+        ->join('almacenes as destino','destino.id_almacen','=','solicitudes.id_almacen_destino')
         ->join('estatus_solicitudes','solicitudes.estatus','=','estatus_solicitudes.id_estatus_solicitud')
         ->select('id_solicitud',
                 'fecha_solicitud',
@@ -236,8 +238,14 @@ class MovimientosController extends Controller
                 'id_usuario',
                 'origen.nombre_almacen as almaor',
                 'destino.nombre_almacen as almades',
-                'estatus_solicitudes.estatus_solicitud')
+                'estatus_solicitudes.estatus_solicitud',
+                'anulado')
         ->get()->all();
+
+        $q = DB::getQueryLog();
+
+
+        //dd($q);
 
         return view('solicitudes.listaSolicitud',['solicitudes' => $sol]);
     }
@@ -385,35 +393,43 @@ class MovimientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id){
+        /*dd($id);*/
         DB::enableQueryLog();
         $materiales = DB::table('materiales')->get();
-        $almacenes = DB::table('almacen')->get();
+        $almacen_origen = DB::table('almacenes')->where('id_almacen',session('id_almacen'))->get();
+        $almacenes = DB::table('almacenes')->get();
         $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
 
         $solicitud = DB::table('solicitudes')
-                    ->join('material','solicitudes.descripcion_material','=','material.id_material')
-                    ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
-                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_destino')
+                    //->join('materiales','solicitudes.descripcion_material','=','materiales.id_material')
+                    ->join('almacenes AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->join('almacenes AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_destino')
                     ->where('id_solicitud',$id)
                     ->select('solicitudes.fecha_solicitud',
                             'solicitudes.id_almacen_origen',
                             'solicitudes.id_almacen_destino',
                             'solicitudes.estatus',
-                            'material.id_material',
-                            'material.stock',
+                            //'materiales.id_material',
+                            //'materiales.stock',
                             'solicitudes.cantidad',
                             'solicitudes.observaciones',
                             'solicitudes.id_solicitud')
                     ->get()->first();
+        $q = DB::getQueryLog();
+        //dd($q);;
 
+        $materiales_solicitud = DB::table('materiales_solicitudes')->where('id_solicitud',$id)->get();
+        //dd($q);
         return view('solicitudes.formEditSolicitud',
                             [
-                                'solicitud'  => $solicitud,
-                                'almacenes'  => $almacenes,
-                                'materiales' => $materiales,
-                                'estatusSolicitudes' => $estatus_solicitudes,
+                                'solicitud'             => $solicitud,
+                                'almacenes'             => $almacenes,
+                                'materiales'            => $materiales,
+                                'estatusSolicitudes'    => $estatus_solicitudes,
+                                'materialesSolicitud'   => $materiales_solicitud,
+                                'almacenOrigen'         => $almacen_origen,
+
                             ]
         );
     }
@@ -424,10 +440,57 @@ class MovimientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function editarSolicitud(){
+        //dd($_POST);
+        $id_solicitud = $_POST['id_solicitud'];
+
+        $datos_solicitud = array(
+            'id_almacen_origen'         => $_POST['idAlmacenOrigen'],
+            'id_almacen_destino'        => $_POST['idAlmacenDestino'],
+            'observaciones'             => $_POST['observacionesSolicitud']
+        );
+
+        $upd_solicitud = DB::table('solicitudes')->where('id_solicitud',$id_solicitud)->update($datos_solicitud);
+
+        if ($upd_solicitud > 0){
+            $delete_materiales_solicitud = DB::table('materiales_solicitudes')->where('id_solicitud',$id_solicitud)->delete();
+            //dd($delete_materiales_solicitud);
+
+            if($delete_materiales_solicitud > 0){
+
+                foreach ($_POST['idMaterial'] as $i => $idMat) {
+                    $materialesSolicitud[$i]['id_material'] = $idMat;
+                    $materialesSolicitud[$i]['id_solicitud'] = $id_solicitud;
+                }
+
+                foreach ($_POST['cantidadSolicitada'] as $i => $cant) {
+                    $materialesSolicitud[$i]['cantidad'] = $cant;
+                    $materialesSolicitud[$i]['id_solicitud'] = $id_solicitud;
+                }
+
+
+                $insertMaterialesSolicitud = DB::table('materiales_solicitudes')->insert($materialesSolicitud);
+                //dd($insertMaterialesSolicitud);
+
+                if($insertMaterialesSolicitud == true){
+                    $inserLog = DB::table('logs')
+                            ->insert([
+                                'id_usuario' => session('id_usuario'),
+                                'fecha_accion' => now(),
+                                'accion' => 'Solicitud actualizada por el Usuario: '.session('usuario'),
+                            ]);
+                    echo '<script > alert("Solicitud de Material Actualizada Exitosamente!"); window.location.href="/Solicitudes"</script>';
+
+                }else{
+                    echo '<script> alert("Fallo al Actualizar la Solicitud de Material"); window.location.href="/entradaPorTraspaso"</script>';
+                }
+
+            }
+        }
     }
+
+
+
 
     /**
      * Update the specified resource in storage.
@@ -704,7 +767,26 @@ class MovimientosController extends Controller
         return view('movimientos.salidaMaterial');
     }
 
-    // public function guardarSalidaMaterial(){
+    public function anularSolicitud(){
+        $solicitusParaAnular = DB::table('solicitudes')->where('id_solicitud', $_POST['id_solicitud'])->get()->first();
 
-    // }
+        if($solicitusParaAnular->anulado == false){
+
+            $anulando = DB::table('solicitudes')->where('id_solicitud',$_POST['id_solicitud'])->update(['anulado' => true]);
+            //dd($anulando);
+
+            if($anulando > 0){
+
+                return true;
+
+            }else{
+
+                return false;
+
+            }
+
+        }else{
+            return 'ALGO SALIO MAL';
+        }
+    }
 }
