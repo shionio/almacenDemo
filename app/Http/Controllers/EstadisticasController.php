@@ -121,7 +121,48 @@ class EstadisticasController extends Controller
 
     public function TomarMat()
     {
-        dd($_POST);
+        // dd($_POST);
+
+        $materiales = DB::table('materiales_almacen')
+        ->join('materiales','materiales.id_material','materiales_almacen.id_material')
+        ->where('materiales_almacen.id_familia',$_POST['id_familia'])
+        ->select('materiales_almacen.id_familia','materiales_almacen.id_material','materiales.descripcion_propuesta')
+        ->groupBy('materiales_almacen.id_material','materiales_almacen.id_familia','materiales.descripcion_propuesta')
+        ->get();
+
+        return $materiales;
+    }
+    public function estBarrasFil()
+    {
+        // dd($_POST);
+
+
+        $material = DB::table('materiales_almacen')
+        ->join('almacenes','almacenes.id_almacen','=','materiales_almacen.id_almacen')
+        ->join('materiales','materiales.id_material','=','materiales_almacen.id_material')
+        ->where('materiales_almacen.id_material',$_POST['material'])
+        ->select('materiales_almacen.id_material','almacenes.siglas_almacen','almacenes.id_almacen','materiales.descripcion_propuesta','almacenes.nombre_almacen',DB::raw("sum(stock) as suma"))
+        ->groupBy('materiales_almacen.id_almacen','materiales_almacen.id_material','almacenes.siglas_almacen','almacenes.nombre_almacen','materiales.descripcion_propuesta','almacenes.id_almacen')
+        ->get();
+
+        // dd($material);
+
+
+        // $q = DB::getQueryLog();
+        $final = DB::table('materiales_almacen')
+        ->where('id_material',$_POST['material'])
+        ->sum('stock');
+        // dd($materiales);
+
+        // $familia = DB::table('familias')
+        // ->where('id_familia',$id_familia)
+        // ->select('nombre_familia')
+        // ->get()->first();
+
+        // dd($familia);
+
+        // dd($almacenes);
+        return view('estadisticas.barras1',['total'=>$final,'material'=>$material]);
     }
 
 }

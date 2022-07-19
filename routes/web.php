@@ -122,6 +122,8 @@ Route::get('/RecibirSolicitud/{id_solicitud}',[MovimientosController::class,'rec
 Route::get('/totales/articulos',[EstadisticasController::class,'estArticulos'])->name('estadisticas.articulos');
 Route::get('/totales/barras/{id_familia}',[EstadisticasController::class,'estBarras'])->name('estadisticas.barras');
 Route::get('/totales/barras1/{id_material}',[EstadisticasController::class,'estBarras1'])->name('estadisticas.barrasArt');
+Route::post('/totales/barrasFil/',[EstadisticasController::class,'estBarrasFil'])->name('estadisticas.barrasFil');
 Route::get('/buscar/material',[EstadisticasController::class,'BuscarMat'])->name('BuscarMaterial');
 Route::post('/llenar/material',[EstadisticasController::class,'TomarMat'])->name('llenarMaterial');
+Route::post('/mostrar/material',[EstadisticasController::class,'LlenarMat'])->name('Grafica.Mat');
 // Route::view('/probando123','estadisticas.estadisticasArticulos')->name('estadisticas.articulos');
