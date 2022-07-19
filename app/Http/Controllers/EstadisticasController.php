@@ -10,15 +10,20 @@ class EstadisticasController extends Controller
     public function estArticulos()
     {
         // dd($_REQUEST);
-        $familia = DB::table('familias')
-        // ->sum('stock')
-        ->select('id_familia','nombre_familia')->get();
+        
 
         // dd($totalArticulos);
 
         $sum = DB::table('materiales_almacen')
-        ->select('id_familia', DB::raw("sum(stock) as suma"))
-        ->groupBy('id_familia')
+        ->join('familias','familias.id_familia','=','materiales_almacen.id_familia')
+        ->select('materiales_almacen.id_familia','familias.nombre_familia', DB::raw("sum(stock) as suma"))
+        ->groupBy('materiales_almacen.id_familia','familias.nombre_familia','familias.id_familia')
+        ->orderBy('familias.id_familia')
+        ->get();
+
+        $familia = DB::table('familias')
+
+        ->select('id_familia','nombre_familia')
         ->get();
 
         $final = DB::table('materiales_almacen')
@@ -91,6 +96,61 @@ class EstadisticasController extends Controller
         // $q = DB::getQueryLog();
         $final = DB::table('materiales_almacen')
         ->where('id_material',$id_material)
+        ->sum('stock');
+        // dd($materiales);
+
+        // $familia = DB::table('familias')
+        // ->where('id_familia',$id_familia)
+        // ->select('nombre_familia')
+        // ->get()->first();
+
+        // dd($familia);
+
+        // dd($almacenes);
+        return view('estadisticas.barras1',['total'=>$final,'material'=>$material]);
+    }
+
+    public function BuscarMat()
+    {
+
+        $consulta = DB::table('familias')
+        ->get();
+
+        return view('estadisticas.buscar',['fam'=>$consulta]);
+    }
+
+    public function TomarMat()
+    {
+        // dd($_POST);
+
+        $materiales = DB::table('materiales_almacen')
+        ->join('materiales','materiales.id_material','materiales_almacen.id_material')
+        ->where('materiales_almacen.id_familia',$_POST['id_familia'])
+        ->select('materiales_almacen.id_familia','materiales_almacen.id_material','materiales.descripcion_propuesta')
+        ->groupBy('materiales_almacen.id_material','materiales_almacen.id_familia','materiales.descripcion_propuesta')
+        ->get();
+
+        return $materiales;
+    }
+    public function estBarrasFil()
+    {
+        // dd($_POST);
+
+
+        $material = DB::table('materiales_almacen')
+        ->join('almacenes','almacenes.id_almacen','=','materiales_almacen.id_almacen')
+        ->join('materiales','materiales.id_material','=','materiales_almacen.id_material')
+        ->where('materiales_almacen.id_material',$_POST['material'])
+        ->select('materiales_almacen.id_material','almacenes.siglas_almacen','almacenes.id_almacen','materiales.descripcion_propuesta','almacenes.nombre_almacen',DB::raw("sum(stock) as suma"))
+        ->groupBy('materiales_almacen.id_almacen','materiales_almacen.id_material','almacenes.siglas_almacen','almacenes.nombre_almacen','materiales.descripcion_propuesta','almacenes.id_almacen')
+        ->get();
+
+        // dd($material);
+
+
+        // $q = DB::getQueryLog();
+        $final = DB::table('materiales_almacen')
+        ->where('id_material',$_POST['material'])
         ->sum('stock');
         // dd($materiales);
 
