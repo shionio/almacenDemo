@@ -1,5 +1,5 @@
 @extends('layouts.dasboard')
-@section('title','Nueva Solicitud')
+@section('title','Editando la Solicitud')
 @section('mainPage')
 
 <br>
@@ -9,27 +9,26 @@
 				<div class="col-12">
 					<div class="card card-danger">
 			            <div class="card-header">
-			            	<h3 class="card-title">Nueva Solicitud</h3>
+			            	<h3 class="card-title">Editar Solicitud</h3>
 			            </div>
 			            <!-- /.card-header -->
 			           	<!-- form start -->
-			           	{{-- {{dd($almacenUsuario)}} --}}
-			            <form action="/entradaPorTraspaso" method="POST">
+			            <form action="/editarSolicitud" method="POST">
+			            	<input type="hidden" name="id_solicitud" value="{{$solicitud->id_solicitud}}">
 			            	@csrf
 			            	<div class="card-body row">
 				                <div class="form-group col-2">
 				                	<label for="exampleInputEmail1">Fecha</label>
-				                    <input type="text" name="fecha" class="form-control" id="fecha" placeholder="" value="{{date('d/m/Y')}}" readonly>
+				                    <input type="text" name="fecha" class="form-control" id="fecha" placeholder="" value="{{$solicitud->fecha_solicitud}}" readonly>
 				                </div>
 
 				                <div class="col-sm-3">
 				                    <div class="form-group">
 				                        <label>Almacen Origen</label>
-				                    	<select class="js-example-basic-single custom-select" name="almacenOrigen" id="almacenOrigen" {{-- onchange="llenarAlmacenDestino($(this))" --}}>
-				                        	<option value="" selected="true">Seleccione</option>
-				                        		@foreach($almacenes as $almacen)
-				                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
-				                          		@endforeach
+				                    	<select class="js-example-basic-single custom-select" name="idAlmacenOrigen" id="almacenOrigen">
+			                        		@foreach($almacenes as $almacen)
+			                        			<option value="{{$almacen->id_almacen}}"@if($almacen->id_almacen == $solicitud->id_almacen_origen) selected="true"@endif>{{$almacen->nombre_almacen}}</option>
+			                          		@endforeach
 				                        </select>
 				                     </div>
 				                </div>
@@ -38,60 +37,65 @@
 				                    <!-- select -->
 				                    <div class="form-group">
 				                        <label>Almacen Destino</label>
-			                        	<input class="form-control" type="hidden" name="idAlmacenDestino" value="{{$almacenUsuario[0]->id_almacen}}" id="almaDesti">
-			                        	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="{{$almacenUsuario[0]->nombre_almacen}}" readonly="true">
+			                        	<select class="js-example-basic-single custom-select" name="idAlmacenDestino" id="almacenDestino">
+				                        		@foreach($almacenOrigen as $almacen)
+				                        			<option value="{{$almacen->id_almacen}}"@if($almacen->id_almacen == session('id_almacen')) selected="true")@endif>{{$almacen->nombre_almacen}}</option>
+				                          		@endforeach
+				                        </select>
 				                     </div>
 				                </div>
 
 			                  	<div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Tipo de Entrada</label>
-			                    	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value="Entrada por Traspaso" readonly="true" placeholder="Entrada por Traspaso">
+			                    	<input class="form-control" type="text" name="statusSolicitud" id="statusSolicitud" value=""  placeholder="">
 			                  	</div>
 
 			                  	<div class="col-12">
-				                  	<table class="table table-bordered {{-- table-striped --}}" id="tablaMateriales">
+				                  	<table class="table table-bordered" id="tablaMateriales">
 				                  		<thead>
 				                  			<tr>
 				                  				<th>Codígo</th>
 				                  				<th>Material</th>
-				                  				<th>Stock</th>
 				                  				<th>Cantidad Entrante</th>
 				                  				<th>Acciones</th>
 				                  			</tr>
 				                  		</thead>
 			                  			<tbody>
-			                  				<tr class="clonarlo" id="fila-registro">
-			                  					<td>
-                                    				<input class="form-control idMaterial" type="text" id="idMaterial" name="idMaterial[]"  readonly>
-			                  					</td>
+			                  				@foreach($materialesSolicitud as $materialSolicitud)
+				                  				<tr class="clonarlo" id="fila-registro">
+				                  					<td style="width:10em;">
+	                                    				<input class="form-control idMaterial" type="text" id="idMaterial" name="idMaterial[]"  readonly value="{{$materialSolicitud->id_material}}">
+				                  					</td>
 
-			                  					<td>
-			                  						<select class="js-example-basic-single custom-select material" name="material[]" id="material" onchange="traerStock($(this))">
+				                  					<td>
 
-                                    					<option value="null">Seleccione</option>
-                                    					@foreach($materiales as $material)
-                                    						<option value="{{$material->id_material}}">{{$material->descripcion_propuesta}}</option>
-                                    					@endforeach
-                                    				</select>
-			                  					</td>
-			                  					<td>
-			                  						<input class="form-control stock" type="text" id="stock" name="stock[]"  readonly>
-			                  					</td>
-			                  					<td>
-			                  						<input class="form-control cantidadSolicitada" type="text" id="cantidadSolicitada" name="cantidadSolicitada[]"  onkeypress="return valideKey(event)" {{-- onblur="validarStockExistencia($(this))" --}}>
-			                  					</td>
+				                  						<select class="js-example-basic-single custom-select material" name="material[]" id="material" onchange="traerStock($(this))">
 
-			                  					<td>
-			                  						<button class="btn btn-primary" type="button" onclick="agregar_fila()">+</button>
-			                  						<button class="btn btn-danger" type="button" onclick="eliminar_fila($(this))">X</button>
-			                  					</td>
-			                  				</tr>
+	                                    					<option value="null">Seleccione</option>
+
+	                                    					@foreach($materiales as $material)
+	                                    						<option value="{{$material->id_material}}" @if($material->id_material == $materialSolicitud->id_material) selected="true" @endif>{{$material->descripcion_propuesta}}</option>
+	                                    					@endforeach
+
+	                                    				</select>
+
+				                  					</td>
+
+				                  					<td>
+				                  						<input class="form-control cantidadSolicitada" type="text" id="cantidadSolicitada" name="cantidadSolicitada[]"  onkeypress="return valideKey(event)" value="{{$materialSolicitud->cantidad}}">
+				                  					</td>
+
+				                  					<td>
+				                  						<button class="btn btn-primary" type="button" onclick="agregar_fila()"><i class="fas fa-plus"></i></button>
+				                  						<button class="btn btn-danger" type="button" onclick="eliminar_fila($(this))">X</button>
+				                  					</td>
+				                  				</tr>
+				                  			@endforeach
 			                  			</tbody>
 			                  			<tfoot>
 				                  			<tr>
 				                  				<th>Codígo</th>
 				                  				<th>Material</th>
-				                  				<th>Stock</th>
 				                  				<th>Cantidad Entrante</th>
 				                  				<th>Acciones</th>
 				                  			</tr>
@@ -101,7 +105,7 @@
 
 		                  		<div class="form-group col-12">
 			                    	<label for="exampleInputPassword1">Observaciones</label>
-			                    	<input class="form-control" type="text" name="observacionesSolicitud" id="observacionesSolicitud">
+			                    	<input class="form-control" type="text" name="observacionesSolicitud" id="observacionesSolicitud" value="{{$solicitud->observaciones}}">
 			                  	</div>
 
 		                  		<div class="col">
@@ -129,7 +133,7 @@
 			var material = fila.find(".material").val()
 
 			//let material = $("#material").val()
-			let almacen = $("#almaDesti").val()
+			let almacen = $("#idMaterial").val()
 			$.ajax({
 				url : '/traerStock',
 				method : 'post',
@@ -232,4 +236,5 @@
 
 
 	</script>
+
 @endsection

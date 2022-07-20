@@ -16,8 +16,8 @@
       </div>
 
   <div class="card-body shadow mb-4 table-responsive bg-white tabla" id="filtroTabla">
-    <table id="example1" class="table table-bordered table-striped">
-      <thead>
+    <table class="table">
+      <thead class="thead-dark">
         <tr>
           <th><p align="center">RIF</p></th>
           <th><p align="center">Nombre</p></th>
@@ -65,7 +65,7 @@
           </tr>
         @endforeach
       </tbody>
-      <tfoot>
+      <tfoot class="thead-dark">
         <tr>
           <th><p align="center">RIF</p></th>
           <th><p align="center">Nombre</p></th>

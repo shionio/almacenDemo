@@ -41,7 +41,7 @@ div {
   left: -8px;
   height: 15px;
   width: 800px;
-  background-color: darkgray;
+  background-color: darkgrey;
   -moz-transform: skew(45deg);
   -o-transform: skew(45deg);
   -webkit-transform: skew(45deg);

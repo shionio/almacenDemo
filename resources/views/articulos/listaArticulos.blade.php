@@ -12,8 +12,8 @@
       <!-- /.card-header -->
       <div class="card-body">
         {{-- {{dd($articulos)}} --}}
-        <table {{-- id="example1" --}} class="table table-bordered table-striped">
-          <thead>
+        <table class="table">
+          <thead class="thead-dark">
             <tr>
               <th>Id</th>
               <th>Material</th>
@@ -92,9 +92,9 @@
                 </tbody>
               @endif
             @endforeach
-          <tfoot>
+          <tfoot class="thead-dark">
             <tr>
-               <th>Id</th>
+              <th>Id</th>
               <th>Material</th>
               <th>Descripcion Material</th>
               <th>Unidad de Medida</th>

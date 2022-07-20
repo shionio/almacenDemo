@@ -20,15 +20,15 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <table id="example1" class="table table-bordered table-striped">
-          <thead>
+        <table id="" class="table">
+          <thead class="thead-dark">
             <tr>
               <th>Id</th>
               <th>Fecha</th>
               <th>Usuario</th>
               <th>Almacen Origen</th>
               <th>Almacen Destino</th>
-              <th>Cantidad</th>
+              {{-- <th>Cantidad</th> --}}
               {{-- <th>Descripcion</th> --}}
              {{--  <th>Unidad Medida</th>
               <th>Ubicacion</th> --}}
@@ -48,28 +48,36 @@
                   <td>{{$soli->usuario}}</td>
                   <td>{{$soli->almaor}}</td>
                   <td>{{$soli->almades}}</td>
-                  <td>{{$soli->cantidad}}</td>
+                 {{--  <td>{{$soli->cantidad}}</td> --}}
                  {{--  <td>{{$soli->descripcion_material}}</td> --}}
                   <td>{{$soli->estatus_solicitud}}</td>
                   <td>{{$soli->observaciones}}</td>
 
                   <td>
 
-                    @if(session('rol') == 1)
-                      <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
+                    {{-- @if(session('rol') == 0 || session('rol') == 1) --}}
+                      {{-- <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
                         <i class="fas fa-edit"></i>
-                      </a>
-                      <a href="{{route('aprobarSolicitud',$soli->id_solicitud)}}">
+                      </a> --}}
+
+                    <button class="btn btn-success" onclick="window.location.href='{{route('verSolicitud',$soli->id_solicitud) }}'">
+                      <i class="fas fa-edit"></i>
+                    </button>
+
+                      <button class="btn btn-danger" onclick="anula({{$soli->id_solicitud}})">
+                        <i class="fas fa-ban"></i>
+                      </button>
+
+                      {{-- <a href="{{route('aprobarSolicitud',$soli->id_solicitud)}}">
                         <i class="fas fa-check"></i>
-                      </a>
-                      <a href="{{route('recibirSolicitud',$soli->id_solicitud)}}">
-                        <i class="fas fa-arrow-alt-right"></i>
-                      <i class="fas fa-sign-in"></i>
-                      </a>
-                      <a href="{{route('solicitudPdf',$soli->id_solicitud)}}">
+                      </a> --}}
+                      {{-- <a href="#" id="anula">
+                      <i class="fas fa-ban"></i>
+                      </a> --}}
+                     {{--  <a href="{{route('solicitudPdf',$soli->id_solicitud)}}">
                         <i class="fa fa-file-text" aria-hidden="true"></i>
-                      </a>
-                    @endif
+                      </a> --}}
+                   {{--  @endif
 
                     @if(session('rol') == 2)
                        <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
@@ -81,22 +89,22 @@
                        <a href="{{route('verSolicitud',$soli->id_solicitud)}}">
                           <i class="fas fa-edit"></i>
                         </a>
-                        <a href="{{route('aprobarSolicitud',$soli->id_solicitud)}}">
+                         <a href="{{route('aprobarSolicitud',$soli->id_solicitud)}}">
                           <i class="fas fa-check"></i>
                         </a>
-                    @endif
+                    @endif --}}
                   </td>
                 </tr>
               </tbody>
             @endforeach
-          <tfoot>
+          <tfoot class="thead-dark">
             <tr>
               <th>Id</th>
               <th>Fecha</th>
               <th>Usuario</th>
               <th>Almacen Origen</th>
               <th>Almacen Destino</th>
-              <th>Cantidad</th>
+              {{-- <th>Cantidad</th> --}}
               {{-- <th>Descripcion</th> --}}
               <th>Estatus</th>
               <th>Observaciones</th>
@@ -108,4 +116,25 @@
       <!-- /.card-body -->
     </div>
     <!-- /.card -->
+
+    <script type="text/javascript">
+     function anula(id_solicitud){
+      if (confirm('Desea Eliminar la Solicitud con ID '+id_solicitud+', esta accion es irreversible')){
+        $.ajax({
+          url: '/movimiento/anulacion/'+id_solicitud,
+          method: 'post',
+          data: {
+            id_solicitud : id_solicitud,
+            "_token" : "{{csrf_token()}}"
+          },success(anulado){
+            if (anulado == 1){
+              alert('Solicitud anulada Exitosamente.')
+            }else{
+              alert('Fallo al realizar la anulacion.')
+            }
+          }
+        })
+      }
+     }
+    </script>
     @endsection

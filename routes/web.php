@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\AlmacenController;
 use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\ProveedorController;
@@ -90,6 +91,7 @@ Route::post('/proveedores/actualizar',[ProveedorController::class,'actualizarPro
 
 Route::post('traerStock',[MovimientosController::class,'traerStock']);
 Route::get('/Solicitudes',[MovimientosController::class,'index'])->name('listaMovimientos');
+Route::post('/editarSolicitud',[MovimientosController::class,'editarSolicitud']);
 Route::post('/llenarAlmaDesti',[MovimientosController::class,'buscarAlmaDesti']);
 Route::post('/guardarSolicitud',[MovimientosController::class,'store']);
 Route::post('/entradaPorTraspaso',[MovimientosController::class,'entradaPorTraspaso']);
@@ -97,12 +99,15 @@ Route::get('/Solicitudes/pdf/{id}',[MovimientosController::class,'solicitudPDF']
 
 
 
+Route::post('/movimiento/anulacion/{id_solicitud}',[MovimientosController::class,'anularSolicitud'])->name('anularSolicitud');
 
 
 Route::post('/guardarMovimiento',[MovimientosController::class, 'guardarEntradaMaterial']);
 Route::post('/guardarSalidaMaterial',[MovimientosController::class, 'guardarSalidaMaterial']);
 Route::get('/movimientos/salidaMaterial',[MovimientosController::class, 'mostrarSalidaMaterial'])->name('newMovSalida');
 Route::get('/movimientos/entradaMaterial',[MovimientosController::class, 'nuevaEntrada'])->name('newEntradaMaterial');
+
+Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');
 
 
 
@@ -114,7 +119,6 @@ Route::post('/solicitudAprobada',[MovimientosController::class,'aprobada']);
 
 
 Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
-Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');
 Route::get('/movimientos/entradaPorTraspaso',[MovimientosController::class,'entradaMaterial'])->name('entradaMaterial');
 Route::get('/AprobarSolicitud/{id_solicitud}',[MovimientosController::class,'aprobar'])->name('aprobarSolicitud');
 Route::get('/RecibirSolicitud/{id_solicitud}',[MovimientosController::class,'recibir'])->name('recibirSolicitud');
@@ -128,3 +132,6 @@ Route::get('/buscar/material',[EstadisticasController::class,'BuscarMat'])->name
 Route::post('/llenar/material',[EstadisticasController::class,'TomarMat'])->name('llenarMaterial');
 Route::post('/mostrar/material',[EstadisticasController::class,'LlenarMat'])->name('Grafica.Mat');
 // Route::view('/probando123','estadisticas.estadisticasArticulos')->name('estadisticas.articulos');
+
+Route::get('/familia', [FamiliaController::class,'create'])->name('nuevaFamilia');
+Route::post('/guardarFamilia', [FamiliaController::class,'store']);
