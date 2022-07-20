@@ -187,6 +187,31 @@
                 </li>
               </ul>
             </li>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                <p>
+                  Familia
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+               {{--  <li class="nav-item">
+                  <a href="{{route('lista.proveedor')}}" class="nav-link">
+                    <i class="fa fa-list-alt" aria-hidden="true"></i>
+                    <p>Listado de Proveedores</p>
+                  </a>
+                </li> --}}
+                <li class="nav-item">
+                  <a href="{{Route('nuevaFamilia')}}" class="nav-link">
+                    <i class="fa fa-share" aria-hidden="true"></i>
+                    <p>Ingresar Familia</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="fa fa-tasks" aria-hidden="true"></i>
