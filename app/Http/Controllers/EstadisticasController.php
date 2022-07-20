@@ -98,9 +98,7 @@ class EstadisticasController extends Controller
 
         $materiales = DB::table('materiales_almacen')
         ->join('materiales','materiales.id_material','=','materiales_almacen.id_material')
-        ->when($_POST['familia'] != "null", function($query){
-
-        $query->where('materiales_almacen.id_familia',$_POST['familia'])
+        ->where('materiales_almacen.id_familia',$_POST['familia'])
         ->select('materiales_almacen.id_material','materiales.descripcion_propuesta', DB::raw("sum(materiales_almacen.stock) as suma"))
         ->groupBy('materiales_almacen.id_material','materiales.descripcion_propuesta')
         ->get();
@@ -116,34 +114,7 @@ class EstadisticasController extends Controller
         ->get()->first();
 
         return view('estadisticas.barras',['mate'=>$materiales,'fam'=>$familia,'total'=>$final]);
-        });
-    }
-
-    public function BuscarEnAlmacen()
-    {
-        DB::enableQueryLog();
-
-        $palabraClave = ucwords($_POST['palabraClave']);
-
-        $resultado = DB::table('almacenes')
-        ->join('materiales_almacen','materiales_almacen.id_almacen','=','almacenes.id_almacen')
-        ->join('familias','familias.id_familia','materiales_almacen.id_familia')
-        ->where('almacenes.nombre_almacen','like',"%$palabraClave%")
-        ->select('materiales_almacen.id_familia','familias.nombre_familia','materiales_almacen.id_almacen','almacenes.nombre_almacen',DB::raw("sum(stock) as total"))
-        ->groupBy('materiales_almacen.id_familia','familias.nombre_familia','materiales_almacen.id_almacen','almacenes.nombre_almacen')
-        ->get();
-        // $q = DB::getQueryLog();
-        // dd($resultado);
-
-        return json_encode($filtro);
-        
-        // $sum = DB::table('materiales_almacen')
-        // ->join('familias','familias.id_familia','=','materiales_almacen.id_familia')
-        // ->select('materiales_almacen.id_familia','familias.nombre_familia', DB::raw("sum(stock) as suma"))
-        // ->groupBy('materiales_almacen.id_familia','familias.nombre_familia','familias.id_familia')
-        // ->orderBy('familias.id_familia')
-        // ->get();
-    }
+        }
 
 }
 
