@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\AlmacenController;
 use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\ProveedorController;
@@ -130,3 +131,6 @@ Route::get('/buscar/material',[EstadisticasController::class,'BuscarMat'])->name
 Route::post('/llenar/material',[EstadisticasController::class,'TomarMat'])->name('llenarMaterial');
 Route::post('/mostrar/material',[EstadisticasController::class,'LlenarMat'])->name('Grafica.Mat');
 // Route::view('/probando123','estadisticas.estadisticasArticulos')->name('estadisticas.articulos');
+
+Route::get('/familia', [FamiliaController::class,'create'])->name('nuevaFamilia');
+Route::post('/guardarFamilia', [FamiliaController::class,'store']);
