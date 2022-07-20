@@ -20,8 +20,8 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <table id="example1" class="table table-bordered table-striped">
-          <thead>
+        <table id="" class="table">
+          <thead class="thead-dark">
             <tr>
               <th>Id</th>
               <th>Fecha</th>
@@ -97,7 +97,7 @@
                 </tr>
               </tbody>
             @endforeach
-          <tfoot>
+          <tfoot class="thead-dark">
             <tr>
               <th>Id</th>
               <th>Fecha</th>
