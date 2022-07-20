@@ -25,7 +25,9 @@ class FamiliaController extends Controller
     public function create()
     {
         $lastFamilia = DB::table('familias')->latest('id_familia')->get()->first();
+
         $lastFamilia = $lastFamilia->id_familia+1; //aca obtenemos solo el ultimo id de las familias
+
         return view('familias.formFamilia',['ultimaFamilia' => $lastFamilia]);
     }
 
@@ -44,10 +46,14 @@ class FamiliaController extends Controller
 
         $guardar_familia = DB::table('familias')->insert($familia);
         //dd($guardar_familia);
-        if($guardar_familia == true){
-            echo '<script> alert("Familia registrada exitosamente!") window.location.href="inicio" </script>';
+        if($guardar_familia == "true"){
+
+            echo '<script> alert("Familia Generada Exitosamente!"); window.location.href="/familia"</script>';
+
         }else{
-            echo '<script > alert("Fallo al registrar la familia") window.location.href="inicio" </script>';
+
+            echo '<script> alert("Error al registrar la Familia!"); window.location.href="/familia"</script>';
+
         }
     }
 
