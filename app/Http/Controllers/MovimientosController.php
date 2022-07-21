@@ -143,7 +143,7 @@ class MovimientosController extends Controller
     }
 
     public function guardarSalidaMaterial(){
-        // dd($_POST);
+        dd($_POST);
         $stockSalida = $_POST['stock']; //monto que va a salir de la base de datos
 
         $material_almacen = DB::table('materiales_almacen')

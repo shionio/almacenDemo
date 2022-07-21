@@ -3,6 +3,7 @@
 @section('mainPage')
 
 <br>
+{{-- {{dd($almacenes)}} --}}
 	<div class="container">
 		{{-- {{$estatusVehi}} --}}
 		<div class="card-body bg-white">
