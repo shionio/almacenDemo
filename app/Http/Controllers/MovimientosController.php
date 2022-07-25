@@ -9,7 +9,66 @@ use Illuminate\Http\Request;
 class MovimientosController extends Controller
 {
 
-    public function guardarEntradaMaterial(Request $request){
+    public function guardarEntradaMaterial(Request $request)
+    {
+        // dd($_POST);
+        $cod =date("ymd").random_int(0000, 9999);
+
+        $id_almacen = $_POST['idAlmacen'];
+        $id_material = $_POST['idMaterial'];
+
+
+        $movimientoMaterial = array(
+                'id_almacen'            => $_POST['idAlmacen'],
+                'id_material'           => $_POST['idMaterial'],
+                'id_familia'            => $_POST['familia'],
+                'stock'                 => $_POST['stock'],
+                'fecha_ingreso'         => $_POST['fecha'],
+                'id_tipo_ingreso'       => $_POST['tipoIngresos'],
+                'id_estatus_material'   => $_POST['estatusMaterial'],
+                'id_condicion_material' => $_POST['condicionMaterial'],
+                'observaciones'         => $_POST['observaciones'],
+                'activo'                => true,
+            );
+
+        $insertArticulo = DB::table('materiales_almacen')->insert($movimientoMaterial);
+
+        $lastId= DB::table('materiales_almacen')->latest('id_materiales_almacenes')->first();
+
+        $entradas = array(
+                'id_material'   =>$_POST['idMaterial'],
+                'id_almacen'    =>$_POST['idAlmacen'],
+                'id_familia'    =>$_POST['familia'],
+                'ent_codigo'    =>$cod,
+                // 'n_control'     =>$_POST['nControl'],
+                'stock'         =>$_POST['stock'],
+                'id_materiales_almacenes' => $lastId->id_materiales_almacenes,
+                'tipo_movimiento'=>'Entrada',
+            );
+
+        $insertEnt = DB::table('hist_entradas')->insert($entradas);
+
+        if($insertArticulo == 1 && $insertEnt == 1){
+
+            echo '<script>alert (" Entrada de Material Registrado Exitosamente con el código '.$cod.'");window.location.href="/movimientos/entradaMaterial" </script>';
+    }else{
+        echo '<script> alert("Error al  Registrar el Material."); window.location.href="/movimientos/entradaMaterial" </script>';
+    }
+}
+
+    public function listEnt()
+    {
+        $lista = DB::table('hist_entradas')
+        ->join('materiales','materiales.id_material','=','hist_entradas.id_material')
+        ->join('familias','familias.id_familia','materiales.id_familia')
+        ->join('almacenes','almacenes.id_almacen','=','hist_entradas.id_almacen')
+        ->select('descripcion_propuesta','nombre_almacen','nombre_familia','stock','ent_codigo','n_control','codigo','tipo_movimiento')
+        ->get();
+
+        return view('movimientos.listaent',['datos'=>$lista]);
+    }
+
+
         // dd($_POST);
         // if($request->hasFile('img_articulo') ){
         //     $imgArticulo = $request->file('img_articulo');
@@ -23,70 +82,98 @@ class MovimientosController extends Controller
 
         //dd($urlImagenBaseDeDatos);
 
-        $cod =date("ymd").random_int(0000, 9999);
+    //     $cod =date("ymd").random_int(0000, 9999);
 
-        $id_almacen = $_POST['idAlmacen'];
-        $id_material = $_POST['idMaterial'];
+    //     $id_almacen = $_POST['idAlmacen'];
+    //     $id_material = $_POST['idMaterial'];
 
-        $almacenMaterialExiste =    DB::table('materiales_almacen')
-                                    ->where(['id_almacen' => $id_almacen, 'id_material' => $id_material])
-                                    ->get()->first();
+    //     $almacenMaterialExiste =    DB::table('materiales_almacen')
+    //                                 ->where(['id_almacen' => $id_almacen, 'id_material' => $id_material])
+    //                                 ->get()->first();
 
-        if($almacenMaterialExiste !=null){
-            $stockExiste = $almacenMaterialExiste->stock;
-            $nuevoStock = $stockExiste +  $_POST['stock'];
+    //     if($almacenMaterialExiste !=null){
+    //         $stockExiste = $almacenMaterialExiste->stock;
+    //         $nuevoStock = $stockExiste +  $_POST['stock'];
 
-            $updateStock = DB::table('materiales_almacen')
-                                    ->where(['id_almacen' => $id_almacen, 'id_material' => $id_material])
-                                    ->update(['stock' => $nuevoStock ]);
-            if($updateStock != 0){
-                $lastId= DB::table('materiales_almacen')->latest('id_materiales_almacenes')->first();
-                $inserLog = DB::table('logs')
-                            ->insert([
-                                'id_usuario' => session('id_usuario'),
-                                'fecha_accion' => now(),
-                                'accion' => 'Registro de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes.', se agrego el stock entrante'
-                            ]);
-                echo "<script> alert('Entrada de Material Registrado Exitosamente con el código'".$cod."'); </script>";
-                // echo '<script> alert("Ingreso de Articulo Registrado Exitosamente'".$cod."'); window.location.href="/movimientos/entradaMaterial" </script>';
-            }else{
+    //         $updateStock = DB::table('materiales_almacen')
+    //                                 ->where(['id_almacen' => $id_almacen, 'id_material' => $id_material])
+    //                                 ->update(['stock' => $nuevoStock ]);
+    //         if($updateStock != 0){
+    //             $lastId= DB::table('materiales_almacen')->latest('id_materiales_almacenes')->first();
+    //             $inserLog = DB::table('logs')
+    //                         ->insert([
+    //                             'id_usuario' => session('id_usuario'),
+    //                             'fecha_accion' => now(),
+    //                             'accion' => 'Registro de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes.', se agrego el stock entrante'
+    //                         ]);
 
-                echo '<script> alert("Error al  Ingresar el Articulo."); window.location.href="/Articulo/Nuevo" </script>';
-            }
-        }else{
+    //             $entradas = array(
+    //             'id_material'   =>$_POST['idMaterial'],
+    //             'id_almacen'    =>$_POST['idAlmacen'],
+    //             'id_familia'    =>$_POST['idFamilia'],
+    //             'ent_codigo'    =>$cod,
+    //             'n_control'     =>$_POST['nControl'],
+    //             'stock'         =>$_POST['stock'],
+    //             'id_materiales_almacenes' => $lastId->id_materiales_almacenes,
+    //         );
 
-            $movimientoMaterial = array(
-                'id_almacen'            => $_POST['idAlmacen'],
-                'id_material'           => $_POST['idMaterial'],
-                'id_familia'            => $_POST['idFamilia'],
-                'stock'                 => $_POST['stock'],
-                'fecha_ingreso'         => $_POST['fecha'],
-                'id_tipo_ingreso'       => $_POST['tipoIngresos'],
-                'id_estatus_material'   => $_POST['estatusMaterial'],
-                'id_condicion_material' => $_POST['condicionMaterial'],
-                'observaciones'         => $_POST['observaciones'],
-                'activo'                => true,
-            );
+    //         $insertEnt = DB::table('hist_entradas')->insert($entradas);
 
-            $insertArticulo = DB::table('materiales_almacen')->insert($movimientoMaterial);
-        }
 
-        if ($insertArticulo == true){
-            $lastId= DB::table('materiales_almacen')->latest('id_materiales_almacenes')->first();
 
-            $inserLog = DB::table('logs')
-                        ->insert([
-                            'id_usuario' => session('id_usuario'),
-                            'fecha_accion' => now(),
-                            'accion' => 'Registro de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes,
-                        ]);
-            echo '<script> alert("Ingreso de Material Registrado Exitosamente bajo el código $cod"); window.location.href="/Articulo/Nuevo" </script>';
+    //             echo "<script> alert('Entrada de Material Registrado Exitosamente con el código'".$cod."'); </script>";
 
-        }else{
+    //         }else{
 
-            echo '<script> alert("Error al  Registrar el Material."); window.location.href="/Articulo/Nuevo" </script>';
-        }
-    }
+    //             echo '<script> alert("Error al  Ingresar el Articulo."); window.location.href="/Articulo/Nuevo" </script>';
+    //         }
+    //     }else{
+
+    //         $movimientoMaterial = array(
+    //             'id_almacen'            => $_POST['idAlmacen'],
+    //             'id_material'           => $_POST['idMaterial'],
+    //             'id_familia'            => $_POST['idFamilia'],
+    //             'stock'                 => $_POST['stock'],
+    //             'fecha_ingreso'         => $_POST['fecha'],
+    //             'id_tipo_ingreso'       => $_POST['tipoIngresos'],
+    //             'id_estatus_material'   => $_POST['estatusMaterial'],
+    //             'id_condicion_material' => $_POST['condicionMaterial'],
+    //             'observaciones'         => $_POST['observaciones'],
+    //             'activo'                => true,
+    //         );
+
+    //         $insertArticulo = DB::table('materiales_almacen')->insert($movimientoMaterial);
+    //     }
+
+    //     if ($insertArticulo == true){
+    //         $lastId= DB::table('materiales_almacen')->latest('id_materiales_almacenes')->first();
+
+    //         $entradas = array(
+    //             'id_material'   =>$_POST['idMaterial'],
+    //             'id_almacen'    =>$_POST['idAlmacen'],
+    //             'id_familia'    =>$_POST['idFamilia'],
+    //             'ent_codigo'    =>$cod,
+    //             'n_control'     =>$_POST['nControl'],
+    //             'stock'         =>$_POST['stock'],
+    //             'id_materiales_almacenes' => $lastId,
+    //         );
+
+    //         $insertEnt = DB::table('hist_entradas')->insert($entradas);
+
+
+    //         $inserLog = DB::table('logs')
+    //                     ->insert([
+    //                         'id_usuario' => session('id_usuario'),
+    //                         'fecha_accion' => now(),
+    //                         'accion' => 'Registro de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes,
+    //                     ]);
+    //         echo '<script> alert("Ingreso de Material Registrado Exitosamente bajo el código $cod"); window.location.href="/Articulo/Nuevo" </script>';
+
+    //     }else{
+
+    //         echo '<script> alert("Error al  Registrar el Material."); window.location.href="/Articulo/Nuevo" </script>';
+    //     }
+    // }
 
 
     public function nuevaEntrada(){
@@ -150,10 +237,13 @@ class MovimientosController extends Controller
 
     public function guardarSalidaMaterial(){
         // dd($_POST);
+
+        $cod =date("ymd").random_int(0000, 9999);
+
         $stockSalida = $_POST['stock']; //monto que va a salir de la base de datos
 
         $material_almacen = DB::table('materiales_almacen')
-                                ->where(['id_material' => $_POST['idMaterial'], 'id_almacen' => $_POST['idAlmacen']])
+                                ->where(['id_material' => $_POST['idMaterial'], 'id_almacen' => $_POST['almacenes']])
                                 ->get()->first();
 
         if($material_almacen != null ){
@@ -163,7 +253,7 @@ class MovimientosController extends Controller
             $stockRestante = $stockActual-$stockSalida;
 
 
-            $updStock = DB::table('materiales_almacen')->where(['id_material' => $_POST['idMaterial'], 'id_almacen' => $_POST['idAlmacen']])
+            $updStock = DB::table('materiales_almacen')->where(['id_material' => $_POST['idMaterial'], 'id_almacen' => $_POST['almacenes']])
                         ->update(['stock' => $stockRestante]);
 
             if($updStock > 0){
@@ -175,7 +265,20 @@ class MovimientosController extends Controller
                             'accion' => 'Salida de material con el Id= '.$lastId->id_materiales_almacenes,
                         ]);
 
-                echo '<script> alert("Salida del material realizada Exitosamente"); window.location.href="/movimientos/salidaMaterial"</script>';
+                $salida = array(
+                'id_material'   =>$_POST['idMaterial'],
+                'id_almacen'    =>$_POST['almacenes'],
+                'id_familia'    =>$_POST['familia'],
+                'ent_codigo'    =>$cod,
+                // 'n_control'     =>$_POST['nControl'],
+                'stock'         =>$_POST['stock'],
+                'id_materiales_almacenes' => $lastId->id_materiales_almacenes,
+                'tipo_movimiento'=>'Salida',
+            );
+
+                $insertEnt = DB::table('hist_entradas')->insert($salida);
+
+                echo '<script>alert (" Salida del material realizada Exitosamente con el Código '.$cod.'");window.location.href="/movimientos/entradaMaterial" </script>';
 
             }
 
@@ -188,6 +291,16 @@ class MovimientosController extends Controller
 
 
 
+    }
+
+    public function alminv(){
+        $alm = DB::table('materiales_almacen')
+        ->join('materiales','materiales.id_material','=','materiales_almacen.id_material')
+        ->join('almacenes','almacenes.id_almacen','=','materiales_almacen.id_almacen')
+        ->where('materiales_almacen.id_material',$_POST['id_material'])
+        ->select('almacenes.id_almacen','almacenes.nombre_almacen')->get();
+
+        return $alm;
     }
 
     public function traerStock(){

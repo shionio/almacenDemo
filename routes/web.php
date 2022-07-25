@@ -103,9 +103,12 @@ Route::post('/movimiento/anulacion/{id_solicitud}',[MovimientosController::class
 
 
 Route::post('/guardarMovimiento',[MovimientosController::class, 'guardarEntradaMaterial']);
+Route::get('/entradas/listas',[MovimientosController::class, 'listEnt'])->name('entrada.lista');
 Route::post('/guardarSalidaMaterial',[MovimientosController::class, 'guardarSalidaMaterial']);
 Route::get('/movimientos/salidaMaterial',[MovimientosController::class, 'mostrarSalidaMaterial'])->name('newMovSalida');
 Route::get('/movimientos/entradaMaterial',[MovimientosController::class, 'nuevaEntrada'])->name('newEntradaMaterial');
+
+Route::post('/movimientos/almacen',[MovimientosController::class,'alminv'])->name('inv.almacenes');
 
 Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');
 

@@ -16,7 +16,7 @@
 
 					<!-- /.card-header -->
 					<!-- form start -->
-					<form action="/guardarMaterial" method="POST" enctype="multipart/form-data">
+					<form action="/guardarMovimiento" method="POST" enctype="multipart/form-data">
 						@csrf
 						<div class="card-body row">
 							<div class="form-group col-2">
@@ -89,8 +89,11 @@
 			                  		<option class="form-control" value="{{$condicionMateriales->id_condicion_material}}">{{$condicionMateriales->descrip_condicion_material}}</option>
 			                  	</select>
 			                  	</div>
-
-			                    <div class="form-group col-12">
+			                  	{{-- <div class="form-group col-3">
+			                    	<label>Nº Control</label>
+			                    	<input type="text" name="nControl" class="form-control" id="nControl" value="">
+			                    </div> --}}
+			                    <div class="form-group col-9">
 			                    	<label>Observaciones</label>
 			                    	<input type="text" name="observaciones" class="form-control" id="estatusVehiculo" value="">
 			                    </div>
