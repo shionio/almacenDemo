@@ -2,6 +2,7 @@
 @section('title','Nueva Solicitud')
 @section('mainPage')
 
+{{-- {{dd($almacenes, $almacenUsuario, $materiales)}} --}}
 <br>
 	<div class="container">
 		<div class="card-body bg-white">

@@ -10,13 +10,13 @@
             <div class="card-header">
               <h3 class="card-title">Ingresar Proveedor</h3>
             </div>
-              {{ Form::open(['route' => 'guardar.proveedor', 'method' => 'POST']),(['role' => 'form']) }}                    
+              {{ Form::open(['route' => 'guardar.proveedor', 'method' => 'POST','id' => 'proveedor']),(['role' => 'form']) }}
                 @csrf
                   <div class="card-body row">
                     <div class="col-sm-2 dis">
                       <div class="form-group">
                         <label>RIF</label>
-                          <input class="form-control" type="text" name="rif_p" id="rif_p" onblur="search_visitante()" required>
+                          <input class="form-control" type="text" name="rif_p" id="rif_p" required>
                       </div>
                     </div>
                      <div class="col-sm-6 dis">
@@ -60,11 +60,11 @@
                           <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                         <div class="col" align="right">
-                              <a href="{{route('lista.proveedor')}}" class="btn btn-success col-3">Volver</a>
+                              <a href="{{route('lista.proveedor')}}" class="btn btn-danger col-3">Volver</a>
                         </div>
                         </div>
                       </div>
-              {{ Form::close() }}
+              {{Form::close()}}
                   </div>
                 </div>
               </div>
@@ -72,5 +72,23 @@
       </div>
   </div>
 
+<script src="{{asset('js/sweetalert/sweetalert2.all.min.js')}}"></script>
+<script>
+$("#formUser").submit(function(event) {
+      event.preventDefault();
+      var form_data = $("#proveedor").serialize();
+      //console.log(form_data)
+          form_data +="&_token={{ csrf_token() }}";
+          $.ajax({
+              url: '/proveedores/guardar',
+              type: 'POST',
+              data: form_data,
+              "_token": "{{ csrf_token() }}"
+        },
+        success:function(materiales){
+
+              });
+            });
+</script>
 
 @endsection

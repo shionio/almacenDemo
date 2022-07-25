@@ -9,8 +9,7 @@ use App\Http\Controllers\ArticulosController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\MovimientosController;
 use App\Http\Controllers\EstadisticasController;
-
-
+use App\Http\Controllers\ReportesController;
 
 
 
@@ -65,6 +64,7 @@ Route::post('/llenarParroquias',[AlmacenController::class, 'llenarParroquias']);
 Route::get('Articulos',[ArticulosController::class, 'index'])->name('listaArticulos');
 Route::get('/Articulo/Nuevo', [ArticulosController::class , 'create'])->name('newArticulo');
 Route::post('/guardarMaterial',[ArticulosController::class, 'store']);
+Route::post('/Guardar/Material',[ArticulosController::class,'nuevoMaterial'])->name('nuevoMat');
 /*fin de rutas de articulos*/
 
 
@@ -109,7 +109,7 @@ Route::get('/movimientos/entradaMaterial',[MovimientosController::class, 'nuevaE
 
 Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');
 
-
+Route::post('/solicitudes/material',[MovimientosController::class,'material'])->name('VerMaterial');
 
 
 Route::post('/guardarEntrada',[MovimientosController::class, 'guadarEntradaMaterial']);
@@ -135,3 +135,10 @@ Route::post('/mostrar/material',[EstadisticasController::class,'LlenarMat'])->na
 
 Route::get('/familia', [FamiliaController::class,'create'])->name('nuevaFamilia');
 Route::post('/guardarFamilia', [FamiliaController::class,'store']);
+
+
+// REPORTES
+
+Route::get('/reportes/filtro',[ReportesController::class,'reporteFiltro'])->name('filtrar.reporte');
+Route::get('/reportes/generar',[ReportesController::class,'reporteGeneral'])->name('generar.reporte');
+Route::post('/reporte/buscar',[ReportesController::class, 'filtroReporte'])->name('buscar.reporte');

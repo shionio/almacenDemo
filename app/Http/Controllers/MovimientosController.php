@@ -23,6 +23,8 @@ class MovimientosController extends Controller
 
         //dd($urlImagenBaseDeDatos);
 
+        $cod =date("ymd").random_int(0000, 9999);
+
         $id_almacen = $_POST['idAlmacen'];
         $id_material = $_POST['idMaterial'];
 
@@ -45,7 +47,8 @@ class MovimientosController extends Controller
                                 'fecha_accion' => now(),
                                 'accion' => 'Registro de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes.', se agrego el stock entrante'
                             ]);
-                echo '<script> alert("Ingreso de Articulo Registrado Exitosamente"); window.location.href="/Articulo/Nuevo" </script>';
+                echo "<script> alert('Entrada de Material Registrado Exitosamente con el código'".$cod."'); </script>";
+                // echo '<script> alert("Ingreso de Articulo Registrado Exitosamente'".$cod."'); window.location.href="/movimientos/entradaMaterial" </script>';
             }else{
 
                 echo '<script> alert("Error al  Ingresar el Articulo."); window.location.href="/Articulo/Nuevo" </script>';
@@ -66,7 +69,6 @@ class MovimientosController extends Controller
             );
 
             $insertArticulo = DB::table('materiales_almacen')->insert($movimientoMaterial);
-
         }
 
         if ($insertArticulo == true){
@@ -78,7 +80,7 @@ class MovimientosController extends Controller
                             'fecha_accion' => now(),
                             'accion' => 'Registro de un nuevo movimiento con el Id= '.$lastId->id_materiales_almacenes,
                         ]);
-            echo '<script> alert("Ingreso de Material Registrado Exitosamente"); window.location.href="/Articulo/Nuevo" </script>';
+            echo '<script> alert("Ingreso de Material Registrado Exitosamente bajo el código $cod"); window.location.href="/Articulo/Nuevo" </script>';
 
         }else{
 
@@ -89,8 +91,12 @@ class MovimientosController extends Controller
 
     public function nuevaEntrada(){
 
-        $estatusMateriales  = DB::table('status_material')->get();
-        $condicionMaterial  = DB::table('condicion_materiales')->get();
+        $estatusMateriales  = DB::table('status_material')
+        ->where('id_estatus_material','=', '1')
+        ->get()->first();
+        $condicionMaterial  = DB::table('condicion_materiales')
+        ->where('id_condicion_material','=','1')
+        ->get()->first();
         $familias           = DB::table('familias')->get();
         $tipoMovimientos    = DB::table('tipo_ingreso')->get();
         $materiales         = DB::table('materiales')->get();
@@ -143,7 +149,7 @@ class MovimientosController extends Controller
     }
 
     public function guardarSalidaMaterial(){
-        dd($_POST);
+        // dd($_POST);
         $stockSalida = $_POST['stock']; //monto que va a salir de la base de datos
 
         $material_almacen = DB::table('materiales_almacen')
@@ -257,6 +263,7 @@ class MovimientosController extends Controller
      */
     public function create()
     {
+
         $almacenes = DB::table('almacenes')->get();
 
         $almacenUsuario = DB::table('almacenes')
@@ -788,5 +795,15 @@ class MovimientosController extends Controller
         }else{
             return 'ALGO SALIO MAL';
         }
+    }
+
+    public function material()
+    {
+        $materiales = DB::table('materiales')
+        ->where('id_familia',$_POST['id_familia'])
+        
+        ->get();
+
+        return $materiales;
     }
 }

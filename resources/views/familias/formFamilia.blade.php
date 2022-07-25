@@ -17,11 +17,6 @@
 			            <form action="/guardarFamilia" method="POST">
 			            	@csrf
 			            	<div class="card-body row">
-			                  	<div class="form-group col-4" >
-			                  		<label for="exampleInputPassword1">id</label>
-                                    <input class="form-control" name="id_familia" value="{{$ultimaFamilia}}" readonly></input>
-			                  	</div>
-
 			                  	<div class="form-group col-4">
 			                  		<label for="exampleInputPassword1">Nombre Familia</label>
 			                  		<input class="form-control" type="text" id="stock" name="nombre_familia" value="">

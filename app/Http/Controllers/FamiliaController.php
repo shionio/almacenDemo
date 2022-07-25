@@ -24,11 +24,8 @@ class FamiliaController extends Controller
      */
     public function create()
     {
-        $lastFamilia = DB::table('familias')->latest('id_familia')->get()->first();
 
-        $lastFamilia = $lastFamilia->id_familia+1; //aca obtenemos solo el ultimo id de las familias
-
-        return view('familias.formFamilia',['ultimaFamilia' => $lastFamilia]);
+        return view('familias.formFamilia');
     }
 
     /**
@@ -40,7 +37,6 @@ class FamiliaController extends Controller
     public function store(Request $request)
     {
         $familia = array(
-            'id_familia'        => $_POST['id_familia'],
             'nombre_familia'    => strtoupper($_POST['nombre_familia']),
         );
 

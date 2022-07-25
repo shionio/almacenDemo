@@ -120,6 +120,29 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
+                  <i class="fa fa-tablet"></i>
+                  <p>
+                    Reportes
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{Route('filtrar.reporte')}}" class="nav-link">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                      <p>Reporte Avanzado</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="fa fa-list" aria-hidden="true"></i>
+                      <p>Registro Almacen</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
                   <i class="fas fa-warehouse"></i>
                   <p>
                     Almacen
@@ -496,7 +519,7 @@
             //   'success'
             // )
             // this.submit();
-            window.location.href='/';
+            window.location.href='/salir';
           }
         })
     }

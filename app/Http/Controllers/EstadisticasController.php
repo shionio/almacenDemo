@@ -15,9 +15,10 @@ class EstadisticasController extends Controller
         // dd($totalArticulos);
 
         $sum = DB::table('materiales_almacen')
-        ->join('familias','familias.id_familia','=','materiales_almacen.id_familia')
-        ->select('materiales_almacen.id_familia','familias.nombre_familia', DB::raw("sum(stock) as suma"))
-        ->groupBy('materiales_almacen.id_familia','familias.nombre_familia','familias.id_familia')
+        ->join('materiales','materiales.id_material','=','materiales_almacen.id_material')
+        ->join('familias','familias.id_familia','=','materiales.id_familia')
+        ->select('materiales.id_familia','familias.nombre_familia', DB::raw("sum(stock) as suma"))
+        ->groupBy('materiales.id_familia','familias.nombre_familia','familias.id_familia')
         ->orderBy('familias.id_familia')
         ->get();
 
@@ -49,13 +50,14 @@ class EstadisticasController extends Controller
         // DB::enableQueryLog();
         $materiales = DB::table('materiales_almacen')
         ->join('materiales','materiales.id_material','=','materiales_almacen.id_material')
-        ->where('materiales_almacen.id_familia',$id_familia)
+        ->where('materiales.id_familia',$id_familia)
         ->select('materiales_almacen.id_material','materiales.descripcion_propuesta', DB::raw("sum(materiales_almacen.stock) as suma"))
         ->groupBy('materiales_almacen.id_material','materiales.descripcion_propuesta')
         ->get();
         // $q = DB::getQueryLog();
         $final = DB::table('materiales_almacen')
-        ->where('id_familia',$id_familia)
+        ->join('materiales','materiales.id_material','materiales_almacen.id_material')
+        ->where('materiales.id_familia',$id_familia)
         ->sum('stock');
         // dd($materiales);
 

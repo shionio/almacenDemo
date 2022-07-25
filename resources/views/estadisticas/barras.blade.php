@@ -11,7 +11,7 @@
         
                 <h3>{{$fam->nombre_familia}}</h3>
     </div>
-    <div class="col-sm-10" align="center">
+    <div class="col-sm-10">
             <!-- HTML5 -->
             @foreach($mate as $i => $alm)
                 <a href="{{Route('estadisticas.barrasArt',$alm->id_material)}}">
