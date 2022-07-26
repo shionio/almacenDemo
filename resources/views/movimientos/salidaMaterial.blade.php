@@ -62,7 +62,7 @@
 			                        </select>
 			                  	</div> --}}
 
-				                <div class="col-sm-3">
+				                <div class="col-3">
 				                    <!-- select -->
 				                    <div class="form-group">
 				                        <label>Tipo de Salida</label>
@@ -124,13 +124,15 @@
 			                    	<input type="text" name="direccionEntrega" class="form-control" id="direccionEntrega" placeholder="" value="">
 			                  	</div>
  							--}}
+ 						<div class="form-group col-3">
  							<div class="form-group">
 									<label>Almacenes</label>
 									{{-- <input class="form-control" type="text" name="nombreMaterial" id="nombreMaterial" value=""> --}}
 									<select class="js-example-basic-single custom-select" name="almacenes" id="almacenes" required>
 										<option value="null">Seleccione</option>
 									</select>
-								</div>
+							</div>
+						</div>
 			                  	{{-- <div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Almacen</label>
 			                    	<select class="js-example-basic-single custom-select" name="idAlmacen">
@@ -152,7 +154,7 @@
 			                  	</div>
 
 			                        		{{-- {{$condicionMateriales}} --}}
-			                  	<div class="form-group col-2">
+			                  	<div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Condicion Material</label>
 			                    	<select class="js-example-basic-single custom-select" name="condicionMaterial">
 			                        	<option value="" selected="true">Seleccione</option>
@@ -176,7 +178,7 @@
 			                    	<label>Nº Control/Nº Orden</label>
 			                    	<input type="text" name="nControl" class="form-control" id="nControl" value="">
 			                    </div> --}}
-			                    <div class="form-group col-9">
+			                    <div class="form-group col-12">
 			                    	<label>Observaciones</label>
 			                    	<input type="text" name="observaciones" class="form-control" id="estatusVehiculo" value="">
 			                    </div>
@@ -196,7 +198,7 @@
 			                  	<button type="submit" class="btn btn-primary">Guardar</button>
 			                  </div>
 			                  <div class="col" align="right">
-			                  	<a {{-- href="{{route('listaArticulos')}}" --}} class="btn btn-success col-3">Volver</a>
+			                  	<a href="{{route('inicio')}}" class="btn btn-success col-3">Volver</a>
 			                  </div>
 			                  </div>
 			                </div>

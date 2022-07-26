@@ -21,7 +21,7 @@
       <thead class="thead-dark">
         <tr>
           <th><p align="center">Codigo de Entrada</p></th>
-          <th><p align="center">Nombre Almacón</p></th>
+          <th><p align="center">Nombre Almacen</p></th>
           <th><p align="center">Nombre Material</p></th>
           <th><p align="center">Codigo Material</p></th>
           <th><p align="center">Familia</p></th>

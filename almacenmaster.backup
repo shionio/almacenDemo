@@ -1,0 +1,5974 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.7 (Ubuntu 13.7-1.pgdg22.04+1)
+-- Dumped by pg_dump version 14.4 (Ubuntu 14.4-1.pgdg22.04+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: categorias; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.categorias (
+    id_categoria integer NOT NULL,
+    categoria character varying NOT NULL,
+    activo boolean NOT NULL
+);
+
+
+ALTER TABLE public.categorias OWNER TO postgres;
+
+--
+-- Name: categorias_id_categoria_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.categorias_id_categoria_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.categorias_id_categoria_seq OWNER TO postgres;
+
+--
+-- Name: categorias_id_categoria_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.categorias_id_categoria_seq OWNED BY public.categorias.id_categoria;
+
+
+--
+-- Name: almacen; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.almacen (
+    id_almacen integer DEFAULT nextval('public.categorias_id_categoria_seq'::regclass) NOT NULL,
+    nombre_almacen character varying(100) NOT NULL,
+    descripcion_almacen character varying(70) NOT NULL,
+    tipo_almacen integer NOT NULL,
+    activo boolean DEFAULT true NOT NULL,
+    id_ubicacion_geografica integer NOT NULL,
+    condicion_almacen integer NOT NULL,
+    fecha_registro character varying,
+    siglas character varying
+);
+
+
+ALTER TABLE public.almacen OWNER TO postgres;
+
+--
+-- Name: almacen_id_almacen_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.almacen_id_almacen_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.almacen_id_almacen_seq OWNER TO postgres;
+
+--
+-- Name: almacen_id_almacen_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.almacen_id_almacen_seq OWNED BY public.almacen.id_almacen;
+
+
+--
+-- Name: almacenes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.almacenes (
+    id_almacen integer NOT NULL,
+    region character varying,
+    estado character varying,
+    centro character varying,
+    siglas_almacen character varying,
+    nombre_almacen character varying
+);
+
+
+ALTER TABLE public.almacenes OWNER TO postgres;
+
+--
+-- Name: almacenes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.almacenes_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.almacenes_id_seq OWNER TO postgres;
+
+--
+-- Name: almacenes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.almacenes_id_seq OWNED BY public.almacenes.id_almacen;
+
+
+--
+-- Name: condicion_almacen; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.condicion_almacen (
+    id integer NOT NULL,
+    condicion_almacen character varying(50) NOT NULL,
+    activo boolean DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.condicion_almacen OWNER TO postgres;
+
+--
+-- Name: condicion_almacen_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.condicion_almacen_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.condicion_almacen_id_seq OWNER TO postgres;
+
+--
+-- Name: condicion_almacen_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.condicion_almacen_id_seq OWNED BY public.condicion_almacen.id;
+
+
+--
+-- Name: condicion_materiales; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.condicion_materiales (
+    id_condicion_material integer NOT NULL,
+    descrip_condicion_material character varying NOT NULL,
+    activo boolean NOT NULL
+);
+
+
+ALTER TABLE public.condicion_materiales OWNER TO postgres;
+
+--
+-- Name: condicion_materiales_id_condicion_material_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.condicion_materiales_id_condicion_material_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.condicion_materiales_id_condicion_material_seq OWNER TO postgres;
+
+--
+-- Name: condicion_materiales_id_condicion_material_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.condicion_materiales_id_condicion_material_seq OWNED BY public.condicion_materiales.id_condicion_material;
+
+
+--
+-- Name: estados; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.estados (
+    id_estado integer NOT NULL,
+    estado character varying NOT NULL
+);
+
+
+ALTER TABLE public.estados OWNER TO postgres;
+
+--
+-- Name: estatus_solicitudes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.estatus_solicitudes (
+    id_estatus_solicitud integer NOT NULL,
+    estatus_solicitud character varying NOT NULL,
+    activa character varying DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.estatus_solicitudes OWNER TO postgres;
+
+--
+-- Name: estatus_solicitudes_id_estatus_solicitud_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.estatus_solicitudes_id_estatus_solicitud_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.estatus_solicitudes_id_estatus_solicitud_seq OWNER TO postgres;
+
+--
+-- Name: estatus_solicitudes_id_estatus_solicitud_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.estatus_solicitudes_id_estatus_solicitud_seq OWNED BY public.estatus_solicitudes.id_estatus_solicitud;
+
+
+--
+-- Name: familias; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.familias (
+    id_familia integer NOT NULL,
+    nombre_familia character varying,
+    estatus boolean DEFAULT false
+);
+
+
+ALTER TABLE public.familias OWNER TO postgres;
+
+--
+-- Name: familias_id_familia_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.familias_id_familia_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.familias_id_familia_seq OWNER TO postgres;
+
+--
+-- Name: familias_id_familia_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.familias_id_familia_seq OWNED BY public.familias.id_familia;
+
+
+--
+-- Name: hist_movimientos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.hist_movimientos (
+    id_movimiento integer NOT NULL,
+    tipo_movimiento character varying NOT NULL,
+    id_almacen_origen integer NOT NULL,
+    id_almacen_destino integer NOT NULL,
+    cantidad integer,
+    material character varying,
+    id_solicitud integer
+);
+
+
+ALTER TABLE public.hist_movimientos OWNER TO postgres;
+
+--
+-- Name: log_solicitudes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.log_solicitudes (
+    id_log_solicitud integer NOT NULL,
+    usuario character varying,
+    almacen_origen character varying,
+    almacen_destino character varying,
+    cantidad integer,
+    observaciones character varying,
+    estatus character varying,
+    id_solicitud integer
+);
+
+
+ALTER TABLE public.log_solicitudes OWNER TO postgres;
+
+--
+-- Name: log_solicitudes_id_log_solicitud_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.log_solicitudes_id_log_solicitud_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.log_solicitudes_id_log_solicitud_seq OWNER TO postgres;
+
+--
+-- Name: log_solicitudes_id_log_solicitud_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.log_solicitudes_id_log_solicitud_seq OWNED BY public.log_solicitudes.id_log_solicitud;
+
+
+--
+-- Name: logs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.logs (
+    id_log integer NOT NULL,
+    id_usuario integer NOT NULL,
+    fecha_accion timestamp without time zone NOT NULL,
+    accion character varying NOT NULL
+);
+
+
+ALTER TABLE public.logs OWNER TO postgres;
+
+--
+-- Name: logs_id_log_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.logs_id_log_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.logs_id_log_seq OWNER TO postgres;
+
+--
+-- Name: logs_id_log_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.logs_id_log_seq OWNED BY public.logs.id_log;
+
+
+--
+-- Name: material; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.material (
+    id_material integer NOT NULL,
+    nombre_material character varying(50) NOT NULL,
+    descripcion_material character varying(100) NOT NULL,
+    unidad_medida character varying NOT NULL,
+    activo boolean NOT NULL,
+    stock integer NOT NULL,
+    id_estatus_material integer NOT NULL,
+    id_almacen integer NOT NULL,
+    id_categoria integer NOT NULL,
+    id_condicion_material integer NOT NULL,
+    id_ingreso_material integer NOT NULL,
+    nota_entrega character varying NOT NULL,
+    orden_compra character varying,
+    num_factura character varying,
+    packlist character varying,
+    direccion_entrega character varying,
+    observaciones character varying,
+    id_proveedor integer NOT NULL,
+    stock_inicial integer,
+    img_material character varying
+);
+
+
+ALTER TABLE public.material OWNER TO postgres;
+
+--
+-- Name: material_id_material_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.material_id_material_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.material_id_material_seq OWNER TO postgres;
+
+--
+-- Name: material_id_material_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.material_id_material_seq OWNED BY public.material.id_material;
+
+
+--
+-- Name: material_proveedor; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.material_proveedor (
+    id_material_proveedor integer NOT NULL,
+    id_material integer NOT NULL,
+    id_proveedor integer NOT NULL
+);
+
+
+ALTER TABLE public.material_proveedor OWNER TO postgres;
+
+--
+-- Name: material_proveedor_id_material_proveedor_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.material_proveedor_id_material_proveedor_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.material_proveedor_id_material_proveedor_seq OWNER TO postgres;
+
+--
+-- Name: material_proveedor_id_material_proveedor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.material_proveedor_id_material_proveedor_seq OWNED BY public.material_proveedor.id_material_proveedor;
+
+
+--
+-- Name: materiales; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.materiales (
+    id_material integer NOT NULL,
+    codigo integer,
+    descripcion_propuesta character varying,
+    unidad_medida character varying,
+    id_familia integer
+);
+
+
+ALTER TABLE public.materiales OWNER TO postgres;
+
+--
+-- Name: materiales_almacen; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.materiales_almacen (
+    id_materiales_almacenes integer NOT NULL,
+    id_almacen integer,
+    id_familia integer,
+    stock integer,
+    fecha_ingreso date,
+    id_tipo_ingreso character varying,
+    id_estatus_material integer,
+    id_condicion_material integer,
+    observaciones character varying,
+    activo boolean,
+    id_material integer
+);
+
+
+ALTER TABLE public.materiales_almacen OWNER TO postgres;
+
+--
+-- Name: materiales_almacen_id_materiales_almacenes_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.materiales_almacen_id_materiales_almacenes_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.materiales_almacen_id_materiales_almacenes_seq OWNER TO postgres;
+
+--
+-- Name: materiales_almacen_id_materiales_almacenes_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.materiales_almacen_id_materiales_almacenes_seq OWNED BY public.materiales_almacen.id_materiales_almacenes;
+
+
+--
+-- Name: materiales_solicitudes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.materiales_solicitudes (
+    id_material_solicitud integer NOT NULL,
+    id_material integer,
+    id_solicitud integer,
+    cantidad character varying,
+    anulado boolean
+);
+
+
+ALTER TABLE public.materiales_solicitudes OWNER TO postgres;
+
+--
+-- Name: materiales_solicitudes_id_material_solicitud_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.materiales_solicitudes_id_material_solicitud_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.materiales_solicitudes_id_material_solicitud_seq OWNER TO postgres;
+
+--
+-- Name: materiales_solicitudes_id_material_solicitud_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.materiales_solicitudes_id_material_solicitud_seq OWNED BY public.materiales_solicitudes.id_material_solicitud;
+
+
+--
+-- Name: movimientos_id_movimiento_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.movimientos_id_movimiento_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.movimientos_id_movimiento_seq OWNER TO postgres;
+
+--
+-- Name: movimientos_id_movimiento_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.movimientos_id_movimiento_seq OWNED BY public.hist_movimientos.id_movimiento;
+
+
+--
+-- Name: municipios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.municipios (
+    id_municipio integer NOT NULL,
+    id_estado integer NOT NULL,
+    municipio character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.municipios OWNER TO postgres;
+
+--
+-- Name: parroquias; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.parroquias (
+    id_parroquia integer NOT NULL,
+    id_municipio integer NOT NULL,
+    parroquia character varying NOT NULL
+);
+
+
+ALTER TABLE public.parroquias OWNER TO postgres;
+
+--
+-- Name: proveedores; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.proveedores (
+    id_proveedor integer NOT NULL,
+    nombre_proveedor character varying(100) NOT NULL,
+    telefono_proveedor character varying(20) NOT NULL,
+    correo_proveedor character varying(100) NOT NULL,
+    activo boolean NOT NULL,
+    rif character varying NOT NULL,
+    descripcion_proveedor character varying,
+    ubicacion_proveedor character varying
+);
+
+
+ALTER TABLE public.proveedores OWNER TO postgres;
+
+--
+-- Name: proveedor_id_proveedor_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.proveedor_id_proveedor_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.proveedor_id_proveedor_seq OWNER TO postgres;
+
+--
+-- Name: proveedor_id_proveedor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.proveedor_id_proveedor_seq OWNED BY public.proveedores.id_proveedor;
+
+
+--
+-- Name: roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.roles (
+    id_rol integer NOT NULL,
+    nombre_rol character varying NOT NULL,
+    descrip_rol character varying NOT NULL,
+    activo boolean NOT NULL
+);
+
+
+ALTER TABLE public.roles OWNER TO postgres;
+
+--
+-- Name: roles_id_rol_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.roles_id_rol_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.roles_id_rol_seq OWNER TO postgres;
+
+--
+-- Name: roles_id_rol_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.roles_id_rol_seq OWNED BY public.roles.id_rol;
+
+
+--
+-- Name: solicitudes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.solicitudes (
+    id_solicitud integer NOT NULL,
+    fecha_solicitud date,
+    id_usuario_solicitante integer,
+    id_almacen_origen integer,
+    id_almacen_destino integer,
+    cantidad integer,
+    descripcion_material integer,
+    unidad_medida character varying,
+    ubicacion character varying,
+    observaciones character varying,
+    estatus integer,
+    anulado boolean DEFAULT false
+);
+
+
+ALTER TABLE public.solicitudes OWNER TO postgres;
+
+--
+-- Name: solicitudes_id_solicitud_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.solicitudes_id_solicitud_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.solicitudes_id_solicitud_seq OWNER TO postgres;
+
+--
+-- Name: solicitudes_id_solicitud_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.solicitudes_id_solicitud_seq OWNED BY public.solicitudes.id_solicitud;
+
+
+--
+-- Name: status_material; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.status_material (
+    id_estatus_material integer NOT NULL,
+    desc_estatus_material character varying NOT NULL,
+    activo boolean NOT NULL
+);
+
+
+ALTER TABLE public.status_material OWNER TO postgres;
+
+--
+-- Name: status_material_id_estatus_material_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.status_material_id_estatus_material_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.status_material_id_estatus_material_seq OWNER TO postgres;
+
+--
+-- Name: status_material_id_estatus_material_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.status_material_id_estatus_material_seq OWNED BY public.status_material.id_estatus_material;
+
+
+--
+-- Name: tipo_almacen; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tipo_almacen (
+    id integer NOT NULL,
+    tipo_almacen character varying(50) NOT NULL,
+    activo boolean NOT NULL
+);
+
+
+ALTER TABLE public.tipo_almacen OWNER TO postgres;
+
+--
+-- Name: tipo_almacen_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tipo_almacen_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tipo_almacen_id_seq OWNER TO postgres;
+
+--
+-- Name: tipo_almacen_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tipo_almacen_id_seq OWNED BY public.tipo_almacen.id;
+
+
+--
+-- Name: tipo_entrada; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tipo_entrada (
+    id_tipo_entrada integer NOT NULL,
+    descrip_tipo_entrada character varying NOT NULL,
+    activo boolean NOT NULL
+);
+
+
+ALTER TABLE public.tipo_entrada OWNER TO postgres;
+
+--
+-- Name: tipo_entrada_id_tipo_entrada_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tipo_entrada_id_tipo_entrada_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tipo_entrada_id_tipo_entrada_seq OWNER TO postgres;
+
+--
+-- Name: tipo_entrada_id_tipo_entrada_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tipo_entrada_id_tipo_entrada_seq OWNED BY public.tipo_entrada.id_tipo_entrada;
+
+
+--
+-- Name: tipo_entrada_salida; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tipo_entrada_salida (
+    id_entrada_salida integer NOT NULL,
+    descripcion character varying,
+    tipo_movimiento integer
+);
+
+
+ALTER TABLE public.tipo_entrada_salida OWNER TO postgres;
+
+--
+-- Name: tipo_entrada_salida_id_entrada_salida_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tipo_entrada_salida_id_entrada_salida_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tipo_entrada_salida_id_entrada_salida_seq OWNER TO postgres;
+
+--
+-- Name: tipo_entrada_salida_id_entrada_salida_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tipo_entrada_salida_id_entrada_salida_seq OWNED BY public.tipo_entrada_salida.id_entrada_salida;
+
+
+--
+-- Name: tipo_ingreso; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tipo_ingreso (
+    id_tipo_ingreso character varying NOT NULL,
+    tipo_ingreso character varying,
+    activo boolean DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.tipo_ingreso OWNER TO postgres;
+
+--
+-- Name: tipo_salida; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tipo_salida (
+    id_tipo_salida integer NOT NULL,
+    desc_tipo_salida character varying NOT NULL,
+    activo boolean DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.tipo_salida OWNER TO postgres;
+
+--
+-- Name: tipo_salida_id_tipo_salida_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tipo_salida_id_tipo_salida_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tipo_salida_id_tipo_salida_seq OWNER TO postgres;
+
+--
+-- Name: tipo_salida_id_tipo_salida_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tipo_salida_id_tipo_salida_seq OWNED BY public.tipo_salida.id_tipo_salida;
+
+
+--
+-- Name: tipos_movimientos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tipos_movimientos (
+    id_tipo_movimiento integer,
+    movimiento character varying,
+    activo boolean DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.tipos_movimientos OWNER TO postgres;
+
+--
+-- Name: ubicacion_geografica; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ubicacion_geografica (
+    id_ubicacion_geografica integer NOT NULL,
+    id_estado integer NOT NULL,
+    id_parroquia integer NOT NULL,
+    id_municipio integer NOT NULL,
+    cod_postal integer,
+    direccion character varying NOT NULL,
+    activo boolean DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.ubicacion_geografica OWNER TO postgres;
+
+--
+-- Name: ubicacion_geografica_id_ubicacion_geografica_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ubicacion_geografica_id_ubicacion_geografica_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ubicacion_geografica_id_ubicacion_geografica_seq OWNER TO postgres;
+
+--
+-- Name: ubicacion_geografica_id_ubicacion_geografica_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ubicacion_geografica_id_ubicacion_geografica_seq OWNED BY public.ubicacion_geografica.id_ubicacion_geografica;
+
+
+--
+-- Name: usuarios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.usuarios (
+    id_usuario integer NOT NULL,
+    usuario character varying(50) NOT NULL,
+    password character varying(100) NOT NULL,
+    id_rol integer NOT NULL,
+    activo boolean NOT NULL,
+    nombre character varying NOT NULL,
+    apellido character varying NOT NULL,
+    cargo character varying NOT NULL,
+    cedula character varying NOT NULL,
+    id_almacen integer
+);
+
+
+ALTER TABLE public.usuarios OWNER TO postgres;
+
+--
+-- Name: usuarios_id_usuario_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.usuarios_id_usuario_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.usuarios_id_usuario_seq OWNER TO postgres;
+
+--
+-- Name: usuarios_id_usuario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.usuarios_id_usuario_seq OWNED BY public.usuarios.id_usuario;
+
+
+--
+-- Name: almacenes id_almacen; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.almacenes ALTER COLUMN id_almacen SET DEFAULT nextval('public.almacenes_id_seq'::regclass);
+
+
+--
+-- Name: categorias id_categoria; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categorias ALTER COLUMN id_categoria SET DEFAULT nextval('public.categorias_id_categoria_seq'::regclass);
+
+
+--
+-- Name: condicion_almacen id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.condicion_almacen ALTER COLUMN id SET DEFAULT nextval('public.condicion_almacen_id_seq'::regclass);
+
+
+--
+-- Name: condicion_materiales id_condicion_material; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.condicion_materiales ALTER COLUMN id_condicion_material SET DEFAULT nextval('public.condicion_materiales_id_condicion_material_seq'::regclass);
+
+
+--
+-- Name: estatus_solicitudes id_estatus_solicitud; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.estatus_solicitudes ALTER COLUMN id_estatus_solicitud SET DEFAULT nextval('public.estatus_solicitudes_id_estatus_solicitud_seq'::regclass);
+
+
+--
+-- Name: familias id_familia; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.familias ALTER COLUMN id_familia SET DEFAULT nextval('public.familias_id_familia_seq'::regclass);
+
+
+--
+-- Name: hist_movimientos id_movimiento; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hist_movimientos ALTER COLUMN id_movimiento SET DEFAULT nextval('public.movimientos_id_movimiento_seq'::regclass);
+
+
+--
+-- Name: log_solicitudes id_log_solicitud; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.log_solicitudes ALTER COLUMN id_log_solicitud SET DEFAULT nextval('public.log_solicitudes_id_log_solicitud_seq'::regclass);
+
+
+--
+-- Name: logs id_log; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.logs ALTER COLUMN id_log SET DEFAULT nextval('public.logs_id_log_seq'::regclass);
+
+
+--
+-- Name: material id_material; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.material ALTER COLUMN id_material SET DEFAULT nextval('public.material_id_material_seq'::regclass);
+
+
+--
+-- Name: material_proveedor id_material_proveedor; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.material_proveedor ALTER COLUMN id_material_proveedor SET DEFAULT nextval('public.material_proveedor_id_material_proveedor_seq'::regclass);
+
+
+--
+-- Name: materiales_almacen id_materiales_almacenes; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.materiales_almacen ALTER COLUMN id_materiales_almacenes SET DEFAULT nextval('public.materiales_almacen_id_materiales_almacenes_seq'::regclass);
+
+
+--
+-- Name: materiales_solicitudes id_material_solicitud; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.materiales_solicitudes ALTER COLUMN id_material_solicitud SET DEFAULT nextval('public.materiales_solicitudes_id_material_solicitud_seq'::regclass);
+
+
+--
+-- Name: proveedores id_proveedor; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.proveedores ALTER COLUMN id_proveedor SET DEFAULT nextval('public.proveedor_id_proveedor_seq'::regclass);
+
+
+--
+-- Name: roles id_rol; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles ALTER COLUMN id_rol SET DEFAULT nextval('public.roles_id_rol_seq'::regclass);
+
+
+--
+-- Name: solicitudes id_solicitud; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.solicitudes ALTER COLUMN id_solicitud SET DEFAULT nextval('public.solicitudes_id_solicitud_seq'::regclass);
+
+
+--
+-- Name: status_material id_estatus_material; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.status_material ALTER COLUMN id_estatus_material SET DEFAULT nextval('public.status_material_id_estatus_material_seq'::regclass);
+
+
+--
+-- Name: tipo_almacen id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tipo_almacen ALTER COLUMN id SET DEFAULT nextval('public.tipo_almacen_id_seq'::regclass);
+
+
+--
+-- Name: tipo_entrada id_tipo_entrada; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tipo_entrada ALTER COLUMN id_tipo_entrada SET DEFAULT nextval('public.tipo_entrada_id_tipo_entrada_seq'::regclass);
+
+
+--
+-- Name: tipo_entrada_salida id_entrada_salida; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tipo_entrada_salida ALTER COLUMN id_entrada_salida SET DEFAULT nextval('public.tipo_entrada_salida_id_entrada_salida_seq'::regclass);
+
+
+--
+-- Name: tipo_salida id_tipo_salida; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tipo_salida ALTER COLUMN id_tipo_salida SET DEFAULT nextval('public.tipo_salida_id_tipo_salida_seq'::regclass);
+
+
+--
+-- Name: ubicacion_geografica id_ubicacion_geografica; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ubicacion_geografica ALTER COLUMN id_ubicacion_geografica SET DEFAULT nextval('public.ubicacion_geografica_id_ubicacion_geografica_seq'::regclass);
+
+
+--
+-- Name: usuarios id_usuario; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usuarios ALTER COLUMN id_usuario SET DEFAULT nextval('public.usuarios_id_usuario_seq'::regclass);
+
+
+--
+-- Data for Name: almacen; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.almacen (id_almacen, nombre_almacen, descripcion_almacen, tipo_almacen, activo, id_ubicacion_geografica, condicion_almacen, fecha_registro, siglas) FROM stdin;
+2	almacen mcbo	almacen mcbo	2	t	4	1	\N	\N
+4	almacen delta 001	almacen delta 001	4	t	6	2	\N	\N
+7	almacen tachira	almacen tachira	2	t	9	1	\N	\N
+3	almacen camatagua 1	almacen camatagua 1	4	t	5	2	07/06/2022	\N
+21	Sede Central 	Sede central 	2	t	19	1	\N	\N
+\.
+
+
+--
+-- Data for Name: almacenes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.almacenes (id_almacen, region, estado, centro, siglas_almacen, nombre_almacen) FROM stdin;
+109	OCCIDENTE	ZULIA	TZU	TZUC	ALM 19 DE ABRIL
+2	GUAYANA	BOLIVAR	ABO	ABOB	ALM APOYO AEREO
+3	CAPITAL	DISTRITO CAPITAL	ADC	ADCA	ALM S.BERNARD SG
+4	CAPITAL	MIRANDA	AMI	AMIA	ALM LOS CORTIJOS
+5	CAPITAL	MIRANDA	AMI	AMIC	ALM ELEGGUA TI
+6	ORIENTE	NUEVA ESPARTA	ANE	ANEA	ALM S.LORENZO
+7	GUAYANA	AMAZONAS	DAM	DAMA	ALM PTO AYACUCHO
+8	ORIENTE	ANZOATEGUI	DAN	DANA	ALM L/MONTONES
+9	LOS LLANOS	APURE	DAP	DAPA	ALM SAN FERNANDO
+10	CENTRAL	ARAGUA	DAR	DARA	ALM MARACAY
+11	GUAYANA	BOLIVAR	DBO	DBOA	ALM GURI DISTR
+12	GUAYANA	BOLIVAR	DBO	DBOC	ALM MACAGUA DIS
+13	GUAYANA	BOLIVAR	DBO	DBOD	ALM PLANTA VIEJA
+14	LOS LLANOS	BARINAS	DBR	DBRA	ALM BARINAS
+15	CENTRAL	CARABOBO	DCB	DCBA	ALM CARABOBO
+16	CENTRAL	CARABOBO	DCB	DCBB	ALM EJE COSTERO
+17	CENTRAL	CARABOBO	DCB	DCBC	ALM EL BOSQUE
+18	LOS LLANOS	COJEDES	DCO	DCOA	ALM SAN CARLOS
+19	GUAYANA	DELTA AMACURO	DDA	DDAA	ALM TUCUPITA
+20	CAPITAL	DISTRITO CAPITAL	DDC	DDCA	ALM LA YAGUARA
+21	OCCIDENTE	FALCON	DFA	DFAA	ALM CORO
+22	LOS LLANOS	GUARICO	DGU	DGUA	ALM CALABOZO
+23	LOS LLANOS	GUARICO	DGU	DGUB	ALM VALLE/PASCUA
+24	OCCIDENTE	LARA	DLA	DLAA	ALM CARORA
+25	OCCIDENTE	LARA	DLA	DLAB	ALM F.SANCHEZ L
+26	OCCIDENTE	LARA	DLA	DLAC	ALM LUIS H. FREYTES
+27	LOS ANDES	MERIDA	DME	DMEA	ALM MERIDA
+28	CAPITAL	MIRANDA	DMI	DMIA	ALM CHACAO
+29	CAPITAL	MIRANDA	DMI	DMIC	ALM EL BARBECHO
+30	CAPITAL	MIRANDA	DMI	DMIE	ALM ELEGUA
+31	ORIENTE	MONAGAS	DMO	DMOA	ALM MATURIN
+32	ORIENTE	NUEVA ESPARTA	DNE	DNEA	ALM L.CACERES D
+33	LOS LLANOS	PORTUGUESA	DPO	DPOA	ALM ACARIGUA
+34	LOS LLANOS	PORTUGUESA	DPO	DPOB	ALM GUANARE
+35	ORIENTE	SUCRE	DSU	DSUA	ALM CARUPANO
+36	ORIENTE	SUCRE	DSU	DSUB	ALM CUMANA
+37	LOS ANDES	TACHIRA	DTA	DTAA	ALM TACHIRA
+38	LOS ANDES	TRUJILLO	DTU	DTUA	ALM TRUJILLO DIS
+39	CAPITAL	LA GUAIRA	DVA	DVAA	ALM GUANAPE
+40	CENTRAL	YARACUY	DYA	DYAA	ALM SAN FELIPE
+41	CENTRAL	YARACUY	DYA	DYAB	ALM YARITAGUA
+42	OCCIDENTE	ZULIA	DZU	DZUA	ALM BARALT
+43	OCCIDENTE	ZULIA	DZU	DZUB	ALM CABIMAS
+44	OCCIDENTE	ZULIA	DZU	DZUC	ALM COLON 
+45	OCCIDENTE	ZULIA	DZU	DZUD	ALM CONURD
+46	OCCIDENTE	ZULIA	DZU	DZUE	ALM COSUR 
+47	OCCIDENTE	ZULIA	DZU	DZUF	ALM COTA
+48	OCCIDENTE	ZULIA	DZU	DZUG	ALM LA VILLA
+49	OCCIDENTE	ZULIA	DZU	DZUJ	ALM MAGUAPA
+50	ORIENTE	ANZOATEGUI	GAN	GANA	ALM A.SALAZAR
+51	ORIENTE	ANZOATEGUI	GAN	GANB	ALM GUANTA
+52	LOS LLANOS	APURE	GAP	GAPA	ALM FELIX GARCIA
+53	GUAYANA	BOLIVAR	GBO	GBOA	ALM GURI GENER
+54	GUAYANA	BOLIVAR	GBO	GBOB	ALM MACAGUA GEN
+55	GUAYANA	BOLIVAR	GBO	GBOC	ALM CARUACHI
+56	LOS LLANOS	BARINAS	GBR	GBRA	ALM JOSE A.PAEZ
+57	LOS LLANOS	BARINAS	GBR	GBRB	ALM JA RODRIGUEZ
+58	CENTRAL	CARABOBO	GCB	GCBA	ALM PLANTACENTRO
+59	CENTRAL	CARABOBO	GCB	GCBB	ALM PEDRO CAMEJO
+60	CENTRAL	CARABOBO	GCB	GCBC	ALM PLANTA ESTE
+61	OCCIDENTE	FALCON	GFA	GFAA	ALM PUNTO FIJO
+62	OCCIDENTE	FALCON	GFA	GFAB	ALM T-GAS CORO
+63	OCCIDENTE	LARA	GLA	GLAA	ALM M.MULDER
+64	LOS ANDES	MERIDA	GME	GMEA	ALM PLANTA EL VIGIA
+65	CAPITAL	MIRANDA	GMI	GMIA	ALM J.M.ESPAÑA
+66	CAPITAL	MIRANDA	GMI	GMIB	ALM GEDI CARACAS
+67	CAPITAL	MIRANDA	GMI	GMIC	ALM LA RAISA GEN
+68	CAPITAL	MIRANDA	GMI	GMID	ALM GUARENAS 1
+69	CAPITAL	MIRANDA	GMI	GMIF	ALM EL SITIO
+70	ORIENTE	NUEVA ESPARTA	GNE	GNEA	ALM L.CACERES G
+71	ORIENTE	NUEVA ESPARTA	GNE	GNEB	ALM S.PEDRO COCH
+72	LOS ANDES	TACHIRA	GTA	GTAA	ALM SAN AGATON
+73	LOS ANDES	TACHIRA	GTA	GTAB	ALM T-GAS TACHIR
+74	CAPITAL	LA GUAIRA	GVA	GVAA	ALM JJSB-TACOA
+75	OCCIDENTE	ZULIA	GZU	GZUA	ALM R.URDANETA
+76	OCCIDENTE	ZULIA	GZU	GZUB	ALM RAMON LAGUNA
+77	OCCIDENTE	ZULIA	GZU	GZUC	 ALM TERMO ZULIA
+78	ORIENTE	ANZOATEGUI	TAN	TANA	ALM S/E JOSE
+79	ORIENTE	ANZOATEGUI	TAN	TANB	ALM BARBACOA
+80	ORIENTE	ANZOATEGUI	TAN	TANC	ALM CHUPARIN
+81	ORIENTE	ANZOATEGUI	TAN	TAND	ALM S/E EL TIGRE
+82	ORIENTE	ANZOATEGUI	TAN	TANE	ALM S/E LA CANOA
+83	ORIENTE	ANZOATEGUI	TAN	TANF	ALM EL TIGRE
+84	CENTRAL	ARAGUA	TAR	TARB	ALM S/E HORQUETA
+85	GUAYANA	BOLIVAR	TBO	TBOA	ALM GURI TRANS
+86	GUAYANA	BOLIVAR	TBO	TBOB	ALM MACAGUA TRA
+87	GUAYANA	BOLIVAR	TBO	TBOE	ALM S/E CLARITAS
+88	GUAYANA	BOLIVAR	TBO	TBOF	ALM S/E MALENA
+89	GUAYANA	BOLIVAR	TBO	TBOG	ALM S/E PALITAL
+90	GUAYANA	BOLIVAR	TBO	TBOI	ALM LOS OLIVOS
+91	CENTRAL	CARABOBO	TCB	TCBA	ALM SEDE GTII
+92	CENTRAL	CARABOBO	TCB	TCBB	ALM S/E ARENOSA
+93	CENTRAL	CARABOBO	TCB	TCBC	ALM CARABOBO TRA
+94	LOS LLANOS	GUARICO	TGU	TGUA	ALM EL SOMBRERO
+95	LOS LLANOS	GUARICO	TGU	TGUB	ALM S/E GERONIMO
+96	OCCIDENTE	LARA	TLA	TLAA	ALM CABUDARE
+97	CAPITAL	MIRANDA	TMI	TMIA	ALM EL MARQUES
+98	CAPITAL	MIRANDA	TMI	TMIB	ALM LA RAISA TRA
+99	CAPITAL	MIRANDA	TMI	TMIC	ALM S/E SUR
+100	CAPITAL	MIRANDA	TMI	TMID	ALM S/E S.TERESA
+101	ORIENTE	MONAGAS	TMO	TMOA	ALM S/E FURRIAL
+102	ORIENTE	NUEVA ESPARTA	TNE	TNEA	ALM L.CACERES TR
+103	ORIENTE	SUCRE	TSU	TSUA	ALM TRES PICOS
+104	LOS ANDES	TACHIRA	TTA	TTAA	ALM S.CRISTOBAL
+105	LOS ANDES	TRUJILLO	TTU	TTUA	ALM TRUJILLO TRA
+106	CENTRAL	YARACUY	TYA	TYAA	ALM S/E YARACUY
+107	OCCIDENTE	ZULIA	TZU	TZUA	ALM CAUJARITO
+108	OCCIDENTE	ZULIA	TZU	TZUB	ALM S/E CUATRICE
+1	GUAYANA	BOLIVAR	ABO	ABOA	ALM GURI APOYO
+\.
+
+
+--
+-- Data for Name: categorias; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.categorias (id_categoria, categoria, activo) FROM stdin;
+1	Herramientas	t
+2	Repuestos	t
+3	Iluminacion	t
+5	Hierros	t
+6	plasticos	t
+4	Cables	t
+\.
+
+
+--
+-- Data for Name: condicion_almacen; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.condicion_almacen (id, condicion_almacen, activo) FROM stdin;
+1	Principal	t
+2	Nodal	t
+\.
+
+
+--
+-- Data for Name: condicion_materiales; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.condicion_materiales (id_condicion_material, descrip_condicion_material, activo) FROM stdin;
+1	Chatarra	t
+2	Obsoleto	t
+4	Nuevo	t
+3	Usado o Reparado	t
+\.
+
+
+--
+-- Data for Name: estados; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.estados (id_estado, estado) FROM stdin;
+1	Amazonas
+2	Anzoátegui
+3	Apure
+4	Aragua
+5	Barinas
+6	Bolívar
+7	Carabobo
+8	Cojedes
+9	Delta Amacuro
+10	Falcón
+11	Guárico
+12	Lara
+13	Mérida
+14	Miranda
+15	Monagas
+16	Nueva Esparta
+17	Portuguesa
+18	Sucre
+19	Táchira
+20	Trujillo
+21	La Guaira
+22	Yaracuy
+23	Zulia
+24	Distrito Capital
+\.
+
+
+--
+-- Data for Name: estatus_solicitudes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.estatus_solicitudes (id_estatus_solicitud, estatus_solicitud, activa) FROM stdin;
+3	Despachada	true
+4	Rechazada	true
+5	Devolucion	true
+6	Cerrada	true
+1	Activa	true
+2	Aprobada	true
+\.
+
+
+--
+-- Data for Name: familias; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.familias (id_familia, nombre_familia, estatus) FROM stdin;
+1	BOBINAS	f
+2	CABLES	f
+3	BOMBILLOS	f
+4	HERRAMIENTAS	f
+5	FOCOS	f
+6	MEDIDORES	f
+\.
+
+
+--
+-- Data for Name: hist_movimientos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.hist_movimientos (id_movimiento, tipo_movimiento, id_almacen_origen, id_almacen_destino, cantidad, material, id_solicitud) FROM stdin;
+\.
+
+
+--
+-- Data for Name: log_solicitudes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.log_solicitudes (id_log_solicitud, usuario, almacen_origen, almacen_destino, cantidad, observaciones, estatus, id_solicitud) FROM stdin;
+1	\N	2	3	40	Ningun	2	0
+2	\N	2	3	40	Ningun	2	0
+3	0	2	4	40	Ningun	3	0
+4	0	2	4	40	Ningun	3	0
+5	0	2	4	40	Ningun	5	0
+6	0	4	3	8	8 placas de acero inoxidable	1	5
+7	0	4	3	8	8 placas de acero inoxidable	1	5
+8	0	20	7	100	8 placas de acero inoxidable	1	5
+9	0	4	3	8	8 placas de acero inoxidable para reparacion 	1	5
+10	0	20	2	18	Ninguno xD 	5	0
+11	0	2	3	8	8 placas de acero inoxidable	2	6
+12	0	2	3	8	8 placas de acero inoxidable	6	6
+13	0	2	3	8	8 placas de acero inoxidable	6	6
+14	0	2	3	8	8 placas de acero inoxidable	2	6
+15	0	2	3	8	8 placas de acero inoxidable	6	6
+16	0	2	7	50	traspaso 1	2	13
+17	0	2	4	44	solicitud de bombillos para el almacen del delta	2	14
+18	0	2	7	200	prueba 1 aprobada	2	15
+\.
+
+
+--
+-- Data for Name: logs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.logs (id_log, id_usuario, fecha_accion, accion) FROM stdin;
+185	0	2022-07-17 00:00:00	Ingreso de un nuevo movimiento con el Id= 4
+186	0	2022-07-17 00:00:00	Inicio de sesion
+187	0	2022-07-17 00:00:00	Inicio de sesion
+188	0	2022-07-17 03:40:09	Inicio de sesion
+189	0	2022-07-17 22:33:38	Inicio de sesion
+190	0	2022-07-17 23:07:22	Ingreso de un nuevo movimiento con el Id= 1, se agrego el stock entrante
+191	0	2022-07-17 23:44:32	Actualizado Estatus del Proveedor g-300202020
+192	0	2022-07-17 23:44:37	Actualizado Estatus del Proveedor g-300202020
+193	0	2022-07-18 03:03:29	Ingreso de un nuevo movimiento con el Id= 5
+194	0	2022-07-18 03:09:50	Ingreso de un nuevo movimiento con el Id= 5, se agrego el stock entrante
+195	0	2022-07-18 04:20:07	Inicio de sesion
+196	0	2022-07-18 12:51:36	Ingreso de un nuevo movimiento con el Id= 5, se agrego el stock entrante
+197	0	2022-07-18 12:52:06	Ingreso de un nuevo movimiento con el Id= 6
+198	7	2022-07-18 13:56:10	Inicio de sesion
+199	0	2022-07-18 14:52:51	Ingreso de un nuevo movimiento con el Id= 7
+200	0	2022-07-18 15:13:40	Actualizado Estatus del Proveedor g-300202020
+201	0	2022-07-18 19:04:21	Nueva solicitud Generada por el usuarioagutierrez
+202	0	2022-07-18 19:04:46	Nueva solicitud Generada por el usuarioagutierrez
+203	0	2022-07-18 19:06:18	Nueva solicitud Generada por el usuarioagutierrez
+204	7	2022-07-18 19:15:11	Inicio de sesion
+205	7	2022-07-18 19:17:30	Inicio de sesion
+206	0	2022-07-18 20:08:38	Nueva Solicitud creada por el Usuario: agutierrez
+207	0	2022-07-19 12:32:22	Inicio de sesion
+208	7	2022-07-19 13:30:05	Inicio de sesion
+209	7	2022-07-19 13:32:47	Inicio de sesion
+210	0	2022-07-19 16:12:23	Nueva Solicitud creada por el Usuario: agutierrez
+211	0	2022-07-19 16:28:42	Nueva Solicitud creada por el Usuario: agutierrez
+212	0	2022-07-19 17:35:32	Nueva Solicitud creada por el Usuario: agutierrez
+213	0	2022-07-19 18:14:51	Nueva Solicitud creada por el Usuario: agutierrez
+214	0	2022-07-19 18:28:55	Solicitud actualizada por el Usuario: agutierrez
+215	0	2022-07-19 18:30:57	Solicitud actualizada por el Usuario: agutierrez
+216	7	2022-07-20 13:29:39	Inicio de sesion
+217	0	2022-07-20 13:48:28	Inicio de sesion
+218	0	2022-07-20 13:50:12	Solicitud actualizada por el Usuario: agutierrez
+219	0	2022-07-20 14:40:48	Inicio de sesion
+\.
+
+
+--
+-- Data for Name: material; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.material (id_material, nombre_material, descripcion_material, unidad_medida, activo, stock, id_estatus_material, id_almacen, id_categoria, id_condicion_material, id_ingreso_material, nota_entrega, orden_compra, num_factura, packlist, direccion_entrega, observaciones, id_proveedor, stock_inicial, img_material) FROM stdin;
+25	Bombillos	Bombillos de 12w	Unidades	t	50	1	4	3	4	3	21147	0897	36	2	San Bernardino	Una parte sera destinada a custodia	6	44	img/imgArticulos/1656961367-turbina.jpeg
+21	DesTrias	Destornillador de Estrias	Unidades	t	760	1	4	1	4	3	6898	4540	874	36	Principal de Valencia	Destornilladores destinados al uso de obreros	9	758	img/imgArticulos/1656961367-turbina.jpeg
+23	cable	cable tipo 8	metros	t	8100	1	4	4	4	3	0003	0003	0003	0003	almecen ppal	8000 metros de cable tipo 8 de 3 pelos 	7	12548	img/imgArticulos/1656961367-turbina.jpeg
+20	bombillos 	bombilo de 50w	cajas	t	150	1	3	3	4	3	0001	0001	0001	0001	la paz	compra nacional de bombillos de 50w	6	150	img/imgArticulos/1656961367-turbina.jpeg
+24	tuercas	tuercas de 3/8	unidad	t	9990	1	3	5	4	3	0004	0004	0004	0004	la florida	9990 tuercas nuevas para repuestos	1	78964	img/imgArticulos/1656961367-turbina.jpeg
+22	Bobinas	Bobinas de 1000w	unidad	t	4000	1	3	2	4	3	0002	0002	0002	0002	almacen colegio de ing	ingreso de nuevas bobinas de 500w	7	88888	img/imgArticulos/1656961367-turbina.jpeg
+19	Bombillos	Bombillos de 12w	Unidades	t	2900	1	3	3	4	3	21147	0897	36	2	San Bernardino	Una parte sera destinada a custodia	6	2544	img/imgArticulos/1656961367-turbina.jpeg
+\.
+
+
+--
+-- Data for Name: material_proveedor; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.material_proveedor (id_material_proveedor, id_material, id_proveedor) FROM stdin;
+\.
+
+
+--
+-- Data for Name: materiales; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.materiales (id_material, codigo, descripcion_propuesta, unidad_medida, id_familia) FROM stdin;
+1	10227140	TDP 13800-120/208V 300KVA	PZ	1
+2	10226039	TDI 1F 19920-120/240V 10KVA 	PZ	1
+3	10227142	TDI 1F 19920-120/240V 15KVA 	PZ	1
+4	10227126	TDI 1F 19920-120/240V 25KVA	PZ	1
+5	10227139	TDP 3F 13800-208Y/120V 150KVA	PZ	1
+6	10201620	TDPA 3F 12470Y-480V 1000KVA AN	PZ	1
+7	10201621	TDPA 3F 12470Y-480V 750KVA AN	PZ	1
+8	10201623	TDPA 3F 4800X12470Y-208V 300KVA RA	PZ	1
+9	10201624	TDPA 3F 4800X12470Y-208V 500KVA RA	PZ	1
+10	10201900	TDI 1F 4800X7200-240/480V 100KVA	PZ	1
+11	10201902	TDI 1F 4800X7200-277V 100kVA	PZ	1
+12	10201903	TDI 1F 7200-120/240V 100KVA	PZ	1
+13	10201904	TDI 1F 7200-277V 100KVA	PZ	1
+14	10201906	TDI 1F 4800X7200-120/240V 10kVA	PZ	1
+15	10201908	TDI 1F 4800X7200-120/240V 15kVA	PZ	1
+16	10201910	TDI 1F 4800X7200-240/480V 167KVA	PZ	1
+17	10201911	TDI 1F 4800X7200-120/240V 167kVA	PZ	1
+18	10201912	TDI 1F 4800X7200-277V 167KVA	PZ	1
+19	10201913	TDI 1F 7200-120/240V 167KVA	PZ	1
+20	10201914	TDI 1F 7200-277V 167KVA	PZ	1
+21	10201915	TDI 1F 4800X7200-240/480V 250KVA	PZ	1
+22	10201916	TDI 1F 4800X7200-120/240V 250kVA	PZ	1
+23	10201917	TDI 1F 4800X7200-277V 250kVA	PZ	1
+24	10201918	TDI 1F 7200-120/240V 250KVA	PZ	1
+25	10201919	TDI 1F 4800X7200-120/240V 25kVA	PZ	1
+26	10201920	TDI 1F 4800X7200-240/480V 25kVA	PZ	1
+27	10201922	TDI 1F 4800X7200-240/480V 333KVA	PZ	1
+28	10201924	TDI 1F 4800X7200-120/240V 333kVA	PZ	1
+29	10201925	TDI 1F 4800X7200-277V 333kVA	PZ	1
+30	10201926	TDI 1F 7200-120/240V 333KVA	PZ	1
+31	10201927	TDI 1F 4800X7200-120/240V  500KVA	PZ	1
+32	10201928	TDI 1F 4800X7200-240/480V 500KVA	PZ	1
+33	10201930	TDI 1F 4800X7200-240/480V 50KVA	PZ	1
+34	10201932	TDI 1F 7200-120/240V 50KVA	PZ	1
+35	10201934	TDII 1F 4800X7200V 167KVA	PZ	1
+36	10201935	TDII 1F 4800X7200V 250KVA	PZ	1
+37	10201936	TDII 1F 4800X7200V 333KVA	PZ	1
+38	10201937	TDII 1F 4800X7200V 500KVA	PZ	1
+39	10201998	TDP 3F 12470Y/7200-208Y/120V 1000KVA	PZ	1
+40	10201999	TDP 3F 12470Y/7200-480Y/277V 1000KVA	PZ	1
+41	10202000	TDP 3F 12470Y/7200-208Y/120V 150KVA	PZ	1
+42	10202001	TDP 3F 12470Y/7200-208Y/120V 300KVA	PZ	1
+43	10202002	TDP 3F 12470Y/7200-208Y/120V 500KVA	PZ	1
+44	10202003	TDP 3F 12470Y/7200-208Y/120V 750KVA	PZ	1
+45	10202004	TDP 3F 12470Y/7200-480Y/277V 500KVA	PZ	1
+46	10202005	TDP 3F 12470Y/7200-480Y/277V 750KVA	PZ	1
+47	10201931	TDI 1F 7200X4800-120/240V 50 KVA	PZ	1
+48	10201901	TDI 1F 7200X4800V-120/240 V 100 KVA	PZ	1
+49	10061431	TDI 1F 13800-120/240V 10KVA	PZ	1
+50	10061441	TDI 1F 13800-240/480V 10KVA	PZ	1
+51	10061450	TDI 1F 13800-240/480V 333KVA	PZ	1
+52	10061924	TDI 1F 6900X13800-120/240V 15KVA	PZ	1
+53	10061511	TDI 1F 6900X13800-120/240V 25KVA	PZ	1
+54	10061512	TDI 1F 6900X13800-120/240V 37,5KVA	PZ	1
+55	10061513	TDI 1F 6900X13800-120/240V 50KVA	PZ	1
+56	10061514	TDI 1F 6900X13800-120/240V 75KVA	PZ	1
+57	10061543	TDI 1F 19920-120/240V 167KVA	PZ	1
+58	10061540	TDI 1F 19920-120/240V 50KVA	PZ	1
+59	10061541	TDI 1F 19920-120/240V 75KVA	PZ	1
+60	10061923	TDI 1F 19920-240/480V 10KVA	PZ	1
+61	10061922	TDI 1F 19920-240/480V 15KVA	PZ	1
+62	10061969	TDI 1F 19920-240/480V 167KVA	PZ	1
+63	10061965	TDI 1F 19920-240/480V 37,5KVA	PZ	1
+64	10061420	TDI 1F 4800-120/240V 100KVA	PZ	1
+65	10061414	TDI 1F 4800-120/240V 10KVA	PZ	1
+66	10061415	TDI 1F 4800-120/240V 15KVA	PZ	1
+67	10061421	TDI 1F 4800-120/240V 167KVA	PZ	1
+68	10061422	TDI 1F 4800-120/240V 250KVA	PZ	1
+69	10061416	TDI 1F 4800-120/240V 25KVA	PZ	1
+70	10061423	TDI 1F 4800-120/240V 333KVA	PZ	1
+71	10061417	TDI 1F 4800-120/240V 37,5KVA	PZ	1
+72	10061418	TDI 1F 4800-120/240V 50KVA	PZ	1
+73	10061419	TDI 1F 4800-120/240V 75KVA	PZ	1
+74	10061430	TDI 1F 4800-240/480V 100KVA	PZ	1
+75	10061424	TDI 1F 4800-240/480V 10KVA	PZ	1
+76	10061425	TDI 1F 4800-240/480V 15KVA	PZ	1
+77	10061426	TDI 1F 4800-240/480V 25KVA	PZ	1
+78	10061427	TDI 1F 4800-240/480V 37KVA	PZ	1
+79	10061428	TDI 1F 4800-240/480V 50KVA	PZ	1
+80	10061429	TDI 1F 4800-240/480V 75KVA	PZ	1
+81	10061515	TDI 1F 6900-120/240V 37,5KVA	PZ	1
+82	10061516	TDI 1F 7200-120/240V 10KVA	PZ	1
+83	10061517	TDI 1F 7200-120/240V 15KVA	PZ	1
+84	10061518	TDI 1F 7200-120/240V 25KVA	PZ	1
+85	10061519	TDI 1F 7200-120/240V 37KVA	PZ	1
+86	10061521	TDI 1F 7200-120/240V 75KVA	PZ	1
+87	10061931	TDI 1F 7200-240/480V 100KVA	PZ	1
+88	10061688	TDI 1F 7200-240/480V 15KVA	PZ	1
+89	10061915	TDI 1F 7200-240/480V 25KVA	PZ	1
+90	10061542	TDI 1F 19920-120/240V 100KVA	PZ	1
+91	10061550	TDP 1F 13800D-120/240V 100KVA AN	PZ	1
+92	10061974	TDP 1F 19920Y-120/240V 37,5KVA AN	PZ	1
+93	10061977	TDP 1F 19920Y-120/240V 100KVA AN	PZ	1
+94	10061978	TDP 1F 19920Y-120/240V 167KVA AN	PZ	1
+95	10061975	TDP 1F 19920Y-120/240V 50KVA AN	PZ	1
+96	10061976	TDP 1F 19920Y-120/240V 75KVA AN	PZ	1
+97	10061933	TDP 1F 4800Y-120/240V 100KVA AN  	PZ	1
+98	10061934	TDP 1F 4800Y-120/240V 167KVA AN	PZ	1
+99	10061465	TDP 1F 4800Y-120/240V 37,5KVA AN	PZ	1
+100	10061466	TDP 1F 4800Y-120/240V 50KVA AN	PZ	1
+101	10061451	TDP 1F 4800Y-120/240V 75KVA AN	PZ	1
+102	10061938	TDP 1F 4800Y-240/480V 100KVA AN  	PZ	1
+103	10061939	TDP 1F 4800Y-240/480V 167KVA AN	PZ	1
+104	10061935	TDP 1F 4800Y-240/480V 37,5KVA AN 	PZ	1
+105	10061936	TDP 1F 4800Y-240/480V 50KVA AN   	PZ	1
+106	10061937	TDP 1F 4800Y-240/480V 75KVA AN   	PZ	1
+107	10061559	TDP 3F 13800D-120/208V 150KVA AN	PZ	1
+108	10061553	TDP 3F 13800D-120/208V 150KVA RA	PZ	1
+109	10061560	TDP 3F 13800D-120/208V 225KVA AN	PZ	1
+110	10061554	TDP 3F 13800D-120/208V 225KVA RA	PZ	1
+111	10061561	TDP 3F 13800D-120/208V 300KVA AN	PZ	1
+112	10061555	TDP 3F 13800D-120/208V 300KVA RA	PZ	1
+113	10061562	TDP 3F 13800D-120/208V 500KVA AN	PZ	1
+114	10061556	TDP 3F 13800D-120/208V 500KVA RA	PZ	1
+115	10061563	TDP 3F 13800D-120/208V 750KVA AN	PZ	1
+116	10061557	TDP 3F 13800D-120/208V 750KVA RA	PZ	1
+117	10061558	TDP 3F 13800D-120/208V 75KVA AN	PZ	1
+118	10061552	TDP 3F 13800D-120/208V 75KVA RA	PZ	1
+119	10061917	TDP 3F 13800D-480/277V 300KVA AN	PZ	1
+120	10061916	TDP 3F 13800D-480/277V 300KVA RA	PZ	1
+121	10061992	TDP 3F 13800D-480/277V 500KVA AN	PZ	1
+122	10061993	TDP 3F 13800D-480/277V 500KVA RA	PZ	1
+123	10061994	TDP 3F 13800D-480/277V 750KVA AN	PZ	1
+124	10061995	TDP 3F 13800D-480/277V 750KVA RA	PZ	1
+125	10061474	TDP 3F 23900Y-120/208V 150KVA AN	PZ	1
+126	10061468	TDP 3F 23900Y-120/208V 150KVA RA	PZ	1
+127	10061475	TDP 3F 23900Y-120/208V 225KVA AN	PZ	1
+128	10061469	TDP 3F 23900Y-120/208V 225KVA RA	PZ	1
+129	10061476	TDP 3F 23900Y-120/208V 300KVA AN	PZ	1
+130	10061470	TDP 3F 23900Y-120/208V 300KVA RA	PZ	1
+131	10061477	TDP 3F 23900Y-120/208V 500KVA AN	PZ	1
+132	10061471	TDP 3F 23900Y-120/208V 500KVA RA	PZ	1
+133	10061478	TDP 3F 23900Y-120/208V 750KVA AN	PZ	1
+134	10061472	TDP 3F 23900Y-120/208V 750KVA RA	PZ	1
+135	10061473	TDP 3F 23900Y-120/208V 75KVA AN	PZ	1
+136	10061467	TDP 3F 23900Y-120/208V 75KVA RA	PZ	1
+137	10061480	TDP 3F 23900Y-480/277V 150KVA AN	PZ	1
+138	10061486	TDP 3F 23900Y-480/277V 150KVA RA	PZ	1
+139	10061481	TDP 3F 23900Y-480/277V 225KVA AN	PZ	1
+140	10061487	TDP 3F 23900Y-480/277V 225KVA RA	PZ	1
+141	10061482	TDP 3F 23900Y-480/277V 300KVA AN	PZ	1
+142	10061488	TDP 3F 23900Y-480/277V 300KVA RA	PZ	1
+143	10061483	TDP 3F 23900Y-480/277V 500KVA AN	PZ	1
+144	10061489	TDP 3F 23900Y-480/277V 500KVA RA	PZ	1
+145	10061484	TDP 3F 23900Y-480/277V 750KVA AN	PZ	1
+146	10061490	TDP 3F 23900Y-480/277V 750KVA RA	PZ	1
+147	10061479	TDP 3F 23900Y-480/277V 75KVA AN	PZ	1
+148	10061485	TDP 3F 23900Y-480/277V 75KVA RA	PZ	1
+149	10061546	TDI 1F 19920-240/480V 25KVA 	PZ	1
+150	10054564	TDI 1F 14400-120/240V 50KVA	PZ	1
+151	10054527	TDP 1F 13800-120/240V 100KVA	PZ	1
+152	10054536	TDP 1F 13800-120/240V 167KVA	PZ	1
+153	10054638	TDP 1F 13800-120/240V 75KVA	PZ	1
+154	10054593	TDI 1F 14400-120/240V 333KVA	PZ	1
+155	10054556	TDI 1F 14400-120/240V 37,5KVA	PZ	1
+156	10054559	TDI 1F 14400-240/480V 37,5KVA	PZ	1
+157	10054550	TDI 1F 14000-120/240V 25KVA	PZ	1
+158	10054596	TDI 1F 14400-120/240V 500KVA	PZ	1
+159	10054566	TDP 1F 14400-120/240V 50KVA	PZ	1
+160	10054571	TDP 1F 14400-120/240V 75KVA	PZ	1
+161	10054586	TDI 1F 14400-240/480V 167KVA	PZ	1
+162	10054569	TDI 1F 14400-240/480V 50KVA	PZ	1
+163	10054625	TDI 1F 14400-277V 167KVA	PZ	1
+164	10054560	TDI 1F 19920-120/240V 37,5KVA	PZ	1
+165	10054642	TDP 3F 23900Y/13800-208/120V 225KVA	PZ	1
+166	10054598	TDP 3F 24940Y/14400-208/120V 500KVA	PZ	1
+167	10054614	TDP 3F 24940Y/14400-208/120V 300KVA	PZ	1
+168	10054580	TDP 1F 14400Y-120/240V 100KVA AN	PZ	1
+169	10090076	TDI 1F 2400-120/240V 100KVA	PZ	1
+170	10090074	TDI 1F 2400-120/240V 10KVA	PZ	1
+171	10051199	TDI 1F 2400-120/240V 15KVA	PZ	1
+172	10051201	TDI 1F 2400-120/240V 167KVA	PZ	1
+173	10051169	TDI 1F 2400-120/240V 25KVA	PZ	1
+174	10051170	TDI 1F 2400-120/240V 37,5KVA	PZ	1
+175	10051200	TDI 1F 2400-120/240V 50 KVA	PZ	1
+176	10051219	TDI 1F 2400-120/240V 75KVA	PZ	1
+177	10061438	TDI 1F 13800-120/240V 167KVA	PZ	1
+178	10061439	TDI 1F 13800-120/240V 250KVA	PZ	1
+179	10061433	TDI 1F 13800-120/240V 25KVA	PZ	1
+180	10061440	TDI 1F 13800-120/240V 333KVA	PZ	1
+181	10061434	TDI 1F 13800-120/240V 37,5KVA	PZ	1
+182	10061435	TDI 1F 13800-120/240V 50KVA	PZ	1
+183	10061436	TDI 1F 13800-120/240V 75KVA	PZ	1
+184	10061447	TDI 1F 13800-240/480V 100KVA	PZ	1
+185	10061442	TDI 1F 13800-240/480V 15KVA	PZ	1
+186	10061448	TDI 1F 13800-240/480V 167KVA	PZ	1
+187	10061449	TDI 1F 13800-240/480V 250KVA	PZ	1
+188	10061503	TDI 1F 13800-240/480V 25KVA	PZ	1
+189	10061504	TDI 1F 13800-240/480V 37,5KVA	PZ	1
+190	10061445	TDI 1F 13800-240/480V 50KVA	PZ	1
+191	10061446	TDI 1F 13800-240/480V 75KVA	PZ	1
+192	10241831	TDI 1F 13800-277V 100KVA	PZ	1
+193	10242522	TDI 1F 4800-240/480V 167KVA	PZ	1
+194	10242524	TDI 1F 4800-240/480V 333KVA	PZ	1
+195	10242525	TDI 1F 7200-277V 500KVA	PZ	1
+196	10226044	TDS 3F 13800-208Y/120V 300KVA	PZ	1
+197	10226046	TDS 3F 13800-208Y/120V 750KVA	PZ	1
+198	10080867	TDS 3F 13800-208Y/120V 150KVA	PZ	1
+199	10227125	TDS 1F 13800-120/240V 50KVA	PZ	1
+200	10227124	TDS 1F 13800-120/240V 37,5KVA	PZ	1
+201	10226045	TDS 3F 13800-208Y/120V 500KVA	PZ	1
+202	10202125	TDE 1F 7200-120/240V 1000KVA	PZ	1
+203	10202126	TDE 1F 7200-120V 250/333KVA	PZ	1
+204	10202127	TDE 1F 7200-120V 333/444KVA	PZ	1
+205	10202129	TDE 1F 7200-120V 667/889KVA	PZ	1
+206	10202130	TDE 1F 7200-277V 100/133KVA	PZ	1
+207	10202132	TDE 1F 7200-277V 250/333KVA	PZ	1
+208	10202133	TDE 1F 7200-277V 333/444KVA	PZ	1
+209	10202134	TDE 1F 7200-277V 500/667KVA	PZ	1
+210	10202136	TDE 1F 7200-277V 667/889KVA	PZ	1
+211	10202139	TDE INT 3F 12470-208Y/120V 1000KVA 	PZ	1
+212	10202159	TDS 1F 4800X7200-120/240V 100kVA	PZ	1
+213	10202160	TDS 1F 4800X7200-120/240V 167kVA	PZ	1
+214	10202161	TDS 1F 4800X7200-120/240V 250kVA	PZ	1
+215	10202162	TDS 1F 4800X7200-120/240V 25kVA	PZ	1
+216	10202163	TDS 1F 4800X7200-120/240V 333kVA	PZ	1
+217	10202164	TDS 1F 4800X7200-120/240V 500kVA	PZ	1
+218	10202165	TDS 1F 4800X7200-120/240V 50kVA	PZ	1
+219	10202166	TDS 1F 4800X7200-240/480V 100kVA	PZ	1
+220	10202167	TDS 1F 4800X7200-240/480V 167kVA	PZ	1
+221	10202168	TDS 1F 4800X7200-240/480V 250kVA	PZ	1
+222	10202169	TDS 1F 4800X7200-240/480V 25kVA	PZ	1
+223	10202170	TDS 1F 4800X7200-240/480V 333kVA	PZ	1
+224	10202171	TDS 1F 4800X7200-240/480V 500kVA	PZ	1
+225	10202172	TDS 1F 4800X7200-240/480V 50kVA	PZ	1
+226	10202173	TDS 1F 7200-120/240V 100KVA	PZ	1
+227	10202174	TDS 1F 7200-120/240V 167KVA	PZ	1
+228	10202175	TDS 1F 7200-120/240V 250KVA	PZ	1
+229	10202176	TDS 1F 7200-120/240V 333KVA	PZ	1
+230	10202177	TDS 1F 7200-120/240V 500KVA	PZ	1
+231	10202178	TDS 1F 7200-120/240V 50KVA	PZ	1
+232	10202180	TDS 3F 12470Y/7200-208Y/120V 1000KVA	PZ	1
+233	10202181	TDS 3F 12470Y/7200-480Y/277V 1000KVA	PZ	1
+234	10202188	TDS 3F 12470Y/7200-480Y/277V 1500KVA	PZ	1
+235	10202189	TDS 3F 4800X12470-208Y/120V 150KVA	PZ	1
+236	10202190	TDS 3F 4800X12470-208Y/120V 1000KVA	PZ	1
+237	10202191	TDS 3F 4800X12470-480Y/277V 1000KVA	PZ	1
+238	10202193	TDS 3F 12470Y/7200-480Y/277V 2000KVA	PZ	1
+239	10202196	TDS 3F 4800X12470-480Y/277V 2000KVA	PZ	1
+240	10202198	TDS 3F 12470Y/7200-208Y/120V 300KVA	PZ	1
+241	10202199	TDS 3F 4800X12470-480Y/277V 300KVA	PZ	1
+242	10202200	TDS 3F 4800X12470-208Y/120V 300KVA	PZ	1
+243	10202202	TDS 3F 12470Y/7200-208Y/120V 500KVA	PZ	1
+244	10202203	TDS 3F 12470Y/7200-480Y/277V 500KVA	PZ	1
+245	10202206	TDS 3F 4800X12470-208Y/120V 500KVA	PZ	1
+246	10202207	TDS 3F 4800X12470-480Y/277V 500KVA	PZ	1
+247	10202208	TDS 3F 12470Y/7200-208Y/120V 750KVA	PZ	1
+248	10202209	TDS 3F 12470Y/7200-480Y/277V 750KVA	PZ	1
+249	10202212	TDS 3F 4800X12470-208Y/120V 750KVA	PZ	1
+250	10202213	TDS 3F 4800X12470-480Y/277V 750KVA	PZ	1
+251	10202218	TDSA 3F 4800X12470-208Y/120V 300KVA AN	PZ	1
+252	10202219	TDSA 3F 4800X12470-208Y/120V 500KVA AN	PZ	1
+253	10202220	TDSA 3F 4800X12470-480Y/277V 300KVA AN	PZ	1
+254	10054573	TDS 1F 14400-120/240V 75KVA	PZ	1
+255	10202233	TP EXT 7200-120V 75VA CL0,5	PZ	1
+256	10080950	TC EXT 13,8 KV 100/5A 15VA CL0,5	PZ	1
+257	10080951	TC EXT 34,5 KV 10-20/5-5A 15VA CL0,5	PZ	1
+258	10080578	TC EXT 34,5 KV 80-160/5-5A 15VA CL0,5	PZ	1
+259	10227156	TC EXT 13,8KV 10-20/5-5A 15VA CL0,2  	PZ	1
+260	10227120	TC EXT 13,8KV 25-50/5-5A 15VA CL0,2  	PZ	1
+261	10080897	TC EXT 13,8KV 150/5A 15VA CL0,2  	PZ	1
+262	10227163	TC EXT 13,8KV 15-30/5-5A 15VA CL0,2  	PZ	1
+263	10080589	TC EXT 13,8KV 20-40/5-5A 15VA CL0,2  	PZ	1
+264	10080703	TC EXT 13,8KV 40-80/5-5A 15VA CL0,2  	PZ	1
+265	10227167	TC EXT 13,8KV 20/5A 15VA CL0,2  	PZ	1
+266	10080894	TC EXT 13,8KV 25/5A 15VA CL0,2  	PZ	1
+267	10080898	TC EXT 13,8KV 250/5A 15VA CL0,2  	PZ	1
+268	10227117	TC EXT 13,8KV 30/5A 15VA CL0,2  	PZ	1
+269	10080899	TC EXT 13,8KV 300/5A 15VA CL0,2  	PZ	1
+270	10080691	TC EXT 13,8KV 30-60/5-5A 15VA CL0,2  	PZ	1
+271	10227113	TC EXT 13,8KV 40/5A 15VA CL0,2  	PZ	1
+272	10080592	TC EXT 13,8KV 50-100/5-5A 15VA CL0,2  	PZ	1
+273	10080895	TC EXT 13,8KV 75/5A 15VA CL0,2  	PZ	1
+274	10080901	TC EXT 13,8KV 80-160/5-5A 15VA CL0,2  	PZ	1
+275	10227157	TC EXT 13,8KV 800/5A 15VA CL0,2  	PZ	1
+276	10143581	TC EXT 13,8KV 75-150/5-5A 15VA CL0,2  	PZ	1
+277	10080534	TC INT 600V 1000/5 10VA CL0,5	PZ	1
+278	10080750	TC INT 600V 1200/5 10VA CL0,5	PZ	1
+279	10080902	TC INT 600V 1500/5 10VA CL0,5	PZ	1
+280	10080751	TC INT 600V 2000/5 10VA CL0,5	PZ	1
+281	10226050	TC INT 600V 400/5 7,5VA CL0,5	PZ	1
+282	10227146	TC INT 600V 500/5 7,5VA CL0,5	PZ	1
+283	10080535	TC INT 600V 600/5 7,5VA CL0,5	PZ	1
+284	10219627	TC EXT 600V 750/5 10VA CL0,5	PZ	1
+285	10226078	TC INT 600V 800/5 10VA CL0,5	PZ	1
+286	10080567	TC EXT 13,8KV 10/5A 15VA CL0,2 	PZ	1
+287	10080695	TC EXT 13,8KV 150-300/5-5A 15VA CL0,2	PZ	1
+288	10226054	TC EXT 13,8KV 10-20/5-5A 15VA CL0,5	PZ	1
+289	10227112	TC EXT 34,5KV 20/5A 15VA CL0,2	PZ	1
+290	10080574	TC EXT 34,5KV 30/5A 15VA CL0,2	PZ	1
+291	10080696	TC EXT 34,5KV 40/5A 15VA CL0,2	PZ	1
+292	10080565	TC EXT 34,5KV 75/5A 15VA CL0,2	PZ	1
+293	10226084	TC INT 34,5KV 30-40/5-5A 15VA CL0,5	PZ	1
+294	10226195	TC INT 13,8KV 25-50/5A 15VA CL0,5	PZ	1
+295	10226055	TC INT 13,8KV 75/5A 15VA CL0,5	PZ	1
+296	10226223	TC INT 34,5KV 50-60/5-5A 15VA CL0,5	PZ	1
+297	10226083	TC INT 34,5KV 150/5A 15VA CL0,5	PZ	1
+298	10226672	TC INT 34,5KV 200/5A 15VA CL0,5	PZ	1
+299	10226140	TC INT 34,5KV 80-100/5-5A 15VA CL0,5	PZ	1
+300	10226111	TC INT 600V 200/5A 15VA CL0,5	PZ	1
+301	10227144	TC EXT 13.8KV 10/5A 15VA CL0,2	PZ	1
+302	10080536	TC EXT 13,8KV 200/5A 15VA CL0,5	PZ	1
+303	10227111	TC EXT 13,8KV 150/5A 15VA CL0,5	PZ	1
+304	10080771	TC EXT 34,5KV 800-1600/5-5A 15VA CL0,5	PZ	1
+305	10226053	TC EXT 600V 300/5A 7,5VA CL0,5	PZ	1
+306	10227158	TC EXT 13,8KV 100-200/5-5A 15VA CL0,2	PZ	1
+307	10227143	TC EXT 13,8KV 250-500/5-5A 15VA CL0,2	PZ	1
+308	10080576	TC EXT 13,8KV 100-1200/5-5A 15VA CL0,2	PZ	1
+309	10080580	TC EXT 13,8KV 300-600/5-5A 15VA CL0,2	PZ	1
+310	10080554	TC EXT 13,8KV 400-800/5-5A 15VA CL0,2	PZ	1
+311	10227115	TC EXT 13,8KV 500-1000/5-5A 15VA CL0,2	PZ	1
+312	10080566	TC EXT 34,5KV 150/5A 15VA CL0,2	PZ	1
+313	10080564	TC EXT 34,5KV 200/5A 15VA CL0,2	PZ	1
+314	10080568	TC EXT 34,5KV 25/5A 15VA CL0,2	PZ	1
+315	10227110	TC EXT 34,5KV 300/5A 15VA CL0,2	PZ	1
+316	10080575	TC EXT 34,5KV 300-600/5-5A 15VA CL0,2	PZ	1
+317	10054488	TC EXT 24KV 150-300/5A 60VA CL0,5	PZ	1
+318	10054487	TC EXT 36KV 75-150/5A 60VA CL0,5	PZ	1
+319	10054494	TC EXT 720V 1000-2000/5-5A 10VA CL0,5	PZ	1
+320	10054504	TC EXT 720V 200/5A 5VA CL0,5	PZ	1
+321	10054507	TC EXT 720V 600/5A 5VA CL0,5	PZ	1
+322	10054492	TC 720V 300-600/5-5A 10-12VA CL0,5-5P20	PZ	1
+323	10054516	TP EXT 34500-100/110V 20VA CL0,5	PZ	1
+324	10051211	TC 13,8KV 500-1000/5A 50-40VA CL0,5-5P10	PZ	1
+325	10051247	TP INT 13800-100/110 15VA CL0,2	PZ	1
+326	10050214	TC EXT 720V 100/5A 2,5VA CL0,5	PZ	1
+327	10050212	TC EXT 720V 1000/5A 5VA CL0,5	PZ	1
+328	10050434	TC EXT 17,5KV 400/5A 15VA CL0,2	PZ	1
+329	10050211	TC EXT 720V 800/5A 5VA CL0,5	PZ	1
+330	10050456	TC EXT 17,5KV 5/5A 15VA CL0,5	PZ	1
+331	10050057	TC EXT 17,5KV 10/5A 15VA CL0,2	PZ	1
+332	10050059	TC EXT 17,5KV 100/5A 15VA CL0,2	PZ	1
+333	10050060	TC EXT 17,5KV 30/5A 15VA CL0,2	PZ	1
+334	10227141	TDP 13800-208Y/120V 750KVA 	PZ	1
+335	10080598	TC EXT 13,8KV 5/5A 15VA CL0,2	PZ	1
+336	10227103	TP EXT 13800/1,73-100/1,73 15VA CL0,2	PZ	1
+337	10061437	TDI 1F 13800-120/240V 100KVA	PZ	1
+338	10061649	TDP 1F 13800D-120/240V 100KVA RA	PZ	1
+339	10061551	TDP 1F 13800D-120/240V 167KVA AN	PZ	1
+340	10061650	TDP 1F 13800D-120/240V 167KVA RA	PZ	1
+341	10061547	TDP 1F 13800D-120/240V 37,5KVA AN	PZ	1
+342	10061548	TDP 1F 13800D-120/240V 50KVA AN	PZ	1
+343	10061549	TDP 1F 13800D-120/240V 75KVA AN	PZ	1
+344	10061999	TDP 1F 13800D-240/480V 100KVA AN	PZ	1
+345	10062000	TDP 1F 13800D-240/480V 167KVA AN	PZ	1
+346	10061996	TDP 1F 13800D-240/480V 37,5KVA AN	PZ	1
+347	10061997	TDP 1F 13800D-240/480V 50KVA AN	PZ	1
+348	10061998	TDP 1F 13800D-240/480V 75KVA AN	PZ	1
+349	10061455	TDP 1F 13800Y-120/240V 100KVA AN	PZ	1
+350	10061463	TDP 1F 13800Y-120/240V 100KVA RA	PZ	1
+351	10061456	TDP 1F 13800Y-120/240V 167KVA AN	PZ	1
+352	10061464	TDP 1F 13800Y-120/240V 167KVA RA	PZ	1
+353	10061452	TDP 1F 13800Y-120/240V 37KVA AN	PZ	1
+354	10061453	TDP 1F 13800Y-120/240V 50KVA AN	PZ	1
+355	10061454	TDP 1F 13800Y-120/240V 75KVA AN	PZ	1
+356	10061462	TDP 1F 13800Y-120/240V 75KVA RA	PZ	1
+357	10061460	TDP 1F 13800Y-240/480V 100KVA	PZ	1
+358	10061461	TDP 1F 13800Y-240/480V 167KVA	PZ	1
+359	10061457	TDP 1F 13800Y-240/480V 37,5KVA	PZ	1
+360	10061458	TDP 1F 13800Y-240/480V 50KVA	PZ	1
+361	10061459	TDP 1F 13800Y-240/480V 75KVA	PZ	1
+362	10051202	TDI 1F 2400-120/240V 5KVA	PZ	1
+363	10063566	TC EXT 10-20/5A 15VA CL0,5	PZ	1
+364	10063570	TC EXT 23,9KV 150-300/5A 15VA CL0,5	PZ	1
+365	10063583	TC EXT 13,8KV 25-50/5-5A 30VA CL0,2	PZ	1
+366	10063557	TC EXT 720V 3000/5A 30VA CL0,5	PZ	1
+367	10063568	TC EXT 23,9KV 50-100/5A 15VA CL0,5	PZ	1
+368	10063575	TP EXT 20400-120V 10VA CL0,2	PZ	1
+369	10063556	TP EXT 14400-120V 50VA CL0,5	PZ	1
+370	10138037	TC EXT 115KV 10/5A 10VA CL0,2	PZ	1
+371	10143640	TC EXT 115KV 150/5A 10VA CL0,2	PZ	1
+372	10138475	TC 115KV 150-300-600/5-5-5A 10VA CL0,2	PZ	1
+373	10138040	TC EXT 13,8KV 200-500/5-5A 15VA CL0,2	PZ	1
+374	10138041	TC EXT 13,8KV 500/5A 15VA CL0,2	PZ	1
+375	10080597	TC EXT 13.8KV 50/5A 15VA CL0,2	PZ	1
+376	10143157	TC EXT 13.8KV 300/5A 10VA CL0,5	PZ	1
+377	10143114	TC EXT 34,5KV 600-800/5-5A 15VA CL0,5	PZ	1
+378	10080893	TC EXT 34,5KV 50/5A 15VA CL0,2	PZ	1
+379	10080754	TC EXT 34.5KV 300-600/5-5A 15VA CL0,2	PZ	1
+380	10138548	TC 34,5KV 75-150-300/5-5-5A 15VA CL0,2	PZ	1
+381	10219615	TC EXT 34,5KV 20-5/5-5A 15VA CL0,2	PZ	1
+382	10080694	TC EXT 13,8KV 200/5A 15VA CL0,2	PZ	1
+383	10080569	TC INT 600V 1200/5A 15VA CL0,5	PZ	1
+384	10080257	TC INT 13,8KV 15/5A 15VA CL0,2 	PZ	1
+385	10080544	TC EXT 600V 150/5A 15VA CL0,5	PZ	1
+386	10080551	TC EXT 600V 750/5A 15VA CL0,5	PZ	1
+387	10080552	TC EXT 600V 800/5A 15VA CL0,5	PZ	1
+388	10138472	TC EXT 115KV 100/5A 10VA CL0,2	PZ	1
+389	10080542	TC EXT 600V 100/5A 5VA CL0,5	PZ	1
+390	10080533	TC EXT 600V 150/5A 5VA CL0,5	PZ	1
+391	10080532	TC EXT 600V 200/5A 5VA CL0,5	PZ	1
+392	10080796	TC EXT 600V 250/5A 5VA CL0,5	PZ	1
+393	10143585	TC INT 13,8KV 600-1200/5-5A 60VA CL0,5	PZ	1
+394	10080539	TP EXT 13800-100/110V 20VA CL0,2	PZ	1
+395	10228260	TP EXT 34,5/1,73-100-110/1,73 20VA CL0,2	PZ	1
+396	10222428	TC EXT 600V 1200/5A 15VA CL0,5	PZ	1
+397	10222433	TC EXT 600V 100/5A 15VA CL0,5	PZ	1
+398	10222434	TC EXT 600V 200/5A 15VA CL0,5	PZ	1
+399	10222441	TC EXT 720V 150-75/5-5A 40VA CL0,5	PZ	1
+400	10143158	TC EXT 13,8KV 100-200/5-5A 5VA CL0,2	PZ	1
+401	10080590	TC EXT 34,5KV 5/5A 15VA CL0,2	PZ	1
+402	10222425	TC EXT 34,5KV 500/5A 15VA CL0,2	PZ	1
+403	10222426	TC EXT 900V 500/5A 15VA CL0,2	PZ	1
+404	10227109	TP EXT 13800-100/110V 15VA CL0,5	PZ	1
+405	10132675	TP EXT 13800/1,73-110/1,73V 15VA CL0,5	PZ	1
+406	10227108	TP EXT 34500-100/110V 15VA CL0,5	PZ	1
+407	10227119	TP EXT 13800-100V 15VA CL0,2	PZ	1
+408	10132654	TP EXT 13800-100/110V 15VA CL0,2	PZ	1
+409	10227107	TP EXT 13800-110V 20VA CL0,2	PZ	1
+410	10227136	TP EXT 34500-110V 20VA CL0,5	PZ	1
+411	10143453	TP EXT 13800-100V 60VA CL0,2	PZ	1
+412	10138482	TP EXT 13800-120V 20VA CL0,2	PZ	1
+413	10138598	TP EXT 115000-110V 15VA CL0,2	PZ	1
+414	10080873	TP EXT 34500-100/110V 15VA CL0,2	PZ	1
+415	10226139	TC EXT 600V 400/5A 15VA CL0,5	PZ	1
+416	10222427	TC INT 600V 400/5A 15VA CL0,5	PZ	1
+417	10222431	TC INT 600V 800/5A 15VA CL0,5	PZ	1
+418	10201860	TDS 3F 4800-7200V 2000KVA	PZ	1
+419	10201944	TC EXT 13,8KV 100/5A 30VA CL0,2	PZ	1
+420	10201945	TC EXT 13,8KV 15/5A 30VA CL0,5 	PZ	1
+421	10201947	TC EXT 13,8KV 50/5A 30VA CL0,2 	PZ	1
+422	10201948	TC INT 13,8KV 100/5A 25VA CL0,2	PZ	1
+423	10201949	TC INT 13,8KV 15/5A 25VA CL0,2	PZ	1
+424	10201950	TC INT 13,8KV 150/5A 25VA CL0,2	PZ	1
+425	10201951	TC INT 13,8KV 200/5A 25VA CL0,2	PZ	1
+426	10201952	TC INT 13,8KV 25/5A 25VA CL0,2	PZ	1
+427	10201953	TC INT 13,8KV 300/5A 25VA CL0,2 	PZ	1
+428	10201954	TC INT 13,8KV 50/5A 25VA CL0,2	PZ	1
+429	10201955	TC INT 600V 2000/5A 30VA CL0,2 	PZ	1
+430	10201956	TC INT 600V 3000/5A 30VA CL0,2 	PZ	1
+431	10201957	TC INT 600V 600/5A 10VA CL0,5	PZ	1
+432	10201958	TC INT 600V 800/5A 10VA CL0,5	PZ	1
+433	10201959	TC INT 600V 1500/5A 10VA CL0,5	PZ	1
+434	10201960	TC INT 600V 1000/5A 15VA CL0,5	PZ	1
+435	10201961	TC INT 600V 2000/5A 25VA CL0,5	PZ	1
+436	10201962	TC INT 600V 1200/5A 30VA CL0,5	PZ	1
+437	10201963	TC INT 600V 4000/5A 30VA CL0,5	PZ	1
+438	10201964	TC INT 600V 200/5A 5VA CL0,5 	PZ	1
+439	10201965	TC INT 600V 400/5A 5VA CL0,5 	PZ	1
+440	10201966	TC EXT 600V 1000/5A 15VA CL0,5	PZ	1
+441	10201968	TC EXT 600V 500/5A 15VA CL0,5	PZ	1
+442	10202008	TP EXT 4800-120V 50VA CL0,2	PZ	1
+443	10202069	TDI 1F 7200-120V 1000KVA	PZ	1
+444	10202070	TDI 1F 7200-120V 500KVA	PZ	1
+445	10202073	TDI 1F 4800-120V 50KVA	PZ	1
+446	10202230	TDI 1F 7200-120V 50KVA	PZ	1
+447	10061523	TDI 1F 11900Y-120/240V 15KVA	PZ	1
+448	10061524	TDI 1F 11900Y-120/240V 25KVA	PZ	1
+449	10061525	TDI 1F 11900Y-120/240V 37,5KVA	PZ	1
+450	10061526	TDI 1F 11900Y-120/240V 50KVA	PZ	1
+451	10061527	TDI 1F 11900Y-120/240V 75KVA	PZ	1
+452	10063559	TC EXT 600V 1500/5A 15VA CL0,5	PZ	1
+453	10063567	TC EXT 23,9KV 25-50/5-5A 15VA CL0,5	PZ	1
+454	10063565	TC EXT 600V 300/5A 15VA CL0,5	PZ	1
+455	10078754	TC EXT 600V 3000/5A 15VA CL0,5	PZ	1
+456	10063563	TC EXT 600V 600/5A 15VA CL0,5	PZ	1
+457	10063569	TC EXT 23,9KV 75-150/5-5A 15VA CL0,5	PZ	1
+458	10063581	TC EXT 34,5KV 10-20/5-5A 15VA CL0,2	PZ	1
+459	10063578	TC EXT 34,5KV 75-150/5-5A 15VA CL0,2	PZ	1
+460	10064719	TC INT 13,8KV 150/5A 15VA CL0,2	PZ	1
+461	10064721	TC INT 13,8KV 40/5A 15VA CL0,2	PZ	1
+462	10063555	TP EXT 480-120/240V 15VA CL0,2 	PZ	1
+463	10064741	TP EXT 240/120V 200VA CL0,5 	PZ	1
+464	10063558	TC EXT 600V 2000/5A 15VA CL0,2	PZ	1
+465	10051176	TC EXT 34,5KV 100/5A 15VA CL0,2	PZ	1
+466	10051180	TC EXT 13,8KV 600/5A 15VA CL0,2	PZ	1
+467	10051179	TC EXT 13,8KV 80/5A 15VA CL0,2	PZ	1
+468	10051230	TC INT 13,8KV 20/5A 15VA CL0,2	PZ	1
+469	10051182	TC INT 13,8KV 200/5A 15VA CL0,2	PZ	1
+470	10051226	TC INT 13,8KV 30/5A 15VA CL0,2	PZ	1
+471	10051184	TC EXT 13,8KV 50/5A 15VA CL0,2	PZ	1
+472	10051186	TP EXT 13800-120V 40VA CL0,2	PZ	1
+473	10051193	TC EXT 13,8KV 1000/5A 15VA CL0,2	PZ	1
+474	10051185	TP INT 13800-120V 10VA CL0,5	PZ	1
+475	10088754	TC 34,5KV 300-600/5-5A 20VA CL0,5 5P20	PZ	1
+476	10083258	TC EXT 720V 500/5A 10VA CL0,5	PZ	1
+477	10083259	TC EXT 720V 600/5A 10VA CL0,5	PZ	1
+478	10083260	TC EXT 720V 800/5A 15VA CL0,5	PZ	1
+479	10083262	TC EXT 720V 300/5A 5VA CL0,5	PZ	1
+480	10083263	TC EXT 720V 400/5A 5VA CL0,5	PZ	1
+481	10089643	TP EXT 34500-120V 40VA CL0,2	PZ	1
+482	10143626	TP 34500/1,73-(100-110)/1,73V 15VA CL0,2	PZ	1
+483	10143583	TC INT 34,5KV 800-1600/5-5A 60VA CL0,5	PZ	1
+484	10080748	TC EXT 34.5KV 5/5A 15VA CL0,2	PZ	1
+485	10080546	TC EXT TIPO VENTANA 600V 2000/5A CL0,5	PZ	1
+486	10061432	TDI 1F 13800-120/240V 15KVA	PZ	1
+487	10061918	TDI 1F 13800-120/240V 5KVA	PZ	1
+\.
+
+
+--
+-- Data for Name: materiales_almacen; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.materiales_almacen (id_materiales_almacenes, id_almacen, id_familia, stock, fecha_ingreso, id_tipo_ingreso, id_estatus_material, id_condicion_material, observaciones, activo, id_material) FROM stdin;
+6	3	3	80	2022-07-18	2	3	2	esperando repuestos	\N	2
+1261	82	3	1573	2022-07-19	1	2	2	AAAAAA	t	368
+1262	21	3	1961	2022-07-19	3	6	1	BBBBBB	t	169
+1263	96	2	165	2022-07-19	3	5	2	CCCCCC	t	196
+5	3	1	350	2022-07-18	3	4	1		t	3
+1	3	1	1757	2022-07-17	2	3	3	entrada de merancia bajo el numoero de orden 0000000001	t	1
+7	3	1	500	2022-07-18	1	1	4	entrada de 500 bobinas nuevas del proveedor ppal 	t	17
+1264	89	3	1343	2022-07-19	4	1	3	DDDDDD	t	140
+8	5	1	129	2022-07-17	4	2	1	V	t	220
+9	71	1	63	2022-07-17	5	3	2	X	t	177
+10	38	1	25	2022-07-17	4	1	3	W	t	156
+11	92	1	169	2022-07-17	5	4	1	D	t	214
+12	44	1	340	2022-07-17	4	3	3	A	t	710
+13	17	1	471	2022-07-17	3	3	2	S	t	436
+14	5	1	435	2022-07-17	5	4	2	C	t	250
+15	69	1	210	2022-07-17	4	1	2	Q	t	89
+16	39	1	322	2022-07-17	1	5	1	L	t	617
+17	71	1	303	2022-07-17	4	6	3	B	t	22
+18	73	1	410	2022-07-17	3	3	1	T	t	114
+19	53	1	388	2022-07-17	2	6	1	F	t	266
+20	91	1	268	2022-07-17	2	3	2	O	t	267
+21	65	1	336	2022-07-17	1	1	1	G	t	592
+22	63	1	350	2022-07-17	5	2	3	Z	t	482
+23	11	1	403	2022-07-17	2	4	2	M	t	200
+24	90	1	18	2022-07-17	3	5	2	X	t	316
+25	35	1	314	2022-07-17	3	5	2	R	t	331
+26	70	1	445	2022-07-17	4	5	3	W	t	643
+27	79	1	381	2022-07-17	3	6	3	M	t	174
+28	2	1	66	2022-07-17	1	1	2	L	t	401
+29	74	1	159	2022-07-17	5	6	3	F	t	390
+30	52	1	461	2022-07-17	1	1	3	Z	t	644
+31	75	1	209	2022-07-17	1	1	3	K	t	291
+32	107	1	390	2022-07-17	3	2	3	C	t	632
+33	20	1	388	2022-07-17	4	1	3	C	t	215
+34	90	1	122	2022-07-17	3	1	3	F	t	381
+35	103	1	360	2022-07-17	3	6	2	H	t	668
+36	102	1	221	2022-07-17	5	2	2	I	t	308
+37	70	1	425	2022-07-17	5	2	3	S	t	669
+38	49	1	371	2022-07-17	3	1	3	E	t	263
+39	58	1	5	2022-07-17	1	6	1	X	t	32
+40	98	1	296	2022-07-17	5	3	2	X	t	27
+41	2	1	162	2022-07-17	5	2	3	P	t	548
+42	75	1	361	2022-07-17	5	6	3	T	t	319
+43	17	1	317	2022-07-17	3	6	2	N	t	23
+44	15	1	232	2022-07-17	2	3	2	V	t	610
+45	63	1	418	2022-07-17	4	4	3	E	t	437
+46	91	1	378	2022-07-17	4	1	1	U	t	77
+47	105	1	71	2022-07-17	5	6	1	U	t	514
+48	5	1	64	2022-07-17	4	1	3	E	t	222
+49	64	1	351	2022-07-17	5	2	1	A	t	395
+50	93	1	137	2022-07-17	2	4	2	I	t	124
+51	30	1	34	2022-07-17	5	2	1	A	t	696
+52	99	1	456	2022-07-17	3	2	3	I	t	360
+53	73	1	42	2022-07-17	2	4	1	T	t	729
+54	93	1	335	2022-07-17	4	1	3	P	t	552
+55	65	1	204	2022-07-17	1	1	2	Y	t	485
+56	65	1	203	2022-07-17	5	4	1	F	t	188
+57	93	1	26	2022-07-17	4	2	2	W	t	429
+58	25	1	400	2022-07-17	2	2	1	W	t	122
+59	21	1	82	2022-07-17	3	4	3	X	t	335
+60	40	1	212	2022-07-17	4	3	3	Y	t	652
+61	48	1	368	2022-07-17	1	4	1	V	t	499
+62	76	1	190	2022-07-17	2	4	1	C	t	381
+63	25	1	10	2022-07-17	3	3	1	P	t	506
+64	21	1	305	2022-07-17	3	1	1	P	t	94
+65	61	1	53	2022-07-17	5	6	1	P	t	75
+66	107	1	427	2022-07-17	1	6	2	K	t	350
+67	40	1	319	2022-07-17	2	1	1	S	t	372
+68	71	1	404	2022-07-17	3	6	3	A	t	132
+69	24	1	9	2022-07-17	1	5	3	T	t	704
+70	14	1	183	2022-07-17	3	2	1	P	t	548
+71	93	1	446	2022-07-17	3	4	1	C	t	98
+72	96	1	335	2022-07-17	1	4	1	Z	t	273
+73	26	1	1	2022-07-17	1	1	1	O	t	438
+74	24	1	284	2022-07-17	4	4	1	L	t	225
+75	32	1	214	2022-07-17	4	2	3	E	t	156
+76	76	1	285	2022-07-17	5	6	1	C	t	385
+77	70	1	355	2022-07-17	5	5	1	Y	t	654
+78	45	1	258	2022-07-17	5	2	2	Z	t	453
+79	90	1	257	2022-07-17	5	5	3	W	t	47
+80	30	1	367	2022-07-17	1	1	3	B	t	648
+81	12	1	57	2022-07-17	4	2	1	M	t	702
+82	77	1	270	2022-07-17	5	1	1	N	t	289
+83	52	1	430	2022-07-17	3	4	2	Y	t	364
+84	1	1	98	2022-07-17	3	2	1	M	t	474
+85	94	1	322	2022-07-17	2	2	3	Y	t	657
+86	97	1	345	2022-07-17	2	1	2	I	t	718
+87	102	1	356	2022-07-17	4	6	3	C	t	271
+88	41	1	320	2022-07-17	5	6	2	Y	t	155
+89	100	1	378	2022-07-17	5	2	2	N	t	289
+90	46	1	134	2022-07-17	3	1	1	N	t	410
+91	75	1	406	2022-07-17	1	1	3	X	t	698
+92	47	1	307	2022-07-17	4	4	2	P	t	421
+93	69	1	215	2022-07-17	5	4	3	C	t	468
+94	3	1	194	2022-07-17	4	2	3	D	t	330
+95	24	1	340	2022-07-17	1	3	1	I	t	299
+96	46	1	32	2022-07-17	2	2	2	X	t	657
+97	18	1	248	2022-07-17	3	6	3	Y	t	47
+98	105	1	8	2022-07-17	3	4	2	Y	t	242
+99	77	1	302	2022-07-17	1	2	1	Y	t	562
+1265	45	4	337	2022-07-19	1	6	1	EEEEEE	t	436
+1266	90	2	557	2022-07-19	3	3	3	FFFFFF	t	564
+1267	8	3	1927	2022-07-19	1	4	2	GGGGGG	t	189
+1268	92	3	314	2022-07-19	3	1	1	HHHHHH	t	133
+100	94	1	485	2022-07-17	1	5	2	P	t	196
+101	68	1	428	2022-07-17	1	4	1	D	t	45
+102	2	1	327	2022-07-17	3	2	1	G	t	313
+103	90	1	475	2022-07-17	4	6	3	F	t	169
+104	53	1	124	2022-07-17	5	6	2	L	t	310
+105	86	1	159	2022-07-17	4	4	1	Z	t	359
+106	84	1	403	2022-07-17	2	4	3	G	t	671
+107	72	1	239	2022-07-17	1	3	2	P	t	569
+108	65	1	22	2022-07-17	2	1	2	W	t	680
+109	4	1	48	2022-07-17	3	3	1	U	t	37
+110	31	1	410	2022-07-17	4	5	1	S	t	401
+111	7	1	41	2022-07-17	1	5	3	I	t	160
+112	1	1	149	2022-07-17	5	3	2	E	t	244
+113	24	1	439	2022-07-17	4	4	2	Q	t	143
+114	72	1	315	2022-07-17	1	1	1	W	t	324
+115	36	1	426	2022-07-17	2	5	1	F	t	199
+116	3	1	114	2022-07-17	5	3	2	Q	t	699
+117	57	1	55	2022-07-17	4	3	2	C	t	96
+118	16	1	29	2022-07-17	2	5	1	L	t	350
+119	42	1	1	2022-07-17	2	2	2	A	t	662
+120	16	1	477	2022-07-17	3	5	2	T	t	194
+121	89	1	244	2022-07-17	3	5	1	B	t	172
+122	90	1	277	2022-07-17	3	3	3	Q	t	242
+123	54	1	219	2022-07-17	3	6	3	M	t	490
+124	29	1	373	2022-07-17	2	5	1	H	t	256
+125	47	1	307	2022-07-17	1	5	1	B	t	705
+126	97	1	117	2022-07-17	2	2	3	D	t	316
+127	80	1	373	2022-07-17	4	2	2	F	t	455
+128	62	1	264	2022-07-17	5	5	3	J	t	648
+129	50	1	74	2022-07-17	2	5	1	K	t	425
+130	25	1	316	2022-07-17	2	1	2	L	t	324
+131	13	1	374	2022-07-17	4	3	1	E	t	300
+132	48	1	123	2022-07-17	4	2	1	M	t	181
+133	99	1	309	2022-07-17	5	2	3	N	t	103
+134	23	1	455	2022-07-17	1	5	2	W	t	324
+135	91	1	30	2022-07-17	3	2	2	Q	t	85
+136	89	1	295	2022-07-17	2	4	3	H	t	384
+137	3	1	252	2022-07-17	5	2	2	V	t	115
+138	13	1	283	2022-07-17	4	4	1	X	t	50
+139	86	1	373	2022-07-17	2	3	1	F	t	104
+140	66	1	210	2022-07-17	4	6	3	E	t	704
+141	41	1	87	2022-07-17	2	5	3	F	t	170
+142	3	1	83	2022-07-17	3	2	3	M	t	717
+143	5	1	177	2022-07-17	4	3	1	Q	t	149
+144	1	1	440	2022-07-17	5	5	1	V	t	710
+145	56	1	496	2022-07-17	4	1	2	H	t	516
+146	102	1	108	2022-07-17	1	6	3	Q	t	331
+147	85	1	444	2022-07-17	4	6	2	W	t	250
+148	21	1	324	2022-07-17	4	4	1	Y	t	499
+149	36	1	327	2022-07-17	3	4	2	Y	t	353
+150	90	1	97	2022-07-17	3	6	2	A	t	504
+151	9	1	430	2022-07-17	4	1	3	T	t	196
+152	88	1	481	2022-07-17	4	3	2	U	t	502
+153	66	1	316	2022-07-17	2	6	2	F	t	423
+154	52	1	116	2022-07-17	1	5	2	K	t	387
+155	62	1	360	2022-07-17	1	5	3	L	t	408
+156	68	1	37	2022-07-17	2	3	3	U	t	510
+157	76	1	156	2022-07-17	1	4	1	H	t	523
+158	58	1	53	2022-07-17	3	3	2	F	t	712
+159	82	1	358	2022-07-17	1	1	1	G	t	432
+160	38	1	489	2022-07-17	2	3	2	S	t	421
+161	49	1	212	2022-07-17	3	2	1	G	t	724
+162	100	1	144	2022-07-17	1	1	2	N	t	308
+163	50	1	203	2022-07-17	2	1	2	Y	t	681
+164	12	1	489	2022-07-17	4	6	1	B	t	526
+165	33	1	404	2022-07-17	2	3	2	W	t	201
+166	43	1	251	2022-07-17	2	3	2	K	t	640
+167	35	1	488	2022-07-17	2	3	2	Z	t	392
+168	62	1	436	2022-07-17	5	3	2	A	t	596
+169	47	1	340	2022-07-17	1	5	3	K	t	49
+170	87	1	197	2022-07-17	3	5	2	E	t	168
+171	45	1	270	2022-07-17	3	5	3	W	t	601
+172	101	1	135	2022-07-17	1	4	3	B	t	282
+173	52	1	327	2022-07-17	2	5	1	L	t	406
+174	48	1	384	2022-07-17	3	6	3	S	t	364
+175	61	1	110	2022-07-17	5	5	1	X	t	104
+176	41	1	94	2022-07-17	4	4	3	G	t	239
+177	12	1	258	2022-07-17	4	2	3	Q	t	234
+178	23	1	150	2022-07-17	1	1	2	Y	t	611
+179	27	1	283	2022-07-17	4	3	2	O	t	708
+180	101	1	442	2022-07-17	1	5	1	U	t	595
+181	54	1	456	2022-07-17	1	5	1	D	t	128
+182	17	1	428	2022-07-17	5	4	3	H	t	349
+183	13	1	154	2022-07-17	3	4	3	L	t	28
+184	36	1	78	2022-07-17	4	3	2	V	t	32
+185	95	1	119	2022-07-17	5	1	1	G	t	275
+186	27	1	229	2022-07-17	2	4	2	V	t	653
+187	56	1	263	2022-07-17	1	1	1	K	t	250
+188	6	1	369	2022-07-17	4	3	3	U	t	675
+189	99	1	480	2022-07-17	1	5	2	V	t	646
+190	44	1	378	2022-07-17	5	5	3	B	t	368
+191	81	1	288	2022-07-17	4	2	3	M	t	376
+192	84	1	24	2022-07-17	1	5	1	T	t	498
+193	75	1	403	2022-07-17	4	1	1	N	t	457
+194	34	1	219	2022-07-17	2	5	3	Z	t	700
+195	8	1	361	2022-07-17	5	1	1	W	t	176
+196	38	1	100	2022-07-17	1	4	3	L	t	467
+197	6	1	90	2022-07-17	4	2	2	Y	t	237
+198	100	1	161	2022-07-17	2	5	2	Z	t	700
+199	42	1	316	2022-07-17	3	2	3	C	t	558
+200	14	1	324	2022-07-17	5	1	1	K	t	117
+201	39	1	425	2022-07-17	4	1	2	K	t	402
+202	48	1	156	2022-07-17	1	4	1	U	t	545
+203	8	1	182	2022-07-17	1	1	3	K	t	586
+204	97	1	499	2022-07-17	4	3	1	W	t	37
+205	58	1	28	2022-07-17	2	1	2	Y	t	367
+206	73	1	66	2022-07-17	4	4	2	M	t	285
+207	101	1	444	2022-07-17	1	3	2	G	t	705
+208	26	1	147	2022-07-17	3	5	1	P	t	456
+209	74	1	469	2022-07-17	3	5	1	R	t	164
+210	16	1	352	2022-07-17	4	2	2	G	t	121
+211	29	1	498	2022-07-17	4	6	2	G	t	410
+212	39	1	189	2022-07-17	2	4	3	S	t	592
+213	35	1	393	2022-07-17	1	1	3	O	t	586
+214	16	1	319	2022-07-17	5	2	3	C	t	362
+215	77	1	150	2022-07-17	2	3	1	W	t	271
+216	90	1	171	2022-07-17	5	4	1	L	t	137
+217	101	1	300	2022-07-17	4	1	2	R	t	69
+218	42	1	436	2022-07-17	5	2	2	L	t	677
+219	40	1	184	2022-07-17	2	5	1	E	t	334
+220	22	1	279	2022-07-17	5	2	1	E	t	313
+221	87	1	21	2022-07-17	3	1	1	W	t	18
+222	102	1	470	2022-07-17	4	5	1	H	t	7
+223	95	1	164	2022-07-17	5	6	3	X	t	274
+224	17	1	358	2022-07-17	1	1	2	W	t	369
+225	57	1	77	2022-07-17	3	3	2	J	t	342
+226	50	1	500	2022-07-17	1	3	2	A	t	66
+227	28	1	35	2022-07-17	2	5	2	O	t	219
+228	41	1	461	2022-07-17	5	2	2	B	t	468
+229	69	1	307	2022-07-17	1	1	1	R	t	624
+230	17	1	346	2022-07-17	4	2	3	X	t	697
+231	104	1	442	2022-07-17	5	2	3	E	t	727
+232	82	1	334	2022-07-17	4	6	1	T	t	644
+233	59	1	450	2022-07-17	2	5	2	T	t	50
+234	17	1	198	2022-07-17	2	5	1	Q	t	711
+235	99	1	494	2022-07-17	2	3	2	D	t	653
+236	109	1	84	2022-07-17	2	3	3	T	t	39
+237	20	1	495	2022-07-17	4	3	2	K	t	699
+238	12	1	430	2022-07-17	1	1	3	A	t	79
+239	37	1	277	2022-07-17	4	4	2	K	t	374
+240	16	1	258	2022-07-17	1	3	1	D	t	204
+241	56	1	453	2022-07-17	1	4	3	I	t	538
+242	38	1	112	2022-07-17	1	5	2	A	t	217
+243	73	1	425	2022-07-17	1	2	2	V	t	125
+244	47	1	34	2022-07-17	3	1	3	Z	t	49
+245	62	1	69	2022-07-17	3	3	2	A	t	474
+246	76	1	365	2022-07-17	3	5	3	G	t	593
+247	9	1	401	2022-07-17	4	6	3	K	t	1
+248	107	1	413	2022-07-17	4	6	3	P	t	228
+249	1	1	33	2022-07-17	3	5	1	B	t	174
+250	43	1	292	2022-07-17	1	6	2	S	t	584
+251	46	1	177	2022-07-17	5	6	2	L	t	440
+252	9	1	35	2022-07-17	3	4	2	Q	t	612
+253	80	1	242	2022-07-17	5	1	1	C	t	551
+254	92	1	13	2022-07-17	4	2	1	V	t	134
+255	80	1	465	2022-07-17	5	3	2	X	t	496
+256	59	1	374	2022-07-17	2	5	3	P	t	6
+257	24	1	243	2022-07-17	1	5	1	O	t	214
+258	72	1	352	2022-07-17	4	3	3	Z	t	215
+259	93	1	57	2022-07-17	4	3	1	W	t	368
+260	99	1	147	2022-07-17	1	3	2	N	t	215
+261	6	1	285	2022-07-17	3	4	2	T	t	570
+262	54	1	444	2022-07-17	5	6	1	O	t	28
+263	20	1	491	2022-07-17	2	5	2	K	t	287
+264	11	1	499	2022-07-17	4	1	3	F	t	267
+265	85	1	263	2022-07-17	3	3	3	H	t	29
+266	107	1	347	2022-07-17	1	1	3	S	t	593
+267	95	1	461	2022-07-17	4	1	1	M	t	381
+268	85	1	170	2022-07-17	1	3	1	X	t	708
+269	87	1	349	2022-07-17	4	4	3	R	t	719
+270	108	1	2	2022-07-17	1	2	2	U	t	364
+271	65	1	93	2022-07-17	3	6	2	B	t	516
+272	33	1	290	2022-07-17	4	6	3	Q	t	238
+273	62	1	78	2022-07-17	2	1	3	A	t	582
+274	61	1	360	2022-07-17	5	3	1	L	t	487
+275	16	1	14	2022-07-17	1	2	3	S	t	434
+276	2	1	446	2022-07-17	5	5	3	T	t	350
+277	47	1	265	2022-07-17	5	5	3	S	t	680
+278	108	1	6	2022-07-17	4	3	1	K	t	230
+279	45	1	162	2022-07-17	4	2	3	E	t	75
+280	46	1	486	2022-07-17	5	6	2	K	t	424
+281	84	1	490	2022-07-17	1	3	2	W	t	449
+282	67	1	206	2022-07-17	1	2	2	Z	t	486
+283	48	1	231	2022-07-17	1	6	3	F	t	227
+284	84	1	396	2022-07-17	4	1	1	C	t	533
+285	52	1	78	2022-07-17	5	5	3	X	t	296
+286	97	1	167	2022-07-17	4	1	3	S	t	398
+287	9	1	431	2022-07-17	2	3	1	A	t	126
+288	21	1	316	2022-07-17	3	5	1	V	t	94
+289	69	1	217	2022-07-17	1	5	3	N	t	269
+290	1	1	392	2022-07-17	5	3	3	F	t	284
+291	105	1	312	2022-07-17	2	2	2	B	t	219
+292	40	1	297	2022-07-17	4	6	1	J	t	553
+293	6	1	92	2022-07-17	3	1	2	E	t	660
+294	20	1	495	2022-07-17	2	5	2	I	t	42
+295	28	1	224	2022-07-17	3	6	1	F	t	35
+296	74	1	391	2022-07-17	4	1	3	Z	t	29
+297	99	1	239	2022-07-17	3	6	1	M	t	224
+298	19	1	199	2022-07-17	2	3	1	W	t	184
+299	19	1	299	2022-07-17	2	1	1	A	t	697
+300	91	1	38	2022-07-17	1	1	2	U	t	648
+301	77	1	168	2022-07-17	2	6	1	N	t	173
+302	78	1	265	2022-07-17	1	3	3	F	t	484
+303	60	1	344	2022-07-17	5	6	2	E	t	197
+304	63	1	36	2022-07-17	5	2	1	H	t	156
+305	62	1	279	2022-07-17	2	3	1	T	t	562
+306	50	1	378	2022-07-17	3	1	2	C	t	425
+307	20	1	288	2022-07-17	4	3	1	T	t	507
+308	99	1	298	2022-07-17	4	6	1	N	t	526
+309	2	1	151	2022-07-17	4	4	2	G	t	329
+310	38	1	426	2022-07-17	2	3	2	B	t	67
+311	77	1	226	2022-07-17	2	6	3	Y	t	662
+312	4	1	140	2022-07-17	1	1	2	B	t	328
+313	49	1	69	2022-07-17	1	6	3	I	t	598
+314	93	1	351	2022-07-17	3	4	1	M	t	571
+315	13	1	175	2022-07-17	3	3	1	H	t	29
+316	10	1	388	2022-07-17	3	3	2	N	t	639
+317	85	1	254	2022-07-17	5	3	1	R	t	354
+318	93	1	287	2022-07-17	1	5	1	F	t	119
+319	64	1	170	2022-07-17	1	6	3	H	t	305
+320	52	1	485	2022-07-17	4	3	2	Z	t	403
+321	37	1	356	2022-07-17	3	4	2	P	t	534
+322	49	1	104	2022-07-17	1	3	2	V	t	657
+323	14	1	10	2022-07-17	5	4	2	X	t	22
+324	88	1	46	2022-07-17	3	4	2	W	t	88
+325	12	1	76	2022-07-17	3	4	1	I	t	210
+326	26	1	363	2022-07-17	1	2	2	B	t	335
+327	36	1	162	2022-07-17	5	4	1	C	t	181
+328	88	1	439	2022-07-17	2	1	3	K	t	55
+329	46	1	120	2022-07-17	1	5	1	I	t	566
+330	73	1	352	2022-07-17	5	5	1	T	t	632
+331	18	1	82	2022-07-17	4	4	1	G	t	84
+332	12	1	407	2022-07-17	4	1	3	E	t	206
+333	6	1	323	2022-07-17	3	6	3	B	t	341
+334	100	1	320	2022-07-17	4	3	1	P	t	487
+335	57	1	479	2022-07-17	1	6	3	Q	t	130
+336	50	1	359	2022-07-17	1	6	3	B	t	428
+337	22	1	380	2022-07-17	4	2	1	S	t	48
+338	55	1	242	2022-07-17	1	4	1	G	t	694
+339	41	1	35	2022-07-17	1	1	2	T	t	387
+340	93	1	68	2022-07-17	1	6	2	K	t	621
+341	76	1	458	2022-07-17	5	4	2	U	t	368
+342	22	1	290	2022-07-17	2	2	1	Y	t	147
+343	67	1	125	2022-07-17	5	4	3	D	t	314
+344	93	1	234	2022-07-17	5	1	2	G	t	596
+345	22	1	285	2022-07-17	3	1	3	C	t	719
+346	45	1	350	2022-07-17	2	3	3	L	t	429
+347	14	1	178	2022-07-17	3	2	1	X	t	345
+348	93	1	242	2022-07-17	5	2	2	B	t	654
+349	72	1	380	2022-07-17	3	4	1	P	t	444
+350	64	1	266	2022-07-17	2	5	1	D	t	676
+351	18	1	110	2022-07-17	5	2	2	A	t	447
+352	21	1	161	2022-07-17	2	4	3	O	t	281
+353	72	1	454	2022-07-17	3	5	2	G	t	455
+354	67	1	420	2022-07-17	4	3	3	D	t	505
+355	59	1	134	2022-07-17	1	6	2	V	t	22
+356	13	1	237	2022-07-17	3	5	1	H	t	613
+357	65	1	69	2022-07-17	1	2	1	X	t	517
+358	73	1	316	2022-07-17	3	3	2	I	t	140
+359	2	1	362	2022-07-17	3	4	1	T	t	276
+360	52	1	214	2022-07-17	1	4	2	Y	t	473
+361	71	1	227	2022-07-17	4	1	1	G	t	69
+362	72	1	238	2022-07-17	4	2	1	Q	t	204
+363	107	1	484	2022-07-17	1	3	2	L	t	32
+364	6	1	3	2022-07-17	1	4	3	W	t	422
+365	15	1	305	2022-07-17	1	6	2	Q	t	725
+366	99	1	28	2022-07-17	3	3	1	C	t	205
+367	38	1	49	2022-07-17	1	1	2	L	t	438
+368	40	1	121	2022-07-17	5	2	1	Q	t	62
+369	79	1	176	2022-07-17	1	3	3	H	t	688
+370	38	1	223	2022-07-17	2	5	3	I	t	388
+371	30	1	34	2022-07-17	3	1	3	A	t	679
+372	66	1	274	2022-07-17	2	2	2	F	t	75
+373	13	1	105	2022-07-17	2	2	1	O	t	54
+374	66	1	450	2022-07-17	3	4	2	I	t	301
+375	5	1	363	2022-07-17	3	4	2	X	t	180
+376	35	1	322	2022-07-17	1	2	3	O	t	71
+377	88	1	125	2022-07-17	1	4	3	J	t	604
+378	19	1	188	2022-07-17	5	6	2	O	t	85
+379	95	1	98	2022-07-17	2	2	3	R	t	423
+380	105	1	373	2022-07-17	5	6	2	V	t	529
+381	50	1	155	2022-07-17	5	2	3	C	t	482
+382	107	1	455	2022-07-17	2	3	3	S	t	498
+383	18	1	32	2022-07-17	3	2	2	C	t	488
+384	52	1	206	2022-07-17	2	5	1	E	t	401
+385	61	1	245	2022-07-17	1	1	3	Q	t	723
+386	108	1	262	2022-07-17	5	6	3	Y	t	464
+387	11	1	170	2022-07-17	3	3	1	P	t	61
+388	11	1	19	2022-07-17	3	6	1	R	t	9
+389	91	1	49	2022-07-17	5	2	3	Y	t	124
+390	48	1	437	2022-07-17	5	5	1	B	t	157
+391	60	1	271	2022-07-17	4	5	3	S	t	4
+392	78	1	414	2022-07-17	4	3	3	X	t	462
+393	53	1	239	2022-07-17	2	4	1	G	t	316
+394	92	1	294	2022-07-17	4	6	2	C	t	238
+395	23	1	174	2022-07-17	2	1	2	U	t	331
+396	69	1	228	2022-07-17	2	3	1	Y	t	292
+397	13	1	44	2022-07-17	4	6	1	A	t	721
+398	33	1	149	2022-07-17	2	2	2	A	t	1
+399	56	1	477	2022-07-17	3	6	1	Q	t	325
+400	41	1	262	2022-07-17	1	2	1	M	t	162
+401	101	1	167	2022-07-17	1	4	1	S	t	224
+402	91	1	109	2022-07-17	3	3	3	C	t	680
+403	61	1	127	2022-07-17	2	3	1	Y	t	151
+404	4	1	44	2022-07-17	3	5	3	L	t	467
+405	74	1	39	2022-07-17	5	6	2	Q	t	19
+406	15	1	303	2022-07-17	5	3	2	Q	t	601
+407	40	1	417	2022-07-17	1	4	1	Z	t	271
+408	7	1	304	2022-07-17	3	6	1	X	t	338
+409	108	1	460	2022-07-17	1	4	1	I	t	466
+410	68	1	119	2022-07-17	1	6	1	P	t	688
+411	26	1	431	2022-07-17	4	4	2	F	t	27
+412	101	1	431	2022-07-17	3	5	1	X	t	178
+413	96	1	445	2022-07-17	5	6	2	Y	t	650
+414	79	1	212	2022-07-17	4	5	1	P	t	162
+415	102	1	98	2022-07-17	2	4	2	J	t	386
+416	30	1	175	2022-07-17	1	2	2	H	t	494
+417	32	1	251	2022-07-17	2	1	2	V	t	258
+418	41	1	411	2022-07-17	2	5	2	U	t	554
+419	1	1	170	2022-07-17	2	2	1	N	t	466
+420	60	1	296	2022-07-17	4	2	1	L	t	547
+421	80	1	222	2022-07-17	3	3	1	I	t	120
+422	22	1	25	2022-07-17	1	6	2	X	t	379
+423	14	1	59	2022-07-17	2	2	3	L	t	686
+424	48	1	463	2022-07-17	3	3	3	B	t	334
+425	20	1	23	2022-07-17	2	3	3	O	t	514
+426	37	1	9	2022-07-17	4	6	2	G	t	153
+427	98	1	144	2022-07-17	2	3	2	I	t	281
+428	32	1	114	2022-07-17	3	3	3	Y	t	413
+429	17	1	70	2022-07-17	2	1	1	F	t	328
+430	1	1	109	2022-07-17	2	6	2	P	t	350
+431	90	1	204	2022-07-17	1	5	2	T	t	50
+432	35	1	173	2022-07-17	4	2	1	E	t	597
+433	45	1	37	2022-07-17	3	4	1	Z	t	35
+434	5	1	26	2022-07-17	4	2	2	L	t	111
+435	63	1	115	2022-07-17	1	3	3	Z	t	343
+436	75	1	58	2022-07-17	1	1	3	B	t	531
+437	92	1	13	2022-07-17	3	4	3	A	t	238
+438	35	1	142	2022-07-17	3	3	1	O	t	612
+439	49	1	145	2022-07-17	1	3	1	T	t	400
+440	52	1	44	2022-07-17	3	5	1	Z	t	579
+441	108	1	341	2022-07-17	3	6	3	W	t	469
+442	40	1	153	2022-07-17	3	3	1	E	t	282
+443	12	1	408	2022-07-17	2	2	1	G	t	388
+444	53	1	141	2022-07-17	1	4	3	D	t	222
+445	20	1	444	2022-07-17	4	1	3	V	t	42
+446	21	1	62	2022-07-17	4	1	2	F	t	34
+447	37	1	278	2022-07-17	5	6	3	M	t	417
+448	2	1	308	2022-07-17	3	5	3	H	t	655
+449	23	1	5	2022-07-17	1	1	3	V	t	201
+450	26	1	330	2022-07-17	1	3	3	F	t	626
+451	107	1	128	2022-07-17	3	3	1	V	t	19
+452	64	1	231	2022-07-17	3	3	3	Z	t	270
+453	99	1	129	2022-07-17	2	5	1	L	t	395
+454	42	1	114	2022-07-17	1	6	2	M	t	435
+455	38	1	423	2022-07-17	5	5	3	I	t	63
+456	7	1	256	2022-07-17	5	2	3	X	t	158
+457	65	1	222	2022-07-17	3	6	1	L	t	16
+458	38	1	206	2022-07-17	1	6	2	V	t	315
+459	34	1	180	2022-07-17	5	5	1	N	t	230
+460	64	1	438	2022-07-17	2	4	3	U	t	144
+461	46	1	246	2022-07-17	4	1	2	N	t	106
+462	41	1	440	2022-07-17	5	4	1	M	t	174
+463	47	1	102	2022-07-17	4	2	1	R	t	210
+464	49	1	6	2022-07-17	5	2	3	L	t	619
+465	3	1	114	2022-07-17	2	6	3	M	t	172
+466	57	1	255	2022-07-17	4	2	3	Z	t	288
+467	52	1	231	2022-07-17	4	6	3	B	t	522
+468	38	1	421	2022-07-17	1	6	2	L	t	202
+469	104	1	133	2022-07-17	3	3	3	Q	t	423
+470	52	1	48	2022-07-17	3	1	1	M	t	666
+471	91	1	195	2022-07-17	4	1	1	R	t	714
+472	21	1	322	2022-07-17	4	1	1	Y	t	95
+473	19	1	449	2022-07-17	5	4	3	D	t	555
+474	103	1	403	2022-07-17	2	4	1	K	t	275
+475	91	1	307	2022-07-17	1	4	1	D	t	354
+476	85	1	306	2022-07-17	4	5	1	P	t	613
+477	52	1	272	2022-07-17	2	6	1	L	t	391
+478	47	1	381	2022-07-17	3	5	2	R	t	670
+479	101	1	280	2022-07-17	3	5	2	C	t	386
+480	55	1	118	2022-07-17	5	1	2	A	t	69
+481	19	1	12	2022-07-17	1	2	1	G	t	355
+482	27	1	195	2022-07-17	1	5	3	L	t	303
+483	1	1	200	2022-07-17	5	5	1	U	t	459
+484	62	1	497	2022-07-17	4	2	3	Q	t	521
+485	42	1	490	2022-07-17	5	3	1	M	t	613
+486	66	1	161	2022-07-17	1	3	1	G	t	599
+487	1	1	74	2022-07-17	3	3	3	I	t	513
+488	73	1	312	2022-07-17	5	3	1	F	t	455
+489	44	1	219	2022-07-17	3	1	1	G	t	186
+490	54	1	360	2022-07-17	2	5	3	X	t	349
+491	3	1	171	2022-07-17	3	5	1	S	t	2
+492	67	1	74	2022-07-17	4	2	2	L	t	133
+493	72	1	486	2022-07-17	4	1	3	U	t	369
+494	16	1	465	2022-07-17	2	6	1	Q	t	184
+495	27	1	175	2022-07-17	2	3	3	O	t	195
+496	17	1	38	2022-07-17	2	1	1	H	t	527
+497	18	1	175	2022-07-17	4	5	3	L	t	319
+498	20	1	420	2022-07-17	1	4	1	V	t	387
+499	86	1	352	2022-07-17	4	4	3	J	t	350
+500	89	1	424	2022-07-17	4	4	1	I	t	437
+501	65	1	258	2022-07-17	2	1	1	G	t	661
+502	2	1	354	2022-07-17	5	6	1	M	t	493
+503	28	1	351	2022-07-17	1	4	2	Q	t	267
+504	58	1	357	2022-07-17	3	5	2	B	t	678
+505	69	1	143	2022-07-17	2	4	1	W	t	520
+506	29	1	403	2022-07-17	5	6	2	Y	t	431
+507	25	1	429	2022-07-17	1	5	1	J	t	49
+508	51	1	451	2022-07-17	5	4	1	K	t	43
+509	61	1	168	2022-07-17	5	3	3	A	t	562
+510	32	1	9	2022-07-17	3	2	1	N	t	114
+511	43	1	421	2022-07-17	5	5	2	V	t	261
+512	33	1	139	2022-07-17	1	1	1	J	t	290
+513	55	1	446	2022-07-17	2	3	2	I	t	80
+514	76	1	418	2022-07-17	4	2	2	G	t	103
+515	96	1	66	2022-07-17	4	6	2	B	t	359
+516	14	1	449	2022-07-17	5	4	1	W	t	266
+517	103	1	467	2022-07-17	5	1	1	M	t	199
+518	33	1	107	2022-07-17	2	2	2	V	t	211
+519	30	1	308	2022-07-17	3	2	2	S	t	7
+520	50	1	337	2022-07-17	4	5	3	W	t	635
+521	20	1	314	2022-07-17	4	6	1	D	t	497
+522	34	1	317	2022-07-17	2	6	1	Y	t	627
+523	79	1	114	2022-07-17	2	3	2	N	t	709
+524	38	1	149	2022-07-17	2	5	1	E	t	497
+525	58	1	429	2022-07-17	5	1	2	S	t	719
+526	78	1	419	2022-07-17	2	5	3	F	t	246
+527	60	1	374	2022-07-17	5	5	1	V	t	630
+528	61	1	33	2022-07-17	2	1	2	J	t	688
+529	79	1	314	2022-07-17	3	6	3	S	t	513
+530	76	1	5	2022-07-17	3	4	2	O	t	124
+531	10	1	210	2022-07-17	5	1	2	T	t	339
+532	103	1	248	2022-07-17	2	3	1	T	t	682
+533	5	1	321	2022-07-17	5	6	1	Q	t	27
+534	82	1	338	2022-07-17	2	3	3	P	t	41
+535	76	1	187	2022-07-17	3	6	3	B	t	593
+536	13	1	114	2022-07-17	1	6	1	X	t	14
+537	83	1	51	2022-07-17	2	1	1	O	t	341
+538	65	1	113	2022-07-17	3	3	1	S	t	168
+539	17	1	415	2022-07-17	5	4	3	M	t	627
+540	74	1	336	2022-07-17	4	1	2	A	t	724
+541	81	1	449	2022-07-17	1	2	2	Q	t	502
+542	20	1	275	2022-07-17	4	4	3	K	t	601
+543	52	1	96	2022-07-17	4	4	2	T	t	291
+544	15	1	399	2022-07-17	1	1	2	Y	t	433
+545	9	1	159	2022-07-17	1	4	2	B	t	201
+546	27	1	287	2022-07-17	5	2	1	X	t	588
+547	57	1	479	2022-07-17	5	6	2	Z	t	142
+548	82	1	8	2022-07-17	3	6	2	V	t	335
+549	56	1	125	2022-07-17	5	3	2	W	t	466
+550	27	1	383	2022-07-17	4	1	2	L	t	609
+551	28	1	266	2022-07-17	1	3	1	Z	t	700
+552	33	1	471	2022-07-17	1	4	3	L	t	111
+553	52	1	458	2022-07-17	1	4	2	D	t	146
+554	37	1	251	2022-07-17	1	2	2	J	t	372
+555	26	1	432	2022-07-17	2	4	1	J	t	183
+556	26	1	90	2022-07-17	5	1	2	S	t	325
+557	62	1	170	2022-07-17	5	1	1	Z	t	714
+558	35	1	86	2022-07-17	5	5	2	R	t	299
+559	62	1	498	2022-07-17	1	5	1	Y	t	404
+560	65	1	239	2022-07-17	1	3	1	E	t	619
+561	68	1	10	2022-07-17	4	1	1	E	t	78
+562	94	1	423	2022-07-17	4	4	3	N	t	286
+563	72	1	133	2022-07-17	3	6	1	B	t	703
+564	6	1	77	2022-07-17	3	6	3	F	t	189
+565	8	1	192	2022-07-17	5	1	3	X	t	523
+566	31	1	391	2022-07-17	5	3	1	Z	t	384
+567	30	1	145	2022-07-17	2	4	3	W	t	711
+568	88	1	38	2022-07-17	1	6	3	O	t	402
+569	80	1	35	2022-07-17	3	6	2	M	t	603
+570	18	1	50	2022-07-17	5	1	2	L	t	218
+571	29	1	140	2022-07-17	2	6	2	I	t	647
+572	74	1	232	2022-07-17	2	2	3	E	t	466
+573	40	1	144	2022-07-17	4	6	3	F	t	114
+574	78	1	492	2022-07-17	4	3	1	M	t	477
+575	85	1	185	2022-07-17	3	5	3	B	t	533
+576	36	1	313	2022-07-17	1	3	1	P	t	446
+577	45	1	124	2022-07-17	5	6	2	V	t	417
+578	32	1	175	2022-07-17	3	3	2	L	t	611
+579	12	1	469	2022-07-17	1	5	2	P	t	242
+580	28	1	338	2022-07-17	3	4	2	B	t	451
+581	21	1	389	2022-07-17	1	6	1	C	t	648
+582	19	1	148	2022-07-17	2	1	1	A	t	45
+583	83	1	120	2022-07-17	1	4	3	Y	t	33
+584	43	1	471	2022-07-17	5	1	1	P	t	119
+585	38	1	410	2022-07-17	3	4	2	L	t	499
+586	15	1	402	2022-07-17	1	4	1	B	t	427
+587	7	1	171	2022-07-17	2	6	3	P	t	583
+588	48	1	13	2022-07-17	1	2	2	T	t	418
+589	31	1	488	2022-07-17	4	6	2	Q	t	64
+590	4	1	412	2022-07-17	5	1	3	C	t	493
+591	29	1	190	2022-07-17	5	3	2	P	t	153
+592	39	1	28	2022-07-17	3	5	1	S	t	26
+593	89	1	442	2022-07-17	4	5	1	M	t	263
+594	2	1	402	2022-07-17	2	2	3	K	t	680
+595	66	1	224	2022-07-17	1	2	3	Z	t	5
+596	50	1	394	2022-07-17	1	4	2	U	t	700
+597	74	1	266	2022-07-17	2	2	2	E	t	86
+598	12	1	398	2022-07-17	2	6	2	L	t	585
+599	74	1	22	2022-07-17	3	2	3	L	t	67
+600	29	1	389	2022-07-17	3	1	2	B	t	511
+601	24	1	76	2022-07-17	3	2	1	L	t	654
+602	21	1	17	2022-07-17	3	4	1	H	t	672
+603	18	1	457	2022-07-17	1	1	3	L	t	89
+604	46	1	492	2022-07-17	2	1	3	Q	t	500
+605	16	1	125	2022-07-17	2	3	3	C	t	168
+606	79	1	276	2022-07-17	5	2	1	E	t	593
+607	83	1	129	2022-07-17	1	4	2	Y	t	637
+608	87	1	259	2022-07-17	4	4	2	H	t	360
+609	65	1	119	2022-07-17	1	3	1	P	t	297
+610	99	1	81	2022-07-17	1	6	3	J	t	440
+611	77	1	18	2022-07-17	1	6	2	V	t	17
+612	66	1	79	2022-07-17	4	3	2	P	t	183
+613	87	1	475	2022-07-17	1	4	2	C	t	671
+614	60	1	71	2022-07-17	2	1	3	I	t	348
+615	51	1	460	2022-07-17	3	1	3	T	t	90
+616	26	1	111	2022-07-17	1	5	1	B	t	285
+617	20	1	11	2022-07-17	1	4	1	P	t	511
+618	104	1	256	2022-07-17	1	4	1	B	t	133
+619	35	1	160	2022-07-17	4	6	1	Y	t	386
+620	40	1	294	2022-07-17	3	6	3	Q	t	599
+621	89	1	265	2022-07-17	4	1	3	R	t	436
+622	36	1	56	2022-07-17	3	3	1	F	t	129
+623	35	1	43	2022-07-17	1	1	2	Y	t	191
+624	68	1	101	2022-07-17	3	1	3	C	t	222
+625	89	1	89	2022-07-17	5	6	1	O	t	669
+626	94	1	114	2022-07-17	5	6	2	F	t	135
+627	43	1	442	2022-07-17	3	4	3	N	t	542
+628	103	1	286	2022-07-17	5	1	2	L	t	611
+629	84	1	189	2022-07-17	3	5	1	P	t	321
+630	37	1	118	2022-07-17	4	5	1	T	t	214
+631	8	1	457	2022-07-17	2	2	1	P	t	14
+632	35	1	107	2022-07-17	4	5	1	T	t	140
+633	107	1	230	2022-07-17	5	6	1	G	t	600
+634	86	1	188	2022-07-17	5	3	1	G	t	313
+635	101	1	223	2022-07-17	4	2	3	Y	t	342
+636	29	1	398	2022-07-17	4	4	2	X	t	1
+637	71	1	102	2022-07-17	2	2	1	V	t	114
+638	104	1	498	2022-07-17	2	4	1	D	t	318
+639	86	1	326	2022-07-17	1	2	3	G	t	709
+640	84	1	15	2022-07-17	4	3	2	Q	t	431
+641	7	1	434	2022-07-17	1	2	3	W	t	536
+642	84	1	493	2022-07-17	4	1	2	S	t	84
+643	50	1	387	2022-07-17	3	4	3	U	t	388
+644	18	1	466	2022-07-17	4	5	3	A	t	459
+645	31	1	180	2022-07-17	4	3	2	F	t	614
+646	98	1	485	2022-07-17	1	5	3	F	t	98
+647	95	1	161	2022-07-17	1	3	2	D	t	263
+648	25	1	194	2022-07-17	2	2	3	M	t	460
+649	13	1	5	2022-07-17	4	4	3	Z	t	102
+650	14	1	290	2022-07-17	3	1	3	B	t	88
+651	85	1	418	2022-07-17	4	6	2	T	t	580
+652	82	1	215	2022-07-17	4	6	2	U	t	370
+653	38	1	268	2022-07-17	1	6	3	P	t	335
+654	66	1	360	2022-07-17	4	6	1	U	t	630
+655	9	1	302	2022-07-17	3	2	1	R	t	553
+656	10	1	17	2022-07-17	1	5	1	H	t	441
+657	54	1	441	2022-07-17	3	2	3	K	t	459
+658	1	1	126	2022-07-17	5	2	2	I	t	692
+659	27	1	457	2022-07-17	5	4	1	K	t	515
+660	31	1	101	2022-07-17	1	5	2	R	t	101
+661	109	1	147	2022-07-17	1	3	2	T	t	41
+662	90	1	38	2022-07-17	4	4	2	D	t	136
+663	50	1	444	2022-07-17	4	5	3	R	t	625
+664	63	1	110	2022-07-17	1	1	1	V	t	550
+665	82	1	29	2022-07-17	4	5	1	X	t	234
+666	59	1	418	2022-07-17	5	4	1	U	t	131
+667	61	1	487	2022-07-17	4	5	3	B	t	293
+668	87	1	6	2022-07-17	3	5	1	U	t	181
+669	40	1	125	2022-07-17	2	2	1	C	t	126
+670	80	1	290	2022-07-17	1	5	1	A	t	458
+671	71	1	123	2022-07-17	2	6	2	V	t	319
+672	76	1	425	2022-07-17	4	6	3	T	t	724
+673	44	1	284	2022-07-17	1	3	1	J	t	271
+674	91	1	478	2022-07-17	3	3	1	X	t	249
+675	48	1	56	2022-07-17	3	1	3	O	t	90
+676	103	1	345	2022-07-17	3	4	3	X	t	253
+677	91	1	413	2022-07-17	4	5	3	S	t	217
+678	89	1	420	2022-07-17	4	2	1	J	t	352
+679	81	1	296	2022-07-17	4	1	2	K	t	213
+680	93	1	269	2022-07-17	2	3	2	T	t	16
+681	21	1	330	2022-07-17	2	3	2	R	t	520
+682	36	1	36	2022-07-17	1	3	1	M	t	394
+683	80	1	292	2022-07-17	1	6	1	F	t	386
+684	89	1	178	2022-07-17	3	3	1	N	t	543
+685	81	1	165	2022-07-17	5	5	3	Z	t	584
+686	8	1	204	2022-07-17	4	5	2	A	t	281
+687	71	1	249	2022-07-17	4	2	2	E	t	703
+688	4	1	74	2022-07-17	4	1	1	Y	t	398
+689	76	1	83	2022-07-17	1	4	2	C	t	287
+690	90	1	434	2022-07-17	2	3	3	U	t	496
+691	29	1	199	2022-07-17	4	4	3	C	t	234
+692	59	1	281	2022-07-17	3	3	2	H	t	332
+693	26	1	259	2022-07-17	5	6	3	K	t	613
+694	12	1	95	2022-07-17	2	2	1	T	t	722
+695	44	1	329	2022-07-17	2	3	2	O	t	142
+696	47	1	381	2022-07-17	2	4	2	G	t	54
+697	5	1	107	2022-07-17	3	6	1	A	t	63
+698	106	1	167	2022-07-17	1	3	2	U	t	611
+699	10	1	40	2022-07-17	3	3	2	J	t	23
+700	27	1	427	2022-07-17	2	4	1	P	t	566
+701	3	1	234	2022-07-17	4	6	1	U	t	283
+702	25	1	199	2022-07-17	4	1	3	R	t	577
+703	108	1	220	2022-07-17	5	6	3	B	t	678
+704	27	1	467	2022-07-17	1	5	3	N	t	555
+705	92	1	60	2022-07-17	2	4	3	P	t	559
+706	49	1	220	2022-07-17	3	6	2	Z	t	326
+707	25	1	399	2022-07-17	1	5	1	J	t	574
+708	30	1	160	2022-07-17	2	4	2	N	t	570
+709	2	1	180	2022-07-17	1	4	1	A	t	120
+710	27	1	285	2022-07-17	2	3	3	O	t	335
+711	47	1	271	2022-07-17	1	1	2	D	t	142
+712	54	1	410	2022-07-17	5	3	2	D	t	306
+713	66	1	345	2022-07-17	5	6	3	U	t	235
+714	9	1	301	2022-07-17	3	6	1	I	t	720
+715	4	1	164	2022-07-17	5	5	3	K	t	306
+716	47	1	331	2022-07-17	1	5	3	B	t	117
+717	2	1	428	2022-07-17	2	2	3	S	t	700
+718	95	1	12	2022-07-17	1	1	3	E	t	464
+719	71	1	17	2022-07-17	3	4	1	H	t	679
+720	7	1	137	2022-07-17	3	6	3	G	t	715
+721	45	1	27	2022-07-17	2	3	1	L	t	262
+722	103	1	276	2022-07-17	5	4	3	W	t	501
+723	93	1	267	2022-07-17	3	6	1	I	t	166
+724	31	1	262	2022-07-17	4	5	2	Y	t	6
+725	4	1	213	2022-07-17	3	4	2	S	t	686
+726	48	1	6	2022-07-17	1	1	2	N	t	665
+727	86	1	22	2022-07-17	4	3	2	G	t	354
+728	51	1	198	2022-07-17	1	5	2	P	t	237
+729	67	1	365	2022-07-17	1	6	2	Y	t	71
+730	9	1	41	2022-07-17	1	5	3	Y	t	377
+731	69	1	415	2022-07-17	1	5	1	M	t	410
+732	81	1	138	2022-07-17	5	4	2	P	t	631
+733	65	1	24	2022-07-17	5	2	1	M	t	323
+734	85	1	64	2022-07-17	3	3	1	N	t	645
+735	81	1	352	2022-07-17	3	1	2	J	t	7
+736	30	1	170	2022-07-17	1	3	3	X	t	155
+737	45	1	488	2022-07-17	1	5	1	R	t	442
+738	60	1	252	2022-07-17	1	4	3	E	t	362
+739	33	1	165	2022-07-17	1	3	2	G	t	465
+740	56	1	444	2022-07-17	5	1	3	O	t	693
+741	38	1	82	2022-07-17	3	2	2	Q	t	88
+742	106	1	158	2022-07-17	3	4	1	Y	t	692
+743	74	1	29	2022-07-17	5	1	2	Z	t	453
+744	89	1	192	2022-07-17	3	4	1	T	t	83
+745	75	1	35	2022-07-17	3	2	3	P	t	125
+746	84	1	274	2022-07-17	3	6	2	P	t	325
+747	30	1	170	2022-07-17	3	4	1	N	t	184
+748	72	1	396	2022-07-17	5	4	1	G	t	541
+749	58	1	83	2022-07-17	2	4	2	D	t	226
+750	62	1	152	2022-07-17	1	5	2	A	t	116
+751	86	1	406	2022-07-17	4	1	1	N	t	563
+752	17	1	484	2022-07-17	1	2	1	N	t	506
+753	15	1	497	2022-07-17	2	3	2	G	t	593
+754	54	1	284	2022-07-17	5	5	3	W	t	537
+755	61	1	446	2022-07-17	4	5	1	N	t	449
+756	61	1	13	2022-07-17	5	4	2	T	t	411
+757	72	1	185	2022-07-17	1	2	3	W	t	62
+758	74	1	493	2022-07-17	5	3	1	Y	t	528
+759	21	1	325	2022-07-17	1	5	3	X	t	594
+760	66	1	425	2022-07-17	4	4	1	H	t	70
+761	49	1	264	2022-07-17	4	5	1	I	t	556
+762	107	1	170	2022-07-17	2	5	2	L	t	409
+763	30	1	184	2022-07-17	2	4	1	M	t	62
+764	23	1	363	2022-07-17	1	4	2	L	t	196
+765	31	1	206	2022-07-17	3	5	2	W	t	446
+766	72	1	276	2022-07-17	4	6	2	H	t	464
+767	10	1	35	2022-07-17	2	5	3	L	t	585
+768	17	1	359	2022-07-17	1	3	1	S	t	60
+769	91	1	283	2022-07-17	3	2	3	M	t	109
+770	5	1	240	2022-07-17	4	4	1	R	t	679
+771	11	1	471	2022-07-17	4	6	1	Q	t	707
+772	51	1	494	2022-07-17	4	6	1	N	t	551
+773	32	1	73	2022-07-17	5	3	3	B	t	446
+774	105	1	378	2022-07-17	1	1	2	N	t	275
+775	21	1	441	2022-07-17	3	6	2	Q	t	87
+776	62	1	455	2022-07-17	5	2	3	J	t	115
+777	27	1	302	2022-07-17	3	1	1	W	t	257
+778	51	1	484	2022-07-17	2	3	2	X	t	177
+779	15	1	495	2022-07-17	1	6	1	R	t	556
+780	99	1	199	2022-07-17	2	5	3	U	t	223
+781	28	1	103	2022-07-17	4	1	1	S	t	506
+782	99	1	455	2022-07-17	2	3	3	X	t	684
+783	99	1	318	2022-07-17	3	1	2	R	t	499
+784	52	1	167	2022-07-17	2	1	3	H	t	538
+785	68	1	366	2022-07-17	1	1	2	J	t	39
+786	35	1	280	2022-07-17	3	5	3	U	t	113
+787	45	1	46	2022-07-17	2	4	1	C	t	121
+788	12	1	430	2022-07-17	3	5	2	Z	t	168
+789	20	1	57	2022-07-17	5	1	1	Z	t	294
+790	67	1	379	2022-07-17	2	4	1	Y	t	204
+791	46	1	127	2022-07-17	1	3	3	Y	t	121
+792	97	1	346	2022-07-17	2	6	1	C	t	467
+793	53	1	89	2022-07-17	1	3	3	U	t	146
+794	84	1	244	2022-07-17	4	3	3	R	t	315
+795	11	1	247	2022-07-17	5	6	1	B	t	585
+796	28	1	173	2022-07-17	5	3	3	N	t	655
+797	6	1	494	2022-07-17	3	3	2	Z	t	589
+798	10	1	372	2022-07-17	2	3	3	Y	t	321
+799	71	1	393	2022-07-17	1	4	1	Y	t	569
+800	17	1	52	2022-07-17	3	1	2	O	t	151
+801	37	1	436	2022-07-17	2	1	1	H	t	437
+802	109	1	141	2022-07-17	3	6	2	R	t	547
+803	50	1	177	2022-07-17	5	4	1	J	t	527
+804	37	1	467	2022-07-17	4	2	1	I	t	681
+805	76	1	192	2022-07-17	3	2	3	E	t	600
+806	71	1	217	2022-07-17	4	5	2	L	t	507
+807	28	1	166	2022-07-17	3	6	2	H	t	241
+808	66	1	497	2022-07-17	4	1	1	N	t	378
+809	49	1	441	2022-07-17	4	3	1	F	t	569
+810	22	1	390	2022-07-17	4	4	3	S	t	666
+811	41	1	141	2022-07-17	4	1	1	G	t	25
+812	49	1	467	2022-07-17	3	1	2	K	t	723
+813	59	1	8	2022-07-17	5	6	1	O	t	158
+814	30	1	252	2022-07-17	4	2	1	I	t	302
+815	40	1	184	2022-07-17	1	1	3	S	t	715
+816	109	1	381	2022-07-17	3	2	1	V	t	2
+817	70	1	320	2022-07-17	3	3	3	L	t	720
+818	53	1	310	2022-07-17	2	2	2	H	t	464
+819	35	1	368	2022-07-17	4	6	3	W	t	430
+820	92	1	250	2022-07-17	5	3	1	J	t	404
+821	88	1	30	2022-07-17	1	4	2	T	t	328
+822	80	1	350	2022-07-17	4	4	2	H	t	231
+823	23	1	234	2022-07-17	4	1	2	V	t	548
+824	65	1	215	2022-07-17	5	5	2	X	t	549
+825	52	1	114	2022-07-17	2	1	3	V	t	129
+826	52	1	472	2022-07-17	2	3	3	B	t	206
+827	59	1	490	2022-07-17	5	6	3	D	t	185
+828	95	1	271	2022-07-17	2	2	1	O	t	353
+829	96	1	122	2022-07-17	4	4	2	Q	t	526
+830	26	1	408	2022-07-17	3	3	1	Z	t	548
+831	14	1	497	2022-07-17	1	6	3	K	t	3
+832	94	1	245	2022-07-17	4	6	3	I	t	34
+833	41	1	258	2022-07-17	2	5	2	H	t	398
+834	54	1	354	2022-07-17	3	4	1	P	t	422
+835	5	1	13	2022-07-17	1	4	3	M	t	661
+836	80	1	355	2022-07-17	4	4	2	S	t	619
+837	73	1	369	2022-07-17	3	1	1	B	t	416
+838	15	1	85	2022-07-17	5	5	2	G	t	322
+839	80	1	171	2022-07-17	3	5	1	L	t	306
+840	71	1	15	2022-07-17	4	3	3	S	t	317
+841	106	1	154	2022-07-17	2	6	2	R	t	118
+842	20	1	181	2022-07-17	1	1	3	M	t	696
+843	64	1	440	2022-07-17	3	3	1	A	t	240
+844	29	1	293	2022-07-17	2	3	3	I	t	626
+845	36	1	139	2022-07-17	4	5	3	P	t	654
+846	19	1	292	2022-07-17	2	6	3	E	t	435
+847	7	1	164	2022-07-17	1	6	3	H	t	332
+848	77	1	202	2022-07-17	3	6	2	M	t	84
+849	108	1	298	2022-07-17	2	6	3	F	t	118
+850	26	1	333	2022-07-17	3	5	1	Q	t	632
+851	109	1	57	2022-07-17	2	5	2	M	t	655
+852	64	1	90	2022-07-17	2	1	3	H	t	664
+853	76	1	170	2022-07-17	2	5	3	T	t	112
+854	34	1	220	2022-07-17	2	4	2	D	t	722
+855	62	1	297	2022-07-17	1	5	3	J	t	99
+856	84	1	198	2022-07-17	5	6	1	X	t	425
+857	46	1	208	2022-07-17	3	5	3	P	t	369
+858	85	1	484	2022-07-17	3	4	1	T	t	561
+859	10	1	432	2022-07-17	2	3	1	L	t	303
+860	32	1	126	2022-07-17	4	3	2	J	t	69
+861	90	1	218	2022-07-17	3	4	3	I	t	491
+862	82	1	139	2022-07-17	3	4	3	Y	t	213
+863	88	1	89	2022-07-17	1	5	2	R	t	92
+864	32	1	74	2022-07-17	3	4	3	I	t	475
+865	73	1	255	2022-07-17	2	1	2	L	t	43
+866	103	1	324	2022-07-17	5	5	2	P	t	578
+867	28	1	43	2022-07-17	5	5	1	M	t	320
+868	3	1	195	2022-07-17	2	4	2	A	t	463
+869	52	1	206	2022-07-17	3	2	2	A	t	250
+870	27	1	74	2022-07-17	4	1	1	F	t	682
+871	51	1	347	2022-07-17	2	4	1	L	t	553
+872	109	1	478	2022-07-17	2	1	1	W	t	578
+873	49	1	204	2022-07-17	5	1	3	R	t	369
+874	87	1	251	2022-07-17	1	2	2	H	t	120
+875	31	1	230	2022-07-17	1	2	3	Y	t	642
+876	56	1	298	2022-07-17	2	3	1	Q	t	521
+877	12	1	460	2022-07-17	1	5	2	C	t	625
+878	46	1	40	2022-07-17	2	1	3	Z	t	436
+879	50	1	434	2022-07-17	3	4	1	M	t	282
+880	64	1	281	2022-07-17	5	3	3	P	t	430
+881	60	1	286	2022-07-17	5	1	2	K	t	490
+882	89	1	346	2022-07-17	3	4	3	S	t	483
+883	101	1	319	2022-07-17	1	5	3	M	t	515
+884	81	1	34	2022-07-17	5	5	2	E	t	505
+885	56	1	96	2022-07-17	5	3	2	D	t	432
+886	38	1	372	2022-07-17	5	3	3	S	t	42
+887	32	1	355	2022-07-17	1	1	3	N	t	40
+888	51	1	201	2022-07-17	5	5	2	S	t	584
+889	80	1	244	2022-07-17	2	6	3	D	t	339
+890	89	1	73	2022-07-17	1	4	1	E	t	675
+891	52	1	297	2022-07-17	3	4	1	Q	t	471
+892	93	1	268	2022-07-17	1	4	2	R	t	437
+893	22	1	206	2022-07-17	4	1	1	C	t	327
+894	13	1	92	2022-07-17	2	4	3	H	t	161
+895	71	1	150	2022-07-17	2	5	1	Y	t	649
+896	71	1	62	2022-07-17	5	6	2	Z	t	495
+897	63	1	111	2022-07-17	2	3	1	B	t	92
+898	23	1	99	2022-07-17	2	2	2	C	t	262
+899	12	1	436	2022-07-17	2	2	1	E	t	530
+900	11	1	161	2022-07-17	4	2	3	S	t	292
+901	86	1	238	2022-07-17	3	2	3	N	t	239
+902	8	1	86	2022-07-17	2	5	2	W	t	587
+903	80	1	371	2022-07-17	1	1	1	W	t	242
+904	59	1	127	2022-07-17	3	4	3	U	t	251
+905	100	1	251	2022-07-17	4	4	2	O	t	547
+906	48	1	109	2022-07-17	3	6	2	E	t	626
+907	27	1	270	2022-07-17	5	3	1	I	t	90
+908	64	1	110	2022-07-17	2	4	2	Q	t	329
+909	26	1	324	2022-07-17	3	5	2	Z	t	388
+910	72	1	448	2022-07-17	5	6	3	Z	t	567
+911	43	1	55	2022-07-17	2	3	1	N	t	494
+912	100	1	291	2022-07-17	1	1	1	Q	t	189
+913	6	1	54	2022-07-17	3	3	2	Q	t	431
+914	14	1	101	2022-07-17	3	6	1	U	t	44
+915	7	1	6	2022-07-17	3	6	1	N	t	272
+916	43	1	241	2022-07-17	1	6	3	I	t	475
+917	24	1	282	2022-07-17	5	1	2	K	t	611
+918	7	1	266	2022-07-17	4	6	3	I	t	430
+919	58	1	323	2022-07-17	5	2	3	D	t	694
+920	73	1	297	2022-07-17	3	1	3	T	t	46
+921	5	1	248	2022-07-17	4	1	2	U	t	539
+922	79	1	158	2022-07-17	1	3	1	X	t	238
+923	4	1	166	2022-07-17	1	6	3	V	t	430
+924	21	1	85	2022-07-17	5	1	2	W	t	561
+925	11	1	47	2022-07-17	2	3	1	O	t	469
+926	44	1	279	2022-07-17	2	6	1	A	t	257
+927	84	1	225	2022-07-17	2	4	3	S	t	690
+928	21	1	158	2022-07-17	2	2	1	Z	t	297
+929	99	1	267	2022-07-17	2	6	3	H	t	369
+930	30	1	331	2022-07-17	3	6	1	C	t	20
+931	88	1	100	2022-07-17	2	3	3	D	t	547
+932	96	1	5	2022-07-17	2	1	1	L	t	347
+933	58	1	305	2022-07-17	1	4	3	R	t	78
+934	27	1	30	2022-07-17	5	2	1	E	t	395
+935	101	1	200	2022-07-17	4	1	2	D	t	347
+936	99	1	76	2022-07-17	1	4	3	X	t	693
+937	84	1	106	2022-07-17	3	3	2	O	t	722
+938	35	1	477	2022-07-17	2	5	1	J	t	725
+939	54	1	471	2022-07-17	5	4	2	O	t	422
+940	29	1	472	2022-07-17	1	3	2	W	t	202
+941	4	1	108	2022-07-17	2	5	2	Q	t	224
+942	101	1	113	2022-07-17	3	6	1	Z	t	5
+943	70	1	13	2022-07-17	3	3	3	R	t	6
+944	103	1	429	2022-07-17	4	3	3	I	t	504
+945	90	1	217	2022-07-17	5	1	3	M	t	287
+946	46	1	399	2022-07-17	5	2	1	M	t	195
+947	2	1	422	2022-07-17	3	3	2	M	t	275
+948	98	1	434	2022-07-17	1	3	1	Q	t	571
+949	99	1	314	2022-07-17	3	2	1	Y	t	685
+950	19	1	163	2022-07-17	3	2	2	P	t	438
+951	96	1	251	2022-07-17	3	3	1	C	t	169
+952	88	1	25	2022-07-17	4	1	1	E	t	464
+953	88	1	453	2022-07-17	5	4	3	B	t	360
+954	54	1	140	2022-07-17	1	6	3	T	t	495
+955	58	1	386	2022-07-17	5	5	2	B	t	55
+956	79	1	224	2022-07-17	4	3	2	X	t	686
+957	89	1	145	2022-07-17	5	2	3	W	t	537
+958	99	1	394	2022-07-17	4	4	2	D	t	228
+959	48	1	478	2022-07-17	4	1	2	C	t	429
+960	38	1	291	2022-07-17	5	2	2	L	t	499
+961	34	1	72	2022-07-17	2	1	3	Z	t	709
+962	98	1	456	2022-07-17	4	1	1	D	t	342
+963	41	1	469	2022-07-17	2	2	2	V	t	202
+964	92	1	163	2022-07-17	4	4	1	O	t	125
+965	39	1	491	2022-07-17	3	6	2	V	t	469
+966	26	1	16	2022-07-17	2	4	3	D	t	409
+967	98	1	299	2022-07-17	1	2	3	S	t	100
+968	39	1	273	2022-07-17	1	3	2	A	t	661
+969	63	1	477	2022-07-17	1	4	2	P	t	716
+970	8	1	101	2022-07-17	3	3	2	R	t	460
+971	56	1	259	2022-07-17	4	3	2	V	t	287
+972	69	1	155	2022-07-17	2	3	3	N	t	588
+973	27	1	242	2022-07-17	4	2	2	T	t	338
+974	30	1	21	2022-07-17	5	1	3	W	t	706
+975	55	1	86	2022-07-17	2	2	2	U	t	627
+976	38	1	416	2022-07-17	5	3	2	L	t	291
+977	20	1	162	2022-07-17	4	3	2	X	t	140
+978	13	1	30	2022-07-17	3	5	2	O	t	501
+979	77	1	348	2022-07-17	4	5	2	V	t	635
+980	69	1	259	2022-07-17	2	4	2	O	t	40
+981	56	1	498	2022-07-17	2	3	3	E	t	93
+982	106	1	133	2022-07-17	3	6	2	D	t	27
+983	96	1	360	2022-07-17	5	4	3	R	t	588
+984	104	1	477	2022-07-17	4	5	2	M	t	8
+985	79	1	183	2022-07-17	4	5	1	F	t	154
+986	50	1	114	2022-07-17	3	2	3	P	t	672
+987	23	1	89	2022-07-17	2	3	2	E	t	460
+988	57	1	347	2022-07-17	1	5	2	F	t	534
+989	42	1	363	2022-07-17	2	1	2	L	t	596
+990	32	1	403	2022-07-17	1	4	1	A	t	9
+991	25	1	180	2022-07-17	5	4	2	K	t	689
+992	36	1	458	2022-07-17	2	1	1	N	t	463
+993	5	1	11	2022-07-17	3	2	2	K	t	249
+994	16	1	238	2022-07-17	2	5	3	A	t	348
+995	57	1	300	2022-07-17	3	5	1	I	t	393
+996	31	1	55	2022-07-17	1	6	3	D	t	654
+997	82	1	341	2022-07-17	2	1	2	H	t	497
+998	81	1	14	2022-07-17	5	6	1	Y	t	541
+999	88	1	145	2022-07-17	3	2	1	O	t	218
+1000	73	1	82	2022-07-17	4	2	1	A	t	443
+1001	59	1	450	2022-07-17	1	1	1	C	t	457
+1002	84	1	281	2022-07-17	2	6	2	A	t	315
+1003	45	1	184	2022-07-17	3	2	2	B	t	565
+1004	22	1	122	2022-07-17	2	3	2	G	t	411
+1005	21	1	34	2022-07-17	2	5	3	S	t	207
+1006	50	1	166	2022-07-17	3	2	1	N	t	565
+1007	9	1	349	2022-07-17	1	2	1	T	t	397
+1008	104	1	500	2022-07-17	3	5	1	C	t	186
+1009	8	1	157	2022-07-17	4	1	1	Y	t	580
+1010	14	1	114	2022-07-17	4	2	3	O	t	579
+1011	41	1	245	2022-07-17	3	6	3	R	t	712
+1012	38	1	76	2022-07-17	1	2	1	L	t	112
+1013	52	1	482	2022-07-17	3	1	1	Y	t	134
+1014	6	1	147	2022-07-17	5	6	2	R	t	501
+1015	82	1	143	2022-07-17	3	2	1	D	t	702
+1016	66	1	277	2022-07-17	5	4	3	N	t	343
+1017	48	1	70	2022-07-17	2	6	1	B	t	291
+1018	96	1	431	2022-07-17	4	1	3	B	t	96
+1019	109	1	40	2022-07-17	2	2	3	C	t	597
+1020	75	1	413	2022-07-17	4	6	1	O	t	432
+1021	69	1	70	2022-07-17	2	3	1	C	t	567
+1022	104	1	469	2022-07-17	1	1	3	D	t	265
+1023	104	1	357	2022-07-17	2	4	1	T	t	720
+1024	96	1	178	2022-07-17	5	4	1	F	t	680
+1025	30	1	317	2022-07-17	3	5	1	G	t	413
+1026	91	1	297	2022-07-17	3	5	2	U	t	305
+1027	52	1	83	2022-07-17	5	4	3	Q	t	56
+1028	18	1	375	2022-07-17	3	3	3	O	t	554
+1029	63	1	16	2022-07-17	4	3	3	R	t	413
+1030	19	1	299	2022-07-17	3	6	1	Z	t	611
+1031	100	1	371	2022-07-17	5	5	3	L	t	434
+1032	62	1	424	2022-07-17	3	3	2	V	t	265
+1033	8	1	99	2022-07-17	5	4	3	Z	t	254
+1034	38	1	373	2022-07-17	5	5	3	E	t	249
+1035	2	1	134	2022-07-17	2	2	2	A	t	695
+1036	38	1	379	2022-07-17	5	4	1	B	t	549
+1037	58	1	243	2022-07-17	5	1	3	W	t	94
+1038	28	1	252	2022-07-17	4	4	2	P	t	536
+1039	96	1	80	2022-07-17	2	6	3	S	t	132
+1040	70	1	362	2022-07-17	5	6	2	A	t	257
+1041	56	1	13	2022-07-17	5	6	2	F	t	27
+1042	100	1	205	2022-07-17	3	6	3	B	t	559
+1043	27	1	20	2022-07-17	4	5	1	J	t	549
+1044	38	1	194	2022-07-17	3	6	2	R	t	11
+1045	92	1	22	2022-07-17	5	6	1	F	t	603
+1046	73	1	255	2022-07-17	2	1	2	H	t	250
+1047	39	1	461	2022-07-17	1	3	2	H	t	61
+1048	51	1	44	2022-07-17	2	6	3	C	t	581
+1049	52	1	234	2022-07-17	2	6	2	X	t	22
+1050	96	1	312	2022-07-17	2	1	3	J	t	68
+1051	99	1	445	2022-07-17	4	1	1	P	t	108
+1052	2	1	104	2022-07-17	4	6	3	A	t	443
+1053	4	1	30	2022-07-17	5	4	2	Y	t	57
+1054	89	1	170	2022-07-17	5	5	2	C	t	224
+1055	72	1	129	2022-07-17	3	4	3	V	t	422
+1056	42	1	186	2022-07-17	1	5	2	E	t	355
+1057	9	1	16	2022-07-17	1	5	3	S	t	258
+1058	81	1	309	2022-07-17	1	5	1	N	t	483
+1059	58	1	183	2022-07-17	1	6	2	I	t	370
+1060	17	1	324	2022-07-17	1	6	3	L	t	587
+1061	63	1	443	2022-07-17	4	3	2	A	t	141
+1062	55	1	18	2022-07-17	1	4	2	Z	t	63
+1063	62	1	122	2022-07-17	3	6	3	G	t	194
+1064	70	1	440	2022-07-17	3	1	1	A	t	353
+1065	52	1	84	2022-07-17	1	4	1	T	t	234
+1066	70	1	471	2022-07-17	5	6	1	L	t	384
+1067	42	1	7	2022-07-17	5	4	1	K	t	77
+1068	93	1	192	2022-07-17	5	3	1	J	t	695
+1069	11	1	153	2022-07-17	3	6	3	I	t	181
+1070	80	1	175	2022-07-17	4	5	3	C	t	591
+1071	80	1	7	2022-07-17	1	6	3	Y	t	678
+1072	20	1	195	2022-07-17	5	5	2	X	t	127
+1073	100	1	245	2022-07-17	4	2	1	X	t	537
+1074	15	1	373	2022-07-17	4	1	1	L	t	460
+1075	42	1	296	2022-07-17	2	1	2	W	t	674
+1076	61	1	135	2022-07-17	2	6	1	L	t	575
+1077	26	1	354	2022-07-17	1	2	1	F	t	549
+1078	63	1	377	2022-07-17	1	1	3	A	t	72
+1079	25	1	383	2022-07-17	1	4	1	D	t	259
+1080	11	1	369	2022-07-17	5	3	3	R	t	407
+1081	70	1	42	2022-07-17	3	6	1	N	t	49
+1082	7	1	486	2022-07-17	4	4	3	F	t	175
+1083	47	1	176	2022-07-17	2	5	3	R	t	247
+1084	48	1	477	2022-07-17	2	1	3	G	t	637
+1085	11	1	257	2022-07-17	3	6	2	S	t	224
+1086	37	1	68	2022-07-17	3	2	3	W	t	681
+1087	32	1	428	2022-07-17	5	6	2	P	t	90
+1088	24	1	356	2022-07-17	2	4	2	X	t	592
+1089	15	1	460	2022-07-17	4	2	3	P	t	346
+1090	4	1	114	2022-07-17	5	1	3	S	t	127
+1091	51	1	118	2022-07-17	2	6	3	S	t	61
+1092	102	1	393	2022-07-17	5	3	3	S	t	119
+1093	63	1	263	2022-07-17	2	2	1	F	t	426
+1094	58	1	299	2022-07-17	1	5	2	E	t	171
+1095	86	1	446	2022-07-17	5	5	3	M	t	450
+1096	53	1	63	2022-07-17	4	5	2	F	t	147
+1097	13	1	423	2022-07-17	5	2	1	L	t	653
+1098	34	1	312	2022-07-17	2	2	2	K	t	632
+1099	56	1	415	2022-07-17	1	2	3	B	t	234
+1100	17	1	139	2022-07-17	3	6	3	H	t	79
+1101	78	1	305	2022-07-17	1	2	1	E	t	570
+1102	33	1	46	2022-07-17	1	5	1	U	t	356
+1103	105	1	264	2022-07-17	2	6	1	G	t	311
+1104	34	1	91	2022-07-17	5	6	1	U	t	584
+1105	16	1	455	2022-07-17	4	3	1	J	t	665
+1106	54	1	500	2022-07-17	3	3	1	C	t	373
+1107	89	1	473	2022-07-17	1	6	3	I	t	62
+1108	61	1	393	2022-07-17	3	5	1	L	t	479
+1109	75	1	61	2022-07-17	2	4	3	L	t	365
+1110	101	1	334	2022-07-17	2	1	3	W	t	669
+1111	9	1	297	2022-07-17	1	4	2	T	t	338
+1112	5	1	247	2022-07-17	3	1	3	J	t	333
+1113	73	1	91	2022-07-17	4	2	1	Y	t	696
+1114	70	1	80	2022-07-17	4	5	3	B	t	494
+1115	38	1	283	2022-07-17	3	6	2	N	t	679
+1116	109	1	90	2022-07-17	3	3	3	V	t	698
+1117	93	1	60	2022-07-17	5	3	3	X	t	321
+1118	16	1	152	2022-07-17	2	5	2	O	t	464
+1119	3	1	19	2022-07-17	5	2	1	P	t	34
+1120	78	1	11	2022-07-17	1	2	3	Q	t	572
+1121	39	1	417	2022-07-17	4	5	3	C	t	499
+1122	43	1	452	2022-07-17	2	6	1	O	t	453
+1123	66	1	182	2022-07-17	4	1	1	W	t	524
+1124	99	1	125	2022-07-17	5	2	3	T	t	28
+1125	14	1	29	2022-07-17	2	2	1	U	t	652
+1126	101	1	99	2022-07-17	2	6	3	R	t	236
+1127	67	1	281	2022-07-17	2	1	1	K	t	611
+1128	39	1	288	2022-07-17	2	2	3	P	t	418
+1129	59	1	409	2022-07-17	5	5	3	K	t	68
+1130	58	1	497	2022-07-17	3	2	1	K	t	621
+1131	89	1	8	2022-07-17	1	1	2	A	t	213
+1132	21	1	476	2022-07-17	5	2	3	G	t	553
+1133	1	1	335	2022-07-17	5	2	1	C	t	299
+1134	101	1	117	2022-07-17	2	4	3	W	t	228
+1135	42	1	298	2022-07-17	2	1	2	Q	t	724
+1136	100	1	353	2022-07-17	5	2	2	O	t	533
+1137	88	1	77	2022-07-17	5	4	3	I	t	114
+1138	24	1	398	2022-07-17	3	4	2	L	t	248
+1139	99	1	271	2022-07-17	5	2	1	B	t	103
+1140	64	1	157	2022-07-17	1	1	2	F	t	566
+1141	6	1	140	2022-07-17	5	3	3	X	t	619
+1142	58	1	55	2022-07-17	3	6	1	Q	t	188
+1143	24	1	84	2022-07-17	2	1	1	F	t	489
+1144	21	1	420	2022-07-17	4	5	2	J	t	378
+1145	78	1	335	2022-07-17	4	6	2	E	t	485
+1146	93	1	330	2022-07-17	4	6	1	L	t	394
+1147	7	1	338	2022-07-17	1	2	2	E	t	536
+1148	29	1	4	2022-07-17	2	2	3	N	t	598
+1149	65	1	314	2022-07-17	5	3	3	O	t	311
+1150	38	1	13	2022-07-17	5	1	2	R	t	635
+1151	3	1	12	2022-07-17	1	3	1	M	t	172
+1152	38	1	145	2022-07-17	4	4	3	O	t	107
+1153	88	1	331	2022-07-17	5	6	3	I	t	59
+1154	5	1	224	2022-07-17	4	1	1	X	t	590
+1155	109	1	4	2022-07-17	4	1	1	Z	t	382
+1156	93	1	449	2022-07-17	4	3	2	P	t	392
+1157	30	1	316	2022-07-17	2	6	1	I	t	726
+1158	51	1	156	2022-07-17	3	1	1	N	t	590
+1159	74	1	170	2022-07-17	1	4	3	E	t	455
+1160	56	1	401	2022-07-17	4	3	1	L	t	359
+1161	31	1	39	2022-07-17	3	2	1	D	t	659
+1162	58	1	104	2022-07-17	2	6	1	C	t	72
+1163	95	1	319	2022-07-17	1	4	3	W	t	436
+1164	59	1	254	2022-07-17	4	5	2	M	t	112
+1165	29	1	253	2022-07-17	3	1	3	W	t	340
+1166	85	1	251	2022-07-17	1	1	1	R	t	485
+1167	77	1	197	2022-07-17	4	3	3	S	t	87
+1168	64	1	332	2022-07-17	3	1	1	O	t	519
+1169	95	1	218	2022-07-17	1	2	1	K	t	373
+1170	31	1	313	2022-07-17	3	5	2	U	t	443
+1171	23	1	225	2022-07-17	3	1	2	F	t	149
+1172	34	1	291	2022-07-17	3	6	3	K	t	702
+1173	90	1	1	2022-07-17	5	6	3	N	t	336
+1174	92	1	443	2022-07-17	2	4	3	J	t	121
+1175	98	1	400	2022-07-17	4	3	3	V	t	244
+1176	96	1	286	2022-07-17	1	3	3	Q	t	664
+1177	19	1	358	2022-07-17	1	3	3	T	t	161
+1178	12	1	197	2022-07-17	3	5	1	Y	t	561
+1179	12	1	245	2022-07-17	2	2	2	J	t	631
+1180	4	1	14	2022-07-17	5	2	1	B	t	277
+1181	61	1	129	2022-07-17	1	5	2	H	t	211
+1182	53	1	334	2022-07-17	2	4	2	F	t	23
+1183	92	1	5	2022-07-17	2	4	3	C	t	426
+1184	9	1	159	2022-07-17	2	6	3	W	t	300
+1185	77	1	158	2022-07-17	5	6	1	Q	t	657
+1186	12	1	492	2022-07-17	1	1	1	R	t	117
+1187	108	1	461	2022-07-17	3	4	1	A	t	293
+1188	53	1	151	2022-07-17	5	5	1	F	t	567
+1189	109	1	37	2022-07-17	1	2	1	B	t	234
+1190	82	1	365	2022-07-17	2	6	3	A	t	540
+1191	81	1	11	2022-07-17	4	4	3	J	t	493
+1192	108	1	256	2022-07-17	2	2	1	F	t	726
+1193	12	1	252	2022-07-17	5	3	1	Y	t	580
+1194	5	1	223	2022-07-17	2	1	1	M	t	445
+1195	39	1	13	2022-07-17	5	1	3	Q	t	155
+1196	87	1	333	2022-07-17	2	5	3	V	t	230
+1197	91	1	259	2022-07-17	1	4	2	D	t	92
+1198	64	1	188	2022-07-17	5	5	3	T	t	240
+1199	106	1	11	2022-07-17	4	4	3	U	t	336
+1200	101	1	42	2022-07-17	5	2	1	P	t	189
+1201	55	1	255	2022-07-17	3	6	3	L	t	302
+1202	48	1	289	2022-07-17	2	4	3	C	t	495
+1203	102	1	385	2022-07-17	2	2	1	W	t	92
+1204	37	1	101	2022-07-17	4	4	1	W	t	500
+1205	76	1	277	2022-07-17	1	6	2	A	t	312
+1206	7	1	126	2022-07-17	1	6	2	P	t	494
+1207	89	1	328	2022-07-17	3	3	3	W	t	142
+1208	33	1	223	2022-07-17	3	3	3	E	t	120
+1209	24	1	283	2022-07-17	3	1	1	U	t	346
+1210	45	1	184	2022-07-17	5	5	1	N	t	705
+1211	95	1	125	2022-07-17	5	1	3	K	t	699
+1212	73	1	126	2022-07-17	4	4	1	G	t	118
+1213	3	1	108	2022-07-17	5	2	2	Q	t	358
+1214	11	1	206	2022-07-17	2	2	1	G	t	227
+1215	27	1	100	2022-07-17	2	4	1	L	t	370
+1216	15	1	426	2022-07-17	2	5	1	G	t	659
+1217	93	1	274	2022-07-17	2	6	3	B	t	451
+1218	100	1	313	2022-07-17	1	2	2	V	t	195
+1219	67	1	80	2022-07-17	5	4	3	D	t	275
+1220	32	1	404	2022-07-17	3	5	2	H	t	372
+1221	18	1	86	2022-07-17	3	6	2	D	t	651
+1222	23	1	476	2022-07-17	3	2	2	U	t	337
+1223	101	1	300	2022-07-17	4	1	1	R	t	568
+1224	39	1	68	2022-07-17	1	1	2	Z	t	36
+1225	64	1	310	2022-07-17	1	6	2	O	t	624
+1226	29	1	200	2022-07-17	2	1	1	S	t	328
+1227	23	1	413	2022-07-17	4	5	2	O	t	631
+1228	45	1	209	2022-07-17	4	3	1	I	t	61
+1229	85	1	382	2022-07-17	1	1	2	T	t	596
+1230	86	1	40	2022-07-17	1	2	1	U	t	270
+1231	101	1	214	2022-07-17	5	3	3	C	t	158
+1232	63	1	381	2022-07-17	3	5	1	R	t	94
+1233	64	1	414	2022-07-17	2	1	1	Y	t	312
+1234	76	1	18	2022-07-17	4	6	1	Q	t	508
+1235	108	1	345	2022-07-17	1	2	1	F	t	641
+1236	32	1	323	2022-07-17	3	4	2	D	t	705
+1237	86	1	63	2022-07-17	3	1	3	J	t	565
+1238	88	1	172	2022-07-17	5	1	2	C	t	176
+1239	1	1	115	2022-07-17	3	6	1	T	t	519
+1240	23	1	94	2022-07-17	2	5	3	F	t	541
+1241	42	1	146	2022-07-17	2	4	2	V	t	578
+1242	12	1	234	2022-07-17	2	3	2	U	t	270
+1243	91	1	249	2022-07-17	2	4	2	P	t	69
+1244	109	1	54	2022-07-17	4	5	1	R	t	109
+1245	83	1	497	2022-07-17	1	2	1	M	t	515
+1246	2	1	470	2022-07-17	2	6	1	B	t	94
+1247	79	1	439	2022-07-17	4	5	1	A	t	721
+1248	14	1	277	2022-07-17	2	6	3	E	t	425
+1249	68	1	95	2022-07-17	1	4	2	M	t	300
+1250	71	1	159	2022-07-17	4	3	3	T	t	265
+1251	72	1	338	2022-07-17	3	2	2	J	t	500
+1252	77	1	78	2022-07-17	5	5	2	Y	t	312
+1253	99	1	193	2022-07-17	1	5	3	Q	t	213
+1254	71	1	272	2022-07-17	3	3	1	H	t	564
+1255	97	1	11	2022-07-17	3	6	3	V	t	55
+1256	24	1	353	2022-07-17	5	4	1	W	t	190
+1257	9	1	265	2022-07-17	4	5	3	C	t	162
+1258	61	1	13	2022-07-17	1	1	1	A	t	265
+1259	63	1	116	2022-07-17	4	1	1	J	t	56
+1260	76	1	221	2022-07-17	4	4	3	X	t	472
+1269	90	3	1209	2022-07-19	4	5	2	IIIIII	t	361
+1270	31	2	369	2022-07-19	2	4	1	JJJJJJ	t	285
+1271	28	4	1650	2022-07-19	1	1	2	KKKKKK	t	389
+1272	55	4	157	2022-07-19	2	3	3	LLLLLL	t	170
+1273	20	2	476	2022-07-19	4	3	1	MMMMMM	t	235
+1274	100	3	487	2022-07-19	3	1	3	NNNNNN	t	139
+1275	99	3	984	2022-07-19	3	5	3	OOOOOO	t	319
+1276	57	4	942	2022-07-19	1	2	1	PPPPPP	t	353
+1277	70	3	1300	2022-07-19	3	2	1	QQQQQQ	t	479
+1278	25	3	966	2022-07-19	3	4	2	RRRRRR	t	614
+1279	98	4	392	2022-07-19	1	1	2	SSSSSS	t	638
+1280	40	3	1259	2022-07-19	1	3	3	TTTTTT	t	190
+1281	97	3	1995	2022-07-19	1	5	3	UUUUUU	t	3
+1282	89	2	1342	2022-07-19	4	4	2	VVVVVV	t	334
+1283	6	3	107	2022-07-19	2	2	2	WWWWWW	t	544
+1284	87	2	1271	2022-07-19	2	5	1	XXXXXX	t	285
+1285	27	3	636	2022-07-19	3	2	2	YYYYYY	t	467
+1286	25	3	1837	2022-07-19	3	4	1	ZZZZZZ	t	199
+1287	83	2	227	2022-07-19	4	4	3	AAAAAA	t	607
+1288	33	3	1204	2022-07-19	1	1	2	BBBBBB	t	64
+1289	62	3	1777	2022-07-19	1	5	2	CCCCCC	t	476
+1290	99	3	1529	2022-07-19	3	3	1	DDDDDD	t	663
+1291	56	4	1188	2022-07-19	1	6	2	EEEEEE	t	1
+1292	2	2	1084	2022-07-19	4	2	1	FFFFFF	t	117
+1293	14	2	1286	2022-07-19	3	1	2	GGGGGG	t	433
+1294	80	3	1559	2022-07-19	3	4	1	HHHHHH	t	290
+1295	99	4	1537	2022-07-19	4	2	2	IIIIII	t	225
+1296	18	4	1309	2022-07-19	4	1	2	JJJJJJ	t	547
+1297	68	4	1950	2022-07-19	3	5	1	KKKKKK	t	254
+1298	54	3	1831	2022-07-19	1	6	1	LLLLLL	t	243
+1299	42	4	424	2022-07-19	3	4	1	MMMMMM	t	548
+1300	98	2	1238	2022-07-19	4	6	2	NNNNNN	t	212
+1301	81	2	1624	2022-07-19	2	2	1	OOOOOO	t	38
+1302	54	4	1338	2022-07-19	4	1	2	PPPPPP	t	570
+1303	79	2	610	2022-07-19	2	2	3	QQQQQQ	t	451
+1304	108	4	901	2022-07-19	2	2	3	RRRRRR	t	608
+1305	81	4	862	2022-07-19	3	4	2	SSSSSS	t	256
+1306	45	4	1209	2022-07-19	3	5	1	TTTTTT	t	299
+1307	46	2	238	2022-07-19	1	1	2	UUUUUU	t	227
+1308	83	3	430	2022-07-19	3	1	1	VVVVVV	t	258
+1309	58	4	908	2022-07-19	4	5	2	WWWWWW	t	452
+1310	10	4	1234	2022-07-19	4	1	3	XXXXXX	t	573
+1311	54	3	377	2022-07-19	4	3	2	YYYYYY	t	497
+1312	12	4	1580	2022-07-19	4	6	1	ZZZZZZ	t	593
+1313	19	3	700	2022-07-19	1	1	3	AAAAAA	t	552
+1314	35	3	1571	2022-07-19	3	2	2	BBBBBB	t	94
+1315	83	4	1180	2022-07-19	2	6	1	CCCCCC	t	54
+1316	101	3	1316	2022-07-19	4	6	1	DDDDDD	t	195
+1317	73	4	1896	2022-07-19	1	1	1	EEEEEE	t	540
+1318	107	4	1568	2022-07-19	4	1	3	FFFFFF	t	573
+1319	41	2	977	2022-07-19	1	3	3	GGGGGG	t	81
+1320	90	4	1250	2022-07-19	4	2	2	HHHHHH	t	309
+1321	68	2	1863	2022-07-19	3	1	2	IIIIII	t	287
+1322	25	4	349	2022-07-19	1	1	2	JJJJJJ	t	176
+1323	52	3	262	2022-07-19	3	1	2	KKKKKK	t	466
+1324	19	2	1482	2022-07-19	3	2	3	LLLLLL	t	315
+1325	69	3	525	2022-07-19	4	4	3	MMMMMM	t	22
+1326	93	2	1596	2022-07-19	1	3	3	NNNNNN	t	110
+1327	39	3	306	2022-07-19	4	1	2	OOOOOO	t	629
+1328	68	4	456	2022-07-19	4	4	2	PPPPPP	t	457
+1329	12	3	279	2022-07-19	2	6	3	QQQQQQ	t	224
+1330	96	2	1324	2022-07-19	4	4	2	RRRRRR	t	380
+1331	64	2	1424	2022-07-19	1	2	3	SSSSSS	t	303
+1332	75	2	1567	2022-07-19	3	3	2	TTTTTT	t	675
+1333	9	4	380	2022-07-19	4	1	3	UUUUUU	t	642
+1334	17	4	886	2022-07-19	4	2	1	VVVVVV	t	359
+1335	59	3	553	2022-07-19	1	5	3	WWWWWW	t	95
+1336	67	4	1658	2022-07-19	3	1	2	XXXXXX	t	627
+1337	5	4	691	2022-07-19	2	6	2	YYYYYY	t	446
+1338	91	4	1418	2022-07-19	3	6	3	ZZZZZZ	t	62
+1339	87	3	867	2022-07-19	3	2	3	AAAAAA	t	71
+1340	94	3	1032	2022-07-19	4	5	2	BBBBBB	t	408
+1341	77	2	1316	2022-07-19	1	6	1	CCCCCC	t	596
+1342	86	2	1051	2022-07-19	4	2	2	DDDDDD	t	336
+1343	53	3	465	2022-07-19	1	4	1	EEEEEE	t	295
+1344	60	4	1965	2022-07-19	1	6	1	FFFFFF	t	580
+1345	14	4	1498	2022-07-19	4	3	1	GGGGGG	t	131
+1346	41	2	983	2022-07-19	4	6	2	HHHHHH	t	529
+1347	100	3	508	2022-07-19	3	5	1	IIIIII	t	28
+1348	23	4	759	2022-07-19	4	2	1	JJJJJJ	t	310
+1349	105	3	1219	2022-07-19	4	3	1	KKKKKK	t	667
+1350	85	4	1697	2022-07-19	2	2	3	LLLLLL	t	77
+1351	95	4	1793	2022-07-19	4	1	3	MMMMMM	t	590
+1352	88	2	855	2022-07-19	2	5	3	NNNNNN	t	314
+1353	57	3	275	2022-07-19	4	4	3	OOOOOO	t	236
+1354	94	4	1373	2022-07-19	4	2	2	PPPPPP	t	2
+1355	25	4	1670	2022-07-19	2	6	2	QQQQQQ	t	626
+1356	46	4	940	2022-07-19	2	6	1	RRRRRR	t	667
+1357	45	3	623	2022-07-19	1	4	1	SSSSSS	t	286
+1358	89	3	1290	2022-07-19	2	1	1	TTTTTT	t	335
+1359	65	2	1867	2022-07-19	1	1	2	UUUUUU	t	545
+1360	96	3	729	2022-07-19	1	3	1	VVVVVV	t	150
+1361	24	3	955	2022-07-19	2	3	3	WWWWWW	t	114
+1362	88	3	332	2022-07-19	2	5	1	XXXXXX	t	27
+1363	25	3	1453	2022-07-19	3	6	3	YYYYYY	t	177
+1364	44	3	808	2022-07-19	2	6	1	ZZZZZZ	t	261
+1365	93	2	1747	2022-07-19	1	2	2	AAAAAA	t	156
+1366	66	4	1056	2022-07-19	4	6	2	BBBBBB	t	633
+1367	74	4	448	2022-07-19	1	4	3	CCCCCC	t	482
+1368	71	2	725	2022-07-19	2	6	3	DDDDDD	t	235
+1369	62	3	1155	2022-07-19	1	5	3	EEEEEE	t	536
+1370	90	3	1856	2022-07-19	3	1	2	FFFFFF	t	565
+1371	83	4	1768	2022-07-19	3	3	3	GGGGGG	t	165
+1372	18	3	1327	2022-07-19	4	4	2	HHHHHH	t	78
+1373	64	4	1155	2022-07-19	2	3	3	IIIIII	t	525
+1374	62	4	1046	2022-07-19	1	1	3	JJJJJJ	t	341
+1375	44	3	1410	2022-07-19	3	6	1	KKKKKK	t	624
+1376	39	3	1969	2022-07-19	3	1	3	LLLLLL	t	551
+1377	61	3	438	2022-07-19	3	6	1	MMMMMM	t	157
+1378	106	4	1946	2022-07-19	4	4	3	NNNNNN	t	453
+1379	46	4	893	2022-07-19	1	3	1	OOOOOO	t	388
+1380	13	4	940	2022-07-19	3	2	3	PPPPPP	t	395
+1381	9	3	794	2022-07-19	1	3	1	QQQQQQ	t	395
+1382	95	3	1697	2022-07-19	4	6	3	RRRRRR	t	124
+1383	16	4	1097	2022-07-19	1	4	3	SSSSSS	t	299
+1384	103	4	1091	2022-07-19	3	1	2	TTTTTT	t	19
+1385	68	3	505	2022-07-19	3	2	1	UUUUUU	t	621
+1386	88	2	1205	2022-07-19	2	5	1	VVVVVV	t	400
+1387	84	4	1081	2022-07-19	3	1	2	WWWWWW	t	347
+1388	55	3	1868	2022-07-19	1	5	1	XXXXXX	t	270
+1389	27	3	522	2022-07-19	4	5	1	YYYYYY	t	625
+1390	87	2	1799	2022-07-19	4	5	3	ZZZZZZ	t	563
+1391	23	2	1120	2022-07-19	4	1	2	AAAAAA	t	539
+1392	90	2	622	2022-07-19	4	1	1	BBBBBB	t	560
+1393	66	2	358	2022-07-19	1	4	2	CCCCCC	t	518
+1394	37	2	271	2022-07-19	4	3	3	DDDDDD	t	53
+1395	60	4	1200	2022-07-19	2	1	2	EEEEEE	t	461
+1396	73	4	1613	2022-07-19	2	4	3	FFFFFF	t	149
+1397	44	3	1158	2022-07-19	1	2	3	GGGGGG	t	59
+1398	2	4	1323	2022-07-19	3	6	3	HHHHHH	t	163
+1399	44	2	357	2022-07-19	1	1	1	IIIIII	t	457
+1400	50	3	1291	2022-07-19	3	4	3	JJJJJJ	t	627
+1401	63	3	408	2022-07-19	1	4	3	KKKKKK	t	123
+1402	91	2	919	2022-07-19	4	2	3	LLLLLL	t	542
+1403	13	2	323	2022-07-19	4	4	3	MMMMMM	t	27
+1404	104	4	1806	2022-07-19	1	1	1	NNNNNN	t	225
+1405	35	2	1519	2022-07-19	2	2	1	OOOOOO	t	264
+1406	18	3	1405	2022-07-19	3	6	1	PPPPPP	t	511
+1407	2	4	1051	2022-07-19	4	3	1	QQQQQQ	t	150
+1408	16	3	1653	2022-07-19	1	6	3	RRRRRR	t	563
+1409	56	3	1101	2022-07-19	2	1	1	SSSSSS	t	457
+1410	2	2	132	2022-07-19	2	6	1	TTTTTT	t	317
+1411	13	3	1944	2022-07-19	1	2	2	UUUUUU	t	266
+1412	57	2	1031	2022-07-19	1	1	2	VVVVVV	t	383
+1413	104	3	525	2022-07-19	1	1	3	WWWWWW	t	272
+1414	6	2	1097	2022-07-19	1	5	3	XXXXXX	t	313
+1415	100	2	702	2022-07-19	3	5	2	YYYYYY	t	155
+1416	26	4	1218	2022-07-19	3	3	1	ZZZZZZ	t	287
+1417	101	2	1733	2022-07-19	1	5	1	AAAAAA	t	151
+1418	89	4	357	2022-07-19	3	4	3	BBBBBB	t	514
+1419	11	3	1584	2022-07-19	1	6	1	CCCCCC	t	151
+1420	35	4	328	2022-07-19	4	5	1	DDDDDD	t	576
+1421	56	3	765	2022-07-19	4	3	1	EEEEEE	t	628
+1422	50	4	1247	2022-07-19	3	2	1	FFFFFF	t	131
+1423	96	3	224	2022-07-19	4	4	3	GGGGGG	t	372
+1424	46	3	303	2022-07-19	1	1	3	HHHHHH	t	340
+1425	107	2	1979	2022-07-19	3	4	1	IIIIII	t	5
+1426	31	3	330	2022-07-19	1	5	2	JJJJJJ	t	9
+1427	33	2	644	2022-07-19	2	3	2	KKKKKK	t	75
+1428	53	3	1468	2022-07-19	4	3	3	LLLLLL	t	305
+1429	21	3	880	2022-07-19	4	3	2	MMMMMM	t	365
+1430	10	3	239	2022-07-19	2	6	2	NNNNNN	t	261
+1431	65	3	763	2022-07-19	4	3	3	OOOOOO	t	642
+1432	50	3	977	2022-07-19	2	5	3	PPPPPP	t	135
+1433	51	2	381	2022-07-19	4	2	1	QQQQQQ	t	39
+1434	17	2	234	2022-07-19	2	1	1	RRRRRR	t	431
+1435	37	4	1974	2022-07-19	3	3	3	SSSSSS	t	87
+1436	49	2	262	2022-07-19	4	2	3	TTTTTT	t	93
+1437	62	4	1582	2022-07-19	4	2	3	UUUUUU	t	425
+1438	13	2	1250	2022-07-19	4	1	1	VVVVVV	t	297
+1439	20	4	469	2022-07-19	1	2	2	WWWWWW	t	512
+1440	61	4	1185	2022-07-19	4	3	2	XXXXXX	t	265
+1441	97	2	515	2022-07-19	1	6	3	YYYYYY	t	314
+1442	40	2	284	2022-07-19	1	1	3	ZZZZZZ	t	5
+1443	31	3	787	2022-07-19	2	3	3	AAAAAA	t	447
+1444	80	2	985	2022-07-19	3	6	2	BBBBBB	t	498
+1445	33	2	1271	2022-07-19	4	1	2	CCCCCC	t	258
+1446	77	4	1044	2022-07-19	3	1	2	DDDDDD	t	632
+1447	1	2	1565	2022-07-19	3	1	1	EEEEEE	t	610
+1448	74	2	1491	2022-07-19	2	3	3	FFFFFF	t	118
+1449	50	4	1359	2022-07-19	1	5	2	GGGGGG	t	56
+1450	104	3	1071	2022-07-19	4	4	2	HHHHHH	t	344
+1451	39	3	741	2022-07-19	1	3	1	IIIIII	t	555
+1452	96	4	1697	2022-07-19	2	4	1	JJJJJJ	t	116
+1453	52	2	1795	2022-07-19	1	3	3	KKKKKK	t	662
+1454	40	3	1867	2022-07-19	3	6	3	LLLLLL	t	643
+1455	78	2	1761	2022-07-19	3	4	3	MMMMMM	t	294
+1456	37	4	1912	2022-07-19	1	3	3	NNNNNN	t	284
+1457	32	2	1578	2022-07-19	4	3	1	OOOOOO	t	198
+1458	25	4	1013	2022-07-19	1	4	3	PPPPPP	t	557
+1459	94	2	1658	2022-07-19	2	5	3	QQQQQQ	t	163
+1460	107	4	1831	2022-07-19	4	4	2	RRRRRR	t	369
+1461	49	4	362	2022-07-19	3	2	2	SSSSSS	t	417
+1462	6	2	534	2022-07-19	2	4	1	TTTTTT	t	544
+1463	49	4	503	2022-07-19	4	4	3	UUUUUU	t	235
+1464	44	2	1626	2022-07-19	1	2	1	VVVVVV	t	63
+1465	56	2	1500	2022-07-19	3	2	1	WWWWWW	t	438
+1466	72	2	1985	2022-07-19	1	3	1	XXXXXX	t	452
+1467	56	2	1434	2022-07-19	2	2	1	YYYYYY	t	297
+1468	55	4	1102	2022-07-19	3	3	2	ZZZZZZ	t	212
+1469	63	3	111	2022-07-19	2	6	2	AAAAAA	t	52
+1470	3	3	1430	2022-07-19	2	2	1	BBBBBB	t	359
+1471	29	3	456	2022-07-19	1	6	3	CCCCCC	t	229
+1472	48	3	1743	2022-07-19	2	6	3	DDDDDD	t	400
+1473	44	4	1097	2022-07-19	2	5	1	EEEEEE	t	239
+1474	84	4	1279	2022-07-19	4	6	3	FFFFFF	t	219
+1475	79	2	1466	2022-07-19	1	3	2	GGGGGG	t	661
+1476	17	3	1545	2022-07-19	2	6	1	HHHHHH	t	7
+1477	84	2	1850	2022-07-19	4	1	1	IIIIII	t	527
+1478	46	2	1294	2022-07-19	4	4	2	JJJJJJ	t	592
+1479	43	4	1435	2022-07-19	3	2	1	KKKKKK	t	590
+1480	3	2	146	2022-07-19	2	4	3	LLLLLL	t	86
+1481	55	2	628	2022-07-19	2	6	2	MMMMMM	t	355
+1482	75	2	1898	2022-07-19	3	1	2	NNNNNN	t	180
+1483	10	4	1054	2022-07-19	2	2	3	OOOOOO	t	641
+1484	82	2	572	2022-07-19	1	6	1	PPPPPP	t	53
+1485	12	4	1787	2022-07-19	4	3	3	QQQQQQ	t	271
+1486	96	3	1018	2022-07-19	4	6	2	RRRRRR	t	670
+1487	92	4	1048	2022-07-19	4	5	2	SSSSSS	t	339
+1488	36	2	1215	2022-07-19	4	1	1	TTTTTT	t	75
+1489	39	4	1157	2022-07-19	2	6	2	UUUUUU	t	385
+1490	53	2	1174	2022-07-19	3	5	3	VVVVVV	t	580
+1491	23	4	187	2022-07-19	2	1	1	WWWWWW	t	439
+1492	47	2	1633	2022-07-19	2	5	3	XXXXXX	t	612
+1493	47	2	1691	2022-07-19	2	1	3	YYYYYY	t	674
+1494	63	4	1854	2022-07-19	4	3	2	ZZZZZZ	t	3
+1495	109	2	1372	2022-07-19	3	5	3	AAAAAA	t	168
+1496	48	2	142	2022-07-19	2	3	3	BBBBBB	t	98
+1497	12	2	1451	2022-07-19	2	5	1	CCCCCC	t	565
+1498	78	2	1680	2022-07-19	3	3	1	DDDDDD	t	284
+1499	11	4	1527	2022-07-19	3	2	2	EEEEEE	t	59
+1500	44	2	482	2022-07-19	2	5	3	FFFFFF	t	595
+1501	76	2	639	2022-07-19	4	6	3	GGGGGG	t	452
+1502	66	4	1169	2022-07-19	1	6	1	HHHHHH	t	318
+1503	44	2	580	2022-07-19	2	3	3	IIIIII	t	340
+1504	39	2	1572	2022-07-19	4	2	3	JJJJJJ	t	285
+1505	43	4	220	2022-07-19	4	6	2	KKKKKK	t	308
+1506	58	2	1411	2022-07-19	4	5	2	LLLLLL	t	51
+1507	93	4	1243	2022-07-19	3	3	1	MMMMMM	t	142
+1508	1	3	1432	2022-07-19	1	1	2	NNNNNN	t	594
+1509	8	4	424	2022-07-19	4	1	1	OOOOOO	t	353
+1510	44	2	579	2022-07-19	2	5	1	PPPPPP	t	567
+1511	56	3	510	2022-07-19	2	5	2	QQQQQQ	t	318
+1512	85	4	1486	2022-07-19	3	3	3	RRRRRR	t	447
+1513	29	3	1353	2022-07-19	1	4	3	SSSSSS	t	76
+1514	93	2	1522	2022-07-19	4	6	1	TTTTTT	t	649
+1515	19	4	118	2022-07-19	1	3	3	UUUUUU	t	401
+1516	93	3	668	2022-07-19	4	2	3	VVVVVV	t	17
+1517	21	4	1801	2022-07-19	4	1	3	WWWWWW	t	35
+1518	2	2	1574	2022-07-19	4	4	1	XXXXXX	t	310
+1519	5	3	1069	2022-07-19	3	6	3	YYYYYY	t	128
+1520	22	4	1058	2022-07-19	3	4	1	ZZZZZZ	t	612
+1521	87	4	1106	2022-07-19	4	6	1	AAAAAA	t	20
+1522	71	2	137	2022-07-19	2	4	3	BBBBBB	t	134
+1523	39	2	1374	2022-07-19	3	2	1	CCCCCC	t	545
+1524	75	3	1691	2022-07-19	2	2	1	DDDDDD	t	412
+1525	60	3	1496	2022-07-19	2	4	1	EEEEEE	t	640
+1526	105	3	1188	2022-07-19	1	3	1	FFFFFF	t	246
+1527	63	4	1318	2022-07-19	2	5	1	GGGGGG	t	123
+1528	5	2	1215	2022-07-19	3	1	3	HHHHHH	t	298
+1529	95	3	1241	2022-07-19	1	1	2	IIIIII	t	32
+1530	75	4	383	2022-07-19	3	3	3	JJJJJJ	t	543
+1531	32	3	1368	2022-07-19	4	3	2	KKKKKK	t	344
+1532	100	3	950	2022-07-19	2	1	1	LLLLLL	t	494
+1533	80	4	1953	2022-07-19	2	3	3	MMMMMM	t	362
+1534	94	2	119	2022-07-19	2	6	2	NNNNNN	t	208
+1535	86	4	1556	2022-07-19	4	4	2	OOOOOO	t	660
+1536	107	3	1053	2022-07-19	4	3	2	PPPPPP	t	543
+1537	74	4	1787	2022-07-19	2	6	2	QQQQQQ	t	13
+1538	109	4	846	2022-07-19	3	4	1	RRRRRR	t	575
+1539	40	2	1123	2022-07-19	2	5	1	SSSSSS	t	405
+1540	34	3	605	2022-07-19	3	2	2	TTTTTT	t	242
+1541	48	3	1385	2022-07-19	1	1	2	UUUUUU	t	583
+1542	78	4	621	2022-07-19	3	5	1	VVVVVV	t	526
+1543	6	3	1877	2022-07-19	4	6	1	WWWWWW	t	366
+1544	58	3	1769	2022-07-19	3	5	3	XXXXXX	t	677
+1545	87	4	474	2022-07-19	3	6	3	YYYYYY	t	611
+1546	59	4	1010	2022-07-19	2	1	1	ZZZZZZ	t	611
+1547	60	3	993	2022-07-19	3	5	2	AAAAAA	t	361
+1548	7	3	607	2022-07-19	1	5	2	BBBBBB	t	230
+1549	30	2	838	2022-07-19	4	4	2	CCCCCC	t	639
+1550	57	4	1682	2022-07-19	2	2	1	DDDDDD	t	124
+1551	72	4	1231	2022-07-19	4	5	2	EEEEEE	t	115
+1552	28	4	1767	2022-07-19	4	3	3	FFFFFF	t	6
+1553	13	3	1531	2022-07-19	2	6	3	GGGGGG	t	499
+1554	61	3	378	2022-07-19	4	5	2	HHHHHH	t	324
+1555	48	4	1209	2022-07-19	2	4	1	IIIIII	t	515
+1556	78	2	383	2022-07-19	4	3	3	JJJJJJ	t	64
+1557	79	2	1492	2022-07-19	4	6	2	KKKKKK	t	496
+1558	39	2	561	2022-07-19	4	1	2	LLLLLL	t	166
+1559	100	3	857	2022-07-19	1	4	2	MMMMMM	t	548
+1560	77	4	1747	2022-07-19	3	4	3	NNNNNN	t	444
+1561	48	3	362	2022-07-19	1	3	2	OOOOOO	t	636
+1562	21	2	1565	2022-07-19	1	6	1	PPPPPP	t	171
+1563	33	2	567	2022-07-19	4	5	3	QQQQQQ	t	674
+1564	53	4	472	2022-07-19	2	3	3	RRRRRR	t	425
+1565	3	4	559	2022-07-19	2	3	1	SSSSSS	t	171
+1566	6	3	1633	2022-07-19	2	5	1	TTTTTT	t	384
+1567	29	4	391	2022-07-19	2	4	3	UUUUUU	t	379
+1568	10	3	716	2022-07-19	4	2	1	VVVVVV	t	81
+1569	107	3	468	2022-07-19	2	6	2	WWWWWW	t	205
+1570	87	3	1344	2022-07-19	1	1	3	XXXXXX	t	151
+1571	62	3	1382	2022-07-19	1	2	2	YYYYYY	t	85
+1572	14	3	1438	2022-07-19	3	5	3	ZZZZZZ	t	348
+1573	22	2	796	2022-07-19	4	1	1	AAAAAA	t	382
+1574	100	4	776	2022-07-19	3	6	1	BBBBBB	t	84
+1575	31	3	544	2022-07-19	3	3	3	CCCCCC	t	188
+1576	51	4	1716	2022-07-19	4	3	2	DDDDDD	t	253
+1577	69	4	1383	2022-07-19	2	1	3	EEEEEE	t	328
+1578	25	2	1709	2022-07-19	4	6	3	FFFFFF	t	58
+1579	15	2	572	2022-07-19	2	2	3	GGGGGG	t	80
+1580	60	2	1207	2022-07-19	2	3	3	HHHHHH	t	378
+1581	71	4	1954	2022-07-19	3	2	3	IIIIII	t	443
+1582	80	2	378	2022-07-19	3	5	2	JJJJJJ	t	180
+1583	80	4	753	2022-07-19	2	4	3	KKKKKK	t	46
+1584	36	2	305	2022-07-19	3	4	3	LLLLLL	t	131
+1585	51	4	645	2022-07-19	3	1	2	MMMMMM	t	360
+1586	79	2	1316	2022-07-19	2	1	3	NNNNNN	t	616
+1587	77	2	869	2022-07-19	1	2	3	OOOOOO	t	379
+1588	12	3	1088	2022-07-19	1	1	2	PPPPPP	t	204
+1589	51	2	923	2022-07-19	1	6	1	QQQQQQ	t	406
+1590	16	3	1772	2022-07-19	4	6	1	RRRRRR	t	504
+1591	100	4	1743	2022-07-19	3	4	2	SSSSSS	t	461
+1592	49	2	1074	2022-07-19	2	4	2	TTTTTT	t	425
+1593	29	4	742	2022-07-19	4	6	1	UUUUUU	t	12
+1594	107	2	923	2022-07-19	1	3	3	VVVVVV	t	546
+1595	49	4	612	2022-07-19	1	6	2	WWWWWW	t	239
+1596	62	2	693	2022-07-19	4	3	2	XXXXXX	t	48
+1597	6	3	517	2022-07-19	1	4	1	YYYYYY	t	312
+1598	31	4	112	2022-07-19	3	2	1	ZZZZZZ	t	282
+1599	59	4	1368	2022-07-19	4	5	3	AAAAAA	t	216
+1600	32	2	526	2022-07-19	2	1	2	BBBBBB	t	464
+1601	81	3	1318	2022-07-19	4	6	3	CCCCCC	t	511
+1602	100	2	1670	2022-07-19	1	2	2	DDDDDD	t	397
+1603	102	3	775	2022-07-19	1	6	3	EEEEEE	t	489
+1604	15	4	1072	2022-07-19	1	5	1	FFFFFF	t	608
+1605	83	2	837	2022-07-19	2	2	2	GGGGGG	t	116
+1606	56	2	578	2022-07-19	3	2	3	HHHHHH	t	499
+1607	81	2	638	2022-07-19	4	2	2	IIIIII	t	192
+1608	70	3	350	2022-07-19	1	3	3	JJJJJJ	t	606
+1609	1	4	1565	2022-07-19	2	5	3	KKKKKK	t	642
+1610	10	2	1167	2022-07-19	4	2	2	LLLLLL	t	346
+1611	58	2	1419	2022-07-19	2	2	3	MMMMMM	t	400
+1612	5	3	748	2022-07-19	2	5	3	NNNNNN	t	228
+1613	102	3	155	2022-07-19	1	3	2	OOOOOO	t	572
+1614	81	4	1255	2022-07-19	2	3	3	PPPPPP	t	491
+1615	92	3	504	2022-07-19	1	4	3	QQQQQQ	t	422
+1616	85	2	189	2022-07-19	2	3	3	RRRRRR	t	134
+1617	66	2	746	2022-07-19	4	1	1	SSSSSS	t	521
+1618	96	4	640	2022-07-19	1	2	1	TTTTTT	t	18
+1619	107	2	198	2022-07-19	3	6	2	UUUUUU	t	646
+1620	100	3	939	2022-07-19	2	5	1	VVVVVV	t	146
+1621	16	4	450	2022-07-19	1	1	1	WWWWWW	t	366
+1622	33	3	110	2022-07-19	4	6	3	XXXXXX	t	284
+1623	53	3	284	2022-07-19	2	4	3	YYYYYY	t	63
+1624	43	2	1683	2022-07-19	4	5	1	ZZZZZZ	t	114
+1625	1	2	1405	2022-07-19	1	6	3	AAAAAA	t	383
+1626	94	3	291	2022-07-19	4	4	1	BBBBBB	t	657
+1627	42	3	556	2022-07-19	4	6	2	CCCCCC	t	309
+1628	17	2	203	2022-07-19	3	4	3	DDDDDD	t	155
+1629	27	4	444	2022-07-19	1	6	1	EEEEEE	t	413
+1630	61	3	1456	2022-07-19	2	5	3	FFFFFF	t	233
+1631	75	3	820	2022-07-19	4	6	2	GGGGGG	t	561
+1632	65	3	184	2022-07-19	1	3	2	HHHHHH	t	677
+1633	20	2	949	2022-07-19	2	6	1	IIIIII	t	558
+1634	17	3	551	2022-07-19	2	2	1	JJJJJJ	t	452
+1635	100	2	1792	2022-07-19	4	1	3	KKKKKK	t	207
+1636	37	4	1641	2022-07-19	1	6	3	LLLLLL	t	402
+1637	78	3	1554	2022-07-19	1	1	1	MMMMMM	t	608
+1638	107	2	1132	2022-07-19	4	6	2	NNNNNN	t	442
+1639	18	3	1418	2022-07-19	3	6	1	OOOOOO	t	316
+1640	90	2	243	2022-07-19	3	5	3	PPPPPP	t	231
+1641	22	3	1244	2022-07-19	2	1	3	QQQQQQ	t	339
+1642	105	2	558	2022-07-19	4	4	3	RRRRRR	t	367
+1643	88	4	1736	2022-07-19	4	1	1	SSSSSS	t	163
+1644	70	2	1655	2022-07-19	2	1	1	TTTTTT	t	45
+1645	42	2	756	2022-07-19	1	3	2	UUUUUU	t	600
+1646	55	3	897	2022-07-19	4	3	3	VVVVVV	t	158
+1647	74	2	1146	2022-07-19	2	2	3	WWWWWW	t	387
+1648	25	4	882	2022-07-19	3	6	1	XXXXXX	t	680
+1649	50	4	1486	2022-07-19	3	1	2	YYYYYY	t	131
+1650	32	2	293	2022-07-19	1	2	2	ZZZZZZ	t	211
+1651	42	4	574	2022-07-19	1	4	3	AAAAAA	t	231
+1652	6	2	1578	2022-07-19	1	5	2	BBBBBB	t	467
+1653	85	4	1196	2022-07-19	1	6	1	CCCCCC	t	616
+1654	8	4	1126	2022-07-19	2	4	1	DDDDDD	t	231
+1655	99	2	1503	2022-07-19	3	1	3	EEEEEE	t	222
+1656	19	4	814	2022-07-19	3	6	3	FFFFFF	t	126
+1657	44	2	160	2022-07-19	3	5	3	GGGGGG	t	255
+1658	22	3	992	2022-07-19	1	6	2	HHHHHH	t	76
+1659	34	3	237	2022-07-19	1	6	3	IIIIII	t	389
+1660	16	4	126	2022-07-19	2	1	3	JJJJJJ	t	177
+1661	11	2	1735	2022-07-19	2	1	2	KKKKKK	t	190
+1662	57	3	924	2022-07-19	3	1	2	LLLLLL	t	108
+1663	102	3	1222	2022-07-19	2	3	3	MMMMMM	t	403
+1664	24	4	1570	2022-07-19	1	4	1	NNNNNN	t	331
+1665	21	4	1811	2022-07-19	2	6	3	OOOOOO	t	266
+1666	41	3	1893	2022-07-19	3	6	1	PPPPPP	t	148
+1667	109	4	1369	2022-07-19	2	3	1	QQQQQQ	t	347
+1668	13	4	1864	2022-07-19	3	4	1	RRRRRR	t	211
+1669	3	3	782	2022-07-19	2	3	2	SSSSSS	t	247
+1670	5	4	1575	2022-07-19	1	3	1	TTTTTT	t	343
+1671	36	4	171	2022-07-19	4	2	2	UUUUUU	t	520
+1672	10	3	887	2022-07-19	1	6	3	VVVVVV	t	239
+1673	45	4	1308	2022-07-19	3	5	2	WWWWWW	t	43
+1674	99	2	1063	2022-07-19	4	6	1	XXXXXX	t	349
+1675	23	4	1930	2022-07-19	1	5	1	YYYYYY	t	344
+1676	101	4	1675	2022-07-19	3	6	2	ZZZZZZ	t	223
+1677	85	3	216	2022-07-19	2	2	1	AAAAAA	t	31
+1678	46	3	1879	2022-07-19	3	4	1	BBBBBB	t	442
+1679	25	4	1420	2022-07-19	1	2	1	CCCCCC	t	203
+1680	83	2	1534	2022-07-19	1	1	1	DDDDDD	t	253
+1681	69	3	390	2022-07-19	1	4	3	EEEEEE	t	562
+1682	29	2	1378	2022-07-19	3	5	1	FFFFFF	t	590
+1683	26	4	1323	2022-07-19	4	6	3	GGGGGG	t	541
+1684	32	4	634	2022-07-19	3	2	2	HHHHHH	t	632
+1685	12	3	344	2022-07-19	3	3	2	IIIIII	t	434
+1686	61	2	1955	2022-07-19	4	6	1	JJJJJJ	t	55
+1687	42	4	458	2022-07-19	3	1	1	KKKKKK	t	479
+1688	63	4	1734	2022-07-19	2	2	1	LLLLLL	t	243
+1689	52	2	527	2022-07-19	3	3	3	MMMMMM	t	412
+1690	102	2	188	2022-07-19	1	6	2	NNNNNN	t	301
+1691	63	2	1263	2022-07-19	3	5	2	OOOOOO	t	601
+1692	4	2	1104	2022-07-19	4	1	2	PPPPPP	t	378
+1693	44	3	839	2022-07-19	3	6	3	QQQQQQ	t	387
+1694	45	2	1814	2022-07-19	4	5	3	RRRRRR	t	190
+1695	75	4	1522	2022-07-19	2	6	3	SSSSSS	t	448
+1696	18	4	1365	2022-07-19	4	5	1	TTTTTT	t	214
+1697	15	2	821	2022-07-19	4	1	1	UUUUUU	t	86
+1698	90	2	939	2022-07-19	1	4	2	VVVVVV	t	15
+1699	81	3	490	2022-07-19	3	4	2	WWWWWW	t	249
+1700	10	4	1819	2022-07-19	4	2	2	XXXXXX	t	482
+1701	105	3	1575	2022-07-19	2	2	2	YYYYYY	t	7
+1702	42	3	1685	2022-07-19	3	3	3	ZZZZZZ	t	69
+1703	23	4	935	2022-07-19	2	3	2	AAAAAA	t	599
+1704	63	4	799	2022-07-19	4	1	1	BBBBBB	t	454
+1705	18	4	1688	2022-07-19	3	3	1	CCCCCC	t	232
+1706	16	4	355	2022-07-19	2	1	2	DDDDDD	t	124
+1707	57	2	1463	2022-07-19	4	5	2	EEEEEE	t	112
+1708	71	3	1609	2022-07-19	2	2	2	FFFFFF	t	426
+1709	63	4	204	2022-07-19	3	1	3	GGGGGG	t	211
+1710	65	2	1998	2022-07-19	1	3	3	HHHHHH	t	105
+1711	100	2	1120	2022-07-19	4	2	1	IIIIII	t	82
+1712	101	2	421	2022-07-19	2	2	1	JJJJJJ	t	140
+1713	55	3	1407	2022-07-19	3	6	1	KKKKKK	t	533
+1714	62	2	1786	2022-07-19	2	6	1	LLLLLL	t	335
+1715	104	2	1360	2022-07-19	4	5	2	MMMMMM	t	82
+1716	23	2	133	2022-07-19	2	3	3	NNNNNN	t	660
+1717	53	3	1735	2022-07-19	1	6	3	OOOOOO	t	451
+1718	8	2	857	2022-07-19	1	5	3	PPPPPP	t	7
+1719	61	4	563	2022-07-19	1	2	3	QQQQQQ	t	580
+1720	10	3	1136	2022-07-19	3	3	3	RRRRRR	t	578
+1721	51	3	856	2022-07-19	2	5	1	SSSSSS	t	678
+1722	67	4	596	2022-07-19	4	2	1	TTTTTT	t	444
+1723	83	3	337	2022-07-19	2	5	1	UUUUUU	t	530
+1724	20	2	416	2022-07-19	2	4	1	VVVVVV	t	297
+1725	41	2	1194	2022-07-19	1	5	3	WWWWWW	t	634
+1726	41	4	1280	2022-07-19	3	1	3	XXXXXX	t	104
+1727	56	3	1497	2022-07-19	3	2	1	YYYYYY	t	343
+1728	75	3	1335	2022-07-19	1	3	3	ZZZZZZ	t	464
+1729	100	2	834	2022-07-19	2	1	1	AAAAAA	t	64
+1730	45	4	481	2022-07-19	4	1	2	BBBBBB	t	163
+1731	1	4	260	2022-07-19	3	4	1	CCCCCC	t	254
+1732	95	3	702	2022-07-19	4	2	2	DDDDDD	t	671
+1733	104	4	1067	2022-07-19	1	1	3	EEEEEE	t	507
+1734	27	2	121	2022-07-19	2	5	2	FFFFFF	t	157
+1735	107	3	420	2022-07-19	2	5	1	GGGGGG	t	235
+1736	64	2	1094	2022-07-19	1	4	2	HHHHHH	t	554
+1737	3	2	1498	2022-07-19	3	4	1	IIIIII	t	163
+1738	13	2	819	2022-07-19	2	2	1	JJJJJJ	t	570
+1739	29	3	185	2022-07-19	2	1	1	KKKKKK	t	537
+1740	17	3	965	2022-07-19	1	5	1	LLLLLL	t	593
+1741	34	2	1343	2022-07-19	3	2	3	MMMMMM	t	442
+1742	98	2	1451	2022-07-19	3	3	2	NNNNNN	t	179
+1743	44	2	1915	2022-07-19	3	2	2	OOOOOO	t	92
+1744	72	2	1094	2022-07-19	3	5	1	PPPPPP	t	261
+1745	99	4	496	2022-07-19	2	4	1	QQQQQQ	t	137
+1746	107	4	278	2022-07-19	4	5	2	RRRRRR	t	272
+1747	89	2	1581	2022-07-19	1	2	1	SSSSSS	t	671
+1748	108	4	375	2022-07-19	4	6	2	TTTTTT	t	17
+1749	93	2	279	2022-07-19	3	6	3	UUUUUU	t	375
+1750	92	2	1965	2022-07-19	4	3	1	VVVVVV	t	47
+1751	18	4	884	2022-07-19	1	3	1	WWWWWW	t	278
+1752	93	4	1639	2022-07-19	2	2	1	XXXXXX	t	602
+1753	25	4	226	2022-07-19	4	5	2	YYYYYY	t	266
+1754	94	3	1490	2022-07-19	2	1	1	ZZZZZZ	t	409
+1755	64	2	1513	2022-07-19	2	1	3	AAAAAA	t	548
+1756	86	3	1236	2022-07-19	4	2	1	BBBBBB	t	300
+1757	15	2	1608	2022-07-19	2	3	2	CCCCCC	t	409
+1758	63	2	1955	2022-07-19	1	4	1	DDDDDD	t	550
+1759	106	2	1339	2022-07-19	2	4	3	EEEEEE	t	470
+1760	18	2	1832	2022-07-19	3	1	1	FFFFFF	t	491
+1761	4	4	1588	2022-07-19	2	5	2	GGGGGG	t	22
+1762	108	3	1086	2022-07-19	1	1	2	HHHHHH	t	11
+1763	12	2	740	2022-07-19	2	4	3	IIIIII	t	90
+1764	84	3	361	2022-07-19	3	5	1	JJJJJJ	t	573
+1765	35	2	1411	2022-07-19	3	4	2	KKKKKK	t	21
+1766	75	4	406	2022-07-19	2	4	2	LLLLLL	t	18
+1767	6	4	805	2022-07-19	1	6	1	MMMMMM	t	534
+1768	60	3	576	2022-07-19	1	5	2	NNNNNN	t	53
+1769	103	3	938	2022-07-19	2	3	2	OOOOOO	t	89
+1770	80	2	1907	2022-07-19	2	1	1	PPPPPP	t	338
+1771	50	3	1618	2022-07-19	2	3	2	QQQQQQ	t	331
+1772	98	3	633	2022-07-19	3	6	2	RRRRRR	t	64
+1773	75	2	649	2022-07-19	1	6	2	SSSSSS	t	170
+1774	8	2	896	2022-07-19	1	2	3	TTTTTT	t	663
+1775	41	4	359	2022-07-19	1	6	3	UUUUUU	t	269
+1776	95	3	1887	2022-07-19	3	1	3	VVVVVV	t	621
+1777	42	2	1789	2022-07-19	3	3	1	WWWWWW	t	211
+1778	14	2	1095	2022-07-19	3	6	1	XXXXXX	t	266
+1779	22	2	568	2022-07-19	4	5	2	YYYYYY	t	505
+1780	68	4	1421	2022-07-19	4	6	3	ZZZZZZ	t	594
+1781	99	3	489	2022-07-19	1	4	3	AAAAAA	t	443
+1782	15	4	1641	2022-07-19	2	5	2	BBBBBB	t	156
+1783	93	3	1792	2022-07-19	3	1	2	CCCCCC	t	482
+1784	82	3	872	2022-07-19	4	5	2	DDDDDD	t	40
+1785	71	4	1774	2022-07-19	3	3	1	EEEEEE	t	9
+1786	62	4	228	2022-07-19	1	2	1	FFFFFF	t	637
+1787	82	3	891	2022-07-19	2	4	1	GGGGGG	t	413
+1788	34	2	1351	2022-07-19	2	1	2	HHHHHH	t	220
+1789	60	4	1141	2022-07-19	2	5	2	IIIIII	t	21
+1790	39	2	1464	2022-07-19	1	1	1	JJJJJJ	t	119
+1791	105	2	1538	2022-07-19	3	2	2	KKKKKK	t	661
+1792	64	2	823	2022-07-19	4	6	2	LLLLLL	t	54
+1793	6	4	1885	2022-07-19	3	3	3	MMMMMM	t	39
+1794	75	3	812	2022-07-19	3	5	3	NNNNNN	t	521
+1795	77	4	1598	2022-07-19	1	2	2	OOOOOO	t	307
+1796	43	4	697	2022-07-19	2	4	2	PPPPPP	t	263
+1797	55	3	318	2022-07-19	4	3	1	QQQQQQ	t	159
+1798	76	3	1764	2022-07-19	3	2	3	RRRRRR	t	151
+1799	74	2	620	2022-07-19	2	6	3	SSSSSS	t	562
+1800	65	4	1185	2022-07-19	1	4	2	TTTTTT	t	573
+1801	104	3	1847	2022-07-19	3	1	3	UUUUUU	t	152
+1802	84	2	625	2022-07-19	1	1	1	VVVVVV	t	17
+1803	2	4	1469	2022-07-19	4	2	3	WWWWWW	t	459
+1804	73	2	1825	2022-07-19	3	1	1	XXXXXX	t	353
+1805	85	3	361	2022-07-19	3	6	2	YYYYYY	t	441
+1806	39	3	716	2022-07-19	1	6	1	ZZZZZZ	t	395
+1807	104	3	1307	2022-07-19	4	1	2	AAAAAA	t	10
+1808	61	3	511	2022-07-19	3	1	3	BBBBBB	t	323
+1809	17	3	1649	2022-07-19	4	3	1	CCCCCC	t	539
+1810	96	2	1763	2022-07-19	4	5	1	DDDDDD	t	476
+1811	36	4	1078	2022-07-19	1	2	2	EEEEEE	t	265
+1812	62	4	1258	2022-07-19	2	4	2	FFFFFF	t	589
+1813	20	2	1165	2022-07-19	2	4	1	GGGGGG	t	391
+1814	83	4	1959	2022-07-19	1	1	2	HHHHHH	t	27
+1815	90	2	156	2022-07-19	1	1	3	IIIIII	t	274
+1816	89	4	1871	2022-07-19	4	5	1	JJJJJJ	t	485
+1817	92	2	980	2022-07-19	1	6	2	KKKKKK	t	599
+1818	3	3	1280	2022-07-19	1	6	2	LLLLLL	t	39
+1819	98	3	1471	2022-07-19	3	2	2	MMMMMM	t	327
+1820	52	3	780	2022-07-19	2	3	1	NNNNNN	t	211
+1821	41	2	1656	2022-07-19	3	2	1	OOOOOO	t	116
+1822	9	2	1175	2022-07-19	3	2	3	PPPPPP	t	381
+1823	61	3	384	2022-07-19	4	5	1	QQQQQQ	t	74
+1824	71	4	1305	2022-07-19	2	3	3	RRRRRR	t	18
+1825	68	3	1424	2022-07-19	2	6	1	SSSSSS	t	39
+1826	24	3	747	2022-07-19	3	3	1	TTTTTT	t	52
+\.
+
+
+--
+-- Data for Name: materiales_solicitudes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.materiales_solicitudes (id_material_solicitud, id_material, id_solicitud, cantidad, anulado) FROM stdin;
+16	17	19	10	f
+17	2	19	10	f
+20	2	21	10	f
+21	17	20	500	\N
+22	2	20	80	\N
+\.
+
+
+--
+-- Data for Name: municipios; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.municipios (id_municipio, id_estado, municipio) FROM stdin;
+1	1	Alto Orinoco
+2	1	Atabapo
+3	1	Atures
+4	1	Autana
+5	1	Manapiare
+6	1	Maroa
+7	1	Río Negro
+8	2	Anaco
+9	2	Aragua
+10	2	Manuel Ezequiel Bruzual
+11	2	Diego Bautista Urbaneja
+12	2	Fernando Peñalver
+13	2	Francisco Del Carmen Carvajal
+14	2	General Sir Arthur McGregor
+15	2	Guanta
+16	2	Independencia
+17	2	José Gregorio Monagas
+18	2	Juan Antonio Sotillo
+19	2	Juan Manuel Cajigal
+20	2	Libertad
+21	2	Francisco de Miranda
+22	2	Pedro María Freites
+23	2	Píritu
+24	2	San José de Guanipa
+25	2	San Juan de Capistrano
+26	2	Santa Ana
+27	2	Simón Bolívar
+28	2	Simón Rodríguez
+29	3	Achaguas
+30	3	Biruaca
+31	3	Muñóz
+32	3	Páez
+33	3	Pedro Camejo
+34	3	Rómulo Gallegos
+35	3	San Fernando
+36	4	Atanasio Girardot
+37	4	Bolívar
+38	4	Camatagua
+39	4	Francisco Linares Alcántara
+40	4	José Ángel Lamas
+41	4	José Félix Ribas
+42	4	José Rafael Revenga
+43	4	Libertador
+44	4	Mario Briceño Iragorry
+45	4	Ocumare de la Costa de Oro
+46	4	San Casimiro
+47	4	San Sebastián
+48	4	Santiago Mariño
+49	4	Santos Michelena
+50	4	Sucre
+51	4	Tovar
+52	4	Urdaneta
+53	4	Zamora
+54	5	Alberto Arvelo Torrealba
+55	5	Andrés Eloy Blanco
+56	5	Antonio José de Sucre
+57	5	Arismendi
+58	5	Barinas
+59	5	Bolívar
+60	5	Cruz Paredes
+61	5	Ezequiel Zamora
+62	5	Obispos
+63	5	Pedraza
+64	5	Rojas
+65	5	Sosa
+66	6	Caroní
+67	6	Cedeño
+68	6	El Callao
+69	6	Gran Sabana
+70	6	Heres
+71	6	Piar
+72	6	Angostura (Raúl Leoni)
+73	6	Roscio
+74	6	Sifontes
+75	6	Sucre
+76	6	Padre Pedro Chien
+77	7	Bejuma
+78	7	Carlos Arvelo
+79	7	Diego Ibarra
+80	7	Guacara
+81	7	Juan José Mora
+82	7	Libertador
+83	7	Los Guayos
+84	7	Miranda
+85	7	Montalbán
+86	7	Naguanagua
+87	7	Puerto Cabello
+88	7	San Diego
+89	7	San Joaquín
+90	7	Valencia
+91	8	Anzoátegui
+92	8	Tinaquillo
+93	8	Girardot
+94	8	Lima Blanco
+95	8	Pao de San Juan Bautista
+96	8	Ricaurte
+97	8	Rómulo Gallegos
+98	8	San Carlos
+99	8	Tinaco
+100	9	Antonio Díaz
+101	9	Casacoima
+102	9	Pedernales
+103	9	Tucupita
+104	10	Acosta
+105	10	Bolívar
+106	10	Buchivacoa
+107	10	Cacique Manaure
+108	10	Carirubana
+109	10	Colina
+110	10	Dabajuro
+111	10	Democracia
+112	10	Falcón
+113	10	Federación
+114	10	Jacura
+115	10	José Laurencio Silva
+116	10	Los Taques
+117	10	Mauroa
+118	10	Miranda
+119	10	Monseñor Iturriza
+120	10	Palmasola
+121	10	Petit
+122	10	Píritu
+123	10	San Francisco
+124	10	Sucre
+125	10	Tocópero
+126	10	Unión
+127	10	Urumaco
+128	10	Zamora
+129	11	Camaguán
+130	11	Chaguaramas
+131	11	El Socorro
+132	11	José Félix Ribas
+133	11	José Tadeo Monagas
+134	11	Juan Germán Roscio
+135	11	Julián Mellado
+136	11	Las Mercedes
+137	11	Leonardo Infante
+138	11	Pedro Zaraza
+139	11	Ortíz
+140	11	San Gerónimo de Guayabal
+141	11	San José de Guaribe
+142	11	Santa María de Ipire
+143	11	Sebastián Francisco de Miranda
+144	12	Andrés Eloy Blanco
+145	12	Crespo
+146	12	Iribarren
+147	12	Jiménez
+148	12	Morán
+149	12	Palavecino
+150	12	Simón Planas
+151	12	Torres
+152	12	Urdaneta
+179	13	Alberto Adriani
+180	13	Andrés Bello
+181	13	Antonio Pinto Salinas
+182	13	Aricagua
+183	13	Arzobispo Chacón
+184	13	Campo Elías
+185	13	Caracciolo Parra Olmedo
+186	13	Cardenal Quintero
+187	13	Guaraque
+188	13	Julio César Salas
+189	13	Justo Briceño
+190	13	Libertador
+191	13	Miranda
+192	13	Obispo Ramos de Lora
+193	13	Padre Noguera
+194	13	Pueblo Llano
+195	13	Rangel
+196	13	Rivas Dávila
+197	13	Santos Marquina
+198	13	Sucre
+199	13	Tovar
+200	13	Tulio Febres Cordero
+201	13	Zea
+223	14	Acevedo
+224	14	Andrés Bello
+225	14	Baruta
+226	14	Brión
+227	14	Buroz
+228	14	Carrizal
+229	14	Chacao
+230	14	Cristóbal Rojas
+231	14	El Hatillo
+232	14	Guaicaipuro
+233	14	Independencia
+234	14	Lander
+235	14	Los Salias
+236	14	Páez
+237	14	Paz Castillo
+238	14	Pedro Gual
+239	14	Plaza
+240	14	Simón Bolívar
+241	14	Sucre
+242	14	Urdaneta
+243	14	Zamora
+258	15	Acosta
+259	15	Aguasay
+260	15	Bolívar
+261	15	Caripe
+262	15	Cedeño
+263	15	Ezequiel Zamora
+264	15	Libertador
+265	15	Maturín
+266	15	Piar
+267	15	Punceres
+268	15	Santa Bárbara
+269	15	Sotillo
+270	15	Uracoa
+271	16	Antolín del Campo
+272	16	Arismendi
+273	16	García
+274	16	Gómez
+275	16	Maneiro
+276	16	Marcano
+277	16	Mariño
+278	16	Península de Macanao
+279	16	Tubores
+280	16	Villalba
+281	16	Díaz
+282	17	Agua Blanca
+283	17	Araure
+284	17	Esteller
+285	17	Guanare
+286	17	Guanarito
+287	17	Monseñor José Vicente de Unda
+288	17	Ospino
+289	17	Páez
+290	17	Papelón
+291	17	San Genaro de Boconoíto
+292	17	San Rafael de Onoto
+293	17	Santa Rosalía
+294	17	Sucre
+295	17	Turén
+296	18	Andrés Eloy Blanco
+297	18	Andrés Mata
+298	18	Arismendi
+299	18	Benítez
+300	18	Bermúdez
+301	18	Bolívar
+302	18	Cajigal
+303	18	Cruz Salmerón Acosta
+304	18	Libertador
+305	18	Mariño
+306	18	Mejía
+307	18	Montes
+308	18	Ribero
+309	18	Sucre
+310	18	Valdéz
+341	19	Andrés Bello
+342	19	Antonio Rómulo Costa
+343	19	Ayacucho
+344	19	Bolívar
+345	19	Cárdenas
+346	19	Córdoba
+347	19	Fernández Feo
+348	19	Francisco de Miranda
+349	19	García de Hevia
+350	19	Guásimos
+351	19	Independencia
+352	19	Jáuregui
+353	19	José María Vargas
+354	19	Junín
+355	19	Libertad
+356	19	Libertador
+357	19	Lobatera
+358	19	Michelena
+359	19	Panamericano
+360	19	Pedro María Ureña
+361	19	Rafael Urdaneta
+362	19	Samuel Darío Maldonado
+363	19	San Cristóbal
+364	19	Seboruco
+365	19	Simón Rodríguez
+366	19	Sucre
+367	19	Torbes
+368	19	Uribante
+369	19	San Judas Tadeo
+370	20	Andrés Bello
+371	20	Boconó
+372	20	Bolívar
+373	20	Candelaria
+374	20	Carache
+375	20	Escuque
+376	20	José Felipe Márquez Cañizalez
+377	20	Juan Vicente Campos Elías
+378	20	La Ceiba
+379	20	Miranda
+380	20	Monte Carmelo
+381	20	Motatán
+382	20	Pampán
+383	20	Pampanito
+384	20	Rafael Rangel
+385	20	San Rafael de Carvajal
+386	20	Sucre
+387	20	Trujillo
+388	20	Urdaneta
+389	20	Valera
+390	21	Vargas
+391	22	Arístides Bastidas
+392	22	Bolívar
+407	22	Bruzual
+408	22	Cocorote
+409	22	Independencia
+410	22	José Antonio Páez
+411	22	La Trinidad
+412	22	Manuel Monge
+413	22	Nirgua
+414	22	Peña
+415	22	San Felipe
+416	22	Sucre
+417	22	Urachiche
+418	22	José Joaquín Veroes
+441	23	Almirante Padilla
+442	23	Baralt
+443	23	Cabimas
+444	23	Catatumbo
+445	23	Colón
+446	23	Francisco Javier Pulgar
+447	23	Páez
+448	23	Jesús Enrique Losada
+449	23	Jesús María Semprún
+450	23	La Cañada de Urdaneta
+451	23	Lagunillas
+452	23	Machiques de Perijá
+453	23	Mara
+454	23	Maracaibo
+455	23	Miranda
+456	23	Rosario de Perijá
+457	23	San Francisco
+458	23	Santa Rita
+459	23	Simón Bolívar
+460	23	Sucre
+461	23	Valmore Rodríguez
+462	24	Libertador
+\.
+
+
+--
+-- Data for Name: parroquias; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.parroquias (id_parroquia, id_municipio, parroquia) FROM stdin;
+1	1	Alto Orinoco
+2	1	Huachamacare Acanaña
+3	1	Marawaka Toky Shamanaña
+4	1	Mavaka Mavaka
+5	1	Sierra Parima Parimabé
+6	2	Ucata Laja Lisa
+7	2	Yapacana Macuruco
+8	2	Caname Guarinuma
+9	3	Fernando Girón Tovar
+10	3	Luis Alberto Gómez
+11	3	Pahueña Limón de Parhueña
+12	3	Platanillal Platanillal
+13	4	Samariapo
+14	4	Sipapo
+15	4	Munduapo
+16	4	Guayapo
+17	5	Alto Ventuari
+18	5	Medio Ventuari
+19	5	Bajo Ventuari
+20	6	Victorino
+21	6	Comunidad
+22	7	Casiquiare
+23	7	Cocuy
+24	7	San Carlos de Río Negro
+25	7	Solano
+26	8	Anaco
+27	8	San Joaquín
+28	9	Cachipo
+29	9	Aragua de Barcelona
+30	11	Lechería
+31	11	El Morro
+32	12	Puerto Píritu
+33	12	San Miguel
+34	12	Sucre
+35	13	Valle de Guanape
+36	13	Santa Bárbara
+37	14	El Chaparro
+38	14	Tomás Alfaro
+39	14	Calatrava
+40	15	Guanta
+41	15	Chorrerón
+42	16	Mamo
+43	16	Soledad
+44	17	Mapire
+45	17	Piar
+46	17	Santa Clara
+47	17	San Diego de Cabrutica
+48	17	Uverito
+49	17	Zuata
+50	18	Puerto La Cruz
+51	18	Pozuelos
+52	19	Onoto
+53	19	San Pablo
+54	20	San Mateo
+55	20	El Carito
+56	20	Santa Inés
+57	20	La Romereña
+58	21	Atapirire
+59	21	Boca del Pao
+60	21	El Pao
+61	21	Pariaguán
+62	22	Cantaura
+63	22	Libertador
+64	22	Santa Rosa
+65	22	Urica
+66	23	Píritu
+67	23	San Francisco
+68	24	San José de Guanipa
+69	25	Boca de Uchire
+70	25	Boca de Chávez
+71	26	Pueblo Nuevo
+72	26	Santa Ana
+73	27	Bergantín
+74	27	Caigua
+75	27	El Carmen
+76	27	El Pilar
+77	27	Naricual
+78	27	San Crsitóbal
+79	28	Edmundo Barrios
+80	28	Miguel Otero Silva
+81	29	Achaguas
+82	29	Apurito
+83	29	El Yagual
+84	29	Guachara
+85	29	Mucuritas
+86	29	Queseras del medio
+87	30	Biruaca
+88	31	Bruzual
+89	31	Mantecal
+90	31	Quintero
+91	31	Rincón Hondo
+92	31	San Vicente
+93	32	Guasdualito
+94	32	Aramendi
+95	32	El Amparo
+96	32	San Camilo
+97	32	Urdaneta
+98	33	San Juan de Payara
+99	33	Codazzi
+100	33	Cunaviche
+101	34	Elorza
+102	34	La Trinidad
+103	35	San Fernando
+104	35	El Recreo
+105	35	Peñalver
+106	35	San Rafael de Atamaica
+107	36	Pedro José Ovalles
+108	36	Joaquín Crespo
+109	36	José Casanova Godoy
+110	36	Madre María de San José
+111	36	Andrés Eloy Blanco
+112	36	Los Tacarigua
+113	36	Las Delicias
+114	36	Choroní
+115	37	Bolívar
+116	38	Camatagua
+117	38	Carmen de Cura
+118	39	Santa Rita
+119	39	Francisco de Miranda
+120	39	Moseñor Feliciano González
+121	40	Santa Cruz
+122	41	José Félix Ribas
+123	41	Castor Nieves Ríos
+124	41	Las Guacamayas
+125	41	Pao de Zárate
+126	41	Zuata
+127	42	José Rafael Revenga
+128	43	Palo Negro
+129	43	San Martín de Porres
+130	44	El Limón
+131	44	Caña de Azúcar
+132	45	Ocumare de la Costa
+133	46	San Casimiro
+134	46	Güiripa
+135	46	Ollas de Caramacate
+136	46	Valle Morín
+137	47	San Sebastían
+138	48	Turmero
+139	48	Arevalo Aponte
+140	48	Chuao
+141	48	Samán de Güere
+142	48	Alfredo Pacheco Miranda
+143	49	Santos Michelena
+144	49	Tiara
+145	50	Cagua
+146	50	Bella Vista
+147	51	Tovar
+148	52	Urdaneta
+149	52	Las Peñitas
+150	52	San Francisco de Cara
+151	52	Taguay
+152	53	Zamora
+153	53	Magdaleno
+154	53	San Francisco de Asís
+155	53	Valles de Tucutunemo
+156	53	Augusto Mijares
+157	54	Sabaneta
+158	54	Juan Antonio Rodríguez Domínguez
+159	55	El Cantón
+160	55	Santa Cruz de Guacas
+161	55	Puerto Vivas
+162	56	Ticoporo
+163	56	Nicolás Pulido
+164	56	Andrés Bello
+165	57	Arismendi
+166	57	Guadarrama
+167	57	La Unión
+168	57	San Antonio
+169	58	Barinas
+170	58	Alberto Arvelo Larriva
+171	58	San Silvestre
+172	58	Santa Inés
+173	58	Santa Lucía
+174	58	Torumos
+175	58	El Carmen
+176	58	Rómulo Betancourt
+177	58	Corazón de Jesús
+178	58	Ramón Ignacio Méndez
+179	58	Alto Barinas
+180	58	Manuel Palacio Fajardo
+181	58	Juan Antonio Rodríguez Domínguez
+182	58	Dominga Ortiz de Páez
+183	59	Barinitas
+184	59	Altamira de Cáceres
+185	59	Calderas
+186	60	Barrancas
+187	60	El Socorro
+188	60	Mazparrito
+189	61	Santa Bárbara
+190	61	Pedro Briceño Méndez
+191	61	Ramón Ignacio Méndez
+192	61	José Ignacio del Pumar
+193	62	Obispos
+194	62	Guasimitos
+195	62	El Real
+196	62	La Luz
+197	63	Ciudad Bolívia
+198	63	José Ignacio Briceño
+199	63	José Félix Ribas
+200	63	Páez
+201	64	Libertad
+202	64	Dolores
+203	64	Santa Rosa
+204	64	Palacio Fajardo
+205	65	Ciudad de Nutrias
+206	65	El Regalo
+207	65	Puerto Nutrias
+208	65	Santa Catalina
+209	66	Cachamay
+210	66	Chirica
+211	66	Dalla Costa
+212	66	Once de Abril
+213	66	Simón Bolívar
+214	66	Unare
+215	66	Universidad
+216	66	Vista al Sol
+217	66	Pozo Verde
+218	66	Yocoima
+219	66	5 de Julio
+220	67	Cedeño
+221	67	Altagracia
+222	67	Ascensión Farreras
+223	67	Guaniamo
+224	67	La Urbana
+225	67	Pijiguaos
+226	68	El Callao
+227	69	Gran Sabana
+228	69	Ikabarú
+229	70	Catedral
+230	70	Zea
+231	70	Orinoco
+232	70	José Antonio Páez
+233	70	Marhuanta
+234	70	Agua Salada
+235	70	Vista Hermosa
+236	70	La Sabanita
+237	70	Panapana
+238	71	Andrés Eloy Blanco
+239	71	Pedro Cova
+240	72	Raúl Leoni
+241	72	Barceloneta
+242	72	Santa Bárbara
+243	72	San Francisco
+244	73	Roscio
+245	73	Salóm
+246	74	Sifontes
+247	74	Dalla Costa
+248	74	San Isidro
+249	75	Sucre
+250	75	Aripao
+251	75	Guarataro
+252	75	Las Majadas
+253	75	Moitaco
+254	76	Padre Pedro Chien
+255	76	Río Grande
+256	77	Bejuma
+257	77	Canoabo
+258	77	Simón Bolívar
+259	78	Güigüe
+260	78	Carabobo
+261	78	Tacarigua
+262	79	Mariara
+263	79	Aguas Calientes
+264	80	Ciudad Alianza
+265	80	Guacara
+266	80	Yagua
+267	81	Morón
+268	81	Yagua
+269	82	Tocuyito
+270	82	Independencia
+271	83	Los Guayos
+272	84	Miranda
+273	85	Montalbán
+274	86	Naguanagua
+275	87	Bartolomé Salóm
+276	87	Democracia
+277	87	Fraternidad
+278	87	Goaigoaza
+279	87	Juan José Flores
+280	87	Unión
+281	87	Borburata
+282	87	Patanemo
+283	88	San Diego
+284	89	San Joaquín
+285	90	Candelaria
+286	90	Catedral
+287	90	El Socorro
+288	90	Miguel Peña
+289	90	Rafael Urdaneta
+290	90	San Blas
+291	90	San José
+292	90	Santa Rosa
+293	90	Negro Primero
+294	91	Cojedes
+295	91	Juan de Mata Suárez
+296	92	Tinaquillo
+297	93	El Baúl
+298	93	Sucre
+299	94	La Aguadita
+300	94	Macapo
+301	95	El Pao
+302	96	El Amparo
+303	96	Libertad de Cojedes
+304	97	Rómulo Gallegos
+305	98	San Carlos de Austria
+306	98	Juan Ángel Bravo
+307	98	Manuel Manrique
+308	99	General en Jefe José Laurencio Silva
+309	100	Curiapo
+310	100	Almirante Luis Brión
+311	100	Francisco Aniceto Lugo
+312	100	Manuel Renaud
+313	100	Padre Barral
+314	100	Santos de Abelgas
+315	101	Imataca
+316	101	Cinco de Julio
+317	101	Juan Bautista Arismendi
+318	101	Manuel Piar
+319	101	Rómulo Gallegos
+320	102	Pedernales
+321	102	Luis Beltrán Prieto Figueroa
+322	103	San José (Delta Amacuro)
+323	103	José Vidal Marcano
+324	103	Juan Millán
+325	103	Leonardo Ruíz Pineda
+326	103	Mariscal Antonio José de Sucre
+327	103	Monseñor Argimiro García
+328	103	San Rafael (Delta Amacuro)
+329	103	Virgen del Valle
+330	10	Clarines
+331	10	Guanape
+332	10	Sabana de Uchire
+333	104	Capadare
+334	104	La Pastora
+335	104	Libertador
+336	104	San Juan de los Cayos
+337	105	Aracua
+338	105	La Peña
+339	105	San Luis
+340	106	Bariro
+341	106	Borojó
+342	106	Capatárida
+343	106	Guajiro
+344	106	Seque
+345	106	Zazárida
+346	106	Valle de Eroa
+347	107	Cacique Manaure
+348	108	Norte
+349	108	Carirubana
+350	108	Santa Ana
+351	108	Urbana Punta Cardón
+352	109	La Vela de Coro
+353	109	Acurigua
+354	109	Guaibacoa
+355	109	Las Calderas
+356	109	Macoruca
+357	110	Dabajuro
+358	111	Agua Clara
+359	111	Avaria
+360	111	Pedregal
+361	111	Piedra Grande
+362	111	Purureche
+363	112	Adaure
+364	112	Adícora
+365	112	Baraived
+366	112	Buena Vista
+367	112	Jadacaquiva
+368	112	El Vínculo
+369	112	El Hato
+370	112	Moruy
+371	112	Pueblo Nuevo
+372	113	Agua Larga
+373	113	El Paují
+374	113	Independencia
+375	113	Mapararí
+376	114	Agua Linda
+377	114	Araurima
+378	114	Jacura
+379	115	Tucacas
+380	115	Boca de Aroa
+381	116	Los Taques
+382	116	Judibana
+383	117	Mene de Mauroa
+384	117	San Félix
+385	117	Casigua
+386	118	Guzmán Guillermo
+387	118	Mitare
+388	118	Río Seco
+389	118	Sabaneta
+390	118	San Antonio
+391	118	San Gabriel
+392	118	Santa Ana
+393	119	Boca del Tocuyo
+394	119	Chichiriviche
+395	119	Tocuyo de la Costa
+396	120	Palmasola
+397	121	Cabure
+398	121	Colina
+399	121	Curimagua
+400	122	San José de la Costa
+401	122	Píritu
+402	123	San Francisco
+403	124	Sucre
+404	124	Pecaya
+405	125	Tocópero
+406	126	El Charal
+407	126	Las Vegas del Tuy
+408	126	Santa Cruz de Bucaral
+409	127	Bruzual
+410	127	Urumaco
+411	128	Puerto Cumarebo
+412	128	La Ciénaga
+413	128	La Soledad
+414	128	Pueblo Cumarebo
+415	128	Zazárida
+416	113	Churuguara
+417	129	Camaguán
+418	129	Puerto Miranda
+419	129	Uverito
+420	130	Chaguaramas
+421	131	El Socorro
+422	132	Tucupido
+423	132	San Rafael de Laya
+424	133	Altagracia de Orituco
+425	133	San Rafael de Orituco
+426	133	San Francisco Javier de Lezama
+427	133	Paso Real de Macaira
+428	133	Carlos Soublette
+429	133	San Francisco de Macaira
+430	133	Libertad de Orituco
+431	134	Cantaclaro
+432	134	San Juan de los Morros
+433	134	Parapara
+434	135	El Sombrero
+435	135	Sosa
+436	136	Las Mercedes
+437	136	Cabruta
+438	136	Santa Rita de Manapire
+439	137	Valle de la Pascua
+440	137	Espino
+441	138	San José de Unare
+442	138	Zaraza
+443	139	San José de Tiznados
+444	139	San Francisco de Tiznados
+445	139	San Lorenzo de Tiznados
+446	139	Ortiz
+447	140	Guayabal
+448	140	Cazorla
+449	141	San José de Guaribe
+450	141	Uveral
+451	142	Santa María de Ipire
+452	142	Altamira
+453	143	El Calvario
+454	143	El Rastro
+455	143	Guardatinajas
+456	143	Capital Urbana Calabozo
+457	144	Quebrada Honda de Guache
+458	144	Pío Tamayo
+459	144	Yacambú
+460	145	Fréitez
+461	145	José María Blanco
+462	146	Catedral
+463	146	Concepción
+464	146	El Cují
+465	146	Juan de Villegas
+466	146	Santa Rosa
+467	146	Tamaca
+468	146	Unión
+469	146	Aguedo Felipe Alvarado
+470	146	Buena Vista
+471	146	Juárez
+472	147	Juan Bautista Rodríguez
+473	147	Cuara
+474	147	Diego de Lozada
+475	147	Paraíso de San José
+476	147	San Miguel
+477	147	Tintorero
+478	147	José Bernardo Dorante
+479	147	Coronel Mariano Peraza 
+480	148	Bolívar
+481	148	Anzoátegui
+482	148	Guarico
+483	148	Hilario Luna y Luna
+484	148	Humocaro Alto
+485	148	Humocaro Bajo
+486	148	La Candelaria
+487	148	Morán
+488	149	Cabudare
+489	149	José Gregorio Bastidas
+490	149	Agua Viva
+491	150	Sarare
+492	150	Buría
+493	150	Gustavo Vegas León
+494	151	Trinidad Samuel
+495	151	Antonio Díaz
+496	151	Camacaro
+497	151	Castañeda
+498	151	Cecilio Zubillaga
+499	151	Chiquinquirá
+500	151	El Blanco
+501	151	Espinoza de los Monteros
+502	151	Lara
+503	151	Las Mercedes
+504	151	Manuel Morillo
+505	151	Montaña Verde
+506	151	Montes de Oca
+507	151	Torres
+508	151	Heriberto Arroyo
+509	151	Reyes Vargas
+510	151	Altagracia
+511	152	Siquisique
+512	152	Moroturo
+513	152	San Miguel
+514	152	Xaguas
+515	179	Presidente Betancourt
+516	179	Presidente Páez
+517	179	Presidente Rómulo Gallegos
+518	179	Gabriel Picón González
+519	179	Héctor Amable Mora
+520	179	José Nucete Sardi
+521	179	Pulido Méndez
+522	180	La Azulita
+523	181	Santa Cruz de Mora
+524	181	Mesa Bolívar
+525	181	Mesa de Las Palmas
+526	182	Aricagua
+527	182	San Antonio
+528	183	Canagua
+529	183	Capurí
+530	183	Chacantá
+531	183	El Molino
+532	183	Guaimaral
+533	183	Mucutuy
+534	183	Mucuchachí
+535	184	Fernández Peña
+536	184	Matriz
+537	184	Montalbán
+538	184	Acequias
+539	184	Jají
+540	184	La Mesa
+541	184	San José del Sur
+542	185	Tucaní
+543	185	Florencio Ramírez
+544	186	Santo Domingo
+545	186	Las Piedras
+546	187	Guaraque
+547	187	Mesa de Quintero
+548	187	Río Negro
+549	188	Arapuey
+550	188	Palmira
+551	189	San Cristóbal de Torondoy
+552	189	Torondoy
+553	190	Antonio Spinetti Dini
+554	190	Arias
+555	190	Caracciolo Parra Pérez
+556	190	Domingo Peña
+557	190	El Llano
+558	190	Gonzalo Picón Febres
+559	190	Jacinto Plaza
+560	190	Juan Rodríguez Suárez
+561	190	Lasso de la Vega
+562	190	Mariano Picón Salas
+563	190	Milla
+564	190	Osuna Rodríguez
+565	190	Sagrario
+566	190	El Morro
+567	190	Los Nevados
+568	191	Andrés Eloy Blanco
+569	191	La Venta
+570	191	Piñango
+571	191	Timotes
+572	192	Eloy Paredes
+573	192	San Rafael de Alcázar
+574	192	Santa Elena de Arenales
+575	193	Santa María de Caparo
+576	194	Pueblo Llano
+577	195	Cacute
+578	195	La Toma
+579	195	Mucuchíes
+580	195	Mucurubá
+581	195	San Rafael
+582	196	Gerónimo Maldonado
+583	196	Bailadores
+584	197	Tabay
+585	198	Chiguará
+586	198	Estánquez
+587	198	Lagunillas
+588	198	La Trampa
+589	198	Pueblo Nuevo del Sur
+590	198	San Juan
+591	199	El Amparo
+592	199	El Llano
+593	199	San Francisco
+594	199	Tovar
+595	200	Independencia
+596	200	María de la Concepción Palacios Blanco
+597	200	Nueva Bolivia
+598	200	Santa Apolonia
+599	201	Caño El Tigre
+600	201	Zea
+601	223	Aragüita
+602	223	Arévalo González
+603	223	Capaya
+604	223	Caucagua
+605	223	Panaquire
+606	223	Ribas
+607	223	El Café
+608	223	Marizapa
+609	224	Cumbo
+610	224	San José de Barlovento
+611	225	El Cafetal
+612	225	Las Minas
+613	225	Nuestra Señora del Rosario
+614	226	Higuerote
+615	226	Curiepe
+616	226	Tacarigua de Brión
+617	227	Mamporal
+618	228	Carrizal
+619	229	Chacao
+620	230	Charallave
+621	230	Las Brisas
+622	231	El Hatillo
+623	232	Altagracia de la Montaña
+624	232	Cecilio Acosta
+625	232	Los Teques
+626	232	El Jarillo
+627	232	San Pedro
+628	232	Tácata
+629	232	Paracotos
+630	233	Cartanal
+631	233	Santa Teresa del Tuy
+632	234	La Democracia
+633	234	Ocumare del Tuy
+634	234	Santa Bárbara
+635	235	San Antonio de los Altos
+636	236	Río Chico
+637	236	El Guapo
+638	236	Tacarigua de la Laguna
+639	236	Paparo
+640	236	San Fernando del Guapo
+641	237	Santa Lucía del Tuy
+642	238	Cúpira
+643	238	Machurucuto
+644	239	Guarenas
+645	240	San Antonio de Yare
+646	240	San Francisco de Yare
+647	241	Leoncio Martínez
+648	241	Petare
+649	241	Caucagüita
+650	241	Filas de Mariche
+651	241	La Dolorita
+652	242	Cúa
+653	242	Nueva Cúa
+654	243	Guatire
+655	243	Bolívar
+656	258	San Antonio de Maturín
+657	258	San Francisco de Maturín
+658	259	Aguasay
+659	260	Caripito
+660	261	El Guácharo
+661	261	La Guanota
+662	261	Sabana de Piedra
+663	261	San Agustín
+664	261	Teresen
+665	261	Caripe
+666	262	Areo
+667	262	Capital Cedeño
+668	262	San Félix de Cantalicio
+669	262	Viento Fresco
+670	263	El Tejero
+671	263	Punta de Mata
+672	264	Chaguaramas
+673	264	Las Alhuacas
+674	264	Tabasca
+675	264	Temblador
+676	265	Alto de los Godos
+677	265	Boquerón
+678	265	Las Cocuizas
+679	265	La Cruz
+680	265	San Simón
+681	265	El Corozo
+682	265	El Furrial
+683	265	Jusepín
+684	265	La Pica
+685	265	San Vicente
+686	266	Aparicio
+687	266	Aragua de Maturín
+688	266	Chaguamal
+689	266	El Pinto
+690	266	Guanaguana
+691	266	La Toscana
+692	266	Taguaya
+693	267	Cachipo
+694	267	Quiriquire
+695	268	Santa Bárbara
+696	269	Barrancas
+697	269	Los Barrancos de Fajardo
+698	270	Uracoa
+699	271	Antolín del Campo
+700	272	Arismendi
+701	273	García
+702	273	Francisco Fajardo
+703	274	Bolívar
+704	274	Guevara
+705	274	Matasiete
+706	274	Santa Ana
+707	274	Sucre
+708	275	Aguirre
+709	275	Maneiro
+710	276	Adrián
+711	276	Juan Griego
+712	276	Yaguaraparo
+713	277	Porlamar
+714	278	San Francisco de Macanao
+715	278	Boca de Río
+716	279	Tubores
+717	279	Los Baleales
+718	280	Vicente Fuentes
+719	280	Villalba
+720	281	San Juan Bautista
+721	281	Zabala
+722	283	Capital Araure
+723	283	Río Acarigua
+724	284	Capital Esteller
+725	284	Uveral
+726	285	Guanare
+727	285	Córdoba
+728	285	San José de la Montaña
+729	285	San Juan de Guanaguanare
+730	285	Virgen de la Coromoto
+731	286	Guanarito
+732	286	Trinidad de la Capilla
+733	286	Divina Pastora
+734	287	Monseñor José Vicente de Unda
+735	287	Peña Blanca
+736	288	Capital Ospino
+737	288	Aparición
+738	288	La Estación
+739	289	Páez
+740	289	Payara
+741	289	Pimpinela
+742	289	Ramón Peraza
+743	290	Papelón
+744	290	Caño Delgadito
+745	291	San Genaro de Boconoito
+746	291	Antolín Tovar
+747	292	San Rafael de Onoto
+748	292	Santa Fe
+749	292	Thermo Morles
+750	293	Santa Rosalía
+751	293	Florida
+752	294	Sucre
+753	294	Concepción
+754	294	San Rafael de Palo Alzado
+755	294	Uvencio Antonio Velásquez
+756	294	San José de Saguaz
+757	294	Villa Rosa
+758	295	Turén
+759	295	Canelones
+760	295	Santa Cruz
+761	295	San Isidro Labrador
+762	296	Mariño
+763	296	Rómulo Gallegos
+764	297	San José de Aerocuar
+765	297	Tavera Acosta
+766	298	Río Caribe
+767	298	Antonio José de Sucre
+768	298	El Morro de Puerto Santo
+769	298	Puerto Santo
+770	298	San Juan de las Galdonas
+771	299	El Pilar
+772	299	El Rincón
+773	299	General Francisco Antonio Váquez
+774	299	Guaraúnos
+775	299	Tunapuicito
+776	299	Unión
+777	300	Santa Catalina
+778	300	Santa Rosa
+779	300	Santa Teresa
+780	300	Bolívar
+781	300	Maracapana
+782	302	Libertad
+783	302	El Paujil
+784	302	Yaguaraparo
+785	303	Cruz Salmerón Acosta
+786	303	Chacopata
+787	303	Manicuare
+788	304	Tunapuy
+789	304	Campo Elías
+790	305	Irapa
+791	305	Campo Claro
+792	305	Maraval
+793	305	San Antonio de Irapa
+794	305	Soro
+795	306	Mejía
+796	307	Cumanacoa
+797	307	Arenas
+798	307	Aricagua
+799	307	Cogollar
+800	307	San Fernando
+801	307	San Lorenzo
+802	308	Villa Frontado (Muelle de Cariaco)
+803	308	Catuaro
+804	308	Rendón
+805	308	San Cruz
+806	308	Santa María
+807	309	Altagracia
+808	309	Santa Inés
+809	309	Valentín Valiente
+810	309	Ayacucho
+811	309	San Juan
+812	309	Raúl Leoni
+813	309	Gran Mariscal
+814	310	Cristóbal Colón
+815	310	Bideau
+816	310	Punta de Piedras
+817	310	Güiria
+818	341	Andrés Bello
+819	342	Antonio Rómulo Costa
+820	343	Ayacucho
+821	343	Rivas Berti
+822	343	San Pedro del Río
+823	344	Bolívar
+824	344	Palotal
+825	344	General Juan Vicente Gómez
+826	344	Isaías Medina Angarita
+827	345	Cárdenas
+828	345	Amenodoro Ángel Lamus
+829	345	La Florida
+830	346	Córdoba
+831	347	Fernández Feo
+832	347	Alberto Adriani
+833	347	Santo Domingo
+834	348	Francisco de Miranda
+835	349	García de Hevia
+836	349	Boca de Grita
+837	349	José Antonio Páez
+838	350	Guásimos
+839	351	Independencia
+840	351	Juan Germán Roscio
+841	351	Román Cárdenas
+842	352	Jáuregui
+843	352	Emilio Constantino Guerrero
+844	352	Monseñor Miguel Antonio Salas
+845	353	José María Vargas
+846	354	Junín
+847	354	La Petrólea
+848	354	Quinimarí
+849	354	Bramón
+850	355	Libertad
+851	355	Cipriano Castro
+852	355	Manuel Felipe Rugeles
+853	356	Libertador
+854	356	Doradas
+855	356	Emeterio Ochoa
+856	356	San Joaquín de Navay
+857	357	Lobatera
+858	357	Constitución
+859	358	Michelena
+860	359	Panamericano
+861	359	La Palmita
+862	360	Pedro María Ureña
+863	360	Nueva Arcadia
+864	361	Delicias
+865	361	Pecaya
+866	362	Samuel Darío Maldonado
+867	362	Boconó
+868	362	Hernández
+869	363	La Concordia
+870	363	San Juan Bautista
+871	363	Pedro María Morantes
+872	363	San Sebastián
+873	363	Dr. Francisco Romero Lobo
+874	364	Seboruco
+875	365	Simón Rodríguez
+876	366	Sucre
+877	366	Eleazar López Contreras
+878	366	San Pablo
+879	367	Torbes
+880	368	Uribante
+881	368	Cárdenas
+882	368	Juan Pablo Peñalosa
+883	368	Potosí
+884	369	San Judas Tadeo
+885	370	Araguaney
+886	370	El Jaguito
+887	370	La Esperanza
+888	370	Santa Isabel
+889	371	Boconó
+890	371	El Carmen
+891	371	Mosquey
+892	371	Ayacucho
+893	371	Burbusay
+894	371	General Ribas
+895	371	Guaramacal
+896	371	Vega de Guaramacal
+897	371	Monseñor Jáuregui
+898	371	Rafael Rangel
+899	371	San Miguel
+900	371	San José
+901	372	Sabana Grande
+902	372	Cheregüé
+903	372	Granados
+904	373	Arnoldo Gabaldón
+905	373	Bolivia
+906	373	Carrillo
+907	373	Cegarra
+908	373	Chejendé
+909	373	Manuel Salvador Ulloa
+910	373	San José
+911	374	Carache
+912	374	La Concepción
+913	374	Cuicas
+914	374	Panamericana
+915	374	Santa Cruz
+916	375	Escuque
+917	375	La Unión
+918	375	Santa Rita
+919	375	Sabana Libre
+920	376	El Socorro
+921	376	Los Caprichos
+922	376	Antonio José de Sucre
+923	377	Campo Elías
+924	377	Arnoldo Gabaldón
+925	378	Santa Apolonia
+926	378	El Progreso
+927	378	La Ceiba
+928	378	Tres de Febrero
+929	379	El Dividive
+930	379	Agua Santa
+931	379	Agua Caliente
+932	379	El Cenizo
+933	379	Valerita
+934	380	Monte Carmelo
+935	380	Buena Vista
+936	380	Santa María del Horcón
+937	381	Motatán
+938	381	El Baño
+939	381	Jalisco
+940	382	Pampán
+941	382	Flor de Patria
+942	382	La Paz
+943	382	Santa Ana
+944	383	Pampanito
+945	383	La Concepción
+946	383	Pampanito II
+947	384	Betijoque
+948	384	José Gregorio Hernández
+949	384	La Pueblita
+950	384	Los Cedros
+951	385	Carvajal
+952	385	Campo Alegre
+953	385	Antonio Nicolás Briceño
+954	385	José Leonardo Suárez
+955	386	Sabana de Mendoza
+956	386	Junín
+957	386	Valmore Rodríguez
+958	386	El Paraíso
+959	387	Andrés Linares
+960	387	Chiquinquirá
+961	387	Cristóbal Mendoza
+962	387	Cruz Carrillo
+963	387	Matriz
+964	387	Monseñor Carrillo
+965	387	Tres Esquinas
+966	388	Cabimbú
+967	388	Jajó
+968	388	La Mesa de Esnujaque
+969	388	Santiago
+970	388	Tuñame
+971	388	La Quebrada
+972	389	Juan Ignacio Montilla
+973	389	La Beatriz
+974	389	La Puerta
+975	389	Mendoza del Valle de Momboy
+976	389	Mercedes Díaz
+977	389	San Luis
+978	390	Caraballeda
+979	390	Carayaca
+980	390	Carlos Soublette
+981	390	Caruao Chuspa
+982	390	Catia La Mar
+983	390	El Junko
+984	390	La Guaira
+985	390	Macuto
+986	390	Maiquetía
+987	390	Naiguatá
+988	390	Urimare
+989	391	Arístides Bastidas
+990	392	Bolívar
+991	407	Chivacoa
+992	407	Campo Elías
+993	408	Cocorote
+994	409	Independencia
+995	410	José Antonio Páez
+996	411	La Trinidad
+997	412	Manuel Monge
+998	413	Salóm
+999	413	Temerla
+1000	413	Nirgua
+1001	414	San Andrés
+1002	414	Yaritagua
+1003	415	San Javier
+1004	415	Albarico
+1005	415	San Felipe
+1006	416	Sucre
+1007	417	Urachiche
+1008	418	El Guayabo
+1009	418	Farriar
+1010	441	Isla de Toas
+1011	441	Monagas
+1012	442	San Timoteo
+1013	442	General Urdaneta
+1014	442	Libertador
+1015	442	Marcelino Briceño
+1016	442	Pueblo Nuevo
+1017	442	Manuel Guanipa Matos
+1018	443	Ambrosio
+1019	443	Carmen Herrera
+1020	443	La Rosa
+1021	443	Germán Ríos Linares
+1022	443	San Benito
+1023	443	Rómulo Betancourt
+1024	443	Jorge Hernández
+1025	443	Punta Gorda
+1026	443	Arístides Calvani
+1027	444	Encontrados
+1028	444	Udón Pérez
+1029	445	Moralito
+1030	445	San Carlos del Zulia
+1031	445	Santa Cruz del Zulia
+1032	445	Santa Bárbara
+1033	445	Urribarrí
+1034	446	Carlos Quevedo
+1035	446	Francisco Javier Pulgar
+1036	446	Simón Rodríguez
+1037	446	Guamo-Gavilanes
+1038	448	La Concepción
+1039	448	San José
+1040	448	Mariano Parra León
+1041	448	José Ramón Yépez
+1042	449	Jesús María Semprún
+1043	449	Barí
+1044	450	Concepción
+1045	450	Andrés Bello
+1046	450	Chiquinquirá
+1047	450	El Carmelo
+1048	450	Potreritos
+1049	451	Libertad
+1050	451	Alonso de Ojeda
+1051	451	Venezuela
+1052	451	Eleazar López Contreras
+1053	451	Campo Lara
+1054	452	Bartolomé de las Casas
+1055	452	Libertad
+1056	452	Río Negro
+1057	452	San José de Perijá
+1058	453	San Rafael
+1059	453	La Sierrita
+1060	453	Las Parcelas
+1061	453	Luis de Vicente
+1062	453	Monseñor Marcos Sergio Godoy
+1063	453	Ricaurte
+1064	453	Tamare
+1065	454	Antonio Borjas Romero
+1066	454	Bolívar
+1067	454	Cacique Mara
+1068	454	Carracciolo Parra Pérez
+1069	454	Cecilio Acosta
+1070	454	Cristo de Aranza
+1071	454	Coquivacoa
+1072	454	Chiquinquirá
+1073	454	Francisco Eugenio Bustamante
+1074	454	Idelfonzo Vásquez
+1075	454	Juana de Ávila
+1076	454	Luis Hurtado Higuera
+1077	454	Manuel Dagnino
+1078	454	Olegario Villalobos
+1079	454	Raúl Leoni
+1080	454	Santa Lucía
+1081	454	Venancio Pulgar
+1082	454	San Isidro
+1083	455	Altagracia
+1084	455	Faría
+1085	455	Ana María Campos
+1086	455	San Antonio
+1087	455	San José
+1088	456	Donaldo García
+1089	456	El Rosario
+1090	456	Sixto Zambrano
+1091	457	San Francisco
+1092	457	El Bajo
+1093	457	Domitila Flores
+1094	457	Francisco Ochoa
+1095	457	Los Cortijos
+1096	457	Marcial Hernández
+1097	458	Santa Rita
+1098	458	El Mene
+1099	458	Pedro Lucas Urribarrí
+1100	458	José Cenobio Urribarrí
+1101	459	Rafael Maria Baralt
+1102	459	Manuel Manrique
+1103	459	Rafael Urdaneta
+1104	460	Bobures
+1105	460	Gibraltar
+1106	460	Heras
+1107	460	Monseñor Arturo Álvarez
+1108	460	Rómulo Gallegos
+1109	460	El Batey
+1110	461	Rafael Urdaneta
+1111	461	La Victoria
+1112	461	Raúl Cuenca
+1113	447	Sinamaica
+1114	447	Alta Guajira
+1115	447	Elías Sánchez Rubio
+1116	447	Guajira
+1117	462	Altagracia
+1118	462	Antímano
+1119	462	Caricuao
+1120	462	Catedral
+1121	462	Coche
+1122	462	El Junquito
+1123	462	El Paraíso
+1124	462	El Recreo
+1125	462	El Valle
+1126	462	La Candelaria
+1127	462	La Pastora
+1128	462	La Vega
+1129	462	Macarao
+1130	462	San Agustín
+1131	462	San Bernardino
+1132	462	San José
+1133	462	San Juan
+1134	462	San Pedro
+1135	462	Santa Rosalía
+1136	462	Santa Teresa
+1137	462	Sucre (Catia)
+1138	462	23 de enero
+\.
+
+
+--
+-- Data for Name: proveedores; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.proveedores (id_proveedor, nombre_proveedor, telefono_proveedor, correo_proveedor, activo, rif, descripcion_proveedor, ubicacion_proveedor) FROM stdin;
+6	bombillos los salias	04125554474	bombillos@gmail.com	t	j-5558899	venta de bombillos al mayor	cariwao
+7	Karla Venegas	04000000000	asdkqwje@a.a	t	J-528748-6	Principiante	Sede de Lagunita
+5	galaxi tabs	04125558888	galaxitabs@gmail.com	t	j-5558899	venta de electronicos	la pastora
+9	Todo Herramientas	0400000000	therram@gmail.com	t	G-5824747	Vendedor de herramientas generales	Valencia, Carabobo
+1	Almacen 56	04125949285	almacen56@gmail.com	f	g-300202020	\N	\N
+\.
+
+
+--
+-- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.roles (id_rol, nombre_rol, descrip_rol, activo) FROM stdin;
+2	Usuario	Consulta, Solicita	t
+3	Gerente de Distribucion	Visualiza, Autoriza	t
+1	Jefe de Almacén	Ingresa, Solicita, Transferencia entre Almacenes, Modifica, Elimina	t
+\.
+
+
+--
+-- Data for Name: solicitudes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.solicitudes (id_solicitud, fecha_solicitud, id_usuario_solicitante, id_almacen_origen, id_almacen_destino, cantidad, descripcion_material, unidad_medida, ubicacion, observaciones, estatus, anulado) FROM stdin;
+21	2022-07-19	0	2	3	\N	\N	\N	\N	entrada por traspaso del alamcen de caracas	1	t
+20	2022-07-19	0	75	3	\N	\N	\N	\N	solicitud de materiales para mantenimioento	1	t
+\.
+
+
+--
+-- Data for Name: status_material; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.status_material (id_estatus_material, desc_estatus_material, activo) FROM stdin;
+1	Disponible	t
+2	En Reserva	t
+3	En Custodia	t
+4	Bloqueado	t
+5	Agotado	t
+\.
+
+
+--
+-- Data for Name: tipo_almacen; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tipo_almacen (id, tipo_almacen, activo) FROM stdin;
+2	Distribucion	t
+3	Apoyo	t
+4	Generacion	t
+1	Transmision	t
+\.
+
+
+--
+-- Data for Name: tipo_entrada; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tipo_entrada (id_tipo_entrada, descrip_tipo_entrada, activo) FROM stdin;
+1	Entrada Gratutita	t
+2	Transferencia	t
+3	Compra Nacional	t
+4	Compra Internacional	t
+5	Traspaso	t
+6	Ajuste de Inventario	t
+7	Adquisicion o Compra	t
+8	Donaciones	t
+\.
+
+
+--
+-- Data for Name: tipo_entrada_salida; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tipo_entrada_salida (id_entrada_salida, descripcion, tipo_movimiento) FROM stdin;
+1	Por Traspaso	1
+2	Ajuste de Inventario	1
+3	Adquisicion o Compra	1
+4	Donacion	1
+5	Mantenimiento	0
+6	Inversion	0
+7	Devolucion	0
+\.
+
+
+--
+-- Data for Name: tipo_ingreso; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tipo_ingreso (id_tipo_ingreso, tipo_ingreso, activo) FROM stdin;
+1	ENTRADA DE MERCANCIA MATERIAL DE PROVEEDOR (101)	t
+2	TRASPASO ENTRE ALMACENES (309)	t
+3	DEVOLUCION DE USUARIO	t
+4	ENTRADA DE MERCANCIA EN CUSTODIA	t
+5	ENTRADA POR CAMBIO DE CONDICIONDE LA MERCANCIA	t
+6	ENTRADA POR CARGA INICIAL	t
+7	ENTRADA POR DONACION	t
+\.
+
+
+--
+-- Data for Name: tipo_salida; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tipo_salida (id_tipo_salida, desc_tipo_salida, activo) FROM stdin;
+1	SALIDA DE MERCANCIA PARA MANTENIMIENTO (201)	t
+2	SALIDA DE MERCANCIA PARA OBRAS (221)	t
+3	CAMBIO DE CONDICION DE LA MERCANCIA	t
+4	SALIDA POR DONACION	t
+\.
+
+
+--
+-- Data for Name: tipos_movimientos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tipos_movimientos (id_tipo_movimiento, movimiento, activo) FROM stdin;
+1	Activa	t
+2	Rechazado	t
+3	Pendiente Por Aprobar	t
+4	Aprobada	t
+5	Cerrada	t
+\.
+
+
+--
+-- Data for Name: ubicacion_geografica; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ubicacion_geografica (id_ubicacion_geografica, id_estado, id_parroquia, id_municipio, cod_postal, direccion, activo) FROM stdin;
+4	18	765	297	5050	av ppal las delicias	t
+6	9	320	102	5050	av ppal las delicias	t
+7	8	300	94	5050	av ppal las delicias	t
+8	11	420	130	5050	av ppal las delicias	t
+9	19	825	344	1099	av ppal de la limpia 	t
+10	19	825	344	1099	av ppal de la limpia 	t
+11	19	825	344	1099	av ppal de la limpia 	t
+12	20	903	372	1099	av ppal de la limpia 	t
+13	20	903	372	1099	av ppal de la limpia 	t
+14	16	700	272	1099	av ppal de la limpia 	t
+15	16	700	272	1099	av ppal de la limpia 	t
+16	17	725	284	1099	av ppal de la limpia 	t
+17	2	28	9	1050	szxcfgsdfgsdfg	t
+18	1	1	1	5050	av ppal las delicias	t
+5	4	111	36	5050	av ppal las delicias	t
+19	24	1131	462	1030	Av Ppal San Bernardino	t
+\.
+
+
+--
+-- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.usuarios (id_usuario, usuario, password, id_rol, activo, nombre, apellido, cargo, cedula, id_almacen) FROM stdin;
+7	agarcia	$2y$10$QwtTVeR0mrKCCTKR7KGmjuPn2ThXMg4140OJQ3IugoAxxnJo1ZE4O	1	t	Aaron	Garcia	Operador	27342778	21
+1	lgarcia	$2y$10$ojHYGdK4G/VvKyCofObmf.izJrJR9qVZSmuuo3HAJvuwVE8WbYxAS	1	t	Leisber	Garcia	Administrador	27342778	2
+2	prueba123	$2y$10$ojHYGdK4G/VvKyCofObmf.izJrJR9qVZSmuuo3HAJvuwVE8WbYxAS	3	t	Usuario	Probador	El Probador	00000000	7
+5	gbarrios	$2y$10$ojHYGdK4G/VvKyCofObmf.izJrJR9qVZSmuuo3HAJvuwVE8WbYxAS	2	t	German	Barrios	Jefe de Division	16584782	3
+6	estadistica	$2y$10$i6Eyl6gcbN41MIhXNnRKVeRwV2WBnwo.yt33zbIYzzSqFmofYIMS2	3	t	Estadisticas	Prueba	Estadistico	1234567	21
+0	agutierrez	$2y$10$ojHYGdK4G/VvKyCofObmf.izJrJR9qVZSmuuo3HAJvuwVE8WbYxAS	1	t	Angel	Gutierrez	Administrador	16670820	3
+\.
+
+
+--
+-- Name: almacen_id_almacen_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.almacen_id_almacen_seq', 1, false);
+
+
+--
+-- Name: almacenes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.almacenes_id_seq', 1, false);
+
+
+--
+-- Name: categorias_id_categoria_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.categorias_id_categoria_seq', 21, true);
+
+
+--
+-- Name: condicion_almacen_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.condicion_almacen_id_seq', 1, false);
+
+
+--
+-- Name: condicion_materiales_id_condicion_material_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.condicion_materiales_id_condicion_material_seq', 4, true);
+
+
+--
+-- Name: estatus_solicitudes_id_estatus_solicitud_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.estatus_solicitudes_id_estatus_solicitud_seq', 1, false);
+
+
+--
+-- Name: familias_id_familia_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.familias_id_familia_seq', 4, true);
+
+
+--
+-- Name: log_solicitudes_id_log_solicitud_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.log_solicitudes_id_log_solicitud_seq', 18, true);
+
+
+--
+-- Name: logs_id_log_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.logs_id_log_seq', 219, true);
+
+
+--
+-- Name: material_id_material_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.material_id_material_seq', 25, true);
+
+
+--
+-- Name: material_proveedor_id_material_proveedor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.material_proveedor_id_material_proveedor_seq', 1, false);
+
+
+--
+-- Name: materiales_almacen_id_materiales_almacenes_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.materiales_almacen_id_materiales_almacenes_seq', 7, true);
+
+
+--
+-- Name: materiales_solicitudes_id_material_solicitud_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.materiales_solicitudes_id_material_solicitud_seq', 22, true);
+
+
+--
+-- Name: movimientos_id_movimiento_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.movimientos_id_movimiento_seq', 1, false);
+
+
+--
+-- Name: proveedor_id_proveedor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.proveedor_id_proveedor_seq', 9, true);
+
+
+--
+-- Name: roles_id_rol_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.roles_id_rol_seq', 1, false);
+
+
+--
+-- Name: solicitudes_id_solicitud_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.solicitudes_id_solicitud_seq', 21, true);
+
+
+--
+-- Name: status_material_id_estatus_material_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.status_material_id_estatus_material_seq', 1, false);
+
+
+--
+-- Name: tipo_almacen_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tipo_almacen_id_seq', 1, false);
+
+
+--
+-- Name: tipo_entrada_id_tipo_entrada_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tipo_entrada_id_tipo_entrada_seq', 1, false);
+
+
+--
+-- Name: tipo_entrada_salida_id_entrada_salida_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tipo_entrada_salida_id_entrada_salida_seq', 7, true);
+
+
+--
+-- Name: tipo_salida_id_tipo_salida_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tipo_salida_id_tipo_salida_seq', 1, false);
+
+
+--
+-- Name: ubicacion_geografica_id_ubicacion_geografica_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ubicacion_geografica_id_ubicacion_geografica_seq', 19, true);
+
+
+--
+-- Name: usuarios_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.usuarios_id_usuario_seq', 7, true);
+
+
+--
+-- Name: almacen almacen_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.almacen
+    ADD CONSTRAINT almacen_pkey PRIMARY KEY (id_almacen);
+
+
+--
+-- Name: almacenes almacenes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.almacenes
+    ADD CONSTRAINT almacenes_pk PRIMARY KEY (id_almacen);
+
+
+--
+-- Name: condicion_almacen condicion_almacen_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.condicion_almacen
+    ADD CONSTRAINT condicion_almacen_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: estatus_solicitudes estatus_solicitudes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.estatus_solicitudes
+    ADD CONSTRAINT estatus_solicitudes_pk PRIMARY KEY (id_estatus_solicitud);
+
+
+--
+-- Name: familias familias_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.familias
+    ADD CONSTRAINT familias_pk PRIMARY KEY (id_familia);
+
+
+--
+-- Name: categorias id_categoria; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categorias
+    ADD CONSTRAINT id_categoria PRIMARY KEY (id_categoria);
+
+
+--
+-- Name: condicion_materiales id_condicion_material; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.condicion_materiales
+    ADD CONSTRAINT id_condicion_material PRIMARY KEY (id_condicion_material);
+
+
+--
+-- Name: estados id_estado; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.estados
+    ADD CONSTRAINT id_estado PRIMARY KEY (id_estado);
+
+
+--
+-- Name: logs id_log; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.logs
+    ADD CONSTRAINT id_log PRIMARY KEY (id_log);
+
+
+--
+-- Name: material_proveedor id_material_proveedor; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.material_proveedor
+    ADD CONSTRAINT id_material_proveedor PRIMARY KEY (id_material_proveedor);
+
+
+--
+-- Name: hist_movimientos id_movimiento; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hist_movimientos
+    ADD CONSTRAINT id_movimiento PRIMARY KEY (id_movimiento);
+
+
+--
+-- Name: parroquias id_parroquia; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.parroquias
+    ADD CONSTRAINT id_parroquia PRIMARY KEY (id_parroquia);
+
+
+--
+-- Name: roles id_rol; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles
+    ADD CONSTRAINT id_rol PRIMARY KEY (id_rol);
+
+
+--
+-- Name: tipo_entrada id_tipo_entrada; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tipo_entrada
+    ADD CONSTRAINT id_tipo_entrada PRIMARY KEY (id_tipo_entrada);
+
+
+--
+-- Name: tipo_salida id_tipo_salida; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tipo_salida
+    ADD CONSTRAINT id_tipo_salida PRIMARY KEY (id_tipo_salida);
+
+
+--
+-- Name: ubicacion_geografica id_ubicacion_geografica; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ubicacion_geografica
+    ADD CONSTRAINT id_ubicacion_geografica PRIMARY KEY (id_ubicacion_geografica);
+
+
+--
+-- Name: usuarios id_usuario; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usuarios
+    ADD CONSTRAINT id_usuario PRIMARY KEY (id_usuario);
+
+
+--
+-- Name: log_solicitudes log_solicitudes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.log_solicitudes
+    ADD CONSTRAINT log_solicitudes_pk PRIMARY KEY (id_log_solicitud);
+
+
+--
+-- Name: material material_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.material
+    ADD CONSTRAINT material_pkey PRIMARY KEY (id_material);
+
+
+--
+-- Name: materiales_almacen materiales_almacen_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.materiales_almacen
+    ADD CONSTRAINT materiales_almacen_pk PRIMARY KEY (id_materiales_almacenes);
+
+
+--
+-- Name: materiales materiales_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.materiales
+    ADD CONSTRAINT materiales_pk PRIMARY KEY (id_material);
+
+
+--
+-- Name: materiales_solicitudes materiales_solicitudes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.materiales_solicitudes
+    ADD CONSTRAINT materiales_solicitudes_pk PRIMARY KEY (id_material_solicitud);
+
+
+--
+-- Name: municipios municipios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.municipios
+    ADD CONSTRAINT municipios_pkey PRIMARY KEY (id_municipio);
+
+
+--
+-- Name: proveedores proveedor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.proveedores
+    ADD CONSTRAINT proveedor_pkey PRIMARY KEY (id_proveedor);
+
+
+--
+-- Name: solicitudes solicitudes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.solicitudes
+    ADD CONSTRAINT solicitudes_pk PRIMARY KEY (id_solicitud);
+
+
+--
+-- Name: status_material status_material_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.status_material
+    ADD CONSTRAINT status_material_pk PRIMARY KEY (id_estatus_material);
+
+
+--
+-- Name: tipo_almacen tipo_almacen_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tipo_almacen
+    ADD CONSTRAINT tipo_almacen_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tipo_ingreso tipo_ingreso_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tipo_ingreso
+    ADD CONSTRAINT tipo_ingreso_pk PRIMARY KEY (id_tipo_ingreso);
+
+
+--
+-- Name: material almacen_material_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.material
+    ADD CONSTRAINT almacen_material_fk FOREIGN KEY (id_almacen) REFERENCES public.almacen(id_almacen);
+
+
+--
+-- Name: material categorias_material_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.material
+    ADD CONSTRAINT categorias_material_fk FOREIGN KEY (id_categoria) REFERENCES public.categorias(id_categoria);
+
+
+--
+-- Name: material condicion_materiales_material_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.material
+    ADD CONSTRAINT condicion_materiales_material_fk FOREIGN KEY (id_condicion_material) REFERENCES public.condicion_materiales(id_condicion_material);
+
+
+--
+-- Name: ubicacion_geografica estado_ubicacion_geografica_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ubicacion_geografica
+    ADD CONSTRAINT estado_ubicacion_geografica_fk FOREIGN KEY (id_estado) REFERENCES public.estados(id_estado);
+
+
+--
+-- Name: material_proveedor material_material_proveedor_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.material_proveedor
+    ADD CONSTRAINT material_material_proveedor_fk FOREIGN KEY (id_material) REFERENCES public.material(id_material);
+
+
+--
+-- Name: municipios municipios_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.municipios
+    ADD CONSTRAINT municipios_ibfk_1 FOREIGN KEY (id_estado) REFERENCES public.estados(id_estado) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: parroquias parroquias_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.parroquias
+    ADD CONSTRAINT parroquias_ibfk_1 FOREIGN KEY (id_municipio) REFERENCES public.municipios(id_municipio) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: ubicacion_geografica parroquias_ubicacion_geografica_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ubicacion_geografica
+    ADD CONSTRAINT parroquias_ubicacion_geografica_fk FOREIGN KEY (id_parroquia) REFERENCES public.parroquias(id_parroquia);
+
+
+--
+-- Name: material_proveedor proveedor_material_proveedor_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.material_proveedor
+    ADD CONSTRAINT proveedor_material_proveedor_fk FOREIGN KEY (id_proveedor) REFERENCES public.proveedores(id_proveedor);
+
+
+--
+-- Name: usuarios roles_usuarios_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usuarios
+    ADD CONSTRAINT roles_usuarios_fk FOREIGN KEY (id_rol) REFERENCES public.roles(id_rol);
+
+
+--
+-- Name: material status_material_material_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.material
+    ADD CONSTRAINT status_material_material_fk FOREIGN KEY (id_estatus_material) REFERENCES public.status_material(id_estatus_material);
+
+
+--
+-- Name: almacen ubicacion_geografica_almacen_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.almacen
+    ADD CONSTRAINT ubicacion_geografica_almacen_fk FOREIGN KEY (id_ubicacion_geografica) REFERENCES public.ubicacion_geografica(id_ubicacion_geografica);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

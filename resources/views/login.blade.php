@@ -20,7 +20,7 @@
           <div class="form-wrap">
               <!-- TABS -->
             <div class="tabs">
-                  <h3 class="login-tab"><a class="log-in active" href="#login-tab-content"><span>Inicio de Sessión<span></a></h3>
+                  <h3 class="login-tab"><a class="log-in active" href="#login-tab-content"><span>Inicio de Sesión<span></a></h3>
             </div>
               <!-- TABS CONTENT -->
             <div class="tabs-content">

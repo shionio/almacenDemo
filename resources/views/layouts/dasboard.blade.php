@@ -314,9 +314,18 @@
 
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{route('listaMovimientos')}}" class="nav-link">
+                    <a href="{{Route('listaMovimientos')}}" class="nav-link">
                       <i class="fa fa-paperclip" aria-hidden="true"></i>
                       <p>Solicitud de Material</p>
+                    </a>
+                  </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route('listaMovimientos')}}" class="nav-link">
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
+                      <p>Traspaso de Material</p>
                     </a>
                   </li>
                 </ul>
