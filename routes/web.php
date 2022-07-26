@@ -114,7 +114,14 @@ Route::get('/solicitudes',[MovimientosController::class, 'index'])->name('listaM
 
 Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
 Route::get('/movimientos/entradaPorTraspaso',[MovimientosController::class,'entradaMaterial'])->name('entradaMaterial');
-Route::get('/AprobarSolicitud/{id_solicitud}',[MovimientosController::class,'aprobar'])->name('aprobarSolicitud');
+
+
+
+Route::get('/AprobarSolicitud/{id}{id2}',[MovimientosController::class,'aprobar'])->name('aprobarSolicitud');
+
+
+
+
 Route::get('/RecibirSolicitud/{id_solicitud}',[MovimientosController::class,'recibir'])->name('recibirSolicitud');
 
 Route::get('/totales/articulos',[EstadisticasController::class,'estArticulos'])->name('estadisticas.articulos');

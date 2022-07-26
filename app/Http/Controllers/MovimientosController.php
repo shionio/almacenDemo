@@ -562,6 +562,7 @@ class MovimientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function editarSolicitud(){
         //dd($_POST);
         $id_solicitud = $_POST['id_solicitud'];
@@ -601,7 +602,7 @@ class MovimientosController extends Controller
                                 'fecha_accion' => now(),
                                 'accion' => 'Solicitud actualizada por el Usuario: '.session('usuario'),
                             ]);
-                    echo '<script > alert("Solicitud de Material Actualizada Exitosamente!"); window.location.href="/Solicitudes"</script>';
+                    echo '<script > alert("Solicitud de Material con el Id: '.$id_solicitud.' Actualizada Exitosamente!"); window.location.href="/Solicitudes"</script>';
 
                 }else{
                     echo '<script> alert("Fallo al Actualizar la Solicitud de Material"); window.location.href="/entradaPorTraspaso"</script>';
@@ -664,22 +665,28 @@ class MovimientosController extends Controller
      */
 
 
-     public function aprobar($id){
+     public function aprobar($id, $id2){
+        dd($id_almacen_origen);
+        DB::enableQueryLog();
         $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
-        $almacenes = DB::table('almacen')->get();
-        $materiales = DB::table('material')->get();
+        $almacenes = DB::table('almacenes')->get();
+        $materiales = DB::table('materiales')->get();
         $aprobarSol = $solicitud = DB::table('solicitudes')
-                    ->join('material','solicitudes.descripcion_material','=','material.id_material')
-                    ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
-                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_destino')
-                    ->where('id_solicitud',$id)
+                    ->join('materiales','solicitudes.descripcion_material','=','materiales.id_material')
+                    ->join('almacenes AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->join('almacenes AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_destino')
+                    ->join('materiales_solicitudes','materiales_solicitudes.id_solicitud ','=','olicitudes.id_solicitud')
+                    ->join('materiales','materiales.id_material','=','materiales_solicitud.id_material')
+                    ->join('materiales_almacen as ma','ma.id_material','=','materiales_solicitudes.id_material')
+                    ->join('materiales_almacen as ma2','ma2.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->where(['id_solicitud'=> $id, 'materiales.id_almacen' => $id_almacen_origen])
                     ->select('solicitudes.fecha_solicitud',
                             'solicitudes.id_almacen_origen',
                             'solicitudes.id_almacen_destino',
                             'solicitudes.estatus',
-                            'material.id_material',
-                            'material.nombre_material',
-                            'material.stock',
+                            'materiales.id_material',
+                            'materiales.descripcion_propuesta',
+                            //'materiales_almacen.stock',
                             'solicitudes.cantidad',
                             'solicitudes.observaciones',
                             'solicitudes.id_solicitud',
@@ -687,6 +694,9 @@ class MovimientosController extends Controller
                             'almacen_destino.nombre_almacen AS almaDesti',
                         )
                     ->get()->first();
+                    $q = DB::getQueryLog();
+                    dd($q);
+        dd($aprobarSol);
 
         return view('solicitudes.formAprobarSolicitud',['solicitud' => $aprobarSol, 'estatusSolicitudes' => $estatus_solicitudes, 'almacenes'  => $almacenes,'materiales' => $materiales,]);
     }
