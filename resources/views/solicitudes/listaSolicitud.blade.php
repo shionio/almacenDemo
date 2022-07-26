@@ -8,7 +8,7 @@
   <div class="card-header">
     <div class="row">
       <div class="col-10">
-        <h2>Listado de Solicitudes</h2>
+        <h2>Lista de Solicitudes</h2>
         {{-- {{dd($solicitudes);}} --}}
       </div>
       <div class="col-2">
@@ -65,19 +65,19 @@
                         <i class="fas fa-edit"></i>
                       </button>
 
+
+
+                      <button class="btn btn-primary" onclick="window.location.href='{{route('verSolicitud',$soli->id_solicitud) }}'">
+                       <i class="fas fa-check"></i>
+                      </button>
+
+                    <button class="btn btn-secondary" onclick="window.location.href='{{route('solicitudPdf',$soli->id_solicitud) }}'">
+                      <i class="fa fa-file-text" aria-hidden="true"></i>
+                    </button>
+
                       <button class="btn btn-danger" onclick="anula({{$soli->id_solicitud}})">
                         <i class="fas fa-ban"></i>
                       </button>
-
-                      {{-- <a href="{{route('aprobarSolicitud',$soli->id_solicitud)}}">
-                        <i class="fas fa-check"></i>
-                      </a> --}}
-                      {{-- <a href="#" id="anula">
-                      <i class="fas fa-ban"></i>
-                    </a> --}}
-                    <button class="btn btn-primary" onclick="window.location.href='{{route('solicitudPdf',$soli->id_solicitud) }}'">
-                      <i class="fa fa-file-text" aria-hidden="true"></i>
-                    </button>
                    {{--  @endif
 
                     @if(session('rol') == 2)

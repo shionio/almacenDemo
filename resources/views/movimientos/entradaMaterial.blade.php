@@ -65,38 +65,38 @@
 								</div>
 							</div>
 
-			                  	<div class="form-group col-3">
-			                  		<label for="exampleInputPassword1">Almacen</label>
-			                  		<select class="js-example-basic-single custom-select" name="idAlmacen">
-			                  			<option value="" selected="true">Seleccione</option>
-			                  			@foreach($almacenes as $almacen)
-			                  			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
-			                  			@endforeach
-			                  		</select>
-			                  	</div>
+            	<div class="form-group col-3">
+            		<label for="exampleInputPassword1">Almacen</label>
+            		<select class="js-example-basic-single custom-select" name="idAlmacen">
+            			<option value="" selected="true">Seleccione</option>
+            			@foreach($almacenes as $almacen)
+            			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
+            			@endforeach
+            		</select>
+            	</div>
 
-			                  	<div class="form-group col-3">
-			                  		<label for="exampleInputPassword1">Estatus Material</label>
-			                  		<select class="form-control" name="estatusMaterial" id="estatusMaterial">
-			                  		<option class="form-control" name="estatusMaterial" id="estatusMaterial" value="{{$estatusMateriales->id_estatus_material}}" selected>{{$estatusMateriales->desc_estatus_material}}</option>
-			                  	</select>
-			                  	</div>
+            	<div class="form-group col-3">
+            		<label for="exampleInputPassword1">Estatus Material</label>
+            		<select class="form-control" name="estatusMaterial" id="estatusMaterial">
+            		<option class="form-control" name="estatusMaterial" id="estatusMaterial" value="{{$estatusMateriales->id_estatus_material}}" selected>{{$estatusMateriales->desc_estatus_material}}</option>
+            	</select>
+            	</div>
 
-			                  	{{-- {{$condicionMateriales}} --}}
-			                  	<div class="form-group col-3">
-			                  		<label for="exampleInputPassword1">Condicion Material</label>
-			                  		<select class="form-control" name="condicionMaterial" id="condicionMaterial">
-			                  		<option class="form-control" value="{{$condicionMateriales->id_condicion_material}}">{{$condicionMateriales->descrip_condicion_material}}</option>
-			                  	</select>
-			                  	</div>
-			                  	{{-- <div class="form-group col-3">
-			                    	<label>Nº Control</label>
-			                    	<input type="text" name="nControl" class="form-control" id="nControl" value="">
-			                    </div> --}}
-			                    <div class="form-group col-9">
-			                    	<label>Observaciones</label>
-			                    	<input type="text" name="observaciones" class="form-control" id="estatusVehiculo" value="">
-			                    </div>
+            	{{-- {{$condicionMateriales}} --}}
+            	<div class="form-group col-3">
+            		<label for="exampleInputPassword1">Condicion Material</label>
+            		<select class="form-control" name="condicionMaterial" id="condicionMaterial">
+            		<option class="form-control" value="{{$condicionMateriales->id_condicion_material}}">{{$condicionMateriales->descrip_condicion_material}}</option>
+            	</select>
+            	</div>
+            	{{-- <div class="form-group col-3">
+              	<label>Nº Control</label>
+              	<input type="text" name="nControl" class="form-control" id="nControl" value="">
+              </div> --}}
+              <div class="form-group col-12">
+              	<label>Observaciones</label>
+              	<input type="text" name="observaciones" class="form-control" id="estatusVehiculo" value="">
+              </div>
 
 							</div>
 							<!-- /.card-body -->
@@ -107,7 +107,7 @@
 										<button type="submit" class="btn btn-primary">Guardar</button>
 									</div>
 									<div class="col" align="right">
-										<a {{-- href="{{route('listaArticulos')}}" --}} class="btn btn-success col-3">Volver</a>
+										<a href="{{route('inicio')}}" class="btn btn-success col-3">Volver</a>
 									</div>
 								</div>
 							</div>

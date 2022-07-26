@@ -181,9 +181,11 @@ class MovimientosController extends Controller
         $estatusMateriales  = DB::table('status_material')
         ->where('id_estatus_material','=', '1')
         ->get()->first();
+
         $condicionMaterial  = DB::table('condicion_materiales')
         ->where('id_condicion_material','=','1')
         ->get()->first();
+
         $familias           = DB::table('familias')->get();
         $tipoMovimientos    = DB::table('tipo_ingreso')->get();
         $materiales         = DB::table('materiales')->get();

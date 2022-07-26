@@ -3,6 +3,13 @@
 @section('mainPage')
 
 {{-- {{dd($almacenes, $almacenUsuario, $materiales)}} --}}
+{{-- <style>
+	th, td {
+    border: 1px solid blue;
+    width: 100px;
+    /*word-wrap: break-word;*/
+}
+</style> --}}
 <br>
 	<div class="container">
 		<div class="card-body bg-white">
@@ -62,20 +69,23 @@
 				                  		</thead>
 			                  			<tbody>
 			                  				<tr class="clonarlo" id="fila-registro">
-			                  					<td>
+			                  					<td style="width:100px;">
                                     				<input class="form-control idMaterial" type="text" id="idMaterial" name="idMaterial[]"  readonly>
 			                  					</td>
 
-			                  					<td>
-			                  						<select class="js-example-basic-single custom-select material" name="material[]" id="material" onchange="traerStock($(this))">
+			                  					<td style="width:400px;">
+			                  						<div class="form-group">
+				                  						<select class="js-example-basic-single custom-select material" name="material[]" id="material" onchange="traerStock($(this))">
 
-                                    					<option value="null">Seleccione</option>
-                                    					@foreach($materiales as $material)
-                                    						<option value="{{$material->id_material}}">{{$material->descripcion_propuesta}}</option>
-                                    					@endforeach
-                                    				</select>
+	                                    					<option value="null">Seleccione</option>
+	                                    					@foreach($materiales as $material)
+	                                    						<option value="{{$material->id_material}}">{{$material->descripcion_propuesta}}</option>
+	                                    					@endforeach
+	                                    				</select>
+                                    				</div>
 			                  					</td>
-			                  					<td>
+
+			                  					<td style="width:100px;">
 			                  						<input class="form-control stock" type="text" id="stock" name="stock[]"  readonly>
 			                  					</td>
 			                  					<td>
