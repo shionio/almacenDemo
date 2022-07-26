@@ -120,6 +120,29 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
+                  <i class="fa fa-tablet"></i>
+                  <p>
+                    Reportes
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{Route('filtrar.reporte')}}" class="nav-link">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                      <p>Reporte Avanzado</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                      <i class="fa fa-list" aria-hidden="true"></i>
+                      <p>Registro Almacen</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
                   <i class="fas fa-warehouse"></i>
                   <p>
                     Almacen
@@ -225,53 +248,13 @@
                   <a href="{{Route('newEntradaMaterial')}}" class="nav-link">
                     <i class="fa fa-paperclip" aria-hidden="true"></i>
                     <p>Entrada De Material</p>
-                   <!--  <i class="fas fa-angle-left right"></i> -->
                   </a>
-                  <!-- <ul class="nav nav-treeview">
-
-                    <li class="nav-item">
-                      <a href="{{route('newArticulo')}}" class="nav-link">
-                        <i class="fa fa-list-alt" aria-hidden="true"></i>
-                        <p>Material de Proveedor</p>
-                      </a>
-                    </li>
-
-                    <li class="nav-item">
-                      <a href="{{Route('newSolicitud')}}" class="nav-link">
-                        <i class="fa fa-cube" aria-hidden="true"></i>
-                        <p>Traspaso entre Almacenes</p>
-                      </a>
-                    </li>
-
-                    <li class="nav-item">
-                      <a href="{{Route('newArticulo')}}" class="nav-link">
-                        <i class="fa fa-cube" aria-hidden="true"></i>
-                        <p>Devolucion de Usuario</p>
-                      </a>
-                    </li>
-
-                    <li class="nav-item">
-                      <a href="{{Route('newArticulo')}}" class="nav-link">
-                        <i class="fa fa-cube" aria-hidden="true"></i>
-                        <p>Entrada en Custodia</p>
-                      </a>
-                    </li>
-
-                    <li class="nav-item">
-                      <a href="{{Route('newArticulo')}}" class="nav-link">
-                        <i class="fa fa-cube" aria-hidden="true"></i>
-                        <p>Entrada por Donacion</p>
-                      </a>
-                    </li>
-
-                    <li class="nav-item">
-                      <a href="{{Route('newArticulo')}}" class="nav-link">
-                        <i class="fa fa-cube" aria-hidden="true"></i>
-                        <p>Cambio de Condicion de la Mercancia</p>
-                      </a>
-                    </li>
-
-                  </ul> -->
+                </li>
+                <li class="nav-item">
+                  <a href="{{Route('entrada.lista')}}" class="nav-link">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                    <p>Histórico de Movimientos</p>
+                  </a>
                 </li>
               </ul>
 
@@ -496,7 +479,7 @@
             //   'success'
             // )
             // this.submit();
-            window.location.href='/';
+            window.location.href='/salir';
           }
         })
     }

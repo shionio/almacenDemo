@@ -10,6 +10,7 @@ class ProveedorController extends Controller
     public function newProveedor()
     {
         //dd($_POST);
+        $rif = $_POST['rif_p'];
 
         $proveedor = array(
             'rif' => $_POST['rif_p'],
@@ -31,7 +32,9 @@ class ProveedorController extends Controller
                         ]);
 
         if($p == true and $inserLog == true){
-            return Redirect()->route('lista.proveedor')->with('success', 'Proveedor Registrado con Éxito');
+
+            return json_encode($rif);
+            // return Redirect()->route('lista.proveedor');
         }else{
             return Redirect()->back()->with('message','Ocurrio un Error al intentar registrar nuevo proveedor');
         }

@@ -3,6 +3,7 @@
 @section('mainPage')
 
 <br>
+{{-- {{dd($almacenes)}} --}}
 	<div class="container">
 		{{-- {{$estatusVehi}} --}}
 		<div class="card-body bg-white">
@@ -23,20 +24,25 @@
 				                    <input type="text" name="fecha" class="form-control" id="fecha" placeholder="" value="{{date('d/m/Y')}}" readonly>
 				                </div>
 
-				                <div class="col-sm-4">
-				                    <!-- select -->
-				                    <div class="form-group">
-				                        <label>Materiales</label>
-				                        {{-- <input class="form-control" type="text" name="nombreMaterial" id="nombreMaterial" value=""> --}}
-				                        <select class="js-example-basic-single custom-select" name="idMaterial">
-			                        	<option value="" selected="true">Seleccione</option>
-			                        		@foreach($materiales as $material)
-			                        			<option value="{{$material->id_material}}">{{$material->descripcion_propuesta}}</option>
-			                          		@endforeach
-			                        	</select>
-
-				                     </div>
-				                </div>
+				                <div class="form-group col-4">
+								<label for="exampleInputPassword1">Familia</label>
+								<select class="js-example-basic-single custom-select" name="familia" id="familia" onchange="llenarMaterial()">
+									<option value="null">FAMILIA</option>
+									@foreach($familias as $familia)
+									<option value="{{$familia->id_familia}}">{{$familia->nombre_familia}}</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="col-sm-4">
+								<!-- select -->
+								<div class="form-group">
+									<label>Materiales</label>
+									{{-- <input class="form-control" type="text" name="nombreMaterial" id="nombreMaterial" value=""> --}}
+									<select class="js-example-basic-single custom-select" name="idMaterial" id="idMaterial" onchange="llenarALmacen()" required>
+										<option value="null">Seleccione</option>
+									</select>
+								</div>
+							</div>
 
 				                <div class="col-sm-2">
 				                    <!-- select -->
@@ -46,7 +52,7 @@
 				                     </div>
 				                </div>
 
-				                <div class="form-group col-4">
+				                {{-- <div class="form-group col-4">
 			                    	<label for="exampleInputPassword1">Familia</label>
 			                    	<select class="js-example-basic-single custom-select" name="idFamilia">
 			                        	<option value="" selected="true">Seleccione</option>
@@ -54,7 +60,7 @@
 			                        			<option value="{{$familia->id_familia}}">{{$familia->nombre_familia}}</option>
 			                          		@endforeach
 			                        </select>
-			                  	</div>
+			                  	</div> --}}
 
 				                <div class="col-sm-3">
 				                    <!-- select -->
@@ -118,7 +124,14 @@
 			                    	<input type="text" name="direccionEntrega" class="form-control" id="direccionEntrega" placeholder="" value="">
 			                  	</div>
  							--}}
-			                  	<div class="form-group col-3">
+ 							<div class="form-group">
+									<label>Almacenes</label>
+									{{-- <input class="form-control" type="text" name="nombreMaterial" id="nombreMaterial" value=""> --}}
+									<select class="js-example-basic-single custom-select" name="almacenes" id="almacenes" required>
+										<option value="null">Seleccione</option>
+									</select>
+								</div>
+			                  	{{-- <div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Almacen</label>
 			                    	<select class="js-example-basic-single custom-select" name="idAlmacen">
 			                        	<option value="" selected="true">Seleccione</option>
@@ -126,7 +139,7 @@
 			                        			<option value="{{$almacen->id_almacen}}">{{$almacen->nombre_almacen}}</option>
 			                          		@endforeach
 			                        </select>
-			                  	</div>
+			                  	</div> --}}
 
 			                  	<div class="form-group col-3">
 			                    	<label for="exampleInputPassword1">Estatus Material</label>
@@ -139,7 +152,7 @@
 			                  	</div>
 
 			                        		{{-- {{$condicionMateriales}} --}}
-			                  	<div class="form-group col-3">
+			                  	<div class="form-group col-2">
 			                    	<label for="exampleInputPassword1">Condicion Material</label>
 			                    	<select class="js-example-basic-single custom-select" name="condicionMaterial">
 			                        	<option value="" selected="true">Seleccione</option>
@@ -159,10 +172,14 @@
 			                        </select>
 			                  	</div> --}}
 
-			                    <div class="form-group col-12">
-			                        <label>Observaciones</label>
-			                        <input type="text" name="observaciones" class="form-control" id="estatusVehiculo" value="">
-			                  	</div>
+			                    {{-- <div class="form-group col-3">
+			                    	<label>Nº Control/Nº Orden</label>
+			                    	<input type="text" name="nControl" class="form-control" id="nControl" value="">
+			                    </div> --}}
+			                    <div class="form-group col-9">
+			                    	<label>Observaciones</label>
+			                    	<input type="text" name="observaciones" class="form-control" id="estatusVehiculo" value="">
+			                    </div>
 
 			                  	{{-- <div class="col-6">
 			                  		<label for="">Cargar Imagen Del Material</label>
@@ -203,6 +220,47 @@
 		      return false;
 		    }
 		}
+	function llenarMaterial(){
+			var familia = $('#familia').val()
+      //console.log(estado)
+      $.ajax({
+      	url : '/solicitudes/material',
+      	type : 'post',
+      	data :  {
+      		id_familia : familia,
+      		"_token": "{{ csrf_token() }}"
+      	},
+      	success:function(materiales){
+          // var materiales = $.parseJSON(materiales)
+          $('#idMaterial').empty()
+          $("#idMaterial").append("<option value='null'>Seleccione</option>")
+          for (var i = 0; i < materiales.length; i++){
+          	$("#idMaterial").append("<option value='"+materiales[i].id_material+"'>"+materiales[i].descripcion_propuesta+"</option>")
+          }
+      }
+  })
+  }
+  function llenarALmacen(){
+			var idMaterial = $('#idMaterial').val()
+			// console.log(idMaterial);
+      //console.log(estado)
+      $.ajax({
+      	url : '/movimientos/almacen',
+      	type : 'post',
+      	data :  {
+      		id_material : idMaterial,
+      		"_token": "{{ csrf_token() }}"
+      	},
+      	success:function(almacenes){
+          // var materiales = $.parseJSON(materiales)
+          $('#almacenes').empty()
+          $("#almacenes").append("<option value='null'>Seleccione</option>")
+          for (var i = 0; i < almacenes.length; i++){
+          	$("#almacenes").append("<option value='"+almacenes[i].id_almacen+"'>"+almacenes[i].nombre_almacen+"</option>")
+          }
+      }
+  })
+  }
 
 
 	</script>
