@@ -29,6 +29,7 @@ class articulosController extends Controller
             'materiales.descripcion_propuesta',
             'materiales.codigo',
             'materiales.unidad_medida',
+            'materiales_almacen.activo',
             'condicion_materiales.descrip_condicion_material',
             'status_material.desc_estatus_material',
             'materiales_almacen.id_almacen',
@@ -50,6 +51,7 @@ class articulosController extends Controller
             'materiales.unidad_medida',
             'familias.id_familia',
             'familias.nombre_familia',
+            'materiales_almacen.activo',
         )
         ->orderBy('materiales_almacen.id_material')
         ->simplePaginate(15);
@@ -58,6 +60,62 @@ class articulosController extends Controller
         
         //dd($articulos);
         return view('articulos.listaArticulos',['materiales' => $materiales]);
+    }
+
+    public function verArt($id)
+    {
+        $block = DB::table('materiales')
+        ->join('familias','familias.id_familia','=','materiales.id_familia')
+        ->where('id_material',$id)
+        ->get()->first();
+
+        $familia = DB::table('familias')
+        ->get();
+
+        return view('articulos.editArt',['art'=>$block, 'fam'=>$familia]);
+    }
+
+    public function actArt($id)
+    {
+        // dd($_POST, $id);
+        $actualizar = array(
+            'codigo'=>$_POST['codigo'],
+            'descripcion_propuesta'=>$_POST['nombreMaterial'],
+            'unidad_medida'=>$_POST['medida'],
+            'id_familia'=>$_POST['familia'],
+        );
+        $block = DB::table('materiales')
+        ->where('id_material',$id)
+        ->update($actualizar);
+
+        return redirect()->route('listaArticulos');
+    }
+
+    public function blockArt($id,$id2)
+    {
+        // dd($id,$id2);
+        $a = array('activo'=>true);
+        $b = array('activo'=>false);
+
+        $alm = DB::table('materiales_almacen')
+        ->where('id_almacen','=',$id2)
+        ->where('id_material','=',$id)
+        ->select('activo')->get()->first();
+
+        // dd($alm);
+
+        if($alm->activo == true){
+        $alm = DB::table('materiales_almacen')
+        ->where('id_almacen',$id2)
+        ->where('id_material',$id)
+        ->update($b);
+        }elseif($alm->activo == false){
+        $alm = DB::table('materiales_almacen')
+        ->where('id_almacen',$id2)
+        ->where('id_material',$id)
+        ->update($a);
+        }
+        return back();
     }
 
     public function showArt(){
