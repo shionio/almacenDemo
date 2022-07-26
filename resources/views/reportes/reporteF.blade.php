@@ -5,7 +5,7 @@
 {{-- {{dd($alm, $est, $con, $mat, $fam)}} --}}
 <div class="card">
 	<div class="card-body">
-		{{ Form::open(['route' => 'generar.reporte', 'method' => 'GET']),(['role' => 'form']) }}
+		{{ Form::open(['route' => 'generar.reporte', 'method' => 'POST']),(['role' => 'form']) }}
 		@csrf
 		<div class="row">
 			<div class="col-sm-4">

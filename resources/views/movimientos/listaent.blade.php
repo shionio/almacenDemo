@@ -45,14 +45,9 @@
             <td align="center"> {{$proveedor->stock}} </td>
             <td align="center"> {{$proveedor->tipo_movimiento}} </td>
               <td>
-                <abbr title="Editar">
-                  <a href="">
-                    <i class="fa-solid fa-pen-to-square fa-2x"></i>
-                  </a>
-                </abbr>
-
-                <abbr title="Estatus">
-                  <a href="">
+                <abbr title="Descargar PDF">
+                  <a href="{{Route('pdf.hist',$proveedor->ent_codigo)}}">
+                    <i class="fa-solid fa fa-download fa-2x"></i>
                   </a>
                 </abbr>
               </td>
