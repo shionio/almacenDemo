@@ -68,22 +68,6 @@ class MovimientosController extends Controller
         return view('movimientos.listaent',['datos'=>$lista]);
     }
 
-    public function pdfHist($id)
-    {
-        $lista = DB::table('hist_entradas')
-        ->join('materiales','materiales.id_material','=','hist_entradas.id_material')
-        ->join('familias','familias.id_familia','materiales.id_familia')
-        ->join('almacenes','almacenes.id_almacen','=','hist_entradas.id_almacen')
-        ->where('ent_codigo',$id)
-        ->select('descripcion_propuesta','nombre_almacen','nombre_familia','stock','ent_codigo','n_control','codigo','tipo_movimiento')
-        ->get()->first();
-
-        // dd($lista);
-
-        $pdf = \PDF::loadView('PDF.histmo',['datos'=>$lista])->setPaper('letter','C4');
-            return $pdf->stream('historico.pdf');
-    }
-
 
         // dd($_POST);
         // if($request->hasFile('img_articulo') ){
@@ -197,11 +181,9 @@ class MovimientosController extends Controller
         $estatusMateriales  = DB::table('status_material')
         ->where('id_estatus_material','=', '1')
         ->get()->first();
-
         $condicionMaterial  = DB::table('condicion_materiales')
         ->where('id_condicion_material','=','1')
         ->get()->first();
-
         $familias           = DB::table('familias')->get();
         $tipoMovimientos    = DB::table('tipo_ingreso')->get();
         $materiales         = DB::table('materiales')->get();
@@ -681,11 +663,12 @@ class MovimientosController extends Controller
 
 
      public function aprobar($id){
+        DB::enableQueryLog();
         $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
         $almacenes = DB::table('almacen')->get();
-        $materiales = DB::table('material')->get();
+        $materiales = DB::table('materiales')->get();
         $aprobarSol = $solicitud = DB::table('solicitudes')
-                    ->join('material','solicitudes.descripcion_material','=','material.id_material')
+                    ->join('materiales','solicitudes.descripcion_material','=','materiales.id_material')
                     ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
                     ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_destino')
                     ->where('id_solicitud',$id)
@@ -693,9 +676,9 @@ class MovimientosController extends Controller
                             'solicitudes.id_almacen_origen',
                             'solicitudes.id_almacen_destino',
                             'solicitudes.estatus',
-                            'material.id_material',
-                            'material.nombre_material',
-                            'material.stock',
+                            'materiales.id_material',
+                            'materiales.descripcion_propuesta',
+                            //'materiales.stock',
                             'solicitudes.cantidad',
                             'solicitudes.observaciones',
                             'solicitudes.id_solicitud',
@@ -703,6 +686,9 @@ class MovimientosController extends Controller
                             'almacen_destino.nombre_almacen AS almaDesti',
                         )
                     ->get()->first();
+        $q = DB::getQueryLog();
+
+        dd($q/*$aprobarSol*/);
 
         return view('solicitudes.formAprobarSolicitud',['solicitud' => $aprobarSol, 'estatusSolicitudes' => $estatus_solicitudes, 'almacenes'  => $almacenes,'materiales' => $materiales,]);
     }

@@ -67,7 +67,7 @@
 
 
 
-                      <button class="btn btn-primary" onclick="window.location.href='{{route('verSolicitud',$soli->id_solicitud) }}'">
+                      <button class="btn btn-primary" onclick="window.location.href='{{route('aprobarSolicitud',$soli->id_solicitud) }}'">
                        <i class="fas fa-check"></i>
                       </button>
 
