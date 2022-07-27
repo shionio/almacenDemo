@@ -110,12 +110,12 @@
                       <p>Familias</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  {{-- <li class="nav-item">
                     <a href="{{Route('BuscarMaterial')}}" class="nav-link">
                       <i class="fa fa-search" aria-hidden="true"></i>
                       <p>Buscar Material</p>
                     </a>
-                  </li>
+                  </li> --}}
                 </ul>
               </li>
               <li class="nav-item">
@@ -130,15 +130,15 @@
                   <li class="nav-item">
                     <a href="{{Route('filtrar.reporte')}}" class="nav-link">
                       <i class="fa fa-search" aria-hidden="true"></i>
-                      <p>Reporte Avanzado</p>
+                      <p>Reportes Generales</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  {{-- <li class="nav-item">
                     <a href="" class="nav-link">
                       <i class="fa fa-list" aria-hidden="true"></i>
                       <p>Registro Almacen</p>
                     </a>
-                  </li>
+                  </li> --}}
                 </ul>
               </li>
               <li class="nav-item">
@@ -245,15 +245,15 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{{Route('newEntradaMaterial')}}" class="nav-link">
-                    <i class="fa fa-paperclip" aria-hidden="true"></i>
-                    <p>Entrada De Material</p>
+                  <a href="{{Route('entrada.lista')}}" class="nav-link">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                    <p>Ver Entradas y Salidas</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{Route('entrada.lista')}}" class="nav-link">
-                    <i class="fa fa-bars" aria-hidden="true"></i>
-                    <p>Histórico de Movimientos</p>
+                  <a href="{{Route('newEntradaMaterial')}}" class="nav-link">
+                    <i class="fa fa-paperclip" aria-hidden="true"></i>
+                    <p>Entrada De Material</p>
                   </a>
                 </li>
               </ul>
@@ -331,7 +331,7 @@
                 </ul>
 
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="fa fa-users" aria-hidden="true"></i>
                   <p>
@@ -341,7 +341,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{-- {{Route('lista.user')}} --}}" class="nav-link">
+                    <a href="{{Route('lista.user')}}" class="nav-link">
                       <i class="fa fa-list-alt" aria-hidden="true"></i>
                       <p>Listar Usuarios</p>
                     </a>
@@ -353,7 +353,7 @@
                     </a>
                   </li>
                 </ul>
-              </li>
+              </li> --}}
               @endif
 
 
