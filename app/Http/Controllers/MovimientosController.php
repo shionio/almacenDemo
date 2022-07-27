@@ -68,22 +68,6 @@ class MovimientosController extends Controller
         return view('movimientos.listaent',['datos'=>$lista]);
     }
 
-    public function pdfHist($id)
-    {
-        $lista = DB::table('hist_entradas')
-        ->join('materiales','materiales.id_material','=','hist_entradas.id_material')
-        ->join('familias','familias.id_familia','materiales.id_familia')
-        ->join('almacenes','almacenes.id_almacen','=','hist_entradas.id_almacen')
-        ->where('ent_codigo',$id)
-        ->select('descripcion_propuesta','nombre_almacen','nombre_familia','stock','ent_codigo','n_control','codigo','tipo_movimiento')
-        ->get()->first();
-
-        // dd($lista);
-
-        $pdf = \PDF::loadView('PDF.histmo',['datos'=>$lista])->setPaper('letter','C4');
-            return $pdf->stream('historico.pdf');
-    }
-
 
         // dd($_POST);
         // if($request->hasFile('img_articulo') ){
@@ -197,11 +181,9 @@ class MovimientosController extends Controller
         $estatusMateriales  = DB::table('status_material')
         ->where('id_estatus_material','=', '1')
         ->get()->first();
-
         $condicionMaterial  = DB::table('condicion_materiales')
         ->where('id_condicion_material','=','1')
         ->get()->first();
-
         $familias           = DB::table('familias')->get();
         $tipoMovimientos    = DB::table('tipo_ingreso')->get();
         $materiales         = DB::table('materiales')->get();
@@ -578,7 +560,6 @@ class MovimientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function editarSolicitud(){
         //dd($_POST);
         $id_solicitud = $_POST['id_solicitud'];
@@ -618,7 +599,7 @@ class MovimientosController extends Controller
                                 'fecha_accion' => now(),
                                 'accion' => 'Solicitud actualizada por el Usuario: '.session('usuario'),
                             ]);
-                    echo '<script > alert("Solicitud de Material con el Id: '.$id_solicitud.' Actualizada Exitosamente!"); window.location.href="/Solicitudes"</script>';
+                    echo '<script > alert("Solicitud de Material Actualizada Exitosamente!"); window.location.href="/Solicitudes"</script>';
 
                 }else{
                     echo '<script> alert("Fallo al Actualizar la Solicitud de Material"); window.location.href="/entradaPorTraspaso"</script>';
@@ -681,28 +662,23 @@ class MovimientosController extends Controller
      */
 
 
-     public function aprobar($id, $id2){
-        dd($id_almacen_origen);
+     public function aprobar($id){
         DB::enableQueryLog();
         $estatus_solicitudes = DB::table('estatus_solicitudes')->get();
-        $almacenes = DB::table('almacenes')->get();
+        $almacenes = DB::table('almacen')->get();
         $materiales = DB::table('materiales')->get();
         $aprobarSol = $solicitud = DB::table('solicitudes')
                     ->join('materiales','solicitudes.descripcion_material','=','materiales.id_material')
-                    ->join('almacenes AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
-                    ->join('almacenes AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_destino')
-                    ->join('materiales_solicitudes','materiales_solicitudes.id_solicitud ','=','olicitudes.id_solicitud')
-                    ->join('materiales','materiales.id_material','=','materiales_solicitud.id_material')
-                    ->join('materiales_almacen as ma','ma.id_material','=','materiales_solicitudes.id_material')
-                    ->join('materiales_almacen as ma2','ma2.id_almacen','=','solicitudes.id_almacen_origen')
-                    ->where(['id_solicitud'=> $id, 'materiales.id_almacen' => $id_almacen_origen])
+                    ->join('almacen AS almacen_origen','almacen_origen.id_almacen','=','solicitudes.id_almacen_origen')
+                    ->join('almacen AS almacen_destino','almacen_destino.id_almacen','=','solicitudes.id_almacen_destino')
+                    ->where('id_solicitud',$id)
                     ->select('solicitudes.fecha_solicitud',
                             'solicitudes.id_almacen_origen',
                             'solicitudes.id_almacen_destino',
                             'solicitudes.estatus',
                             'materiales.id_material',
                             'materiales.descripcion_propuesta',
-                            //'materiales_almacen.stock',
+                            //'materiales.stock',
                             'solicitudes.cantidad',
                             'solicitudes.observaciones',
                             'solicitudes.id_solicitud',
@@ -710,9 +686,9 @@ class MovimientosController extends Controller
                             'almacen_destino.nombre_almacen AS almaDesti',
                         )
                     ->get()->first();
-                    $q = DB::getQueryLog();
-                    dd($q);
-        dd($aprobarSol);
+        $q = DB::getQueryLog();
+
+        dd($q/*$aprobarSol*/);
 
         return view('solicitudes.formAprobarSolicitud',['solicitud' => $aprobarSol, 'estatusSolicitudes' => $estatus_solicitudes, 'almacenes'  => $almacenes,'materiales' => $materiales,]);
     }

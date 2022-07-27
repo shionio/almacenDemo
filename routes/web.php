@@ -65,11 +65,6 @@ Route::get('Articulos',[ArticulosController::class, 'index'])->name('listaArticu
 Route::get('/Articulo/Nuevo', [ArticulosController::class , 'create'])->name('newArticulo');
 Route::post('/guardarMaterial',[ArticulosController::class, 'store']);
 Route::post('/Guardar/Material',[ArticulosController::class,'nuevoMaterial'])->name('nuevoMat');
-
-Route::get('/Articulo/Ver/{id}',[ArticulosController::class, 'verArt'])->name('verArticulo');
-Route::post('/Articulo/Actualizar/{id}',[ArticulosController::class, 'actArt'])->name('guardarArt');
-Route::get('/Articulo/Block/{id}/{id2}',[ArticulosController::class, 'blockArt'])->name('blockArt');
-
 /*fin de rutas de articulos*/
 
 /* Proveedores */
@@ -102,8 +97,6 @@ Route::post('/guardarSalidaMaterial',[MovimientosController::class, 'guardarSali
 Route::get('/movimientos/salidaMaterial',[MovimientosController::class, 'mostrarSalidaMaterial'])->name('newMovSalida');
 Route::get('/movimientos/entradaMaterial',[MovimientosController::class, 'nuevaEntrada'])->name('newEntradaMaterial');
 
-Route::get('/movimientos/pdf{id}',[MovimientosController::class, 'pdfHist'])->name('pdf.hist');
-
 Route::post('/movimientos/almacen',[MovimientosController::class,'alminv'])->name('inv.almacenes');
 
 Route::get('/verSolicitud/{id_solicitud}',[MovimientosController::class,'show'])->name('verSolicitud');
@@ -121,14 +114,7 @@ Route::get('/solicitudes',[MovimientosController::class, 'index'])->name('listaM
 
 Route::get('/Solicitudes/NuevaSolicitud',[MovimientosController::class,'create'])->name('newSolicitud');
 Route::get('/movimientos/entradaPorTraspaso',[MovimientosController::class,'entradaMaterial'])->name('entradaMaterial');
-
-
-
-Route::get('/AprobarSolicitud/{id}{id2}',[MovimientosController::class,'aprobar'])->name('aprobarSolicitud');
-
-
-
-
+Route::get('/AprobarSolicitud/{id_solicitud}',[MovimientosController::class,'aprobar'])->name('aprobarSolicitud');
 Route::get('/RecibirSolicitud/{id_solicitud}',[MovimientosController::class,'recibir'])->name('recibirSolicitud');
 
 Route::get('/totales/articulos',[EstadisticasController::class,'estArticulos'])->name('estadisticas.articulos');
@@ -148,5 +134,5 @@ Route::post('/guardarFamilia', [FamiliaController::class,'store']);
 // REPORTES
 
 Route::get('/reportes/filtro',[ReportesController::class,'reporteFiltro'])->name('filtrar.reporte');
-Route::post('/reportes/generar',[ReportesController::class,'reporteGeneral'])->name('generar.reporte');
+Route::get('/reportes/generar',[ReportesController::class,'reporteGeneral'])->name('generar.reporte');
 Route::post('/reporte/buscar',[ReportesController::class, 'filtroReporte'])->name('buscar.reporte');

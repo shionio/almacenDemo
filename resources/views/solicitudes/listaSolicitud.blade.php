@@ -66,8 +66,8 @@
                       </button>
 
 
-                        {{-- {{dd($soli->id_solicitud, $soli->id_almacen_origen)}} --}}
-                      <button class="btn btn-primary" onclick="window.location.href='{{route('aprobarSolicitud',['id'=>$soli->id_solicitud, 'id2'=>$soli->id_almacen_origen]) }}'">
+
+                      <button class="btn btn-primary" onclick="window.location.href='{{route('aprobarSolicitud',$soli->id_solicitud) }}'">
                        <i class="fas fa-check"></i>
                       </button>
 
