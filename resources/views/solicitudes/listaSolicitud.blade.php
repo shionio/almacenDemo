@@ -67,13 +67,13 @@
 
 
 
-                      <button class="btn btn-primary" onclick="window.location.href='{{route('aprobarSolicitud',$soli->id_solicitud) }}'">
+                      {{-- <button class="btn btn-primary" onclick="window.location.href='{{route('aprobarSolicitud',$soli->id_solicitud) }}'">
                        <i class="fas fa-check"></i>
                       </button>
 
                     <button class="btn btn-secondary" onclick="window.location.href='{{route('solicitudPdf',$soli->id_solicitud) }}'">
                       <i class="fa fa-file-text" aria-hidden="true"></i>
-                    </button>
+                    </button> --}}
 
                       <button class="btn btn-danger" onclick="anula({{$soli->id_solicitud}})">
                         <i class="fas fa-ban"></i>

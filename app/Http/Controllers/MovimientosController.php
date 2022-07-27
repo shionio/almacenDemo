@@ -175,6 +175,22 @@ class MovimientosController extends Controller
     //     }
     // }
 
+    public function pdfHist($id)
+    {
+        $lista = DB::table('hist_entradas')
+        ->join('materiales','materiales.id_material','=','hist_entradas.id_material')
+        ->join('familias','familias.id_familia','materiales.id_familia')
+        ->join('almacenes','almacenes.id_almacen','=','hist_entradas.id_almacen')
+        ->where('ent_codigo',$id)
+        ->select('descripcion_propuesta','nombre_almacen','nombre_familia','stock','ent_codigo','n_control','codigo','tipo_movimiento')
+        ->get()->first();
+
+        // dd($lista);
+
+        $pdf = \PDF::loadView('PDF.histmo',['datos'=>$lista])->setPaper('letter','C4');
+            return $pdf->stream('historico.pdf');
+    }
+
 
     public function nuevaEntrada(){
 

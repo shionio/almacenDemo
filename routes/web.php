@@ -65,6 +65,9 @@ Route::get('Articulos',[ArticulosController::class, 'index'])->name('listaArticu
 Route::get('/Articulo/Nuevo', [ArticulosController::class , 'create'])->name('newArticulo');
 Route::post('/guardarMaterial',[ArticulosController::class, 'store']);
 Route::post('/Guardar/Material',[ArticulosController::class,'nuevoMaterial'])->name('nuevoMat');
+Route::get('/Articulo/Ver/{id}',[ArticulosController::class, 'verArt'])->name('verArticulo');
+Route::post('/Articulo/Actualizar/{id}',[ArticulosController::class, 'actArt'])->name('guardarArt');
+Route::get('/Articulo/Block/{id}/{id2}',[ArticulosController::class, 'blockArt'])->name('blockArt');
 /*fin de rutas de articulos*/
 
 /* Proveedores */
@@ -96,6 +99,7 @@ Route::post('/guardarMovimiento',[MovimientosController::class, 'guardarEntradaM
 Route::post('/guardarSalidaMaterial',[MovimientosController::class, 'guardarSalidaMaterial']);
 Route::get('/movimientos/salidaMaterial',[MovimientosController::class, 'mostrarSalidaMaterial'])->name('newMovSalida');
 Route::get('/movimientos/entradaMaterial',[MovimientosController::class, 'nuevaEntrada'])->name('newEntradaMaterial');
+Route::get('/movimientos/pdf{id}',[MovimientosController::class, 'pdfHist'])->name('pdf.hist');
 
 Route::post('/movimientos/almacen',[MovimientosController::class,'alminv'])->name('inv.almacenes');
 
